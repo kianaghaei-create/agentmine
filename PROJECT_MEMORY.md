@@ -47,3 +47,9 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - Added `intelligence.py` (commit `1946ff5`) and `test_intelligence.py` (commit `2ccdc03`) to main. Measures provider concentration (top-provider share and HHI), listed median price and evidence row categories; intentionally reports paying-customer identities and revenue as unknown.
 - Seven local tests of equivalent functionality passed before publishing. GitHub-hosted CI execution of the committed version has not been confirmed.
 - No live market dataset or verified paid demand added. Next: run repository tests on exact committed code, integrate real provenance-preserving collector output and compute dated concentration snapshots. No spending or deployment.
+
+## Intelligence data integrity correction — 2026-10-08
+- Found mixed-evidence counting defect: transaction observations inflated catalog supply, supplier HHI and listed price distribution.
+- Fixed in `intelligence.py` commit `0c295fc`; added regression coverage in `test_intelligence.py` commit `f0f98dc`.
+- Previous seven tests passed locally on prior version; updated eight-test suite / GitHub CI not yet independently executed. No new verified market demand, customers, revenue or live data.
+- Next: execute updated tests and connect timestamped source-backed catalog snapshots before interpreting concentration or pricing.
