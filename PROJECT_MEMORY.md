@@ -42,3 +42,8 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - Every week review hypotheses and pivot triggers; do not rewrite history: append to DECISION_LOG.md.
 - Record unknowns explicitly. Link source evidence and dated results.
 - A scheduled reminder can prompt a review, but **does not by itself guarantee GitHub writes**; confirm commits.
+
+## Verified implementation update — 2026-10-08
+- Added `intelligence.py` (commit `1946ff5`) and `test_intelligence.py` (commit `2ccdc03`) to main. Measures provider concentration (top-provider share and HHI), listed median price and evidence row categories; intentionally reports paying-customer identities and revenue as unknown.
+- Seven local tests of equivalent functionality passed before publishing. GitHub-hosted CI execution of the committed version has not been confirmed.
+- No live market dataset or verified paid demand added. Next: run repository tests on exact committed code, integrate real provenance-preserving collector output and compute dated concentration snapshots. No spending or deployment.
