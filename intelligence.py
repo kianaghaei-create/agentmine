@@ -4,8 +4,9 @@ from decimal import Decimal, InvalidOperation
 
 def summarize(records):
     rows = list(records)
-    providers = Counter(str(r.get("provider") or "UNKNOWN") for r in rows)
-    total = len(rows)
+    catalog_rows = [r for r in rows if r.get("evidence_type", "catalog") == "catalog"]
+    providers = Counter(str(r.get("provider") or "UNKNOWN") for r in catalog_rows)
+    total = len(catalog_rows)
     prices = []
     evidence = Counter()
     for row in rows:
@@ -13,7 +14,7 @@ def summarize(records):
         if kind not in {"catalog", "observed_transaction", "verified_customer"}:
             raise ValueError("unknown evidence_type")
         evidence[kind] += 1
-        if row.get("price_usd") is not None:
+        if kind == "catalog" and row.get("price_usd") is not None:
             try:
                 price = Decimal(str(row["price_usd"]))
             except (InvalidOperation, ValueError) as exc:
