@@ -31,3 +31,6 @@ Cold-start two-sided market, distribution, platform fee compression, wash transa
 
 ## Decision
 Research as a parallel hypothesis to DaaS, not an immediate pivot. Compare on OPPORTUNITY_SCORING.md and keep evidence separate from conjecture.
+
+## 2026-10-08 — Product architecture clarification
+Agent Procurement is a **module of Agent Exchange**, not a mandatory standalone company. Product vision: discover → compare/route → quote → explicit human approval → compliant purchase → securely provision/use → verify result → receipt/reputation. Start with the procurement wedge for one-off, machine-purchasable data/API products; prove buyer demand and unit economics before implementing marketplace, escrow, reputation or complex settlement. Treat modules as separable products if market evidence favors an API-first strategy. See AGENT_PROCUREMENT_HYPOTHESIS.md.
