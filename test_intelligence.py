@@ -24,6 +24,23 @@ class IntelligenceTests(unittest.TestCase):
         with self.assertRaises(ValueError): summarize([{"price_usd":"NaN"}])
     def test_invalid_evidence(self):
         with self.assertRaises(ValueError): summarize([{"evidence_type":"guessed"}])
+    def test_missing_provider_is_not_a_monopoly(self):
+        s = summarize([{"provider":None}, {"provider":""}, {"provider":"   "}])
+        self.assertEqual(s["unknown_provider_catalog_rows"],3)
+        self.assertEqual(s["known_provider_catalog_rows"],0)
+        self.assertIsNone(s["provider_hhi"])
+        self.assertIsNone(s["largest_provider_share"])
+    def test_missing_provider_does_not_inflate_concentration(self):
+        s = summarize([{"provider":"a"},{"provider":"b"},{"provider":None},{"provider":" "}])
+        self.assertEqual(s["catalog_rows"],4)
+        self.assertEqual(s["known_provider_catalog_rows"],2)
+        self.assertEqual(s["unknown_provider_catalog_rows"],2)
+        self.assertEqual(s["provider_label_coverage"],0.5)
+        self.assertEqual(s["provider_hhi"],0.5)
+        self.assertEqual(s["largest_provider_share"],0.5)
+    def test_unknown_from_non_catalog_does_not_change_supply(self):
+        s = summarize([{"provider":"a"}, {"provider":None,"evidence_type":"observed_transaction"}])
+        self.assertEqual(s["unknown_provider_catalog_rows"],0)
+        self.assertEqual(s["provider_hhi"],1.0)
 
-if __name__ == "__main__":
-    unittest.main()
+if __name__ == "__main__": unittest.main()
