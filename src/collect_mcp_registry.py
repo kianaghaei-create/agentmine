@@ -23,8 +23,8 @@ def fetch_page(cursor=None, limit=100):
     return json.loads(data)
 
 
-def collect_with_provenance(max_pages=3, fetch=fetch_page):
-    """Return (raw_pages, unique listings); listings are supply, not demand."""
+def collect_snapshot(max_pages=3, fetch=fetch_page):
+    """Return raw pages, unique listings, and pagination completeness."""
     if type(max_pages) is not int or not 1 <= max_pages <= 100:
         raise ValueError("max_pages must be an integer in 1..100")
     seen_items = set()
@@ -57,13 +57,20 @@ def collect_with_provenance(max_pages=3, fetch=fetch_page):
         if not isinstance(metadata, dict):
             raise ValueError("invalid registry metadata")
         next_cursor = metadata.get("nextCursor")
-        if not next_cursor:
-            break
-        if not isinstance(next_cursor, str):
+        if next_cursor is None or next_cursor == "":
+            return pages, items, {"complete": True, "next_cursor": None, "pages_fetched": len(pages)}
+        if not isinstance(next_cursor, str) or not next_cursor.strip():
             raise ValueError("invalid registry cursor")
+        if next_cursor in seen_cursors:
+            raise ValueError("registry pagination cursor cycle")
         cursor = next_cursor
-    return pages, items
+    return pages, items, {"complete": False, "next_cursor": cursor, "pages_fetched": len(pages)}
 
+
+def collect_with_provenance(max_pages=3, fetch=fetch_page):
+    """Backward-compatible (raw_pages, unique_listings) interface."""
+    pages, items, _ = collect_snapshot(max_pages, fetch)
+    return pages, items
 
 def collect(max_pages=3, fetch=fetch_page):
     """Backward-compatible listings-only interface."""
@@ -77,7 +84,7 @@ def main():
     args = parser.parse_args()
     if args.max_pages < 1 or args.max_pages > 100:
         parser.error("--max-pages must be between 1 and 100")
-    pages, rows = collect_with_provenance(args.max_pages)
+    pages, rows, pagination = collect_snapshot(args.max_pages)
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     observed = datetime.now(timezone.utc)
@@ -88,6 +95,7 @@ def main():
     payload = {
         "observed_at": observed.isoformat(), "source": BASE,
         "raw_snapshot": raw_path.name, "count": len(rows), "records": rows,
+        "pagination": pagination,
         "note": "Registry listings indicate supply, not purchases or active users."
     }
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
