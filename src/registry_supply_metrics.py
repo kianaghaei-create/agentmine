@@ -31,7 +31,11 @@ def analyze_snapshot(snapshot):
     pages = pagination.get("pages_fetched")
     if type(complete) is not bool or type(pages) is not int or pages < 1:
         raise ValueError("invalid pagination metadata")
-    if not complete and not pagination.get("next_cursor"):
+    cursor = pagination.get("next_cursor")
+    if complete:
+        if cursor is not None:
+            raise ValueError("complete crawl cannot have next_cursor")
+    elif not isinstance(cursor, str) or not cursor.strip():
         raise ValueError("partial snapshot must preserve next_cursor")
     seen = set()
     invalid = 0
@@ -59,6 +63,7 @@ def analyze_snapshot(snapshot):
     known = sum(namespaces.values())
     hhi = sum((n / known) ** 2 for n in namespaces.values()) if known else None
     largest = max(namespaces.values()) / known if known else None
+    full_hhi_eligible = complete and invalid == 0 and unknown_namespace == 0 and known > 0
     return {
         "observed_at": observed,
         "source": source,
@@ -74,13 +79,21 @@ def analyze_snapshot(snapshot):
         "namespace_label_coverage": known / len(seen) if seen else None,
         "sample_largest_namespace_share": largest,
         "sample_namespace_hhi": hhi,
-        "complete_registry_namespace_hhi": hhi if complete else None,
+        "complete_registry_namespace_hhi": hhi if full_hhi_eligible else None,
+        "complete_registry_hhi_suppression_reason": (
+            None if full_hhi_eligible else
+            "incomplete_crawl" if not complete else
+            "invalid_name_rows" if invalid else
+            "unknown_namespace_labels" if unknown_namespace else
+            "no_valid_namespace_labels"
+        ),
         "verified_supplier_businesses": None,
         "verified_paying_customers": None,
         "revenue_usd": None,
         "caveat": "Namespace labels are not verified businesses; server listings are not purchases. "
                   "Even a complete registry crawl does not cover the entire agent market. "
-                  "Completeness is collector-reported, not independently audited.",
+                  "Completeness is collector-reported, not independently audited. "
+                  "Sample HHI is conditional on recognized namespace labels.",
     }
 
 
