@@ -1,0 +1,28 @@
+{
+  "source": "https://x402stats.io/llms-full.txt",
+  "source_updated_at": "2026-10-10T03:29:28.486Z",
+  "headline_period": "rolling_30_days",
+  "headline_as_of_weekly_record": "2026-10-05",
+  "methodology": "https://x402stats.io/methodology",
+  "license": "CC BY 4.0; attribution: x402stats — State of x402, x402stats.io",
+  "collection_method": "read-only public source inspection 2026-10-10; figures transcribed from published text, not independently chain-audited",
+  "metrics": {
+    "reported_volume_usd_rounded": 947697,
+    "publisher_filtered_organic_volume_usd_rounded": 715181,
+    "wallets_with_any_seller_revenue": 37971,
+    "publisher_qualified_seller_wallets": 94,
+    "median_seller_revenue_usd": 0.01,
+    "top_10_wallet_share_of_reported_volume_pct": 71,
+    "facilitator_coinbase_share_of_seller_volume_pct_nonexclusive": 57
+  },
+  "interpretation": {
+    "organic_is_publisher_heuristic": true,
+    "facilitator_shares_nonexclusive": true,
+    "verified_unique_supplier_businesses": null,
+    "verified_paying_customers": null,
+    "verified_agentmine_revenue_usd": null,
+    "full_market_supplier_hhi": null,
+    "full_market_hhi_reason": "wallets and facilitator categories do not uniquely identify supplier businesses; facilitator shares overlap",
+    "caveat": "This is an external publisher's rolling snapshot, not AgentMine sales or verified buyer willingness to pay. Source update date is not the weekly headline observation date."
+  }
+}
