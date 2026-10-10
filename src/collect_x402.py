@@ -120,8 +120,18 @@ def collect(url, token, max_items=100, page_size=100, delay=0.3, max_pages=100):
         if no_progress_pages >= 3:
             raise RuntimeError("discovery pagination made no unique-record progress for 3 pages")
         offset += len(items)
-        total = (page.get("pagination") or {}).get("total")
-        if not items or (total is not None and offset >= total) or len(items) < min(page_size, max_items - (offset - len(items))):
+        pagination = page.get("pagination")
+        if pagination is not None and not isinstance(pagination, dict):
+            raise ValueError("Unexpected discovery response: invalid pagination")
+        total = (pagination or {}).get("total")
+        if total is not None:
+            if type(total) is not int or total < offset:
+                raise ValueError("Unexpected discovery response: invalid pagination total")
+            if offset >= total:
+                break
+            if not items:
+                raise RuntimeError("discovery returned empty page before reported total")
+        elif not items or len(items) < min(page_size, max_items - (offset - len(items))):
             break
         time.sleep(delay)
     return raw_pages, rows
