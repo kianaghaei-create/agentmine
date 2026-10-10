@@ -77,10 +77,16 @@ def supplier_saas_sensitivity(*, monthly_price_usd, variable_cost_per_supplier_u
     if type(amortization_months) is not int or amortization_months < 1:
         raise ValueError("amortization_months must be a positive integer")
     per_supplier = price - variable - cac / amortization_months
+    # Strictly positive monthly contribution requires more than break-even.
+    # A nonpositive per-supplier contribution can never finance fixed overhead.
+    minimum_profitable_suppliers = (
+        int(overhead // per_supplier) + 1 if per_supplier > 0 else None
+    )
     return {
         "paying_suppliers_input": paying_suppliers,
         "monthly_contribution_usd": paying_suppliers * per_supplier - overhead,
         "monthly_contribution_per_supplier_before_overhead_usd": per_supplier,
+        "minimum_paying_suppliers_for_positive_monthly_contribution": minimum_profitable_suppliers,
         "observed_revenue": False,
         "note": "Scenario only; supplier count is supplied, not verified or inferred from listings.",
     }
