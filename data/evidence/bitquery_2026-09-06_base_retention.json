@@ -1,0 +1,23 @@
+{
+  "source_url": "https://bitquery.io/investigations/x402-ai-agent-payments-audit",
+  "source_publication_date": "2026-09-06",
+  "source_observation_cutoff": "2026-09-05",
+  "observed_month": "2026-07",
+  "retention_month": "2026-08",
+  "scope": "Base seller payment-receiving addresses observed by Bitquery; July cohort and August >=1-payment follow-up",
+  "total_seller_addresses": 80642,
+  "cohorts": [
+    {"min_payments": 1, "max_payments": 9, "seller_addresses": 79301, "retained_pct": "4.6"},
+    {"min_payments": 10, "max_payments": 99, "seller_addresses": 985, "retained_pct": "71.1"},
+    {"min_payments": 100, "max_payments": 999, "seller_addresses": 261, "retained_pct": "91.6"},
+    {"min_payments": 1000, "max_payments": null, "seller_addresses": 95, "retained_pct": "96.8"}
+  ],
+  "limitations": [
+    "Publisher's decoded chain index, not independently reproduced by AgentMine",
+    "Wallets are not verified businesses or paying customers",
+    "Later-month receipt is not buyer retention, seller profitability or SaaS willingness to pay",
+    "Source Base history only reached back 58 days; July coverage may be incomplete",
+    "The underlying payment signature includes non-agent uses; cohort not proven agent-only",
+    "Percentages rounded to one decimal place"
+  ]
+}
