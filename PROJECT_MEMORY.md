@@ -1,6 +1,6 @@
 # AgentMine — Project memory (source of truth)
 
-Last reviewed: 2026-10-08
+Last reviewed: 2026-10-12
 
 ## North star
 **Build a profitable, scalable, low-touch business that can earn money in the background.** DaaS / x402 / agent APIs are hypotheses, **not** the goal. Pivot freely when evidence supports a better opportunity. Prefer recurring revenue, high gross margin, repeatable distribution, low operating overhead, legal data access, and a defensible advantage.
@@ -73,3 +73,11 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - The official MCP Registry documentation confirms `version=latest` and cursor pagination. Its public unfiltered API returned multiple versions of the same server on 2026-10-09; therefore version and server identity must not be conflated. Source: https://registry.modelcontextprotocol.io/v0.1/servers .
 - No full live crawl, independently verified supplier businesses, paying customers, demand or revenue. The container runtime could not resolve the registry host, so a reproducible dated census remains pending. A complete registry crawl would still not represent the entire agent market.
 - Next: execute the committed tests in an authorized environment, run the collector with `--max-pages` large enough to report completeness, then analyze its saved JSON via `python -m src.registry_supply_metrics --input <snapshot.json>`. Compare repeat snapshots before proposing supplier growth alerts or RFQ monetization. No spending or deployment.
+
+## Verified state reconciliation — 2026-10-12
+- `src/rfq_demand_evidence.py` is present on main (previously reported commit `e81b553`, confirmed by reading the current file). It performs offline opt-in RFQ aggregation, canonical request-ID deduplication, separate synthetic/self-declared cohorts, and token-concentration suppression. Consent and buyer identity are **self-declared**, not independently verified. No live demand or revenue is established.
+- Re-ran the 21-case RFQ regression suite locally against the previously prepared source snapshot on 2026-10-12: 21/21 passed. This is **not** GitHub CI or a test of the exact committed source blob. Attempt to publish `tests/test_rfq_demand_evidence.py` was explicitly blocked by safety checks; the test file remains uncommitted. Do not circumvent the block.
+- Rechecked publisher x402stats source (updated 2026-10-12T10:02:25Z): 94 heuristic-qualified seller wallets out of 39,123 seller wallets with any revenue (~0.240%), organic 30-day volume $684,900 of raw $1,056,293. These are publisher-reported wallet/flow estimates, **not** unique companies, AgentMine customers, or independently validated sales. Source: https://x402stats.io/llms-full.txt ; methodology: https://x402stats.io/methodology .
+- Reconciliation caveat: summing the publisher's 30 listed UTC daily raw volume values for 2026-09-13 through 2026-10-12 gives $1,049,669.84, which is $6,623.02 (~0.627%) below the $1,056,292.86 rolling 30-day headline. This is a **window/boundary reconciliation question**, not evidence of falsification or an API failure; do not equate UTC-day sums with a rolling window without timestamps.
+- EU TED official Search API is documented as anonymous/read-only POST `/v3/notices/search`, suitable for future direct evidence gathering; **no live TED query or customer payment signal was obtained in this run**. Source: https://docs.ted.europa.eu/api/latest/search.html .
+- Next: publish RFQ regression tests only if security permits; measure a real, timestamped buyer/supplier dataset and conversion/cost signals before prioritizing transaction fees, Supplier Growth SaaS or opt-in RFQ. No spending, deployment or sensitive customer data.
