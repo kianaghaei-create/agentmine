@@ -1,0 +1,40 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-12T23:06:28.305Z",
+  "traction_as_of": "2026-10-12T22:39:27.206Z",
+  "collected_at_utc": "2026-10-13",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402-list indexed services and monitored facilitators; not full ecosystem",
+  "supply": {
+    "listed_services": 942,
+    "listed_endpoints": 7018,
+    "services_with_traction_measurement": 707,
+    "verified_delivery_services": 12,
+    "payment_ready_services": 881,
+    "new_listings_30d": 316,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 413191.661022,
+    "listed_service_settlement_count": 1662651,
+    "distinct_buyer_addresses_reported": 11037,
+    "top_10_services_volume_share_pct": 96.9,
+    "top_1_service_volume_share_pct": 64,
+    "top_1_service_top_buyer_share_pct": 99,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 32.8
+  },
+  "caveats": [
+    "Provider measurements and rankings are published by x402 List; no independent on-chain re-audit performed.",
+    "Distinct buyer addresses are not distinct paying people, enterprises or AgentMine customers.",
+    "Concentration includes imported largest-service flow and is not necessarily evidence of end-customer concentration.",
+    "Reported 32.8% coverage is of this publisher's measured facilitator flow, not global x402.",
+    "Verified delivery means x402 List's verification status, not a verified paid AgentMine customer.",
+    "Counts of services/endpoints are catalog supply, not verified demand.",
+    "Comparisons with x402stats require scope and deduplication reconciliation."
+  ],
+  "decision_implication": "Basic paid discovery, health monitoring, price benchmarking, buyer-concentration analytics, verified-delivery badges and pay-per-assessment are already offered by an incumbent; do not treat them as unserved AgentMine wedges without new buyer evidence."
+}
