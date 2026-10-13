@@ -1,0 +1,49 @@
+{
+  "evidence_type": "third_party_public_observations_not_buyer_demand",
+  "compiled_at_utc": "2026-10-13T00:46:53Z",
+  "provenance_notice": "Numbers are attributed to publishers' measurement pages, not independently reproduced from raw CSV. Cohorts/methodologies differ and must not be pooled. No payment conversion or AgentMine revenue is established.",
+  "sources": [
+    {
+      "publisher": "Agora / openforallofus",
+      "source_url": "https://openforallofus.com/method",
+      "observation_date": "2026-10-12",
+      "population": "Official MCP Registry, publisher's own read",
+      "registry_server_entries": 42321,
+      "remote_endpoints_probed": 25338,
+      "completed_handshake": 15379,
+      "sign_in_required": 7413,
+      "payment_required_first": 73,
+      "handshake_failed": 2473,
+      "unknown_unprobed_or_excluded": 598,
+      "linked_repositories_checked": 24458,
+      "linked_repositories_not_resolved": 3576,
+      "derived_rates": {
+        "payment_gate_share_of_probed": 0.002881,
+        "handshake_success_share_of_probed": 0.606954,
+        "missing_repo_share_of_checked": 0.14621
+      },
+      "limitations": "Payment gate is a response classification, not proof of successful payment or customer demand; repository not resolving does not prove fraud or server inactivity."
+    },
+    {
+      "publisher": "MCP Toplist / BIFF.ai",
+      "source_url": "https://mcptoplist.com/reports/mcp-ecosystem/2026-10",
+      "observation_date": "2026-10-09",
+      "population": "Deduplicated across 5 registries, excludes bulk-listing flood namespaces",
+      "naive_registry_listings": 181611,
+      "deduplicated_active_servers": 139477,
+      "listed_in_exactly_one_registry": 111073,
+      "official_registry_coverage": 38002,
+      "public_endpoints_probed_in_60_days": 19806,
+      "successful_handshake_probes": 5386,
+      "derived_rates": {
+        "deduplicated_fraction_of_naive_listings": 0.767999,
+        "official_registry_coverage_fraction": 0.27246,
+        "handshake_success_share_of_probed": 0.271938
+      },
+      "limitations": "Probe success differs substantially from Agora due to sampling/protocol/method differences; these are catalog supply and connectivity observations, not users or paying customers."
+    }
+  ],
+  "verified_paying_customers": null,
+  "agentmine_revenue": null,
+  "recommended_interpretation": "Do not build another generic MCP directory or assume paid demand from payment-gated endpoints. Test narrow paid outcomes (e.g. supplier match or quote monitoring) against buyer willingness to pay."
+}
