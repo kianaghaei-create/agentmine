@@ -1,0 +1,44 @@
+{
+  "evidence_type": "official_procurement_forward_plan_not_awarded_spend",
+  "source_url": "https://www.scottish-enterprise.com/media/xtymer1z/annual-procurement-report-2024_25.pdf",
+  "source_title": "Scottish Enterprise Annual Procurement Report 2024/25",
+  "source_page_number_1_based": 31,
+  "checked_on": "2026-10-13",
+  "buyer_label": "Scottish Enterprise",
+  "scope": "Three selected re-tender forecast rows from Annex 3, not a complete procurement or market census",
+  "rows": [
+    {
+      "title": "Scottish Enterprise Research Databases",
+      "classification": "Re-tender",
+      "forecast_notice_month": "2025-12",
+      "forecast_award_month": "2026-03",
+      "forecast_start_month": "2026-04",
+      "forecast_value_gbp": "2350000",
+      "observed_contract_award_status": "not_assessed_in_this_snapshot"
+    },
+    {
+      "title": "B2B Social Media Sales Tool",
+      "classification": "Re-tender",
+      "forecast_notice_month": "2026-02",
+      "forecast_award_month": "2026-05",
+      "forecast_start_month": "2026-06",
+      "forecast_value_gbp": "272688",
+      "observed_contract_award_status": "not_assessed_in_this_snapshot"
+    },
+    {
+      "title": "Global data Lead gen/Nurture Contract",
+      "classification": "Re-tender",
+      "forecast_notice_month": "2026-06",
+      "forecast_award_month": "2026-10",
+      "forecast_start_month": "2026-11",
+      "forecast_value_gbp": "1000000",
+      "observed_contract_award_status": "not_assessed_in_this_snapshot"
+    }
+  ],
+  "caveats": [
+    "Forecast values are not awarded contract values or verified payments.",
+    "Future plans are nonbinding; official report explicitly says there is no guarantee of procurement.",
+    "One buyer and three selected rows do not establish a market size or AgentMine willingness to pay.",
+    "Do not conflate supplier growth tools, licensed data and marketplace fees."
+  ]
+}
