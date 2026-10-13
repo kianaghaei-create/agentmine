@@ -1,0 +1,43 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-13T07:41:49.192Z",
+  "traction_as_of": "2026-10-13T07:39:11.997Z",
+  "collected_at_utc": "2026-10-13",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402-list indexed services and monitored facilitators; not full ecosystem",
+  "supply": {
+    "listed_services": 942,
+    "listed_endpoints": 7018,
+    "services_with_traction_measurement": 702,
+    "verified_delivery_services": 12,
+    "payment_ready_services": 881,
+    "new_listings_30d": 316,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 428199.303443,
+    "listed_service_settlement_count": 1651153,
+    "distinct_buyer_addresses_reported": 10705,
+    "top_10_services_volume_share_pct": 97,
+    "top_1_service_volume_share_pct": 65.8,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 33.8
+  },
+  "source_extra": {
+    "avg_uptime_24h_pct": 90.5,
+    "avg_uptime_7d_pct": 92.6,
+    "measured_networks": ["BSE", "SOL", "eip155:42220"],
+    "facilitator_volume_usd_30d_not_settlement_deduplicated": 1248542.84
+  },
+  "caveats": [
+    "Publisher-reported, not independently re-audited; 30-day rolling windows overlap.",
+    "Buyer addresses are not verified customers; service listings are not paid demand.",
+    "Top-service volume includes imported data and its largest buyer has 98.9% of its measured volume.",
+    "Facilitator flow is a different, non-deduplicated scope and must not be pooled with listed-service settlements.",
+    "Measurement cohort stability and source data revisions are not independently verified."
+  ]
+}
