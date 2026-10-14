@@ -1,0 +1,56 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-14T12:51:50.844Z",
+  "traction_as_of": "2026-10-14T12:39:07.585Z",
+  "collected_date_utc": "2026-10-14",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402-list indexed services and monitored facilitators; not full ecosystem",
+  "supply": {
+    "listed_services": 991,
+    "listed_endpoints": 7557,
+    "services_with_traction_measurement": 739,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 931,
+    "new_listings_7d": 85,
+    "new_listings_30d": 367,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 427987.740927,
+    "listed_service_settlement_count": 1670693,
+    "distinct_buyer_addresses_reported": 9848,
+    "top_10_services_volume_share_pct": 97,
+    "top_1_service_volume_share_pct": 63.6,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 33.5
+  },
+  "comparison_to_2026_10_13_snapshot": {
+    "baseline_path": "data/evidence/x402_list_stats_2026-10-13.json",
+    "listed_services_delta": 49,
+    "listed_endpoints_delta": 539,
+    "services_with_traction_measurement_delta": 32,
+    "verified_delivery_services_delta": 1,
+    "payment_ready_services_delta": 50,
+    "deduplicated_settlements_usd_30d_delta": 14796.079905,
+    "distinct_buyer_addresses_delta": -1189,
+    "warning": "Rolling 30-day windows and dynamic indexed cohorts differ; changes are not net customer acquisition, revenue growth or verified usage growth."
+  },
+  "derived_ratios": {
+    "verified_delivery_services_pct_of_listed": 1.31,
+    "payment_ready_services_pct_of_listed": 93.95
+  },
+  "caveats": [
+    "Publisher figures not independently audited or re-run from on-chain data.",
+    "Service counts are directory listings, not paying customers or actual buyers.",
+    "Delivery verification is x402 List verification, not proof of payments or AgentMine customer validation.",
+    "Buyer addresses are not unique businesses or humans; self-payments/automation possible.",
+    "Top service data are imported and largest buyer is 98.9% of its measured volume.",
+    "Measured flow coverage is relative to this publisher measured facilitators, not entire ecosystem.",
+    "Rolling windows and indexed cohort membership vary between snapshots; no causal inference."
+  ],
+  "decision_implication": "Payment-ready listing supply greatly exceeds delivery-verified service count, but this alone does not prove demand for reliability SaaS; directory already offers monitoring. Validate willingness to pay for a measurable supplier outcome before building."
+}
