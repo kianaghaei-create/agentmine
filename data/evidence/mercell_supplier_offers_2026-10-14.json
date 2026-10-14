@@ -1,0 +1,57 @@
+{
+  "observed_date": "2026-10-14",
+  "evidence_type": "vendor_published_offer_not_verified_sale",
+  "source_scope": "Sweden supplier-facing public procurement SaaS; Mercell product pages, not a market census",
+  "offers": [
+    {
+      "vendor": "Mercell AI Bid Assistance add-on",
+      "source_url": "https://info.mercell.com/sv-se/leverantoerer/upptack-ai-bid-assistance/",
+      "observed_date": "2026-10-14",
+      "currency": "SEK",
+      "standard_monthly": "625",
+      "promotional_monthly": "480",
+      "promotion_deadline": "2026-09-30",
+      "eligibility": "Requires Mercell Bidding subscription; annual add-on, 1020 AI credits per year; promotional offer deadline has passed as of observation",
+      "verified_current_checkout_price": null
+    },
+    {
+      "vendor": "Mercell Market Intelligence Local",
+      "source_url": "https://info.mercell.com/sv-se/mercell-bidding/market-intelligence-complete/",
+      "observed_date": "2026-10-14",
+      "currency": "SEK",
+      "standard_monthly": "1830",
+      "eligibility": "Published starting price; one license and 1-2 Swedish counties; package inclusion and actual invoice not verified",
+      "verified_current_checkout_price": null
+    },
+    {
+      "vendor": "Mercell Market Intelligence Complete",
+      "source_url": "https://info.mercell.com/sv-se/mercell-bidding/market-intelligence-complete/",
+      "observed_date": "2026-10-14",
+      "currency": "SEK",
+      "standard_monthly": "4110",
+      "eligibility": "Published starting price; one license, whole Sweden; actual invoice not verified",
+      "verified_current_checkout_price": null
+    }
+  ],
+  "competitive_overlap": [
+    {
+      "feature": "AI go/no-go tender qualification",
+      "source_url": "https://info.mercell.com/sv-se/leverantoerer/upptack-ai-bid-assistance/"
+    },
+    {
+      "feature": "AI tender question answering using tender and supplier documents",
+      "source_url": "https://info.mercell.com/sv-se/leverantoerer/upptack-ai-bid-assistance/"
+    },
+    {
+      "feature": "early sales leads and contract-expiry signals",
+      "source_url": "https://info.mercell.com/sv-se/leverantoerer/tender-discovery/"
+    },
+    {
+      "feature": "bid delivery and compliance workflow",
+      "source_url": "https://info.mercell.com/sv-se/leverantoerer/bid-delivery"
+    }
+  ],
+  "verified_paying_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "interpretation": "Supplier-side public tender discovery, qualification, early-demand signals and bid workflow are already offered by an incumbent in Sweden. Advertised prices show commercial packaging, not actual customer payment or AgentMine willingness to pay. A distinct measurable outcome and distribution channel are required before a Supplier Growth SaaS build."
+}
