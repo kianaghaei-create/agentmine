@@ -1,0 +1,91 @@
+{
+  "observed_date_utc": "2026-10-14",
+  "evidence_type": "public_vendor_offers_and_self_reported_activity_not_verified_sales",
+  "scope": "Supplier-facing and buyer-facing RFQ/agentic procurement competitors; non-exhaustive",
+  "vendors": [
+    {
+      "vendor": "Procuman",
+      "official_url": "https://procuman.ai/",
+      "claim_type": "published_price_offer",
+      "currency": "USD",
+      "plans": [
+        {
+          "name": "Free",
+          "monthly_usd": 0,
+          "included_rfqs_per_month": 2
+        },
+        {
+          "name": "Starter",
+          "monthly_usd": 49,
+          "included_rfqs_per_month": 10
+        },
+        {
+          "name": "Professional",
+          "monthly_usd": 99,
+          "included_rfqs_per_month": 100
+        }
+      ],
+      "notes": "Plan quotas are ceilings, not observed usage; prices exclude implementation, payment, support, and data costs."
+    },
+    {
+      "vendor": "Seloria",
+      "official_url": "https://www.seloria.io/",
+      "claim_type": "published_price_offer",
+      "currency": "USD",
+      "plans": [
+        {
+          "name": "Starter",
+          "monthly_usd": 199,
+          "included_rfqs_per_month": null
+        },
+        {
+          "name": "Team",
+          "monthly_usd": 499,
+          "included_rfqs_per_month": null
+        }
+      ],
+      "notes": "Advertises unlimited RFx; prices shown as annual-billing monthly equivalent, not verified realized sales."
+    },
+    {
+      "vendor": "Dealion",
+      "official_url": "https://dealion.io/",
+      "claim_type": "published_price_offer",
+      "currency": "USD",
+      "monthly_team_fee_range_usd": [
+        1000,
+        2000
+      ],
+      "claimed_success_fee_fraction_of_savings": 0.1,
+      "notes": "Vendor price claims; reported savings and productivity on site are not independently audited."
+    },
+    {
+      "vendor": "Keelvar",
+      "official_url": "https://www.keelvar.com/documents/the-two-sided-agentic-market-in-enterprise-procurement",
+      "claim_type": "vendor_self_reported_operational_activity",
+      "agent_operated_sourcing_event_share_july_2026_pct": 90,
+      "supplier_bidding_agent_events_per_month_july_2026_lower_bound": 1420,
+      "high_frequency_categories": [
+        "freight",
+        "packaging",
+        "MRO consumables"
+      ],
+      "notes": "Published 2026-08-18; vendor-reported platform events, not verified paying customers, completed purchases or AgentMine revenue."
+    }
+  ],
+  "derived_offer_only_sensitivity": [
+    {
+      "vendor": "Procuman",
+      "plan": "Starter",
+      "monthly_usd_per_included_rfq_at_full_quota": 4.9
+    },
+    {
+      "vendor": "Procuman",
+      "plan": "Professional",
+      "monthly_usd_per_included_rfq_at_full_quota": 0.99
+    }
+  ],
+  "interpretation": "Published price points show competition and a price ceiling hypothesis for commodity buyer-side RFQ automation; vendor claims show operational activity in high-frequency sourcing but do not establish accessible demand or paid willingness for AgentMine.",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue_usd": null,
+  "guardrails": "No outreach, payments, private data, public deployment or scraping. These public source claims must not be called observed AgentMine demand."
+}
