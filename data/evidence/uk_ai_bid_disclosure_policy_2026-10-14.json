@@ -1,0 +1,41 @@
+{
+  "observed_date_utc": "2026-10-14",
+  "hypothesis": "Supplier-facing bid evidence and AI-use disclosure quality assurance may be a narrow AgentMine workflow; willingness to pay is unverified.",
+  "evidence_type": "official_policy_plus_search_indexed_public_tender_excerpt_not_sales",
+  "sources": [
+    {
+      "source_url": "https://www.gov.uk/government/publications/ppn-017-improving-transparency-of-ai-use-in-procurement/ppn-017-improving-transparency-of-ai-use-in-procurement-html",
+      "publisher": "UK Cabinet Office",
+      "published_date": "2025-02-17",
+      "license": "Open Government Licence v3.0, except third-party content",
+      "confidence": "official_primary_source",
+      "observations": [
+        "PPN 017 applies to central government departments, executive agencies and non-departmental public bodies; other public buyers may adopt the approach.",
+        "Suppliers may use AI to prepare bids; the PPN provides optional disclosure questions for information only, not automatically scored.",
+        "Example questions ask whether AI assisted tender submissions and whether generated responses were checked for accuracy.",
+        "The policy warns about plausible but inaccurate LLM-generated content and recommends proportionate due diligence."
+      ]
+    },
+    {
+      "source_url": "https://www.contractsfinder.service.gov.uk/Notice/Attachment/62af9d48-e0e5-4447-8b75-fafe0c7ee183",
+      "document_label": "PS/25/22 Provision and Maintenance of Audio-Visual Equipment, Invitation to Tender, Schedule 20",
+      "confidence": "search_index_excerpt_only_direct_document_returned_403",
+      "observations": [
+        "Search-index excerpt includes AI use in tender submissions, accuracy verification and information-only/not-scored wording.",
+        "Direct source download returned HTTP 403 during this run; full tender wording, applicability and context not independently checked."
+      ]
+    }
+  ],
+  "tested_local_tool": {
+    "module": "src/tender_ai_disclosure_signal.py",
+    "status": "local_only_not_published",
+    "tests_passed": 9,
+    "tests_total": 9,
+    "note": "Keyword-based public-document mention classifier; cannot verify legal obligation, buyer intent, paid demand or contract value. GitHub publication of module was blocked by safety checks."
+  },
+  "sample_size_full_tender_documents_independently_read": 0,
+  "verified_agentmine_customers": null,
+  "verified_revenue_usd": null,
+  "decision": "Research-only signal. Do not prioritize a product or infer paid demand until a directly accessible corpus and supplier interviews or other buyer evidence exist.",
+  "safety": "No payments, outreach, sensitive customer data, scraping or public deployment."
+}
