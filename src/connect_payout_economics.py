@@ -50,7 +50,10 @@ def connect_ticket_sensitivity_sek(*, ticket_sek, take_rate_pct="3",
         raise ValueError("transactions_per_payout cannot exceed monthly transactions")
     names = ("ticket_sek", "take_rate_pct", "card_rate_pct", "card_fixed_sek",
              "payout_rate_pct", "payout_fixed_sek", "routing_rate_pct", "active_account_monthly_sek")
-    vals = {name: _nonnegative_decimal(locals()[name], name) for name in names}
+    values = (ticket_sek, take_rate_pct, card_rate_pct, card_fixed_sek,
+              payout_rate_pct, payout_fixed_sek, routing_rate_pct, active_account_monthly_sek)
+    # Avoid locals() inside a comprehension (separate scope on Python 3.11).
+    vals = {name: _nonnegative_decimal(value, name) for name, value in zip(names, values)}
     for name in ("take_rate_pct", "card_rate_pct", "payout_rate_pct", "routing_rate_pct"):
         if vals[name] > 100:
             raise ValueError(f"{name} must not exceed 100")
