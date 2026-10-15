@@ -1,0 +1,55 @@
+{
+  "evidence_id": "swedish_procurement_buyers_digitalization_2025",
+  "source_name": "Upphandlingsmyndigheten — Nationella upphandlingsenkäten 2025, Effektiva offentliga inköp",
+  "source_url": "https://dkn-pslot.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-upphandlande-organisationer/effektiva-offentliga-inkop-2025/",
+  "source_publication_date": "2026-03-13",
+  "checked_at": "2026-10-15",
+  "population": "Swedish public procurement organizations responding to national survey",
+  "invited_organizations": 1805,
+  "responding_organizations": 554,
+  "response_rate_pct_approx": 30.7,
+  "observations": [
+    {
+      "metric": "digital_procurement_process_full",
+      "percent": 62.8,
+      "scope": "self-reported organizations with full digital tender process from preparation through contract"
+    },
+    {
+      "metric": "digital_purchasing_process_full",
+      "percent": 32.9,
+      "scope": "self-reported organizations with full digital order-to-invoice process"
+    },
+    {
+      "metric": "ai_procurement_usage_high_or_full",
+      "percent": 8.2,
+      "scope": "self-reported organizations using AI fully or to a high degree in procurement and purchasing"
+    },
+    {
+      "metric": "ai_procurement_usage_low_or_none",
+      "percent": 68.7,
+      "scope": "self-reported organizations using AI not at all or to a low degree"
+    },
+    {
+      "metric": "market_analysis_high_or_full",
+      "percent": 46.3,
+      "scope": "self-reported organizations conducting market analyses before procurement fully or to a high degree"
+    },
+    {
+      "metric": "market_analysis_low_or_none",
+      "percent": 19.5,
+      "scope": "self-reported organizations conducting market analyses not at all or to a low degree"
+    },
+    {
+      "metric": "supplier_relationship_feedback_high_or_full",
+      "percent": 41,
+      "scope": "self-reported organizations following up supplier feedback on business relationship fully or to a high degree"
+    }
+  ],
+  "limitations": [
+    "Respondent self-report; not audited software usage or buyer payments.",
+    "Survey response rate approximately 31%; non-response and selection biases possible.",
+    "Different survey questions and denominators; do not subtract AI and digital process percentages to infer joint distribution.",
+    "No AgentMine buyers, contract revenue, willingness to pay, or attainable TAM verified."
+  ],
+  "decision_hypothesis": "Buyer-side supplier discovery and pre-tender market analysis may be worth an opt-in workflow pilot, but requires independent workflow-time and paid-intent evidence; not a product-market-fit claim."
+}
