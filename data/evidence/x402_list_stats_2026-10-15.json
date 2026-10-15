@@ -1,0 +1,50 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "retrieval_date_utc": "2026-10-15",
+  "retrieval_method": "read-only public API rendered by web retrieval; manually transcribed subset, not raw response",
+  "publisher_computed_at": "2026-10-15T02:45:28.854Z",
+  "publisher_traction_as_of": "2026-10-15T02:41:23.340Z",
+  "evidence_type": "publisher_reported_rolling_30d_indexed_service_activity_not_audited_or_agentmine_sales",
+  "market_scope": "listed x402 List services and publisher-measured facilitator settlements; not entire ecosystem",
+  "supply": {
+    "listed_services": 1025,
+    "listed_endpoints": 7704,
+    "services_with_traction_measurement": 769,
+    "delivery_verified_services": 13,
+    "payment_ready_services": 966,
+    "new_listings_7d": 89,
+    "new_listings_30d": 345
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 417607.261178,
+    "listed_service_settlement_count": 1671778,
+    "distinct_buyer_addresses_reported": 9700,
+    "top_10_services_volume_share_pct": 96.9,
+    "top_1_service_volume_share_pct": 65.2,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 33
+  },
+  "hypothetical_fee_sensitivity": {
+    "share_of_listed_flow_outside_top10_pct": 3.1,
+    "listed_flow_outside_top10_usd_30d": "12945.83",
+    "gross_1pct_fee_on_100pct_outside_top10_usd_30d": "129.46",
+    "gross_1pct_fee_on_1pct_outside_top10_usd_30d": "1.29",
+    "interpretation": "arithmetic ceiling for the selected residual slice under an assumed 1% fee, before any costs; not forecast, addressable market, revenue or customers"
+  },
+  "quality_flags": [
+    "sui:testnet appears with is_mainnet=true in networks[] despite total_networks_note warning that networks[] includes testnets flagged by is_mainnet",
+    "top service is imported and its largest buyer accounts for 98.9% of top service measured flow",
+    "publisher's coverage is of its measured facilitator flow only"
+  ],
+  "caveats": [
+    "Publisher data not independently audited; cannot infer authentic buyers or revenue from address counts",
+    "Rolling 30-day windows and indexed cohorts change; deltas across snapshots do not prove sales growth",
+    "Directory supply, wallet settlements and actual AgentMine paid customers are separate categories",
+    "No evidence of AgentMine conversion, acquisition cost, support cost, or willingness to pay"
+  ],
+  "decision_implication": "Generic transaction-fee-only exchange has weak unit-economics evidence outside highly concentrated listed flows. Validate an opt-in supplier workflow outcome and willingness to pay before investing in a public exchange."
+}
