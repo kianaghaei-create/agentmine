@@ -1,0 +1,54 @@
+{
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-leverantorer/en-mangfald-av-leverantorer-och-en-valfungerande-konkurrens-2025/",
+  "publisher": "Upphandlingsmyndigheten",
+  "publication_date": "2026-03-13",
+  "survey_year": 2025,
+  "verified_on": "2026-10-15",
+  "survey_invitations": 20000,
+  "survey_responses": 1912,
+  "approx_response_rate_pct": 9.6,
+  "methodology": "Self-reported answers; purposively supplemented with firms that previously submitted bids; nonresponse and selection bias; multiple answers permitted. Subgroup question bases are not published here.",
+  "question": "Reasons for not submitting any public procurement bid in previous 24 months",
+  "unit": "percentage of respondents in relevant non-bidding question/subgroup; not all Swedish companies",
+  "observations": [
+    {
+      "segment": "all_respondents_to_nonbid_question",
+      "too_complicated_pct": 19.9,
+      "too_little_advance_information_pct": 10.8,
+      "too_time_consuming_pct": 9.3,
+      "unclear_or_disproportionate_requirements_pct": 9.6
+    },
+    {
+      "segment": "previous_bidders_who_did_not_bid_in_last_24_months",
+      "too_complicated_pct": 36.4,
+      "too_little_advance_information_pct": 14.8,
+      "too_time_consuming_pct": 17.7,
+      "unclear_or_disproportionate_requirements_pct": 24.2
+    },
+    {
+      "segment": "never_bidders",
+      "too_complicated_pct": 14.4,
+      "too_little_advance_information_pct": 9.4,
+      "too_time_consuming_pct": 6.5,
+      "unclear_or_disproportionate_requirements_pct": 4.7
+    },
+    {
+      "segment": "SNI_J_information_and_communication_nonbidders",
+      "too_complicated_pct": 27.8,
+      "too_little_advance_information_pct": 7.7,
+      "too_time_consuming_pct": null,
+      "unclear_or_disproportionate_requirements_pct": 10.9
+    }
+  ],
+  "interpretation": "Within this non-bidding survey, bid-complexity complaints are more frequent than advance-notice complaints among prior bidders and the SNI J subgroup. This favors testing bid/no-bid qualification and requirement extraction over another generic alert feed, subject to customer interviews and competitor analysis.",
+  "limitations": [
+    "SNI J industry is not the same population as CPV 48 procurement category; no causal link between the datasets.",
+    "No published denominator for each segment in this extraction; do not turn percentages into company counts.",
+    "Survey respondents are not AgentMine users, prospects or paying customers.",
+    "Survey reports reasons for nonparticipation, not willingness to pay for software.",
+    "Question allows multiple reasons; percentages must not be summed as mutually exclusive.",
+    "No real procurement bids, supplier concentration, unit economics or costs measured."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "validated_willingness_to_pay": false
+}
