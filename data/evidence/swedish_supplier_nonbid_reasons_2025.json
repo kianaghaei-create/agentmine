@@ -36,18 +36,33 @@
       "segment": "SNI_J_information_and_communication_nonbidders",
       "too_complicated_pct": 27.8,
       "too_little_advance_information_pct": 7.7,
-      "too_time_consuming_pct": null,
+      "too_time_consuming_pct": 20.1,
       "unclear_or_disproportionate_requirements_pct": 10.9
+    },
+    {
+      "segment": "SNI_N_rental_and_facility_services_nonbidders",
+      "too_complicated_pct": 34.5,
+      "too_little_advance_information_pct": 12.9,
+      "too_time_consuming_pct": 14.1,
+      "unclear_or_disproportionate_requirements_pct": 14.3
+    },
+    {
+      "segment": "SNI_G_wholesale_retail_trade_nonbidders",
+      "too_complicated_pct": 25.6,
+      "too_little_advance_information_pct": 22.7,
+      "too_time_consuming_pct": 10.2,
+      "unclear_or_disproportionate_requirements_pct": 11.4
     }
   ],
-  "interpretation": "Within this non-bidding survey, bid-complexity complaints are more frequent than advance-notice complaints among prior bidders and the SNI J subgroup. This favors testing bid/no-bid qualification and requirement extraction over another generic alert feed, subject to customer interviews and competitor analysis.",
+  "interpretation": "Within this non-bidding survey, bid-complexity complaints are more frequent than advance-notice complaints among prior bidders and the SNI J subgroup. This favors testing bid/no-bid qualification and requirement extraction over another generic alert feed, subject to customer interviews and competitor analysis. Cross-sector triage: SNI J has the highest reported time-consuming-bid share (20.1%) among 15 listed SNI sectors; SNI N has the highest complexity share (34.5%); SNI G has the highest insufficient-advance-information share (22.7%). These are descriptive within non-bidding survey respondents, not market size, conversion, or causal proof.",
   "limitations": [
     "SNI J industry is not the same population as CPV 48 procurement category; no causal link between the datasets.",
     "No published denominator for each segment in this extraction; do not turn percentages into company counts.",
     "Survey respondents are not AgentMine users, prospects or paying customers.",
     "Survey reports reasons for nonparticipation, not willingness to pay for software.",
     "Question allows multiple reasons; percentages must not be summed as mutually exclusive.",
-    "No real procurement bids, supplier concentration, unit economics or costs measured."
+    "No real procurement bids, supplier concentration, unit economics or costs measured.",
+    "Comparisons across SNI sectors lack subgroup denominators, confidence intervals and response-bias adjustment; do not rank expected revenue from survey percentages alone."
   ],
   "verified_agentmine_paying_customers": null,
   "validated_willingness_to_pay": false
