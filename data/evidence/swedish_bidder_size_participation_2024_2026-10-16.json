@@ -1,0 +1,72 @@
+{
+  "evidence_kind": "official_published_procurement_statistics_not_agentmine_customer_demand",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+  "source_organization": "Upphandlingsmyndigheten",
+  "source_published_date": "2026-02-05",
+  "evidence_checked_date": "2026-10-16",
+  "procurement_year": 2024,
+  "population": "Swedish advertised procurements with reported post-award data; supplier-size bidder table excludes individual-person bidder data and differs from total bids table",
+  "advertised_procurements": 17575,
+  "post_advertised_procurements": 11203,
+  "post_advertised_share_pct": 63.7,
+  "bidder_size_table": {
+    "micro": {
+      "bidders": 4819,
+      "bids": 16281,
+      "mean_bids_per_bidder": 3.4
+    },
+    "small": {
+      "bidders": 4814,
+      "bids": 21717,
+      "mean_bids_per_bidder": 4.5
+    },
+    "medium": {
+      "bidders": 1885,
+      "bids": 15678,
+      "mean_bids_per_bidder": 8.3
+    },
+    "large": {
+      "bidders": 616,
+      "bids": 14821,
+      "mean_bids_per_bidder": 24.1
+    },
+    "unknown": {
+      "bidders": 933,
+      "bids": 2631,
+      "mean_bids_per_bidder": 2.8
+    },
+    "total": {
+      "bidders": 13067,
+      "bids": 71128,
+      "mean_bids_per_bidder": 5.4
+    }
+  },
+  "other_competition_metrics": {
+    "mean_bids_per_procurement": 4.6,
+    "median_bids_per_procurement": 3,
+    "mode_bids_per_procurement": 2,
+    "single_bid_share_pct": 19,
+    "zero_bid_share_approx_pct": 5,
+    "goods_single_bid_share_pct": 27,
+    "construction_single_bid_share_pct": 10
+  },
+  "computed_descriptive_metrics": {
+    "micro_small_bidder_count": 9633,
+    "micro_small_bid_count": 37998,
+    "micro_small_bidder_share_pct": 73.72,
+    "micro_small_bid_share_pct": 53.42,
+    "large_to_micro_reported_mean_bids_ratio": 7.09
+  },
+  "evidence_limitations": [
+    "Bids per bidder describe participation intensity, not market size, supplier spend, ability to pay or impact of AgentMine.",
+    "After-advertised coverage is 63.7%; selection and missing-outcome bias can distort competition metrics.",
+    "Supplier-size classes follow Statistics Sweden employee-count rules, not EU turnover/balance-sheet definitions.",
+    "The 71,128 bids in bidder-size table exclude certain personal-data bidder records and must not be equated with the broader 74,133 bids total.",
+    "The 2025 non-bidder survey and 2024 bidder-size table have different populations; no cross-dataset causal inference.",
+    "No AgentMine pilot, verified customer, revenue, conversion or unit cost observed."
+  ],
+  "hypothesis_to_test": "Recruit opt-in micro/small firms with prior tender experience to measure whether a requirement-extraction and bid/no-bid workflow saves verifiable analyst time. Compare repeated usage and paid pilot conversion against large-firm baseline; do not treat participation gap as proof of willingness to pay.",
+  "verified_agentmine_paying_customers": null,
+  "observed_agentmine_revenue": null,
+  "observed_agentmine_cost": null
+}
