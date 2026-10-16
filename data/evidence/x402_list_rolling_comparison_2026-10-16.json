@@ -1,0 +1,38 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "measurement_scope": "publisher_measured_listed_service_flow",
+  "window_days": 30,
+  "earlier": {
+    "computed_at": "2026-10-12T23:06:28.305Z",
+    "listed_services": 942,
+    "measured_services": 707,
+    "buyer_addresses_30d": 11037,
+    "settlements_30d": 1662651,
+    "volume_usd_30d": "413191.661022",
+    "facilitator_coverage_pct": "32.8",
+    "top10_share_pct": "96.9"
+  },
+  "later": {
+    "computed_at": "2026-10-16T17:48:55.199Z",
+    "listed_services": 1021,
+    "measured_services": 769,
+    "buyer_addresses_30d": 9714,
+    "settlements_30d": 1722435,
+    "volume_usd_30d": "418135.018885",
+    "facilitator_coverage_pct": "30.0",
+    "top10_share_pct": "96.8"
+  },
+  "deltas_pct": {
+    "listed_services": "8.39",
+    "measured_services": "8.77",
+    "buyer_addresses_30d": "-11.99",
+    "settlements_30d": "3.60",
+    "volume_usd_30d": "1.20"
+  },
+  "warning": "Publisher-reported overlapping 30-day windows; directory membership and facilitator coverage change. Wallet addresses are not unique customers, listings are not paying demand, and settlements are not AgentMine revenue. This is descriptive, not causal or cohort analysis.",
+  "prior_repo_evidence": "data/evidence/x402_list_stats_2026-10-13.json",
+  "verified_agentmine_revenue": null,
+  "verified_agentmine_paying_customers": null
+}
