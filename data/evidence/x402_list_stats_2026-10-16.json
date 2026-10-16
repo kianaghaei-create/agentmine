@@ -1,0 +1,50 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "retrieval_date_utc": "2026-10-16",
+  "retrieval_method": "read-only public API via web retrieval; transcribed subset, not raw response",
+  "publisher_computed_at": "2026-10-16T00:45:37.763Z",
+  "publisher_traction_as_of": "2026-10-16T00:41:47.525Z",
+  "evidence_type": "publisher_reported_rolling_30d_listed_service_activity_not_independently_audited",
+  "market_scope": "x402 List indexed services and its measured facilitator slice, not all x402",
+  "supply": {
+    "listed_services": 1024,
+    "listed_endpoints": 7700,
+    "services_with_traction_measurement": 767,
+    "delivery_verified_services": 13,
+    "payment_ready_services": 959,
+    "new_listings_7d": 89,
+    "new_listings_30d": 345
+  },
+  "quality": {
+    "publisher_mean_service_uptime_24h_pct": 90.6,
+    "publisher_mean_service_uptime_7d_pct": 92.8,
+    "publisher_mean_response_time_ms": 542,
+    "measurement_note": "Publisher says uptime is per-service mean of latest daily rollup; not transaction-weighted or verified by AgentMine."
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 416014.170677,
+    "listed_service_settlement_count": 1680139,
+    "distinct_buyer_addresses_reported": 9626,
+    "top_10_services_volume_share_pct": 96.9,
+    "top_1_service_volume_share_pct": 65.5,
+    "top_1_service_top_buyer_share_pct": 98.8,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 32.4
+  },
+  "quality_flags": [
+    "Publisher network list labels 'sui:testnet' is_mainnet=true; cannot infer clean mainnet counts without validation.",
+    "Top service is imported and its largest buyer accounts for 98.8% of that service's flow.",
+    "Uptime averages are publisher-reported, not independently validated and not necessarily linked to demand.",
+    "The 32.4% coverage refers to publisher-measured facilitator flow, not global market."
+  ],
+  "caveats": [
+    "Directory listings are supply, not verified customers.",
+    "Distinct buyer wallet addresses are not distinct paying people or enterprises.",
+    "Rolling 30-day cohorts change between snapshots; daily deltas are not customer acquisition.",
+    "No observed AgentMine revenue, paying customer, customer acquisition cost, willingness to pay or gross margin."
+  ],
+  "decision_implication": "Publisher's own uptime and verification data show potential quality variance but incumbent already sells monitoring; prioritize verified buyer workflow outcomes and repeat willingness to pay, not another generic directory."
+}
