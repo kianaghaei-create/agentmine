@@ -1,0 +1,42 @@
+{
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "publisher_computed_at": "2026-10-16T18:46:54.022Z",
+  "publisher_traction_as_of": "2026-10-16T18:41:57.767Z",
+  "scope": "publisher_reported_measured_listed_service_flow_rolling_30_days",
+  "raw_reported": {
+    "listed_services": 1023,
+    "measured_services": 769,
+    "measured_settlements_30d": 1725413,
+    "measured_distinct_buyer_addresses_30d": 9717,
+    "measured_volume_usd_30d": "418278.597491",
+    "top10_service_share_pct": "96.8",
+    "top1_service_share_pct": "63.5",
+    "top1_largest_buyer_share_pct": "98.8",
+    "top1_service_imported": true
+  },
+  "derived": {
+    "measured_service_listings_outside_top10": 759,
+    "estimated_tail_volume_usd_30d": "13384.92",
+    "tail_volume_usd_30d_if_top10_pct_rounded_to_nearest_0_1": {
+      "low": "13175.78",
+      "high": "13594.05"
+    },
+    "arithmetic_mean_tail_volume_per_measured_listing_usd_30d": "17.63",
+    "hypothetical_1pct_fee_on_mean_tail_listing_usd_30d": "0.18",
+    "hypothetical_1pct_fee_on_all_tail_volume_usd_30d": "133.85"
+  },
+  "interpretation": "The long tail of measured service listings is thin in the publisher's measured slice. Generic per-transaction monetization is unlikely to be attractive for an average tail listing. This does not estimate attainable AgentMine volume, supplier earnings or willingness to pay.",
+  "caveats": [
+    "Publisher data, not independently audited transactions or verified distinct buyers.",
+    "Rolling 30-day window and coverage are incomplete; this is not total x402 ecosystem flow.",
+    "Top-10 share is reported to one decimal; sensitivity assumes rounding to nearest 0.1 percentage point.",
+    "Average includes measured service listings that may have zero flow; not a median and not representative of active paying providers.",
+    "Some services share payout addresses; address-based attribution may not identify unique legal suppliers.",
+    "Wallets and settlement events do not establish organic end-customer purchases, AgentMine customers or payment willingness."
+  ],
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "observed_agentmine_operating_cost": null
+}
