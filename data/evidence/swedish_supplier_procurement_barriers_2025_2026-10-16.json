@@ -1,0 +1,49 @@
+{
+  "evidence_kind": "published_supplier_survey_self_report_not_verified_paid_demand",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-leverantorer/en-mangfald-av-leverantorer-och-en-valfungerande-konkurrens-2025/",
+  "source_title": "En mångfald av leverantörer och en välfungerande konkurrens 2025",
+  "source_organization": "Upphandlingsmyndigheten",
+  "source_published_date": "2026-03-13",
+  "evidence_checked_date": "2026-10-16",
+  "survey_year": 2025,
+  "survey_invited_suppliers": 20000,
+  "survey_respondents": 1912,
+  "survey_response_rate_approx_pct": 9.56,
+  "survey_bias_notes": "Voluntary responses; intentionally supplemented with past bidders. Subgroup percentages below refer to respondents answering why they did not bid during the preceding 24 months, not all 1,912 respondents. Subgroup sample sizes not reported in cited page; do not infer population prevalence.",
+  "question": "Reasons for not submitting a public-procurement bid during the previous 24 months; multiple selections possible",
+  "reported_percentages": {
+    "past_bidder_nonparticipants": {
+      "bid_too_complex": 36.4,
+      "price_overemphasized": 34,
+      "requirements_unclear_or_disproportionate": 24.2,
+      "bid_too_time_consuming": 17.7,
+      "insufficient_upcoming_tender_information": 14.8
+    },
+    "never_bidder_nonparticipants": {
+      "bid_too_complex": 14.4,
+      "price_overemphasized": 10.5,
+      "requirements_unclear_or_disproportionate": 4.7,
+      "bid_too_time_consuming": 6.5,
+      "insufficient_upcoming_tender_information": 9.4
+    },
+    "small_firm_nonparticipants": {
+      "bid_too_complex": 22.7,
+      "insufficient_upcoming_tender_information": 13.7
+    },
+    "medium_firm_nonparticipants": {
+      "bid_too_complex": 19.2,
+      "insufficient_upcoming_tender_information": 17.3
+    }
+  },
+  "computed_descriptive_comparisons": {
+    "complexity_past_minus_never_percentage_points": 22,
+    "complexity_past_divided_by_never": 2.5277777778,
+    "upcoming_info_past_minus_never_percentage_points": 5.4
+  },
+  "interpretation": "Observed self-reported friction is materially higher among past bidders than never-bidders for bid complexity. Candidate low-cost experiment: offline tender-fit and requirements extraction for prior bidders; test whether they will pay for saved analyst hours before building a marketplace. This is a hypothesis, not verified willingness to pay.",
+  "verified_unique_paying_customers": null,
+  "observed_agentmine_revenue": null,
+  "observed_agentmine_operating_cost": null,
+  "live_conversion_rate": null,
+  "data_use": "Source-attributed aggregated public statistics only; no customer personal data, payment or deployment."
+}
