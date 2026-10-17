@@ -1,0 +1,39 @@
+{
+  "source_urls": [
+    "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/tjansteupphandlingar-vanligast-2024/",
+    "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/tjansteupphandlingar-vanligast-2025/"
+  ],
+  "source_publication_dates": [
+    "2026-02-05",
+    "2026-06-01"
+  ],
+  "reviewed_at_utc": "2026-10-17T03:47:00Z",
+  "classification_basis": "main_cpv",
+  "value_kind": "advertised_estimated_value_not_actual_spend",
+  "series": [
+    {
+      "year": 2024,
+      "cpv_main_group": "72",
+      "tender_count": 827,
+      "estimated_value_billion_sek": "33.74"
+    },
+    {
+      "year": 2025,
+      "cpv_main_group": "72",
+      "tender_count": 853,
+      "estimated_value_billion_sek": "56.73"
+    }
+  ],
+  "evidence_type": "official_advertised_procurement_aggregates_not_paid_agent_demand",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "supplier_concentration": null,
+  "actual_operating_cost": null,
+  "caveats": [
+    "Counts are based on the main CPV code, not all additional CPV codes.",
+    "Estimated advertised values include options and possible extensions and are not disbursed amounts.",
+    "A few large contracts may dominate the value change; no median contract value can be inferred.",
+    "Neither tenders nor awards demonstrate willingness to buy AgentMine Supplier Growth SaaS.",
+    "This is official historical annual data, not a live tender inventory or an AgentMine customer signal."
+  ]
+}
