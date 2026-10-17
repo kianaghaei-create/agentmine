@@ -1,0 +1,34 @@
+{
+  "year": 2025,
+  "country": "SE",
+  "unit": "billion_SEK",
+  "value_kind": "advertised_estimated_value_not_actual_spend",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/lou-tillampades-i-nara-nio-av-tio-upphandlingar-2025/",
+  "source_publication_date": "2026-06-01",
+  "reviewed_date": "2026-10-17",
+  "groups": {
+    "eu_directive": {
+      "count": 10887,
+      "estimated_value_billion_sek": "847.64"
+    },
+    "non_eu_directive": {
+      "count": 7022,
+      "estimated_value_billion_sek": "97.07"
+    },
+    "classification_unknown": {
+      "count": 106,
+      "estimated_value_billion_sek": "37.14"
+    }
+  },
+  "total": {
+    "count": 18015,
+    "estimated_value_billion_sek": "981.85"
+  },
+  "evidence_type": "official_procurement_aggregate_not_observed_TED_coverage_or_paid_demand",
+  "rights_and_national_feed_access": "not_validated",
+  "notes": [
+    "Nationally advertised non-EU-directive procurements may be absent from TED, but the statistic does not measure which notices appear on TED.",
+    "Actual national-feed access, coverage, duplicate resolution, and data license require separate verification.",
+    "Values are estimates at advertisement time, not actual spend, supplier receipts, or AgentMine revenue."
+  ]
+}
