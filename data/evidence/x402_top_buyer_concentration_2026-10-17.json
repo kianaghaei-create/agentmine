@@ -1,0 +1,50 @@
+{
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "retrieval_date_utc": "2026-10-17",
+  "publisher_computed_at": "2026-10-17T01:22:03.855Z",
+  "publisher_traction_as_of": "2026-10-17T00:41:29.774Z",
+  "evidence_kind": "publisher_reported_rolling_30d_listed_service_activity_not_independently_audited",
+  "raw_reported_subset": {
+    "listed_services": 1022,
+    "measured_services": 770,
+    "payment_ready_services": 966,
+    "delivery_verified_services": 13,
+    "volume_usd_30d": "406577.028425",
+    "settlement_count_30d": 1714066,
+    "distinct_buyer_addresses_30d": 9609,
+    "top_1_service_share_pct": "65.3",
+    "top_1_service_top_buyer_share_pct": "98.8",
+    "top_1_service_imported": true,
+    "top_10_services_share_pct": "96.7",
+    "facilitator_flow_coverage_pct": "29.5"
+  },
+  "conditional_arithmetic": {
+    "assumed_rounding_step_percentage_points": "0.1",
+    "one_address_flow_share_pct_midpoint": "64.5164",
+    "one_address_share_pct_lower": "64.434375",
+    "one_address_flow_usd_lower": "261975.37",
+    "flow_outside_address_usd_upper": "144601.66",
+    "verified_global_one_address_lower_bound": null
+  },
+  "comparison_previous_snapshot": {
+    "prior_file": "data/evidence/x402_list_stats_2026-10-16.json",
+    "prior_computed_at": "2026-10-16T00:45:37.763Z",
+    "prior_top_service_share_pct": "65.5",
+    "prior_top_service_top_buyer_share_pct": "98.8",
+    "prior_conditional_one_address_share_pct_lower": "64.631875"
+  },
+  "limitations": [
+    "The product of shares is a conditional calculation only if both publisher percentages share compatible deduplicated denominators; this has not been independently verified.",
+    "A buyer address is not a verified unique customer or person; the top service is imported and concentration could include non-organic activity.",
+    "Overlapping 30-day windows are not independent cohorts; changing coverage and directory membership prevent causal or acquisition inference.",
+    "This is not total x402 market volume, independently verified sales, AgentMine revenue, conversion or margin.",
+    "One-address flow may also appear in other services; residual is only a conditional upper bound outside that address, not organic spend."
+  ],
+  "decision_implication": "Do not use gross reported x402 flow as AgentMine transaction-fee TAM. Validate service-level buyer independence and provenance before choosing a fee business.",
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue_usd": null,
+  "measured_agentmine_cost_usd": null
+}
