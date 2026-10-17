@@ -1,0 +1,41 @@
+{
+  "observed_on": "2026-10-17",
+  "kind": "publisher_documented_competitor_capabilities_and_free_dataset_metadata",
+  "source_urls": [
+    "https://licitera.se/utvecklare",
+    "https://licitera.se/oppen-data",
+    "https://www.upphandlingsmyndigheten.se/om-oss/var-oppna-data/"
+  ],
+  "publisher": "Licitera",
+  "free_dataset": {
+    "period": "2026-09",
+    "built_at_utc": "2026-10-01T18:45:00Z",
+    "license_claim": "CC BY 4.0",
+    "procurement_rows_publisher_claim": 1240,
+    "award_rows_publisher_claim": 90,
+    "buyer_rows_publisher_claim": 467,
+    "supplier_rows_publisher_claim": 76,
+    "provenance": "TED, Upphandlingsmyndigheten and other publisher-specified sources",
+    "note": "These are metadata on files, not independently parsed row counts. Awards published in the month are not necessarily a cohort of tenders published in that same month."
+  },
+  "public_api": {
+    "authentication": "none for guest reads",
+    "guest_list_cap": "up to five rows and first page according to developer documentation",
+    "source": "https://licitera.se/utvecklare"
+  },
+  "overlap_with_agentmine": [
+    "possible bidders ranked by past wins",
+    "latest awards with winners and bid counts",
+    "expiring contracts and renewal radar",
+    "CPV and buyer/supplier search",
+    "MCP tools (module access required)"
+  ],
+  "verification": {
+    "downloaded_files": false,
+    "parsed_records": 0,
+    "unique_paying_customers_verified": 0,
+    "agentmine_revenue_verified": false
+  },
+  "interpretation": "Publisher advertises several proposed Supplier Growth functions already; AgentMine must validate differentiated buyer outcomes rather than generic procurement monitoring. Free bulk data could be useful for offline verification if downloaded lawfully and source licenses respected.",
+  "attribution": "Källa: Licitera (licitera.se), CC BY 4.0 — sammanställt ur TED, Upphandlingsmyndigheten och Konkurrensverket. Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera."
+}
