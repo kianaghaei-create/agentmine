@@ -1,0 +1,29 @@
+{
+  "observed_on": "2026-10-17",
+  "source_page_latest_event": "2026-10-13T11:17:45",
+  "source_urls": [
+    "https://www.agentanbud.se/analytics",
+    "https://github.com/magnusfroste/agentanbud"
+  ],
+  "kind": "publisher_self_reported_traffic_and_open_source_competitor",
+  "competitor": "Agentanbud",
+  "reported_usage": {
+    "mcp_tool_calls": 18335,
+    "search_tenders_calls": 18257,
+    "winner_history_calls": 2,
+    "reported_mcp_connections": 1682,
+    "codex_mcp_client_connections": 1450,
+    "web_searches": 1062,
+    "api_searches": 40532
+  },
+  "derived": {
+    "search_tenders_share_of_mcp_calls_pct": 99.57,
+    "winner_history_share_of_mcp_calls_pct": 0.0109,
+    "codex_client_share_of_reported_connections_pct": 86.21
+  },
+  "license_code": "MIT per GitHub repository",
+  "interpretation": "The publisher reports real interaction telemetry but not authenticated buyer identities, paying customers or verified conversion. Most MCP calls are tender search, not winner-history intelligence; client concentration limits conclusions about broad demand. Counts can include automated traffic and repeated sessions.",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "attribution": "Source: Agentanbud public analytics (publisher-reported), viewed 2026-10-17; open-source project github.com/magnusfroste/agentanbud."
+}
