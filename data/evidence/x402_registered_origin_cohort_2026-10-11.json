@@ -1,0 +1,19 @@
+{
+  "source": "https://asundial.com/assets/x402-sellers/2026-10-11.json",
+  "source_date": "2026-10-11",
+  "source_kind": "third_party_public_index_analysis_not_independent_audit",
+  "registered_origins": 12089,
+  "registered_payment_addresses": 4624,
+  "ever_paid_origins": 2524,
+  "paid_30d_origins": 1245,
+  "paid_30d_usd": 419901.85,
+  "paid_30d_median_origin_usd": 0.26,
+  "paid_30d_origins_at_least_100_usd": 47,
+  "top10_share_30d_pct": 95.1,
+  "month_old_cohort": {
+    "registered": 6097,
+    "ever_paid": 2120,
+    "paid_30d": 847
+  },
+  "interpretation": "Paid means observed settlement to mapped address, not a verified customer or distinct seller. Shared addresses and self-payments distort origin-level attribution. No AgentMine revenue inferred."
+}
