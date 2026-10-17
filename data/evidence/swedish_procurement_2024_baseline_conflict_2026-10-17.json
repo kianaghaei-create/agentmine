@@ -1,0 +1,45 @@
+{
+  "observed_at_utc": "2026-10-17T04:46:00Z",
+  "topic": "Swedish advertised procurement annual total: conflicting official 2024 baselines",
+  "measure": "advertised_estimated_contract_value_not_actual_spend",
+  "currency": "SEK",
+  "unit": "billion",
+  "observations": [
+    {
+      "year": 2024,
+      "reported_value": "931.24",
+      "qualifier": "table_exact_as_published",
+      "publication_date": "2026-02-05",
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/tjansteupphandlingar-vanligast-2024/",
+      "source_context": "2024 table total of 17,575 advertised procurements"
+    },
+    {
+      "year": 2024,
+      "reported_value": "847",
+      "qualifier": "approximate_drygt_847",
+      "publication_date": "2026-06-01",
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/annonserade-upphandlingar-for-982-miljarder-kronor-2025/",
+      "source_context": "2025 article narrative states 2024 total was 'drygt 847 miljarder'"
+    },
+    {
+      "year": 2025,
+      "reported_value": "981.85",
+      "qualifier": "table_exact_as_published",
+      "publication_date": "2026-06-01",
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/annonserade-upphandlingar-for-982-miljarder-kronor-2025/",
+      "source_context": "2025 table total of 17,996 records with stated values; total advertised 18,015"
+    }
+  ],
+  "cross_publication_baseline_reconciled": false,
+  "growth_interpretation": "Do not publish a definitive national 2024-to-2025 value growth percentage until the official 2024 baseline discrepancy (931.24 versus 'drygt 847') is explained. The approximate qualifier prevents treating 847 as exact.",
+  "same_source_tables_sensitivity": {
+    "2024_table": "931.24",
+    "2025_table": "981.85",
+    "arithmetic_growth_pct": "5.43",
+    "status": "arithmetic_only_unreconciled"
+  },
+  "verified_paying_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "actual_operating_cost": null,
+  "next_action": "Ask source publisher or inspect national statistics open data metadata/revision history to reconcile 2024 baseline before market-growth claims. CPV 72 separate annual main-CPV figures are not invalidated by this aggregate-level discrepancy, but their revision comparability remains to be checked."
+}
