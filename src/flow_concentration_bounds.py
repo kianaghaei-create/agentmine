@@ -24,7 +24,8 @@ def bound_effective_services(*, listed_services, top1_pct, top10_pct):
 
     A distribution's HHI is at least s1**2 + (s10-s1)**2/9, plus the
     minimum equal-distribution HHI for the residual among n-10 services.
-    A smaller bound is safer than assuming any particular tail distribution.
+    Shares must admit a nonincreasing distribution across n services;
+    otherwise the purported concentration bound is meaningless.
     """
     if type(listed_services) is not int or listed_services < 10:
         raise ValueError("listed_services must be an integer >= 10")
@@ -39,12 +40,11 @@ def bound_effective_services(*, listed_services, top1_pct, top10_pct):
     if listed_services == 10 and s10 != 1:
         raise ValueError("ten services must account for all flow")
     tail = 1 - s10
+    if listed_services > 10 and (s10 - s1) / 9 < tail / (listed_services - 10):
+        raise ValueError("top-10 shares cannot dominate the reported tail across listed services")
     bound = s1 * s1 + (s10 - s1) ** 2 / 9
     if listed_services > 10:
         bound += tail * tail / (listed_services - 10)
-    if bound == 0:
-        return {"hhi_lower_bound": "0", "effective_service_count_upper_bound": None,
-                "interpretation": "No positive measured share reported; concentration unidentifiable."}
     return {
         "hhi_lower_bound": str(bound),
         "effective_service_count_upper_bound": str(1 / bound),
