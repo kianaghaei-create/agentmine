@@ -71,11 +71,13 @@ def analyze(snapshot: dict, *, as_of: str) -> dict:
             flags.append("estimate_below_1000_sek_review_required")
         if due < today:
             flags.append("deadline_elapsed_as_of_date")
+        elif due == today:
+            flags.append("deadline_today_time_unknown_review_required")
         rows.append({"ted_publication_number": ref, "buyer": buyer.strip(),
                      "estimated_value_sek": str(value) if value is not None else None,
                      "deadline": deadline, "source_url": url,
                      "quality_flags": flags,
-                     "eligible_for_automatic_value_ranking": value is not None and value >= 1000 and due >= today})
+                     "eligible_for_automatic_value_ranking": value is not None and value >= 1000 and due > today})
     return {"as_of": as_of, "source_publisher": snapshot["source_publisher"],
             "license": snapshot["license"], "sample_selection": snapshot.get("sample_selection"),
             "record_count": len(rows),
