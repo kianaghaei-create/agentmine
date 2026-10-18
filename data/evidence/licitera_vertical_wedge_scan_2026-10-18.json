@@ -1,0 +1,80 @@
+{
+  "publisher": "Licitera",
+  "publisher_updated_on": "2026-10-16",
+  "observed_on": "2026-10-18",
+  "method": "Publisher-reported vertical overview pages. 24-month tender counts and 6-month expiry estimates have different horizons from 12-month known-bid-count samples. Categories overlap and may be title/CPV keyword matched. Median values are publisher-reported contract/tender values, not revenue or spend.",
+  "verticals": [
+    {
+      "name": "Verksamhetssystem",
+      "source_url": "https://licitera.se/upphandlingar/bransch/verksamhetssystem",
+      "tenders_24m": 529,
+      "open_at_update": 25,
+      "expiring_6m": 13,
+      "median_estimated_sek": 7000000,
+      "known_bid_count_12m": 37,
+      "single_bid_pct_rounded": 68
+    },
+    {
+      "name": "Medicinteknik",
+      "source_url": "https://licitera.se/upphandlingar/bransch/medicinteknik",
+      "tenders_24m": 1347,
+      "open_at_update": 76,
+      "expiring_6m": 58,
+      "median_estimated_sek": 9900000,
+      "known_bid_count_12m": 142,
+      "single_bid_pct_rounded": 54
+    },
+    {
+      "name": "Fastighetsskötsel",
+      "source_url": "https://licitera.se/upphandlingar/bransch/fastighetsskotsel",
+      "tenders_24m": 256,
+      "open_at_update": 17,
+      "expiring_6m": 6,
+      "median_estimated_sek": 7500000,
+      "known_bid_count_12m": 32,
+      "single_bid_pct_rounded": 59
+    },
+    {
+      "name": "Städning och lokalvård",
+      "source_url": "https://licitera.se/upphandlingar/bransch/stadning",
+      "tenders_24m": 682,
+      "open_at_update": 30,
+      "expiring_6m": 36,
+      "median_estimated_sek": 6000000,
+      "known_bid_count_12m": 46,
+      "single_bid_pct_rounded": 15
+    },
+    {
+      "name": "IT-säkerhet",
+      "source_url": "https://licitera.se/upphandlingar/bransch/it-sakerhet",
+      "tenders_24m": 82,
+      "open_at_update": 4,
+      "expiring_6m": 9,
+      "median_estimated_sek": 5900000,
+      "known_bid_count_12m": null,
+      "single_bid_pct_rounded": null
+    },
+    {
+      "name": "IT-konsult",
+      "source_url": "https://licitera.se/upphandlingar/bransch/it-konsult",
+      "tenders_24m": 331,
+      "open_at_update": 23,
+      "expiring_6m": 22,
+      "median_estimated_sek": 7000000,
+      "known_bid_count_12m": null,
+      "single_bid_pct_rounded": null
+    },
+    {
+      "name": "Managementkonsult",
+      "source_url": "https://licitera.se/upphandlingar/bransch/managementkonsult",
+      "tenders_24m": 236,
+      "open_at_update": 12,
+      "expiring_6m": 20,
+      "median_estimated_sek": 3800000,
+      "known_bid_count_12m": null,
+      "single_bid_pct_rounded": null
+    }
+  ],
+  "verified_paying_customers": null,
+  "verified_agentmine_revenue": null
+}
