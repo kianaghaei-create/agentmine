@@ -1,0 +1,38 @@
+{
+  "source_url": "https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf",
+  "source_publisher": "Upphandlingsmyndigheten",
+  "source_title": "Rapport om utvecklingen på upphandlingsområdet 2025",
+  "source_table": "Table 1, report pages 33-34 (PDF pages 33-34)",
+  "retrieved_on": "2026-10-19",
+  "measurement": "mean_bids_per_procurement_or_lot_after_advertised",
+  "years": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "mean_bids_by_main_cpv": {
+    "48": [
+      "2.7",
+      "2.7",
+      "2.3",
+      "2.3"
+    ],
+    "72": [
+      "15.2",
+      "5.2",
+      "4.5",
+      "3.7"
+    ]
+  },
+  "national_2024_mean_bids": "4.6",
+  "after_advertisement_coverage_pct_2024": "63.7",
+  "coverage_source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+  "caveats": [
+    "2024 bid-count statistics are based on after-advertised procurements; only 63.7% of 2024 advertised procurements had after-advertisements as of 2025-12-01.",
+    "For multi-lot procurements, bids are counted per lot; bids are not unique bidder companies.",
+    "CPV48 mean does not establish the share of single-bid procurements or supplier concentration.",
+    "CPV72 2021 average may reflect large national frameworks; do not infer causal or monotonic market trends.",
+    "No observed AgentMine buyers, paying suppliers, fees, sales, costs, or supplier HHI."
+  ]
+}
