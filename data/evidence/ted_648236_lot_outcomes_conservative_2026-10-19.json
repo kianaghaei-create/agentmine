@@ -1,0 +1,46 @@
+{
+  "captured_on": "2026-10-19",
+  "publication_number": "648236-2026",
+  "buyer": "Eskilstuna Kommunfastigheter Aktiebolag",
+  "subject": "Ekonomisystem",
+  "original_tender_notice": "408697-2026",
+  "award_notice": "648236-2026",
+  "estimated_procedure_value_sek": "28000000",
+  "source_url": "https://se.openprocurements.com/tender/ekonomisystem-mry/",
+  "secondary_cross_check": "https://vunnet.se/upphandling/648236-2026",
+  "official_ted_url": "https://ted.europa.eu/en/notice/-/detail/648236-2026",
+  "official_ted_xml_retrieved": false,
+  "provenance": "secondary_transcription",
+  "lots": [
+    {
+      "lot_id": "LOT-0001",
+      "outcome": "not_awarded",
+      "bids_received": 4,
+      "source_evidence": "Non-award reason and bid count appear directly under LOT-0001 in accessible secondary text."
+    },
+    {
+      "lot_id": "LOT-0002",
+      "outcome": "unknown",
+      "bids_received": null,
+      "source_evidence": "Lot listed without an explicit outcome or bid count in accessible secondary text."
+    },
+    {
+      "lot_id": "LOT-0003",
+      "outcome": "unknown",
+      "bids_received": null,
+      "source_evidence": "Lot listed without an explicit outcome or bid count in accessible secondary text."
+    }
+  ],
+  "known_non_awarded_lots": 1,
+  "unknown_outcome_lots": 2,
+  "known_bid_counts_by_lot": {
+    "LOT-0001": 4,
+    "LOT-0002": null,
+    "LOT-0003": null
+  },
+  "verified_unique_bidders": null,
+  "verified_supplier_concentration": null,
+  "confirmed_re_tender": null,
+  "verified_paid_agentmine_demand": null,
+  "correction": "Earlier offline draft inferred all 3 lots not awarded and 4 bids per lot. Accessible secondary text supports those claims only for LOT-0001. No market-level inference until original TED XML and a systematic sample are obtained."
+}
