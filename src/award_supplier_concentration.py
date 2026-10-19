@@ -58,7 +58,12 @@ def analyze(records, *, min_awarded_lots=5):
             raise ValueError("duplicate notice/lot")
         seen.add(key)
         notices.add(number)
-        if row.get("source_url") != f"https://ted.europa.eu/en/notice/{number}/pdf":
+        # TED publishes original notices in several official language routes.
+        # Require an exact HTTPS TED PDF path, but do not discard the Swedish
+        # original in favor of an English URL that was never retrieved.
+        official_urls = {f"https://ted.europa.eu/{language}/notice/{number}/pdf"
+                         for language in ("en", "sv")}
+        if row.get("source_url") not in official_urls:
             raise ValueError("official TED PDF URL required")
         if row.get("source_kind") != "manual_official_pdf_transcription":
             raise ValueError("explicit manual source provenance required")
