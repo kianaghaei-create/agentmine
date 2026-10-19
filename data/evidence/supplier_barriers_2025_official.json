@@ -1,0 +1,50 @@
+{
+  "source_url": "https://dkn-pslot.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-leverantorer/en-mangfald-av-leverantorer-och-en-valfungerande-konkurrens-2025/",
+  "publication_date": "2026-03-13",
+  "survey_year": 2025,
+  "invited_suppliers": 20000,
+  "responding_suppliers": 1912,
+  "population_scope": "Reasons for no tender bid in past 24 months; former bidders vs never bidders. Multiple selections possible. Cohort denominators unavailable.",
+  "barriers": [
+    {
+      "cohort": "former_bidder",
+      "barrier": "complexity",
+      "percent": 36.4
+    },
+    {
+      "cohort": "never_bidder",
+      "barrier": "complexity",
+      "percent": 14.4
+    },
+    {
+      "cohort": "former_bidder",
+      "barrier": "unclear_requirements",
+      "percent": 24.2
+    },
+    {
+      "cohort": "never_bidder",
+      "barrier": "unclear_requirements",
+      "percent": 4.7
+    },
+    {
+      "cohort": "former_bidder",
+      "barrier": "time_cost",
+      "percent": 17.7
+    },
+    {
+      "cohort": "never_bidder",
+      "barrier": "time_cost",
+      "percent": 6.5
+    },
+    {
+      "cohort": "former_bidder",
+      "barrier": "future_notice_visibility",
+      "percent": 14.8
+    },
+    {
+      "cohort": "never_bidder",
+      "barrier": "future_notice_visibility",
+      "percent": 9.4
+    }
+  ]
+}
