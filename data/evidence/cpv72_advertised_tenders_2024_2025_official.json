@@ -1,0 +1,39 @@
+{
+  "source_type": "official_published_aggregate_statistics",
+  "compiled_on": "2026-10-19",
+  "country": "SE",
+  "category": "CPV 72 — IT services: consulting, software development, Internet and support",
+  "scope": "Swedish advertised procurements classified by PRIMARY CPV code; values are advertised estimated whole-procedure values, not awards, actual spend, supplier revenue, agent API spend or addressable SaaS revenue.",
+  "observations": [
+    {
+      "year": 2024,
+      "publication_date": "2026-02-05",
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/tjansteupphandlingar-vanligast-2024/",
+      "advertised_procurement_count": 827,
+      "estimated_advertised_value_sek_billion": 33.74
+    },
+    {
+      "year": 2025,
+      "publication_date": "2026-06-01",
+      "source_url": "https://prod.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/tjansteupphandlingar-vanligast-2025/",
+      "advertised_procurement_count": 853,
+      "estimated_advertised_value_sek_billion": 56.73
+    }
+  ],
+  "year_over_year": {
+    "count_change": 26,
+    "count_change_pct": 3.14,
+    "estimated_advertised_value_change_sek_billion": 22.99,
+    "estimated_advertised_value_change_pct": 68.14
+  },
+  "interpretation": "Count grew slightly while published estimated tender value grew sharply. This is NOT verified spending growth; values may reflect contract length, options, mix and outliers. Do not infer supplier concentration, repeat business, tender-win probability, bidder counts, buyer willingness to pay or AgentMine TAM.",
+  "unknown": {
+    "cpv72_supplier_hhi": null,
+    "cpv72_bid_count_distribution": null,
+    "cpv72_contract_award_value": null,
+    "cpv72_realized_spend": null,
+    "agentmine_paying_customers": null,
+    "agentmine_revenue": null
+  },
+  "next_measurement": "Obtain a dated, legally reusable primary-source lot/award sample with bidder counts and normalized supplier identities. Track notice/lot units, completeness, missing outcomes and actual source costs; validate buyer interest before pricing."
+}
