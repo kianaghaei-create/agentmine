@@ -1,0 +1,38 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "publisher_computed_at": "2026-10-19T01:50:11.266Z",
+  "publisher_traction_as_of": "2026-10-19T01:41:21.222Z",
+  "retrieval_date_utc": "2026-10-19",
+  "retrieval_method": "public read-only API via web retrieval; manually transcribed subset, not original raw response",
+  "market_scope": "x402 List indexed services and publisher-measured facilitator flow; not full ecosystem",
+  "supply": {
+    "listed_services": 1020,
+    "listed_endpoints": 7705,
+    "services_with_traction_measurement": 775,
+    "delivery_verified_services": 13,
+    "payment_ready_services": 958
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": "370142.403624",
+    "listed_service_settlement_count": 1744635,
+    "distinct_buyer_addresses_reported": 9488,
+    "top_10_services_volume_share_pct": "96.3",
+    "top_1_service_volume_share_pct": "64.7",
+    "top_1_service_top_buyer_share_pct": "98.7",
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": "27.6"
+  },
+  "notes": [
+    "Observed 2026-10-19 publisher rolling 30d snapshot. Not a longitudinal fixed cohort.",
+    "The top service is imported and its largest buyer address accounts for 98.7% of its reported flow.",
+    "Services listed and addresses are not paying AgentMine customers.",
+    "Publisher-measured facilitator subset only; not an independently audited ledger.",
+    "No real AgentMine acquisition cost, operating cost, conversion, paying customer or revenue evidence."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "observed_agentmine_operating_cost": null
+}
