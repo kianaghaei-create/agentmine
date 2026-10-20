@@ -1,0 +1,93 @@
+{
+  "evidence_kind": "two_publisher_snapshots_not_audited_market_census",
+  "publisher": "x402 List",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "prior_source": "data/evidence/x402_list_stats_2026-10-13.json",
+  "prior_computed_at": "2026-10-12T23:06:28.305Z",
+  "current_computed_at": "2026-10-20T02:00:58.307Z",
+  "current_traction_as_of": "2026-10-20T01:41:23.853Z",
+  "capture_method": "public API response inspected via read-only web tool; selected fields manually transcribed; not raw response or independent on-chain audit",
+  "prior": {
+    "listed_services": 942,
+    "listed_endpoints": 7018,
+    "measured_services": 707,
+    "payment_ready": 881,
+    "delivery_verified": 12,
+    "buyer_addresses_30d": 11037,
+    "settlements_30d": 1662651,
+    "volume_usd_30d": "413191.661022",
+    "top1_volume_share_pct": "64.0",
+    "top10_volume_share_pct": "96.9",
+    "measured_facilitator_coverage_pct": "32.8"
+  },
+  "current": {
+    "listed_services": 1017,
+    "listed_endpoints": 7691,
+    "measured_services": 773,
+    "payment_ready": 958,
+    "delivery_verified": 13,
+    "buyer_addresses_30d": 9341,
+    "settlements_30d": 1729224,
+    "volume_usd_30d": "382678.152258",
+    "top1_volume_share_pct": "67.1",
+    "top10_volume_share_pct": "96.4",
+    "measured_facilitator_coverage_pct": "26.2"
+  },
+  "deltas": {
+    "listed_services": {
+      "absolute": 75,
+      "relative_pct": 7.96
+    },
+    "listed_endpoints": {
+      "absolute": 673,
+      "relative_pct": 9.59
+    },
+    "measured_services": {
+      "absolute": 66,
+      "relative_pct": 9.34
+    },
+    "payment_ready": {
+      "absolute": 77,
+      "relative_pct": 8.74
+    },
+    "delivery_verified": {
+      "absolute": 1,
+      "relative_pct": 8.33
+    },
+    "buyer_addresses_30d": {
+      "absolute": -1696,
+      "relative_pct": -15.37
+    },
+    "settlements_30d": {
+      "absolute": 66573,
+      "relative_pct": 4
+    },
+    "volume_usd_30d": {
+      "absolute": -30513.508764,
+      "relative_pct": -7.38
+    },
+    "top1_volume_share_pct": {
+      "absolute": 3.1,
+      "relative_pct": 4.84
+    },
+    "top10_volume_share_pct": {
+      "absolute": -0.5,
+      "relative_pct": -0.52
+    },
+    "measured_facilitator_coverage_pct": {
+      "absolute": -6.6,
+      "relative_pct": -20.12
+    }
+  },
+  "interpretation": "Within the publisher's changing listed and measured slice, listings grew while 30d deduplicated USD flow and buyer-address count fell. Rolling 30d windows overlap, measurement coverage changed, and provider composition may change. No causal or market-wide growth claim.",
+  "limits": [
+    "Wallet addresses are not unique paying persons or firms.",
+    "The publisher's measured facilitator flow is not the entire x402 ecosystem.",
+    "Imported largest service may dominate flow; publisher flags top_1_service_imported=true.",
+    "Current top_1_service_top_buyer_share_pct=98.8; imported concentration is not evidence of unique end-customer demand.",
+    "Directory listings and settlement estimates are not verified AgentMine customers or revenue.",
+    "No independent chain-level audit or customer conversion validation."
+  ]
+}
