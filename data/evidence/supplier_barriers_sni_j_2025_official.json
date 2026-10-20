@@ -1,0 +1,31 @@
+{
+  "source_kind": "official_supplier_survey_self_reported",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-leverantorer/en-mangfald-av-leverantorer-och-en-valfungerande-konkurrens-2025/",
+  "published_date": "2026-03-13",
+  "survey_year": 2025,
+  "segment": "SNI_J_information_and_communication",
+  "cpv_mapping": null,
+  "cohort_denominators_available": false,
+  "survey_invited_total": 20000,
+  "survey_responses_total": 1912,
+  "overall_pct": {
+    "bid_complexity": "19.9",
+    "bid_time": "9.3",
+    "requirements_unclear": "9.6",
+    "future_tender_visibility": "10.8"
+  },
+  "segment_pct": {
+    "bid_complexity": "27.8",
+    "bid_time": "20.1",
+    "requirements_unclear": "10.9",
+    "future_tender_visibility": "7.7"
+  },
+  "survey_question": "Reasons for not bidding in any public procurement during past 24 months; multiple answers allowed",
+  "limitations": [
+    "Self-reported responses, not observed bidding behavior",
+    "Deliberate oversampling of firms with prior bidding experience",
+    "No subgroup respondent count on source page; no uncertainty estimates",
+    "SNI J industry is not equivalent to CPV 48 procurement classification",
+    "No AgentMine buyer, willingness-to-pay, or revenue evidence"
+  ]
+}
