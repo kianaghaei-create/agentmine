@@ -1,0 +1,30 @@
+{
+  "evidence_kind": "publisher_network_classification_inconsistency",
+  "observed_on": "2026-10-20",
+  "publisher_computed_at": "2026-10-20T02:45:01.833Z",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "source_license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_reported_total_mainnet_networks": 35,
+  "source_reported_network_row_count": 40,
+  "source_reported_true_is_mainnet_flags": 35,
+  "independently_documented_contradiction": {
+    "network": "sui:testnet",
+    "publisher_is_mainnet": true,
+    "documented_is_mainnet": false,
+    "reference": "https://namespaces.chainagnostic.org/sui/caip2",
+    "reference_2": "https://docs.sui.io/develop/sui-architecture/networks"
+  },
+  "conditional_corrected_mainnet_count_if_other_flags_valid": 34,
+  "independent_verification_scope": "sui:testnet only; other network flags not audited",
+  "local_offline_audit_tests_passed": 8,
+  "source_excerpt_manual_transcription": true,
+  "no_verified_agentmine_customers": true,
+  "no_verified_agentmine_revenue": true,
+  "caveats": [
+    "The network array was manually transcribed from the publisher's 2026-10-20 computed snapshot; raw publisher response is not committed here.",
+    "Mainnet count 34 is conditional, not a complete independent network census.",
+    "Service network associations are not distinct suppliers, customers, or paid demand.",
+    "No paid probe, payment, deployment, or sensitive customer data used."
+  ]
+}
