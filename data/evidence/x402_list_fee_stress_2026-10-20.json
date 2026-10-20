@@ -1,0 +1,34 @@
+{
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "license": "CC-BY-4.0",
+  "publisher_computed_at": "2026-10-20T14:40:58.208Z",
+  "publisher_traction_as_of": "2026-10-20T14:26:51.328Z",
+  "evidence_kind": "publisher_reported_rolling_30d_settlements_not_verified_customer_payments",
+  "scope": "x402 List measured listed-service facilitator flow; not total x402 ecosystem",
+  "listed_services": 1016,
+  "measured_services": 774,
+  "listed_endpoints": 7690,
+  "rolling_30d_listed_deduplicated_flow_usd": "394487.543713",
+  "publisher_top10_share_pct": "96.2",
+  "publisher_top1_share_pct": "67",
+  "publisher_top1_largest_buyer_address_share_pct": "98.9",
+  "publisher_top1_flow_imported": true,
+  "publisher_measured_flow_coverage_pct": "23.7",
+  "gross_fee_stress_test": {
+    "assumed_fee_rate_pct": "1",
+    "assumed_access_to_all_flow_outside_current_top10": true,
+    "flow_outside_top10_usd": "14990.53",
+    "theoretical_gross_fee_usd_per_rolling_30d": "149.91",
+    "estimated_realistic_revenue_usd": null,
+    "acquisition_payment_infrastructure_compliance_support_costs_usd": null
+  },
+  "limitations": [
+    "Gross arithmetic scenario is not an addressable market estimate: no evidence AgentMine can capture any listed settlement flow.",
+    "Flow outside top ten is computed from publisher rounded top-ten share; result has corresponding rounding uncertainty.",
+    "Top service flow is imported and dominated by one address; addresses are not verified people or paying businesses.",
+    "Method: net per listed address, excludes self-payments and avoids per-service sum; do not compare historical volumes unless method and coverage are aligned.",
+    "No observed AgentMine buyers, conversions, costs, margin or revenue."
+  ],
+  "decision": "Do not prioritize a generic 1% transaction-fee exchange on this evidence alone. Validate a narrow buyer workflow (Supplier Growth) and real willingness to pay before building payment rails."
+}
