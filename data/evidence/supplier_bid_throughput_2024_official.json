@@ -1,0 +1,28 @@
+{
+  "evidence_kind": "official_2024_supplier_size_bid_counts",
+  "year": 2024,
+  "published": "2026-02-05",
+  "observed_and_transcribed": "2026-10-20",
+  "population": "bids_with_supplier_metadata",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+  "secondary_source_url": "https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf",
+  "source_section": "Antal anbudsgivare och anbud efter företagsstorlek för leverantören, 2024",
+  "total_bidders": 13067,
+  "total_bids": 71128,
+  "rows": {
+    "micro": {"bidders": 4819, "bids": 16281},
+    "small": {"bidders": 4814, "bids": 21717},
+    "medium": {"bidders": 1885, "bids": 15678},
+    "large": {"bidders": 616, "bids": 14821},
+    "unknown": {"bidders": 933, "bids": 2631}
+  },
+  "publisher_win_rate_range_pct": [36, 40],
+  "notes": [
+    "Supplier-size class is Statistics Sweden's employee-only classification, not EU turnover/balance-sheet classification.",
+    "The 71,128 bids with supplier metadata differ from the 74,133 total bids; supplier-personal-data exclusions and missing metadata matter.",
+    "Bid-count coverage was available for 58 percent of all advertised 2024 tenders; do not extrapolate to all Swedish tenders.",
+    "Publisher's 36-40 percent win-rate range across company-size groups is separate from the table, not calculated from bid-count rows.",
+    "These are historic procurement participation counts, not AgentMine buyer demand, paid customers or willingness to pay.",
+    "A 2024 all-sector bid-throughput ratio cannot be assumed to hold within CPV48 or CPV72."
+  ]
+}
