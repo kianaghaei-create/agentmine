@@ -1,0 +1,25 @@
+{
+  "source_url": "https://market402.com/",
+  "methodology_url": "https://market402.com/methodology",
+  "source_kind": "manual_public_homepage_transcription",
+  "publisher_updated_at": "2026-10-20T03:12:00Z",
+  "observed_at": "2026-10-20T07:48:26Z",
+  "endpoints_probed": 57211,
+  "operator_labels": 2397,
+  "spec_compliant_endpoints": 23072,
+  "verified_operator_badges": 24,
+  "max_paid_probe_usd": "0.05",
+  "monthly_paid_probe_budget_usd": "3",
+  "publisher_reported_incident": {
+    "start": "2026-08-03",
+    "end": "2026-09-26",
+    "description": "Publisher disclosed scheduled external paid-probe batch failure due to empty accepts[]; historical badge comparisons may be affected."
+  },
+  "caveats": [
+    "Homepage counts are publisher-reported and manually transcribed, not independently audited or a raw JSON export.",
+    "Verified operator badge means Market402's own paid delivery checks plus qualification, not third-party recurring customer spend.",
+    "The 24 badges are NOT a numerator for estimating how many x402 operators are functional: paid checks have a small budget and qualification constraints.",
+    "The documented probe outage is a publisher incident disclosure, not an AgentMine measurement.",
+    "No paid probe, payment, sensitive customer data, or deployment was performed by AgentMine."
+  ]
+}
