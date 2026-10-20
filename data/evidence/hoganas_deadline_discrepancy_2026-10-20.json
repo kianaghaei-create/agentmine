@@ -1,0 +1,37 @@
+{
+  "observation_date": "2026-10-20",
+  "publication_number": "670813-2026",
+  "buyer": "Höganäs kommun",
+  "main_cpv": "48000000",
+  "estimated_value_sek": "2500000",
+  "observations": [
+    {
+      "publication_number": "670813-2026",
+      "source_kind": "official_summary",
+      "source_url": "https://op.europa.eu/en/web/public-procurement/procurement-details/-/procurement/6ddfec34-4913-4540-bf06-fb65e65b164c",
+      "reported_deadline": "2026-10-31"
+    },
+    {
+      "publication_number": "670813-2026",
+      "source_kind": "third_party",
+      "source_url": "https://www.mercell.com/sv-se/upphandling/291755542/kostdatasystem-version-2-upphandling.aspx",
+      "reported_deadline": "2026-10-30T23:59:00+01:00"
+    },
+    {
+      "publication_number": "670813-2026",
+      "source_kind": "third_party",
+      "source_url": "https://licitera.se/upphandling/kostdatasystem-version-2-f31d7873f9",
+      "reported_deadline": "2026-10-30"
+    },
+    {
+      "publication_number": "670813-2026",
+      "source_kind": "third_party",
+      "source_url": "https://upphandla.app/en/tender/670813-2026",
+      "reported_deadline": "2026-10-30"
+    }
+  ],
+  "legal_deadline_verified": false,
+  "original_ted_notice_pdf_accessible": false,
+  "submission_portal_accessible": false,
+  "warning": "EU summary shows 31 October, other sources 30 October. Could be timezone or display semantics. Original official notice and portal not independently checked; do not claim which is legally binding."
+}
