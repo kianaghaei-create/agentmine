@@ -1,0 +1,48 @@
+{
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "basis": [
+    "data/evidence/x402_list_stats_2026-10-13.json",
+    "data/evidence/x402_list_fee_stress_2026-10-20.json"
+  ],
+  "publisher_computed_older": "2026-10-12T23:06:28.305Z",
+  "publisher_computed_newer": "2026-10-20T14:40:58.208Z",
+  "publisher_listed_services": {
+    "older": 942,
+    "newer": 1016,
+    "delta": 74,
+    "delta_pct": "7.86"
+  },
+  "publisher_listed_endpoints": {
+    "older": 7018,
+    "newer": 7690,
+    "delta": 672,
+    "delta_pct": "9.58"
+  },
+  "publisher_measured_services": {
+    "older": 707,
+    "newer": 774,
+    "delta": 67,
+    "delta_pct": "9.48"
+  },
+  "publisher_rolling_30d_listed_flow_usd": {
+    "older": "413191.661022",
+    "newer": "394487.543713",
+    "delta": "-18704.117309",
+    "market_growth_inference_allowed": false
+  },
+  "publisher_coverage_of_measured_facilitator_flow_pct": {
+    "older": "32.8",
+    "newer": "23.7",
+    "delta_percentage_points": "-9.1"
+  },
+  "publisher_top10_flow_share_pct": {
+    "older": "96.9",
+    "newer": "96.2"
+  },
+  "interpretation": "Listings rose in one publisher directory. The rolling 30d settlement flow declined numerically but coverage fell by 9.1 percentage points and rolling windows overlap, so the flow change does not establish ecosystem demand change or fee opportunity. All figures are publisher-reported, not independently audited.",
+  "verified_agentmine_paying_customers": null,
+  "observed_agentmine_revenue": null,
+  "no_cost_or_deployment": true
+}
