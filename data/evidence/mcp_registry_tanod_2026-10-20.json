@@ -1,0 +1,118 @@
+{
+  "dataset": "MCP Registry supplier supply and liveness (third-party aggregate)",
+  "source_url": "https://tanod.dev/data/mcp-registry-stats.json",
+  "method_url": "https://tanod.dev/learn/state-of-mcp-registry.html",
+  "upstream_registry": "https://registry.modelcontextprotocol.io",
+  "source_license": "CC BY 4.0",
+  "source_snapshot_date": "2026-10-20",
+  "retrieved_on": "2026-10-21",
+  "evidence_class": "third_party_registry_aggregate_not_independently_audited",
+  "source_reported": {
+    "distinct_registry_server_names": 47066,
+    "namespace_labels": 28901,
+    "remote_server_names": 30668,
+    "remote_only": 28431,
+    "package_only": 15888,
+    "both_remote_and_package": 2237,
+    "neither": 510,
+    "registry_status_active": 46458,
+    "registry_status_deprecated": 608,
+    "remote_endpoint_liveness_check_date": "2026-10-10",
+    "distinct_streamable_http_urls_checked": 25709,
+    "liveness_counts": {
+      "answered_initialize": 16282,
+      "requires_auth_401_or_403": 6639,
+      "not_found_404": 773,
+      "other_client_error": 275,
+      "server_error": 372,
+      "redirect": 216,
+      "dns_failure": 735,
+      "timeout": 174,
+      "tls_error": 165,
+      "other": 78
+    },
+    "largest_15_namespace_labels": [
+      [
+        "io.github.sadri-dridi",
+        2365
+      ],
+      [
+        "io.github.pipeworx-io",
+        1872
+      ],
+      [
+        "io.github.mcp-dir",
+        1114
+      ],
+      [
+        "io.github.mrfentmen",
+        897
+      ],
+      [
+        "io.github.Evozim",
+        375
+      ],
+      [
+        "io.github.CSOAI-ORG",
+        354
+      ],
+      [
+        "io.usefulapi",
+        333
+      ],
+      [
+        "io.github.Wxt-ai",
+        231
+      ],
+      [
+        "ai.smithery",
+        213
+      ],
+      [
+        "io.github.theluckystrike",
+        190
+      ],
+      [
+        "io.github.jmshinhwa",
+        155
+      ],
+      [
+        "io.github.cyanheads",
+        152
+      ],
+      [
+        "io.github.codespar",
+        127
+      ],
+      [
+        "app.wishpool",
+        125
+      ],
+      [
+        "com.a2awire",
+        119
+      ]
+    ]
+  },
+  "derived_from_reported_counts": {
+    "top_15_namespace_labels_server_names": 8622,
+    "top_15_namespace_share_pct": 18.32,
+    "liveness_answered_initialize_pct": 63.33,
+    "liveness_requires_auth_pct": 25.82,
+    "liveness_other_outcomes_pct": 10.84
+  },
+  "caveats": [
+    "Registry entries and namespace labels are supply, not unique legal suppliers, demand, customers, revenue, or live usage.",
+    "A status of active is a registry label, not a successful endpoint probe.",
+    "Liveness cohort is a 2026-10-10 subset of distinct streamable-http remote URLs, not the 2026-10-20 registry server-name census.",
+    "A 401/403 response means credentials are required, not that a service is broken.",
+    "One no-credentials initialize request per URL with 8-second timeout is not continuous availability monitoring or functional tool-use verification.",
+    "Top-15 namespace concentration is within registry server names, not market revenue or provider business concentration.",
+    "Publisher's derived dataset is CC BY 4.0; independent upstream crawl was unavailable due DNS failure. Attribution required.",
+    "Tanod already offers a public liveness check; do not claim generic uptime monitoring is an uncontested product."
+  ],
+  "verified_paying_customers": null,
+  "verified_supplier_businesses": null,
+  "agentmine_revenue_usd": null,
+  "observed_agentmine_cost_usd": null
+}
