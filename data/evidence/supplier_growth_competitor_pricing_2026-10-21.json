@@ -1,0 +1,117 @@
+{
+  "observed_at_utc": "2026-10-21T07:43:22Z",
+  "evidence_type": "publicly_advertised_competitor_offers_not_verified_sales",
+  "market": "Swedish public procurement supplier software; one EU-wide competitor",
+  "collection_method": "Read public supplier-owned pricing pages. Features are vendor claims, not independently tested. Prices are advertised, not verified paid transactions.",
+  "offers": [
+    {
+      "vendor": "Tendium",
+      "plan": "Light",
+      "url": "https://tendium.com/se/pricing",
+      "advertised_monthly_price": 1250,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "not specified on captured page",
+      "features_claimed": [
+        "tender_discovery",
+        "ai_summaries",
+        "document_updates"
+      ],
+      "availability_note": "Core plan also advertises BidFlow qualify and create bid, price via sales."
+    },
+    {
+      "vendor": "Mercell",
+      "plan": "Sverige",
+      "url": "https://www.mercell.com/sv-se/83770116/kop-upphandlingsbevakning.aspx",
+      "advertised_monthly_price": 1070,
+      "currency": "SEK",
+      "price_qualifier": "fixed_advertised",
+      "billing": "annual invoice; excludes VAT",
+      "features_claimed": [
+        "tender_discovery",
+        "email_alerts",
+        "awards_access"
+      ],
+      "availability_note": "Other advertised packages: Län 800 SEK/month, Sverige Premium 1485 SEK/month."
+    },
+    {
+      "vendor": "Tenderradar",
+      "plan": "Bas",
+      "url": "https://tenderradar.se/priser",
+      "advertised_monthly_price": 795,
+      "currency": "SEK",
+      "price_qualifier": "fixed_advertised",
+      "billing": "monthly, excludes VAT; vendor says no binding period",
+      "features_claimed": [
+        "tender_discovery",
+        "email_alerts",
+        "deadline_calendar"
+      ],
+      "availability_note": "Pro plan 1495 SEK/month advertises win probability and bid workflow."
+    },
+    {
+      "vendor": "Procurdo",
+      "plan": "1-3 users",
+      "url": "https://www.procurdo.com/priser",
+      "advertised_monthly_price": 599,
+      "currency": "SEK",
+      "price_qualifier": "fixed_advertised",
+      "billing": "monthly selection; annual option discounted",
+      "features_claimed": [
+        "tender_discovery",
+        "email_alerts",
+        "ai_search"
+      ],
+      "availability_note": "Public monthly selection lists 599 SEK for 1-3 users."
+    },
+    {
+      "vendor": "Tendova",
+      "plan": "Pro",
+      "url": "https://tendova.eu/sv/pricing",
+      "advertised_monthly_price": 79,
+      "currency": "EUR",
+      "price_qualifier": "fixed_advertised",
+      "billing": "monthly option; annual advertised equivalent 66 EUR/month",
+      "features_claimed": [
+        "tender_discovery",
+        "change_alerts",
+        "bid_no_bid",
+        "document_questions",
+        "ai_summaries"
+      ],
+      "availability_note": "Vendor advertises EU TED coverage, source-linked AI fit evaluation, bid/no-bid, corrigenda alerts. No independent functional test."
+    },
+    {
+      "vendor": "Licitera",
+      "plan": "Bevakning beta",
+      "url": "https://licitera.se/priser",
+      "advertised_monthly_price": 0,
+      "currency": "SEK",
+      "price_qualifier": "temporary_beta",
+      "billing": "free during beta; future price unknown",
+      "features_claimed": [
+        "tender_discovery",
+        "email_alerts",
+        "awards_access"
+      ],
+      "availability_note": "Search and read free; watch service listed as free during beta."
+    },
+    {
+      "vendor": "Upphandla.app",
+      "plan": "Free",
+      "url": "https://upphandla.app/",
+      "advertised_monthly_price": 0,
+      "currency": "SEK",
+      "price_qualifier": "free_tier",
+      "billing": "free browse; Pro price not published",
+      "features_claimed": [
+        "tender_discovery"
+      ],
+      "availability_note": "Free searchable TED feed in five verticals; paid Pro advertised as coming soon."
+    }
+  ],
+  "verified_paying_customers": null,
+  "verified_sales_volume": null,
+  "agentmine_willingness_to_pay": null,
+  "scope_warning": "Non-exhaustive convenience sample of vendor-owned pages. Prices may change, exclude taxes or vary by billing term; feature claims are not independent product tests. This cannot measure market share, conversions or demand for AgentMine."
+}
