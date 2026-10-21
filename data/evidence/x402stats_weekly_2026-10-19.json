@@ -1,0 +1,44 @@
+{
+  "source": "https://x402stats.io/llms-full.txt",
+  "publisher": "x402stats — State of x402",
+  "license": "CC BY 4.0",
+  "source_updated_at": "2026-10-21T11:28:58.834Z",
+  "headline_as_of": "2026-10-19",
+  "methodology": "2026-07-01.v1",
+  "evidence_type": "publisher_reported_heuristic_wallet_settlement_activity",
+  "source_line_ranges": {
+    "headline": "4-10",
+    "weekly": "37-39"
+  },
+  "latest_30d": {
+    "raw_reported_volume_usd": 1226015,
+    "organic_filtered_volume_usd": 710273,
+    "seller_wallets_any_revenue": 38162,
+    "organic_qualified_seller_wallets": 92,
+    "median_seller_revenue_usd": 0.01,
+    "top_10_wallets_share_raw_volume_pct": 79,
+    "organic_share_of_raw_volume_pct": 57.93,
+    "organic_seller_share_of_any_revenue_wallets_pct": 0.2411
+  },
+  "previous_week_2026_10_12": {
+    "raw_reported_volume_usd": 1056293,
+    "organic_filtered_volume_usd": 684900,
+    "organic_qualified_seller_wallets": 94
+  },
+  "changes_versus_previous_week": {
+    "raw_volume_pct": 16.07,
+    "organic_volume_pct": 3.7,
+    "organic_qualified_seller_wallets_absolute": -2
+  },
+  "interpretation": "Publisher organic-filtered volume grew much more slowly than raw flow in overlapping 30d windows; qualified seller wallets declined by two. Not evidence of verified business revenue or unique paying customers.",
+  "caveats": [
+    "Organic qualification is publisher-defined heuristic (>= $100, >= 3 buyers, non-dust, non-settlement), not independently audited paying businesses.",
+    "Wallets can map many-to-one or one-to-many to real businesses and users.",
+    "Top-10 concentration refers to raw wallet volume, not verified organic business revenue.",
+    "Weekly rows describe overlapping rolling 30d windows; percent changes are descriptive, not independent weekly sales.",
+    "x402stats methodology/scope differs from x402 List; do not combine denominators.",
+    "Source update 2026-10-21 contains last weekly observation dated 2026-10-19."
+  ],
+  "agentmine_verified_customers": null,
+  "agentmine_revenue_usd": null
+}
