@@ -1,0 +1,87 @@
+{
+  "evidence_kind": "official_2024_bid_throughput_and_award_rate_by_supplier_size",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/fyra-av-tio-anbud-leder-till-avtal-2024/",
+  "source_section": "Antal anbud och kontrakterade anbud efter företagsstorlek för leverantören, 2024",
+  "source_published_date": "2026-02-05",
+  "source_checked_date": "2026-10-21",
+  "procurement_year": 2024,
+  "official_rows": {
+    "micro": {
+      "bidders": 4819,
+      "bids": 16281,
+      "awards": 5914
+    },
+    "small": {
+      "bidders": 4814,
+      "bids": 21717,
+      "awards": 8255
+    },
+    "medium": {
+      "bidders": 1885,
+      "bids": 15678,
+      "awards": 6201
+    },
+    "large": {
+      "bidders": 616,
+      "bids": 14821,
+      "awards": 5704
+    },
+    "unknown": {
+      "bidders": 933,
+      "bids": 2631,
+      "awards": 1096
+    }
+  },
+  "official_totals": {
+    "bidders": 13067,
+    "bids": 71128,
+    "awards": 27170
+  },
+  "computed_from_official_rows": {
+    "by_size": {
+      "micro": {
+        "bids_per_bidder": 3.3785,
+        "awards_per_bidder": 1.2272,
+        "awards_per_bid_pct": 36.3246
+      },
+      "small": {
+        "bids_per_bidder": 4.5112,
+        "awards_per_bidder": 1.7148,
+        "awards_per_bid_pct": 38.0117
+      },
+      "medium": {
+        "bids_per_bidder": 8.3172,
+        "awards_per_bidder": 3.2897,
+        "awards_per_bid_pct": 39.5522
+      },
+      "large": {
+        "bids_per_bidder": 24.0601,
+        "awards_per_bidder": 9.2597,
+        "awards_per_bid_pct": 38.4859
+      },
+      "unknown": {
+        "bids_per_bidder": 2.8199,
+        "awards_per_bidder": 1.1747,
+        "awards_per_bid_pct": 41.6572
+      }
+    },
+    "large_vs_micro": {
+      "large_to_micro_bids_per_bidder_ratio": 7.1215,
+      "large_to_micro_awards_per_bid_ratio": 1.0595,
+      "large_to_micro_awards_per_bidder_ratio": 7.5453,
+      "large_minus_micro_awards_per_bid_percentage_points": 2.1614
+    }
+  },
+  "interpretation": "The observed ~7.55x awards-per-bidder gap between large and micro firms decomposes into ~7.12x bids-per-bidder and ~1.06x awards-per-bid. Descriptive decomposition, NOT causal evidence that software increases bids or wins.",
+  "caveats": [
+    "Publisher's headline 41% contracted bids uses a different subset from the 38.2% supplier-size table; never merge the denominators.",
+    "Only tenders with relevant post-award/supplier metadata appear; 2024 post-advertisement coverage 63.7% as of 2025-12-01. Missingness may bias results.",
+    "Awarded bids do not necessarily mean delivered contracts, realized supplier revenues, or supplier cash receipts, especially for framework agreements.",
+    "Supplier size follows Statistics Sweden's employee-count classification, not EU SME definitions.",
+    "All sectors pooled; no CPV48/72 segment inference without matched category-specific supplier-size data.",
+    "No AgentMine users, willingness to pay, time saved, customers, or revenue are verified."
+  ],
+  "product_test": "Compare opt-in micro/small experienced suppliers' verified minutes to bid/no-bid decision, qualified submissions per month, and repeat paid usage. Pre-register baseline and require independent human review of requirement extraction; no outcome claims from this historical cross-section.",
+  "verified_agentmine_revenue": null,
+  "verified_agentmine_paying_customers": null
+}
