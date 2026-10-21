@@ -1,0 +1,16 @@
+{
+  "retrieved_on": "2026-10-21",
+  "source_url": "https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf",
+  "source_publication": "Upphandlingsmyndigheten Rapport 2026:1 (February 2026), pages 40-41",
+  "observation_year": 2024,
+  "reported_advertised_procurements": 17575,
+  "reported_result_advertisement_rate_percent": 64,
+  "reported_result_advertisement_count_approximate": 11200,
+  "computed_missing_result_advertisement_rate_percent": 36,
+  "reported_previous_year_rates_percent": {"2021": 70, "2022": 74, "2023": 69},
+  "caveat": "Missing result advertisement does not imply cancellation or retender. Possible explanations include ongoing procurement, delayed/noncompliant result reporting, or cancellation. Reported percentage and count are rounded. Do not estimate exact cancelled count, customer demand, savings or revenue from this statistic.",
+  "evidence_type": "official_aggregate_procurement_reporting_coverage_not_agentmine_demand",
+  "verified_cancellations": null,
+  "verified_retenders": null,
+  "verified_agentmine_paying_customers": null
+}
