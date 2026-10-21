@@ -1,0 +1,40 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-21T11:46:51.247Z",
+  "traction_as_of": "2026-10-21T11:42:07.340Z",
+  "collected_at_utc": "2026-10-21",
+  "retrieval_method": "read-only public API response via web browsing",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402-list indexed services and monitored facilitators; not full ecosystem",
+  "supply": {
+    "listed_services": 1015,
+    "listed_endpoints": 7679,
+    "services_with_traction_measurement": 776,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 950,
+    "new_listings_30d": 287,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 404551.229516,
+    "listed_service_settlement_count": 1729794,
+    "distinct_buyer_addresses_reported": 9238,
+    "top_10_services_volume_share_pct": 96.2,
+    "top_1_service_volume_share_pct": 64.9,
+    "top_1_service_top_buyer_share_pct": 98.8,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 22.8
+  },
+  "caveats": [
+    "Publisher data, not independently audited chain or verified buyers.",
+    "Buyer addresses do not imply distinct human customers or paying companies.",
+    "Top service has imported flow; largest buyer accounts for 98.8% of that service's measured flow.",
+    "Coverage is relative to publisher-measured facilitator flow, not the entire agent economy.",
+    "Supply counts and rolling 30-day settlement figures are not directly comparable as adoption measures.",
+    "Measured networks and coverage can change; cross-snapshot changes are not causal growth estimates."
+  ],
+  "decision_implication": "Catalog supply increased versus 2026-10-13 while publisher-reported distinct buyer addresses and rolling measured settlement dollars declined. Demand capture and reliable distribution remain unproven; avoid building a generic directory or extrapolating TAM."
+}
