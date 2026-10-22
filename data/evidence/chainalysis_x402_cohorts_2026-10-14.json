@@ -1,0 +1,44 @@
+{
+  "source": "https://www.chainalysis.com/blog/north-america-crypto-adoption-2026/",
+  "publisher": "Chainalysis",
+  "published_date": "2026-10-14",
+  "retrieved_date": "2026-10-22",
+  "evidence_type": "third_party_onchain_analysis_publisher_report",
+  "scope": "Base cumulative transactions by end of 2026 reporting period; extended x402 transaction-size sample to September 2026; funding cohorts restricted to wallets spending on >=2 distinct days",
+  "observations": {
+    "base_cumulative_x402_transactions_greater_than": 138000000,
+    "micropayment_share_between_0_0001_and_0_10_usd_greater_than_pct": 87,
+    "first_funded_cohort_refund_within_30d_pct": {
+      "2025-Q3": 70.6,
+      "2026-Q2": 89.3
+    },
+    "median_time_first_funding_to_first_x402_payment": {
+      "late_2025_days": 73,
+      "2026-Q3_minutes": 18
+    },
+    "first_hour_spending_share_pct": {
+      "2025-Q3": 4,
+      "2026-Q3": 67
+    },
+    "geolocated_us_wallet_share_pct": {
+      "model_inference": 88.1,
+      "agent_frameworks_tool_catalogs": 41.8,
+      "data_search_apis": 23.2
+    },
+    "geolocated_china_wallet_share_pct": {
+      "security_code_analysis_approx": 90,
+      "market_financial_intelligence": 46.7
+    },
+    "notable_concentration": "China-linked security/code-analysis flow was overwhelmingly to one named service, AgentLISA, according to publisher"
+  },
+  "methodology_limits": [
+    "30-day repeat funding percentages are conditional on wallets spending on >=2 distinct days; they are NOT retention rates for all new wallets or unique customers.",
+    "Geolocation is inferred and applies only to the geolocatable subset; category percentages are not shares of total transaction value.",
+    "138M is cumulative Base transaction count, not 30-day settlement volume or verified paying companies.",
+    "Micropayment distribution covers an extended sample; no category-level USD spend totals or individual buyer-provider repeat-spend panel supplied.",
+    "Wallet funding is not itself verified purchases of AgentMine or evidence of AgentMine willingness to pay."
+  ],
+  "business_implication": "Prioritize independently auditable repeat buyer-to-provider spending in information/search and code-analysis niches; do not infer a profitable exchange from wallet funding or transaction counts.",
+  "agentmine_verified_customers": null,
+  "agentmine_revenue_usd": null
+}
