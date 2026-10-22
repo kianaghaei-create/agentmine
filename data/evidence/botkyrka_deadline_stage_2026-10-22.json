@@ -1,0 +1,59 @@
+{
+  "publication_number": "699156-2026",
+  "observed_at_date": "2026-10-22",
+  "buyer": "Botkyrka kommun",
+  "evidence_type": "primary_submission_portal_verified_application_stage_plus_secondary_display_discrepancies",
+  "original_ted_notice_read": false,
+  "submission_portal_read": true,
+  "reverification_note": "Primary portal was accessed in an earlier 2026-10-22 session; direct recheck in this session returned inaccessible. Do not treat this as a live current-state guarantee.",
+  "observations": [
+    {
+      "publication_number": "699156-2026",
+      "source_url": "https://www.kommersannons.se/elite/Notice/NoticeOverview.aspx?ProcurementId=73494",
+      "source_kind": "official_buyer_submission_portal",
+      "reported_deadline": "2026-11-06",
+      "stage_claim": "participation_request",
+      "display_label_claim": "participation_deadline",
+      "interpretation": "Kommers eLite previously displayed Sista dag för ansökningar 2026-11-06, Anbudsansökan and Kvalificeringsannons. This is an application/qualification deadline, not an independently verified final bid deadline."
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_url": "https://www.klekoon.com/JOCE/joue-appel-offre-suede-services-fourniture-logiciels-servicearendehanteringssystem-13311091.htm",
+      "source_kind": "third_party_republication_of_ted_notice_text",
+      "reported_deadline": "2026-11-06T23:59:00+01:00",
+      "stage_claim": "participation_request",
+      "display_label_claim": "participation_deadline",
+      "interpretation": "Reproduced notice labels cutoff for requests to participate; original TED not independently read."
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_url": "https://licitera.se/upphandling/servicearendehanteringssystem-32fcaba7cd",
+      "source_kind": "third_party_summary",
+      "reported_deadline": "2026-11-06",
+      "stage_claim": "unknown",
+      "display_label_claim": "bid_deadline",
+      "interpretation": "Summary calls the date the last bid day, potentially misleading for a negotiated procedure."
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_url": "https://hanketori.fi/tenders/servicearendehanteringssystem/",
+      "source_kind": "third_party_summary",
+      "reported_deadline": "2027-01-09",
+      "stage_claim": "unknown",
+      "display_label_claim": "generic_deadline",
+      "interpretation": "Conflicting date; provenance and deadline stage unverified."
+    }
+  ],
+  "legal_deadline_verified": false,
+  "verified_agentmine_customers": null,
+  "agentmine_revenue_sek": null,
+  "primary_portal_stage_and_date_confirmed_on_observation": true,
+  "primary_portal_date": "2026-11-06",
+  "primary_portal_stage": "participation_request",
+  "final_bid_submission_deadline_confirmed": false,
+  "primary_portal_questions_deadline": "2026-10-28",
+  "primary_portal_procurement_reference": "KS/2026:00638",
+  "primary_portal_source_url": "https://www.kommersannons.se/elite/Notice/NoticeOverview.aspx?ProcurementId=73494",
+  "official_listing_source_url": "https://www.kommersannons.se/elite/Notice/NoticeList.aspx?ProcuringEntityId=342",
+  "warning": "Source-attributed observation only, not a legal deadline guarantee. Original TED and amendments not read; no measured customer willingness to pay."
+}
