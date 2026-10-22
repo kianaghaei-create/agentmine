@@ -1,0 +1,84 @@
+{
+  "evidence_type": "cross_publisher_observed_market_snapshot_not_verified_customers_or_revenue",
+  "observed_date": "2026-10-22",
+  "source_a": {
+    "publisher": "x402 List",
+    "source_url": "https://x402-list.com/api/v1/stats",
+    "license": "CC BY 4.0",
+    "attribution": "Data: x402-list.com (CC BY 4.0)",
+    "computed_at_utc": "2026-10-22T06:37:36.574Z",
+    "traction_as_of_utc": "2026-10-22T05:41:51.337Z",
+    "scope": "x402-list indexed services and measured facilitator flows; not the entire x402 ecosystem",
+    "current": {
+      "listed_services": 1014,
+      "listed_endpoints": 7677,
+      "settlements_usd": 381806.427439,
+      "buyer_addresses": 9267,
+      "top1_pct": 68.2,
+      "top10_pct": 96.1,
+      "top1_buyer_share_pct": 98.8,
+      "verified_delivery": 13,
+      "measured_services": 772,
+      "reported_median_listed_price_usd": 0.01,
+      "reported_mean_listed_price_usd": 0.375,
+      "avg_uptime_24h_pct": 90.1,
+      "avg_response_time_ms": 512,
+      "listed_services_payment_ready": 945,
+      "measured_flow_coverage_pct": 21.6
+    },
+    "prior_source_file": "data/evidence/x402_list_stats_2026-10-13.json",
+    "prior_source_computed_at_utc": "2026-10-12T23:06:28.305Z",
+    "prior": {
+      "listed_services": 942,
+      "listed_endpoints": 7018,
+      "settlements_usd": 413191.661022,
+      "buyer_addresses": 11037,
+      "top1_pct": 64,
+      "top10_pct": 96.9,
+      "verified_delivery": 12,
+      "measured_services": 707
+    },
+    "comparison_rolling_30d": {
+      "listed_services_change_pct": 7.64,
+      "listed_endpoints_change_pct": 9.39,
+      "deduplicated_listed_settlement_usd_change_pct": -7.6,
+      "reported_distinct_buyer_addresses_change_pct": -16.04,
+      "top1_volume_share_change_percentage_points": 4.2,
+      "top10_volume_share_change_percentage_points": -0.8,
+      "estimated_ex_top1_listed_settlement_usd": 121414.44,
+      "verified_delivery_service_share_of_listings_pct": 1.28
+    },
+    "methodology_caveat": "These are two overlapping rolling 30-day windows, not same-period cohort retention or a controlled experiment. Service catalog coverage, facilitator measurement, settlement attribution and imported flows can change. Buyer addresses are not people or companies. Verified delivery is not verified paying customers. Top service is imported and its top buyer accounts for 98.8% of its measured volume."
+  },
+  "source_b": {
+    "publisher": "x402stats",
+    "source_url": "https://x402stats.io/llms-full.txt",
+    "methodology_url": "https://x402stats.io/methodology",
+    "license": "CC BY 4.0",
+    "updated_at_utc": "2026-10-22T06:16:30.117Z",
+    "weekly_record_date": "2026-10-19",
+    "rolling_30d": {
+      "raw_reported_volume_usd": 1226015,
+      "organic_volume_usd": 710273,
+      "organic_share_pct": 58,
+      "seller_wallets_with_any_revenue": 38162,
+      "heuristic_organic_seller_wallets": 92,
+      "top10_wallets_share_of_raw_volume_pct": 79,
+      "median_seller_wallet_revenue_usd": 0.01
+    },
+    "prior_weekly_record_2026_10_12": {
+      "raw_reported_volume_usd": 1056292.8636402986,
+      "organic_volume_usd": 684899.5279760001,
+      "heuristic_organic_seller_wallets": 94
+    },
+    "caveat": "Organic is publisher's heuristic; seller wallets are not verified businesses or unique customers. These totals are NOT comparable to x402 List's deduplicated listed-service settlements due to different coverage and methodology."
+  },
+  "conclusions": {
+    "observable": "Indexed supply increased while x402 List's overlapping rolling-30d listed settlement volume and distinct buyer-address count decreased; largest measured service share increased and its flow is highly buyer-concentrated.",
+    "commercial": "Do not infer broad paid demand, subscription conversion, or an AgentMine transaction-fee business from catalog growth or aggregate wallet activity. Prioritize narrowly measured repeat buyer-provider spending, real user workflow time savings and unit economics.",
+    "no_verified_agentmine_customers": true,
+    "no_verified_agentmine_revenue": true,
+    "no_verified_acquisition_cost": true,
+    "no_independent_onchain_reaudit": true
+  }
+}
