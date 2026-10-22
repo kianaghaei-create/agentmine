@@ -5,7 +5,7 @@
   "evidence_type": "primary_submission_portal_verified_application_stage_plus_secondary_display_discrepancies",
   "original_ted_notice_read": false,
   "submission_portal_read": true,
-  "reverification_note": "Primary portal was accessed in an earlier 2026-10-22 session; direct recheck in this session returned inaccessible. Do not treat this as a live current-state guarantee.",
+  "reverification_note": "On 2026-10-22 the official Kommers eLite notice page was accessible via a search-indexed result and again displayed a qualification application deadline 2026-11-06 (question deadline 2026-10-28); direct URL open failed. This is not an original TED amendment check or a guarantee against later changes.",
   "observations": [
     {
       "publication_number": "699156-2026",
@@ -55,5 +55,13 @@
   "primary_portal_procurement_reference": "KS/2026:00638",
   "primary_portal_source_url": "https://www.kommersannons.se/elite/Notice/NoticeOverview.aspx?ProcurementId=73494",
   "official_listing_source_url": "https://www.kommersannons.se/elite/Notice/NoticeList.aspx?ProcuringEntityId=342",
-  "warning": "Source-attributed observation only, not a legal deadline guarantee. Original TED and amendments not read; no measured customer willingness to pay."
+  "warning": "Source-attributed observation only, not a legal deadline guarantee. Original TED and amendments not read; no measured customer willingness to pay.",
+  "primary_portal_rechecked_via_search_result_on": "2026-10-22",
+  "independent_secondary_stage_agreement": {
+    "source_url": "https://app.cobrief.com/procurements/servicearendehanteringssystem-2026-10-07-1640427",
+    "display_stage": "Frist för kvalificering",
+    "reported_date": "2026-11-06",
+    "source_kind": "third_party_summary",
+    "interpretation": "Corroborates qualification-stage labeling; not a substitute for official portal or legally binding deadline."
+  }
 }
