@@ -1,0 +1,39 @@
+{
+  "observation_date": "2026-10-22",
+  "evidence_type": "third_party_procurement_deadline_display_conflict_not_verified_legal_deadline",
+  "legal_deadline_verified": false,
+  "original_ted_notice_read_this_run": false,
+  "submission_portal_read_this_run": false,
+  "verified_agentmine_customers": null,
+  "agentmine_revenue_sek": null,
+  "interpretation": "Source display discrepancy only. The original TED notice and live submission portal must be checked before any legal deadline or supplier-facing alert. No evidence of AgentMine willingness to pay.",
+  "publication_number": "699156-2026",
+  "buyer": "Botkyrka kommun",
+  "main_cpv": "72268000",
+  "original_notice_url": "https://ted.europa.eu/sv/notice/-/detail/699156-2026",
+  "observations": [
+    {
+      "publication_number": "699156-2026",
+      "source_kind": "third_party",
+      "source_url": "https://getvunna.com/sv/upphandlingar/sverige/servicearendehanteringssystem-53b5c8ef",
+      "reported_deadline": "2026-11-06",
+      "label_kind": "date_only"
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_kind": "third_party",
+      "source_url": "https://www.klekoon.com/JOCE/joue-appel-offre-suede-services-fourniture-logiciels-servicearendehanteringssystem-13311091.htm",
+      "reported_deadline": "2026-11-06T23:59:00+01:00",
+      "label_kind": "secondary_copy_of_TED_notice_text"
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_kind": "third_party",
+      "source_url": "https://hanketori.fi/tenders/servicearendehanteringssystem/",
+      "reported_deadline": "2027-01-09",
+      "label_kind": "date_label_from_display_2027_01_09_04_35"
+    }
+  ],
+  "observed_calendar_date_spread_days": 64,
+  "source_reliability_note": "Klekoon reproduces an apparent TED notice deadline 6 Nov 2026 23:59 CET, but this is a third-party mirror; original TED and submission portal could not be read directly."
+}
