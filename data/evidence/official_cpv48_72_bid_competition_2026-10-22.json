@@ -1,0 +1,62 @@
+{
+  "observation_date": "2026-10-22",
+  "source_kind": "official_aggregate_procurement_statistics",
+  "publisher": "Upphandlingsmyndigheten",
+  "primary_sources": [
+    {
+      "url": "https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf",
+      "location": "Table 1, report pp.33-34 (PDF pp.32-33)",
+      "measurement_year": 2024
+    },
+    {
+      "url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/tjansteupphandlingar-vanligast-2025/",
+      "location": "CPV 2025 table",
+      "measurement_year": 2025
+    },
+    {
+      "url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+      "location": "Overall bid competition 2024",
+      "measurement_year": 2024
+    }
+  ],
+  "observations": {
+    "2024_average_bids_per_procurement": {
+      "all_categories": 4.6,
+      "cpv48_software_information_systems": 2.3,
+      "cpv72_it_services": 3.7
+    },
+    "2024_cpv48_bid_series": {
+      "2021": 2.7,
+      "2022": 2.7,
+      "2023": 2.3,
+      "2024": 2.3
+    },
+    "2024_cpv72_bid_series": {
+      "2021": 15.2,
+      "2022": 5.2,
+      "2023": 4.5,
+      "2024": 3.7
+    },
+    "2025_advertised_procurements": {
+      "cpv72_count": 853,
+      "cpv72_estimated_value_billion_sek": 56.73,
+      "cpv48_count": null,
+      "cpv48_estimated_value_billion_sek": null
+    }
+  },
+  "derived": {
+    "cpv48_vs_all_2024_average_bid_ratio": 0.5,
+    "cpv72_vs_all_2024_average_bid_ratio": 0.8043478261
+  },
+  "interpretation": "CPV 48 software procurements show relatively low observed bid participation in 2024. This is a competition signal, not proof of avoidable supplier friction, paying demand or willingness to pay for AgentMine. CPV 72 is distinct from CPV 48. Do not mix 2024 bid rates with 2025 counts to estimate buyers or revenue.",
+  "limitations": [
+    "Aggregate bids per procurement, not supplier identities, buyer concentration, or individual procurement outcomes.",
+    "Bid averages are 2024, while procurement count/value is 2025; periods are not directly comparable.",
+    "Some national framework tenders distort means; sample size for CPV48 not reported here.",
+    "Estimated contract value is not realized spend or SaaS addressable revenue.",
+    "No measured AgentMine customers, revenue, conversion, acquisition costs, or saved supplier time."
+  ],
+  "agentmine_verified_customers": null,
+  "agentmine_revenue_sek": null,
+  "next_read_only_test": "Build a notice-level CPV48 vs CPV72 panel with bid counts, cancellation/reissue and actual supplier qualification friction; separately test willingness to pay."
+}
