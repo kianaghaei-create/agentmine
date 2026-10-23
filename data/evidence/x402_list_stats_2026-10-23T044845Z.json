@@ -1,0 +1,38 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-23T04:48:45.353Z",
+  "traction_as_of": "2026-10-23T04:41:49.650Z",
+  "collected_at_utc": "2026-10-23",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402-list indexed services and monitored facilitators; not full ecosystem",
+  "supply": {
+    "listed_services": 1012,
+    "listed_endpoints": 7675,
+    "services_with_traction_measurement": 770,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 943,
+    "new_listings_30d": 287,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 373067.514883,
+    "listed_service_settlement_count": 1738904,
+    "distinct_buyer_addresses_reported": 9058,
+    "top_10_services_volume_share_pct": 96,
+    "top_1_service_volume_share_pct": 69.7,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 20.3
+  },
+  "caveats": [
+    "Publisher's deduplicated listed-service settlement slice; not total x402 volume or AgentMine revenue.",
+    "The largest service's imported flow and 98.9% top-buyer-address concentration complicate organic-demand interpretation.",
+    "Buyer addresses are not unique persons, companies, customers or verified buyers.",
+    "30-day windows overlap with 2026-10-13; comparisons are differences in rolling publisher estimates, not period-on-period sales growth.",
+    "Publisher's measured-facilitator coverage percentage is not global ecosystem coverage.",
+    "Top-1 and top-10 percentages are rounded; effective-service and fee-tail arithmetic is conditional on those rounded inputs."
+  ]
+}
