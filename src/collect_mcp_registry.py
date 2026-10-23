@@ -72,8 +72,13 @@ def collect_snapshot(max_pages=3, fetch=fetch_page, *, page_delay_seconds=PAGE_D
             if not isinstance(server, dict):
                 raise ValueError("invalid registry server")
             name, version = server.get("name"), server.get("version")
+            # A successful page count is not evidence of a complete census
+            # if individual rows are silently discarded for missing identity.
+            # The official Registry server schema requires name and version.
             if not isinstance(name, str) or not name.strip():
-                continue
+                raise ValueError("registry server missing name")
+            if not isinstance(version, str) or not version.strip():
+                raise ValueError("registry server missing version")
             key = (name.strip(), version)
             if key in seen_items:
                 continue
