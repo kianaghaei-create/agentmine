@@ -59,5 +59,24 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertTrue(status["complete"])
 
+    def test_crawl_can_reach_490_pages_with_polite_pacing(self):
+        delays = []
+        def fake(cursor):
+            index = 0 if cursor is None else int(cursor)
+            return {"servers": [{"server": {"name": f"org/server{index}", "version": "1"}}],
+                    "metadata": {"count": 1, "nextCursor": str(index+1) if index < 489 else None}}
+        pages, rows, status = collect_snapshot(600, fetch=fake, pause=delays.append)
+        self.assertEqual((len(pages), len(rows), status["pages_fetched"]), (490, 490, 490))
+        self.assertTrue(status["complete"])
+        self.assertEqual(delays, [0.25]*489)
+
+    def test_crawl_hard_limit_and_invalid_delay(self):
+        for count in (0, 1001, True, 1.0):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                collect_snapshot(count, fetch=lambda _: {"servers": [], "metadata": {}})
+        for delay in (True, -1, float('nan'), float('inf'), '0.25', 11):
+            with self.subTest(delay=delay), self.assertRaises(ValueError):
+                collect_snapshot(1, fetch=lambda _: {"servers": [], "metadata": {}}, page_delay_seconds=delay)
+
 if __name__ == "__main__":
     unittest.main()
