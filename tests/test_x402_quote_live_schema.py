@@ -22,6 +22,7 @@ PUBLISHER_SNAPSHOT = {
     }}},
     'endpoints': [{
         'id': 'cc388c5e-60fc-474b-96e1-35d1a0871861',
+        'path': '/v1/company/5566322938',
         'is_active': True,
         'min_price_usd': 0.01,
     }],
@@ -29,7 +30,7 @@ PUBLISHER_SNAPSHOT = {
 HYPOTHETICAL_QUOTE = {
     'service_slug': 'f-retagskoll',
     'endpoint_id': 'cc388c5e-60fc-474b-96e1-35d1a0871861',
-    'source_url': 'https://x402-list.com/services/f-retagskoll',
+    'source_url': 'https://api.fundamentwebb.se/v1/company/5566322938',
     'provider': 'Företagskoll',
     'license_allowed': True,  # unverified caller assumption
     'verified': True,         # unverified caller assumption
