@@ -109,6 +109,8 @@ def analyze(snapshot):
         'publisher_positive_flow_service_rows': len(positive),
         'publisher_zero_flow_service_rows': sum(c['publisher_zero_flow_rows'] for c in categories.values()),
         'unmeasured_flow_service_rows': sum(c['unmeasured_flow_rows'] for c in categories.values()),
+        'payment_ready_unknown_service_rows': sum(c['payment_ready_unknown_rows'] for c in categories.values()),
+        'delivery_verified_unknown_service_rows': sum(c['delivery_verified_unknown_rows'] for c in categories.values()),
         'service_flow_total_usd': None,
         'service_flow_hhi': None,
         'verified_supplier_business_hhi': None,
