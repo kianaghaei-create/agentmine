@@ -31,6 +31,25 @@ class Tests(unittest.TestCase):
     def test_different_output_rejected(self):
         r=analyze([observation(kind='measured'),observation('routed',kind='measured',output_sha256='c'*64)])
         self.assertEqual(r['rejected_tasks'][0]['reason'],'different_output')
+    def test_quoted_different_evidence_source_is_not_comparable(self):
+        r = analyze([observation(), observation('routed',
+                    evidence_url='https://different.example.org/evidence')])
+        self.assertEqual(r['quoted_comparable_pairs'], 0)
+        self.assertEqual(r['rejected_tasks'][0]['reason'],
+                         'different_source_evidence_for_quote')
+        self.assertIsNone(r['quoted_scenario_delta_usd'])
+
+    def test_measured_same_output_can_use_different_sources(self):
+        r = analyze([observation(kind='measured'),
+                     observation('routed', kind='measured',
+                                 evidence_url='https://different.example.org/evidence')])
+        self.assertEqual(r['measured_comparable_pairs'], 1)
+        self.assertEqual(r['rejected_tasks'], [])
+
+    def test_quoted_same_source_still_comparable(self):
+        r = analyze([observation(), observation('routed')])
+        self.assertEqual(r['quoted_comparable_pairs'], 1)
+
     def test_mixed_quote_measurement_rejected(self):
         r=analyze([observation(),observation('routed',kind='measured')])
         self.assertEqual(r['rejected_tasks'][0]['reason'],'mixed_quote_and_measurement')
