@@ -1,10 +1,11 @@
 """Offline triage of contradictory procurement deadline *displays*.
 
-This is a review queue, not a legal deadline extractor. An official overview
-can have no legal effect; the original TED notice and submission portal must
-be independently reviewed before any supplier-facing alert. No network calls.
+This is a review queue, not a legal deadline extractor. Dates for distinct
+procurement stages must not be treated as comparable legal deadlines. Original
+TED notices and submission portals require independent review before alerts.
 """
 import argparse
+from collections import defaultdict
 from datetime import date, datetime
 import json
 from pathlib import Path
@@ -14,7 +15,14 @@ from urllib.parse import urlsplit
 _NOTICE = re.compile(r"^[1-9][0-9]{0,7}-20[0-9]{2}$")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _TIMESTAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})$")
-_KINDS = {"official_summary", "third_party", "original_ted_notice", "submission_portal"}
+_KINDS = {"official_summary", "third_party", "original_ted_notice",
+          "submission_portal", "official_buyer_submission_portal",
+          "third_party_summary", "third_party_republication_of_ted_notice_text"}
+_STAGES = {"participation_request", "bid_submission", "questions", "unknown"}
+_LABELS = {"participation_deadline", "bid_deadline", "questions_deadline",
+           "generic_deadline", "unknown"}
+_STAGE_LABEL = {"participation_request": "participation_deadline",
+                "bid_submission": "bid_deadline", "questions": "questions_deadline"}
 
 
 def _parse_display(value):
@@ -51,7 +59,7 @@ def _url(value, kind):
 
 
 def triage(evidence):
-    """Return conservative display-conflict metadata; never infer legal cutoff."""
+    """Classify source-display differences without claiming a legal cutoff."""
     if not isinstance(evidence, dict) or not _NOTICE.fullmatch(str(evidence.get("publication_number", ""))):
         raise ValueError("invalid publication number")
     rows = evidence.get("observations")
@@ -59,6 +67,11 @@ def triage(evidence):
         raise ValueError("at least one observation is required")
     seen = set()
     labels, kinds, formats = set(), set(), set()
+    explicit_stages = defaultdict(set)
+    unknown_stage_dates = set()
+    stage_label_reviews = []
+    known_stage_dates = defaultdict(set)
+    parsed = []
     for row in rows:
         if not isinstance(row, dict) or row.get("publication_number") != evidence["publication_number"]:
             raise ValueError("inconsistent notice observation")
@@ -70,10 +83,40 @@ def triage(evidence):
             raise ValueError("duplicate source URL")
         seen.add(url)
         fmt, day = _parse_display(row.get("reported_deadline"))
+        stage = row.get("stage_claim", "unknown")
+        label = row.get("display_label_claim", "unknown")
+        if stage not in _STAGES or label not in _LABELS:
+            raise ValueError("unknown procurement stage or deadline label")
+        if stage == "unknown":
+            unknown_stage_dates.add(day)
+        else:
+            explicit_stages[stage].add(day)
+            known_stage_dates[day].add(stage)
+            if label not in ("unknown", "generic_deadline", _STAGE_LABEL[stage]):
+                stage_label_reviews.append(url)
+        parsed.append((url, day, stage, label))
         labels.add(day)
         formats.add(fmt)
         kinds.add(kind)
+    # A generic third-party 'bid deadline' label on the same date as a
+    # documented participation deadline needs review, not automatic correction.
+    for url, day, stage, label in parsed:
+        if (stage == "unknown" and label in ("bid_deadline", "participation_deadline")
+                and known_stage_dates[day]
+                and any(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
+            stage_label_reviews.append(url)
+    same_stage = sorted(stage for stage, dates in explicit_stages.items() if len(dates) > 1)
     disagreement = len(labels) > 1
+    if same_stage:
+        stage_status = "same_stage_display_conflict_needs_primary_review"
+    elif disagreement and unknown_stage_dates:
+        stage_status = "unknown_stage_discrepancy_needs_primary_review"
+    elif disagreement:
+        stage_status = "different_stages_not_directly_comparable"
+    elif stage_label_reviews:
+        stage_status = "stage_label_requires_review"
+    else:
+        stage_status = "stage_consistent_displays_unverified"
     return {
         "publication_number": evidence["publication_number"],
         "observation_count": len(rows),
@@ -82,15 +125,20 @@ def triage(evidence):
         "source_kinds": sorted(kinds),
         "calendar_label_disagreement": disagreement,
         "triage_status": "manual_primary_source_review" if disagreement else "unverified_display_agreement",
+        "explicit_stage_calendar_dates": {k: sorted(v) for k, v in sorted(explicit_stages.items())},
+        "unknown_stage_calendar_dates": sorted(unknown_stage_dates),
+        "same_stage_display_conflict_stages": same_stage,
+        "stage_label_review_source_urls": sorted(set(stage_label_reviews)),
+        "stage_aware_triage_status": stage_status,
         "original_ted_notice_present": "original_ted_notice" in kinds,
-        "submission_portal_present": "submission_portal" in kinds,
+        "submission_portal_present": bool({"submission_portal", "official_buyer_submission_portal"} & kinds),
         "legal_deadline_verified": False,
         "authoritative_deadline": None,
         "verified_agentmine_customers": None,
-        "warning": "Date-only labels and offset timestamps are not interchangeable legal cutoffs. "
-                   "An official overview may lack legal effect. Review the original TED notice "
-                   "and live submission portal before issuing any supplier-facing deadline alert. "
-                   "These are source displays, not evidence of AgentMine buyer demand.",
+        "warning": "Source displays are not verified legal deadlines. Date-only labels and offset timestamps "
+                   "are not interchangeable; different procurement stages are not comparable. "
+                   "Review original TED notice, amendments and live submission portal before supplier alerts. "
+                   "This does not establish paying customer demand.",
     }
 
 
