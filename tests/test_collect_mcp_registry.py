@@ -100,5 +100,82 @@ class CollectorTests(unittest.TestCase):
             with self.subTest(delay=delay), self.assertRaises(ValueError):
                 collect_snapshot(1, fetch=lambda _: {"servers": [], "metadata": {}}, page_delay_seconds=delay)
 
+
+class FetchRetryTests(unittest.TestCase):
+    class Response:
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+        def read(self, count):
+            return b'{"servers":[],"metadata":{}}'
+
+    def test_429_and_503_recover_with_backoff_and_same_cursor(self):
+        from urllib.error import HTTPError
+        from src.collect_mcp_registry import fetch_page
+        urls, delays = [], []
+        def opener(req, timeout):
+            urls.append(req.full_url)
+            if len(urls) == 1:
+                raise HTTPError(req.full_url, 429, 'rate limit', {'Retry-After': '2'}, None)
+            if len(urls) == 2:
+                raise HTTPError(req.full_url, 503, 'unavailable', {}, None)
+            return self.Response()
+        self.assertEqual(fetch_page('abc', opener=opener, pause=delays.append),
+                         {'servers': [], 'metadata': {}})
+        self.assertEqual(delays, [2, 2])
+        self.assertEqual(len(set(urls)), 1)
+        self.assertIn('cursor=abc', urls[0])
+
+    def test_transient_exhaustion_stops_after_three_attempts(self):
+        from urllib.error import HTTPError
+        from src.collect_mcp_registry import fetch_page
+        calls = []
+        def opener(req, timeout):
+            calls.append(1)
+            raise HTTPError(req.full_url, 503, 'down', {}, None)
+        with self.assertRaises(HTTPError):
+            fetch_page(opener=opener, pause=lambda _: None)
+        self.assertEqual(len(calls), 3)
+
+    def test_forbidden_does_not_retry(self):
+        from urllib.error import HTTPError
+        from src.collect_mcp_registry import fetch_page
+        calls = []
+        def opener(req, timeout):
+            calls.append(1)
+            raise HTTPError(req.full_url, 403, 'forbidden', {}, None)
+        with self.assertRaises(HTTPError):
+            fetch_page(opener=opener, pause=lambda _: None)
+        self.assertEqual(len(calls), 1)
+
+    def test_long_retry_after_does_not_retry_early(self):
+        from urllib.error import HTTPError
+        from src.collect_mcp_registry import fetch_page
+        calls = []
+        def opener(req, timeout):
+            calls.append(1)
+            raise HTTPError(req.full_url, 429, 'rate limit', {'Retry-After': '120'}, None)
+        with self.assertRaises(HTTPError):
+            fetch_page(opener=opener, pause=lambda _: self.fail('must not sleep'))
+        self.assertEqual(len(calls), 1)
+
+    def test_invalid_page_arguments_rejected(self):
+        from src.collect_mcp_registry import fetch_page
+        for limit in (0, 101, True, '100'):
+            with self.subTest(limit=limit), self.assertRaises(ValueError):
+                fetch_page(limit=limit, opener=lambda *a, **k: self.Response())
+        for cursor in ('', [], 42):
+            with self.subTest(cursor=cursor), self.assertRaises(ValueError):
+                fetch_page(cursor=cursor, opener=lambda *a, **k: self.Response())
+
+    def test_response_byte_limit_preserved(self):
+        from src.collect_mcp_registry import fetch_page
+        class Big(self.Response):
+            def read(self, count):
+                return b'0' * count
+        with self.assertRaisesRegex(ValueError, 'maximum size'):
+            fetch_page(opener=lambda *a, **k: Big())
+
 if __name__ == "__main__":
     unittest.main()
