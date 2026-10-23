@@ -24,6 +24,16 @@ class BindingTests(unittest.TestCase):
         s=service();s['endpoints'][0]['path']='/v1/{company}'
         q=quote();q['source_url']='https://example.org/v1/{company}'
         self.assertEqual(run([q], [s])['rejected_by_reason'], {'endpoint_url_not_bound':1})
+    def test_non_root_service_base_path_rejected(self):
+        for base in ('https://example.org/proxy', 'https://example.org/%2fproxy',
+                     'https://example.org/v1/data'):
+            with self.subTest(base=base):
+                s=service();s['base_url']=base
+                self.assertEqual(run(services=[s])['rejected_by_reason'],
+                                 {'endpoint_url_not_bound':1})
+    def test_root_service_base_path_allowed(self):
+        s=service();s['base_url']='https://example.org/'
+        self.assertEqual(run(services=[s])['status'],'selected')
     def test_matching_endpoint_passes(self):
         self.assertEqual(run()['status'],'selected')
     def test_incorrect_url_does_not_displace_valid_candidate(self):
