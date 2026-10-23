@@ -4,6 +4,8 @@ from decimal import Decimal, InvalidOperation
 def choose(quotes, *, max_age_seconds, min_quality, max_total_usd):
     eligible=[]
     for q in quotes:
+        if not isinstance(q, dict):
+            continue
         try:
             if not isinstance(q.get('provider'),str) or not q['provider'].strip(): continue
             if q.get('license_allowed') is not True or q.get('verified') is not True: continue
