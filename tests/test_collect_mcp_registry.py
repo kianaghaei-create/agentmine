@@ -34,5 +34,30 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(pagination, {"complete": False, "next_cursor": "cursor-2", "pages_fetched": 1})
 
+    def test_page_count_mismatch_fails_closed(self):
+        for count in (0, 2, -1, True, 1.0, "1", None):
+            with self.subTest(count=count), self.assertRaisesRegex(ValueError, "page count"):
+                collect_snapshot(1, fetch=lambda _: {
+                    "servers": [{"server": {"name": "a/x", "version": "1"}}],
+                    "metadata": {"count": count},
+                })
+
+    def test_valid_count_and_optional_count(self):
+        for metadata in ({"count": 1}, {}):
+            _, rows, status = collect_snapshot(1, fetch=lambda _: {
+                "servers": [{"server": {"name": "a/x", "version": "1"}}],
+                "metadata": metadata,
+            })
+            self.assertEqual(len(rows), 1)
+            self.assertTrue(status["complete"])
+
+    def test_count_checks_raw_page_not_deduplicated_records(self):
+        item = {"server": {"name": "a/x", "version": "1"}}
+        _, rows, status = collect_snapshot(1, fetch=lambda _: {
+            "servers": [item, item], "metadata": {"count": 2},
+        })
+        self.assertEqual(len(rows), 1)
+        self.assertTrue(status["complete"])
+
 if __name__ == "__main__":
     unittest.main()
