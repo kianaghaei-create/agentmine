@@ -49,7 +49,8 @@ def evaluate(service, *, observed_at, max_probe_age_seconds=3600):
     if not isinstance(assessment, dict):
         reasons.append('missing_assessment')
     else:
-        stale = assessment.get('compliance_staleness')
+        compliance = assessment.get('compliance')
+        stale = compliance.get('staleness') if isinstance(compliance, dict) else None
         if not isinstance(stale, dict) or stale.get('probe_failing') is not False:
             reasons.append('probe_failure_or_unknown')
         else:
