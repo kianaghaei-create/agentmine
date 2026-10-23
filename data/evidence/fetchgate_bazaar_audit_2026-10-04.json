@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-23",
+  "audit_date": "2026-10-04",
+  "publisher": "Fetchgate",
+  "sources": [
+    "https://fetchgate.dev/v1/x402-bazaar-audit.json",
+    "https://fetchgate.dev/blog/x402-bazaar-october-2026"
+  ],
+  "source_collection_at": "2026-10-03T22:54:44.416672+00:00",
+  "scope": "Coinbase CDP x402 Bazaar index at one point in time, not all agent transactions",
+  "attribution": "Fetchgate audit and probes (CC BY 4.0 for publisher probe fields); Coinbase public index counters attributed to Coinbase",
+  "reported": {
+    "resources": 27681,
+    "domains": 1024,
+    "calls_30d_index_counter": 770183,
+    "resources_with_at_most_1_call": 14833,
+    "resources_with_at_most_5_calls": 25106,
+    "resources_with_over_1000_calls": 54,
+    "share_calls_from_over_1000_resources": 0.8031,
+    "top_resource_share_of_calls": 0.3999,
+    "farm_domains_over_300_resources": 14,
+    "resources_on_farm_domains": 15955,
+    "resources_with_get_live_402": 14759,
+    "unique_urls_probed": 27676,
+    "get_probe_405_method": 8045,
+    "get_probe_404": 2392,
+    "live_price_disagreements": 706,
+    "live_price_matches": 14030,
+    "minimum_listed_price_median_usd": 0.01,
+    "gross_price_times_calls_proxy_30d_usd": 19008.48
+  },
+  "derived": {
+    "share_resources_with_at_most_1_call_pct": 53.59,
+    "share_resources_on_farm_domains_pct": 57.64,
+    "share_resources_over_1000_calls_pct": 0.195,
+    "get_probe_405_share_pct": 29.07,
+    "price_disagreement_share_among_price_comparisons_pct": 4.79,
+    "non_405_get_probe_live_402_share_pct": 75.2
+  },
+  "caveats": [
+    "Coinbase index counters and unique payer addresses are not independently verified customer identities, real buyer intent or AgentMine revenue.",
+    "Single unauthenticated GET probe cannot determine POST-only service availability: 405 is not proof of downtime.",
+    "Price comparison mismatches show catalog price cannot substitute for a live x402 handshake.",
+    "Publisher's calls times minimum listed price is a pricing proxy, not independently audited settled USD, and not a rigorous upper bound if variable actual prices exceed listed minima.",
+    "Farm classification based on more than 300 listings per registrable domain can group unrelated sellers on shared hosting domains.",
+    "Do not infer customer willingness to pay, paid delivery, full-market revenue or platform profitability from this snapshot."
+  ],
+  "agentmine_decision": "Prioritize read-only price reconciliation and actual paid-delivery verification over generic discovery counts; require observed live quote before real payment routing. No payment or deployment authorized."
+}
