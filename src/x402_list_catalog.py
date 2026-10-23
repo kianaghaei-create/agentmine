@@ -58,6 +58,10 @@ def collect(*, max_pages=4, per_page=25, fetch=fetch_page, pause=time.sleep, del
         payload = fetch(number, per_page)
         if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
             raise ValueError('directory response missing data list')
+        provenance = payload.get('provenance')
+        if (not isinstance(provenance, dict) or provenance.get('license') != 'CC-BY-4.0'
+                or provenance.get('cite_as') != SOURCE):
+            raise ValueError('missing directory provenance/license')
         meta = payload.get('meta')
         if not isinstance(meta, dict):
             raise ValueError('directory response missing meta')
