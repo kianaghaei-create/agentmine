@@ -16,7 +16,8 @@ def page(number, size=2, total=3):
     start = (number-1)*size
     return {'data': [service(i) for i in range(start, min(total, start+size))],
             'meta': {'page': number, 'per_page': size, 'total': total,
-                     'total_pages': max(1, (total+size-1)//size)}}
+                     'total_pages': max(1, (total+size-1)//size)},
+            'provenance': {'license': 'CC-BY-4.0', 'cite_as': 'https://x402-list.com/api/v1/services'}}
 
 
 class CatalogTests(unittest.TestCase):
@@ -50,6 +51,9 @@ class CatalogTests(unittest.TestCase):
     def test_malformed_listing_rejected(self):
         with self.assertRaisesRegex(ValueError, 'invalid service slug'):
             collect(max_pages=1, per_page=2, fetch=lambda n,s: {**page(n), 'data':[service(0), {'slug':''}]}, delay=0)
+    def test_missing_license_provenance_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'provenance/license'):
+            collect(max_pages=1, per_page=2, fetch=lambda n,s: {**page(n), 'provenance': {}}, delay=0)
     def test_zero_results_complete(self):
         r = collect(max_pages=1, per_page=2, fetch=lambda n,s: page(n,total=0), delay=0)
         self.assertTrue(r['complete_directory_snapshot'])
