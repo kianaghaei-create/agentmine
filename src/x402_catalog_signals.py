@@ -84,12 +84,22 @@ def analyze(snapshot):
                 stat[target] += int(flag)
             else:
                 raise ValueError('invalid publisher boolean')
+        # Publisher API: traction.status distinguishes a measured zero from
+        # missing/unmeasured coverage. Never infer zero activity from a number
+        # when the accompanying measurement status is absent or contradictory.
+        status = row.get('traction_status')
+        if status is not None and (not isinstance(status, str) or not status.strip()):
+            raise ValueError('invalid publisher traction status')
         amount = _money(row.get('publisher_30d_volume_usd'))
         buyers = row.get('publisher_30d_buyer_addresses')
         if buyers is not None and (type(buyers) is not int or buyers < 0):
             raise ValueError('invalid publisher buyer address count')
-        if amount is None:
+        if status != 'measured':
+            if amount is not None or buyers is not None:
+                raise ValueError('unmeasured traction cannot assert volume or buyers')
             stat['unmeasured_flow_rows'] += 1
+        elif amount is None:
+            raise ValueError('measured traction missing volume')
         elif amount == 0:
             stat['publisher_zero_flow_rows'] += 1
         else:
