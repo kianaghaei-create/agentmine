@@ -48,7 +48,10 @@ def _endpoint_bound(service, endpoint, quote_url):
             or any(c in path for c in ('?', '#', '\\', '{', '}'))):
         return False
     parsed = urlsplit(base)
-    if parsed.query or parsed.fragment or parsed.username or parsed.password:
+    # Endpoint paths are absolute on the publisher-declared origin. A base URL
+    # with a non-root path cannot be silently truncated to that origin.
+    if (parsed.path not in ('', '/') or parsed.query or parsed.fragment
+            or parsed.username or parsed.password):
         return False
     # The x402 List endpoint path is absolute on the service origin.
     expected = f'{parsed.scheme}://{parsed.netloc}{path}'
