@@ -5,6 +5,7 @@ import math
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -14,18 +15,41 @@ MAX_CRAWL_PAGES = 1000
 PAGE_DELAY_SECONDS = 0.25
 
 
-def fetch_page(cursor=None, limit=100):
-    params = {"limit": limit, "version": "latest"}
+def fetch_page(cursor=None, limit=100, *, opener=urlopen, pause=time.sleep):
+    """Read-only registry page with bounded, polite transient HTTP retries."""
+    if type(limit) is not int or not 1 <= limit <= 100:
+        raise ValueError('limit must be integer in 1..100')
+    if cursor is not None and (not isinstance(cursor, str) or not cursor.strip()):
+        raise ValueError('invalid cursor')
+    params = {'limit': limit, 'version': 'latest'}
     if cursor:
-        params["cursor"] = cursor
-    req = Request(BASE + "?" + urlencode(params), headers={
-        "User-Agent": "AgentMine-research/0.1", "Accept": "application/json"})
-    with urlopen(req, timeout=25) as response:
-        data = response.read(MAX_RESPONSE_BYTES + 1)
-    if len(data) > MAX_RESPONSE_BYTES:
-        raise ValueError("registry response exceeds maximum size")
-    return json.loads(data)
-
+        params['cursor'] = cursor
+    req = Request(BASE + '?' + urlencode(params), headers={
+        'User-Agent': 'AgentMine-research/0.1', 'Accept': 'application/json'})
+    for attempt in range(3):
+        try:
+            with opener(req, timeout=25) as response:
+                data = response.read(MAX_RESPONSE_BYTES + 1)
+            if len(data) > MAX_RESPONSE_BYTES:
+                raise ValueError('registry response exceeds maximum size')
+            return json.loads(data)
+        except HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == 2:
+                raise
+            header = exc.headers.get('Retry-After') if exc.headers else None
+            if header is not None:
+                # Fail closed rather than retry early when the server asks us
+                # to wait longer than this bounded synchronous collector can.
+                try:
+                    seconds = int(header)
+                except (ValueError, TypeError):
+                    raise
+                if seconds < 0 or seconds > 30:
+                    raise
+                pause(max(2 ** attempt, seconds))
+            else:
+                pause(2 ** attempt)
+    raise RuntimeError('unreachable')
 
 def collect_snapshot(max_pages=3, fetch=fetch_page, *, page_delay_seconds=PAGE_DELAY_SECONDS, pause=time.sleep):
     """Return raw pages, unique listings, and pagination completeness.
