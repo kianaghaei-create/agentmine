@@ -1,0 +1,52 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-23T13:47:42.394Z",
+  "traction_as_of": "2026-10-23T13:41:53.676Z",
+  "evidence_type": "publisher_reported_observed_service_activity_not_verified_agentmine_customers",
+  "market_scope": "x402 List indexed services and measured facilitators, not whole x402 ecosystem",
+  "supply": {
+    "listed_services": 1011,
+    "listed_endpoints": 7672,
+    "services_with_traction_measurement": 770,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 943,
+    "new_listings_30d": 260,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 389923.629655,
+    "listed_service_settlement_count": 1767538,
+    "distinct_buyer_addresses_reported": 9150,
+    "top_10_services_volume_share_pct": 96.1,
+    "top_1_service_volume_share_pct": 68.9,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 20.2
+  },
+  "comparison_with_2026_10_23_044845Z": {
+    "prior_file": "data/evidence/x402_list_stats_2026-10-23T044845Z.json",
+    "prior_rolling_volume_usd": 373067.514883,
+    "rolling_volume_difference_usd": 16856.114772,
+    "rolling_volume_difference_pct_rounded": 4.518,
+    "interpretation": "Overlapping rolling 30-day snapshots; this is not nine-hour sales growth or AgentMine revenue"
+  },
+  "conditional_fee_tail_scenario": {
+    "tail_fraction_from_rounded_top10_share": 0.039,
+    "non_top10_rolling_volume_usd_rounded": 15207.02,
+    "platform_fee_fraction": 0.05,
+    "tail_capture_fraction": 0.05,
+    "hypothetical_gross_platform_fee_usd_per_rolling_30d": 38.02,
+    "evidence_type": "arithmetic_scenario_not_forecast_or_revenue"
+  },
+  "caveats": [
+    "Top service's imported flow has 98.9% of its volume from one buyer address.",
+    "Addresses are not unique humans, companies, or independently verified buyers.",
+    "30-day windows overlap; changes can reflect entry/exit, measurement updates or revisions.",
+    "Provider-reported on-chain measurements are not independently audited by AgentMine.",
+    "Fees exclude CAC, operations, data licensing, compliance, support and infrastructure.",
+    "No observed AgentMine customers, paid conversions, routing savings or revenue."
+  ]
+}
