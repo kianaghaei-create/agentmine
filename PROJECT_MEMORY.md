@@ -122,3 +122,11 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - Existing Intelligence modules `src/exchange_intelligence.py` and `intelligence.py` were read and confirmed present. No duplicate Intelligence module needed.
 - No new live supplier payment, independently verified paying buyer, measured cost saving, revenue, external payment or deployment. Historical publisher snapshots and hypothetical quote fields are not market validation.
 - Next: run the exact committed test tree in an authorized runner; build a free, dated, rights-respecting benchmark on real information tasks comparing direct source acquisition vs. routed quoted cost/latency/quality. Keep Phase 0 until buyer and unit-economics evidence exists.
+
+
+## 2026-10-23 — Bind simulated x402 quotes to the publisher's actual endpoint URL
+- Confirmed from the public x402 List service detail (https://x402-list.com/api/v1/services/f-retagskoll) that each endpoint supplies a concrete `path` under `base_url`; the previous fixture incorrectly used the directory listing URL as `source_url`.
+- Reproduced an offline candidate-selection defect: a lower-cost quote pointing to an unrelated HTTPS origin could win when it reused a valid service slug and endpoint ID. This was an **identity-binding flaw in the simulator**, not an observed paid request or exploit.
+- Fixed `src/x402_quote_policy.py` (commit `bc60e51`): require the quote URL to match the publisher's concrete HTTPS service origin + endpoint path exactly; reject unknown, templated or ambiguous paths and mismatched URLs with `endpoint_url_not_bound`. The adapter still does not fetch or pay.
+- Updated both existing quote test fixtures (commits `edaeb32`, `41ffa2a`); added eight endpoint-binding regression cases (commit `c6ea8dc`) and made tests importable as a package (commit `945e667`). The equivalent local 31-case suite passed on 2026-10-23. Exact committed-tree CI execution remains **unverified**.
+- No new paying customers, observed AgentMine revenue, real quote savings, independent delivery verification, license verification or production deployment. Publisher monitoring and quote authorization flags remain unverified claims. Next: benchmark actual information tasks with permitted free read-only sources and obtain buyer evidence before monetization.
