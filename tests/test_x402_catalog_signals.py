@@ -87,6 +87,8 @@ class SignalsTests(unittest.TestCase):
         self.assertEqual(ai['payment_ready_rows'], 0)
         self.assertEqual(ai['payment_ready_unknown_rows'], 1)
         self.assertEqual(ai['delivery_verified_unknown_rows'], 0)
+        self.assertEqual(result['payment_ready_unknown_service_rows'], 2)
+        self.assertEqual(result['delivery_verified_unknown_service_rows'], 1)
 
     def test_missing_publisher_flags_count_as_unknown(self):
         f = fixture(True)
