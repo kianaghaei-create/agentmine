@@ -38,6 +38,11 @@ def collect_snapshot(max_pages=3, fetch=fetch_page):
         page = fetch(cursor)
         if not isinstance(page, dict) or not isinstance(page.get("servers"), list):
             raise ValueError("registry response missing servers list")
+        # Missing pagination metadata cannot establish that the crawl ended.
+        # Do not turn a truncated/changed API response into a complete census.
+        metadata = page.get("metadata")
+        if not isinstance(metadata, dict):
+            raise ValueError("registry response missing pagination metadata")
         pages.append(page)
         for item in page["servers"]:
             if not isinstance(item, dict):
@@ -53,9 +58,6 @@ def collect_snapshot(max_pages=3, fetch=fetch_page):
                 continue
             seen_items.add(key)
             items.append(item)
-        metadata = page.get("metadata") or {}
-        if not isinstance(metadata, dict):
-            raise ValueError("invalid registry metadata")
         next_cursor = metadata.get("nextCursor")
         if next_cursor is None or next_cursor == "":
             return pages, items, {"complete": True, "next_cursor": None, "pages_fetched": len(pages)}
