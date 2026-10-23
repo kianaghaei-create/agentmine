@@ -1,6 +1,8 @@
 """Read-only MCP registry collector with preserved raw-page provenance."""
 import argparse
 import json
+import math
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlencode
@@ -8,6 +10,8 @@ from urllib.request import Request, urlopen
 
 BASE = "https://registry.modelcontextprotocol.io/v0.1/servers"
 MAX_RESPONSE_BYTES = 2_000_000
+MAX_CRAWL_PAGES = 1000
+PAGE_DELAY_SECONDS = 0.25
 
 
 def fetch_page(cursor=None, limit=100):
@@ -23,18 +27,28 @@ def fetch_page(cursor=None, limit=100):
     return json.loads(data)
 
 
-def collect_snapshot(max_pages=3, fetch=fetch_page):
-    """Return raw pages, unique listings, and pagination completeness."""
-    if type(max_pages) is not int or not 1 <= max_pages <= 100:
-        raise ValueError("max_pages must be an integer in 1..100")
+def collect_snapshot(max_pages=3, fetch=fetch_page, *, page_delay_seconds=PAGE_DELAY_SECONDS, pause=time.sleep):
+    """Return raw pages, unique listings, and pagination completeness.
+
+    A bounded inter-page delay protects the public registry during large crawls.
+    Inject `pause` for deterministic offline tests; no network calls in tests.
+    """
+    if type(max_pages) is not int or not 1 <= max_pages <= MAX_CRAWL_PAGES:
+        raise ValueError("max_pages must be an integer in 1..1000")
+    if (type(page_delay_seconds) not in (int, float)
+            or not math.isfinite(page_delay_seconds)
+            or not 0 <= page_delay_seconds <= 10):
+        raise ValueError("page_delay_seconds must be finite in 0..10")
     seen_items = set()
     seen_cursors = set()
     pages, items = [], []
     cursor = None
-    for _ in range(max_pages):
+    for page_index in range(max_pages):
         if cursor in seen_cursors:
             raise ValueError("registry pagination cursor cycle")
         seen_cursors.add(cursor)
+        if page_index and page_delay_seconds:
+            pause(page_delay_seconds)
         page = fetch(cursor)
         if not isinstance(page, dict) or not isinstance(page.get("servers"), list):
             raise ValueError("registry response missing servers list")
@@ -91,8 +105,8 @@ def main():
     parser.add_argument("--max-pages", type=int, default=3)
     parser.add_argument("--output", default="data/mcp_registry_snapshot.json")
     args = parser.parse_args()
-    if args.max_pages < 1 or args.max_pages > 100:
-        parser.error("--max-pages must be between 1 and 100")
+    if args.max_pages < 1 or args.max_pages > MAX_CRAWL_PAGES:
+        parser.error("--max-pages must be between 1 and 1000")
     pages, rows, pagination = collect_snapshot(args.max_pages)
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
