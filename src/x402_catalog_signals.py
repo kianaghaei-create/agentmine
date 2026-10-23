@@ -59,7 +59,9 @@ def analyze(snapshot):
     seen = set()
     categories = defaultdict(lambda: {'listings': 0, 'publisher_positive_flow_rows': 0,
                                       'publisher_zero_flow_rows': 0, 'unmeasured_flow_rows': 0,
-                                      'payment_ready_rows': 0, 'delivery_verified_rows': 0})
+                                      'payment_ready_rows': 0, 'delivery_verified_rows': 0,
+                                      'payment_ready_unknown_rows': 0,
+                                      'delivery_verified_unknown_rows': 0})
     positive = []
     for row in rows:
         if not isinstance(row, dict):
@@ -72,11 +74,16 @@ def analyze(snapshot):
         category = cat.strip() if isinstance(cat, str) and cat.strip() else 'UNKNOWN'
         stat = categories[category]
         stat['listings'] += 1
-        for field, target in [('payment_ready_publisher', 'payment_ready_rows'),
-                              ('delivery_verified_publisher', 'delivery_verified_rows')]:
-            if type(row.get(field)) is not bool:
+        for field, target, unknown in [
+                ('payment_ready_publisher', 'payment_ready_rows', 'payment_ready_unknown_rows'),
+                ('delivery_verified_publisher', 'delivery_verified_rows', 'delivery_verified_unknown_rows')]:
+            flag = row.get(field)
+            if flag is None:
+                stat[unknown] += 1
+            elif type(flag) is bool:
+                stat[target] += int(flag)
+            else:
                 raise ValueError('invalid publisher boolean')
-            stat[target] += int(row[field])
         amount = _money(row.get('publisher_30d_volume_usd'))
         buyers = row.get('publisher_30d_buyer_addresses')
         if buyers is not None and (type(buyers) is not int or buyers < 0):
