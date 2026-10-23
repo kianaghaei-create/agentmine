@@ -43,6 +43,13 @@ def collect_snapshot(max_pages=3, fetch=fetch_page):
         metadata = page.get("metadata")
         if not isinstance(metadata, dict):
             raise ValueError("registry response missing pagination metadata")
+        # The official API defines metadata.count as the number of rows on
+        # this page, not the number of unique names or total registry size.
+        # A contradictory count means the page cannot support a census.
+        if "count" in metadata:
+            count = metadata["count"]
+            if type(count) is not int or count != len(page["servers"]):
+                raise ValueError("registry page count disagrees with servers list")
         pages.append(page)
         for item in page["servers"]:
             if not isinstance(item, dict):
