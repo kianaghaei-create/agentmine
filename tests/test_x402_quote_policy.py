@@ -9,10 +9,10 @@ def service(slug='a'):
             'payment_ready':True, 'last_checked_at':'2026-10-23T02:37:01Z',
             'assessment':{'compliance':{'staleness':{'probe_failing':False,
                  'last_success_at':'2026-10-23T02:37:01Z'}}},
-            'endpoints':[{'id':'endpoint1','is_active':True,'min_price_usd':0.01}]}
+            'endpoints':[{'id':'endpoint1','path':'/v1/data','is_active':True,'min_price_usd':0.01}]}
 
 def quote(slug='a', provider='P', price='0.02'):
-    return {'service_slug':slug, 'endpoint_id':'endpoint1', 'source_url':'https://source.org/a',
+    return {'service_slug':slug, 'endpoint_id':'endpoint1', 'source_url':'https://example.org/v1/data',
             'provider':provider, 'license_allowed':True, 'verified':True,
             'age_seconds':5, 'quality':0.9, 'source_usd':price,
             'tokens_usd':'0.002', 'network_usd':'0.001'}
