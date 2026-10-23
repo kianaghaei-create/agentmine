@@ -111,6 +111,10 @@ def analyze(observations, *, max_gap_seconds=3600):
                     reason = 'mixed_quote_and_measurement'
                 elif left['task_spec_sha256'] != right['task_spec_sha256']:
                     reason = 'different_task'
+                elif left['kind'] == 'quoted' and left['evidence_url'] != right['evidence_url']:
+                    # A quote has no delivered output to compare. A shared task
+                    # fingerprint alone cannot establish the same source data.
+                    reason = 'different_source_evidence_for_quote'
                 elif abs((lt - rt).total_seconds()) > max_gap_seconds:
                     reason = 'time_window_mismatch'
                 elif left['kind'] == 'measured' and left['output_sha256'] != right['output_sha256']:
