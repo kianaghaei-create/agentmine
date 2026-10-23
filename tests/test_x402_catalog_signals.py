@@ -72,6 +72,31 @@ class SignalsTests(unittest.TestCase):
     def test_naive_timestamp_rejected(self):
         f = fixture(); f['observed_at'] = '2026-10-23T17:00:00'
         with self.assertRaisesRegex(ValueError, 'timezone'): analyze(f)
+    def test_unknown_flags_counted_separately_from_false(self):
+        f = fixture(True)
+        f['records'][0]['payment_ready_publisher'] = None
+        f['records'][0]['delivery_verified_publisher'] = None
+        f['records'][2]['payment_ready_publisher'] = None
+        result = analyze(f)
+        data = next(r for r in result['categories'] if r['category'] == 'Data')
+        ai = next(r for r in result['categories'] if r['category'] == 'AI')
+        self.assertEqual(data['payment_ready_rows'], 1)
+        self.assertEqual(data['payment_ready_unknown_rows'], 1)
+        self.assertEqual(data['delivery_verified_rows'], 1)
+        self.assertEqual(data['delivery_verified_unknown_rows'], 1)
+        self.assertEqual(ai['payment_ready_rows'], 0)
+        self.assertEqual(ai['payment_ready_unknown_rows'], 1)
+        self.assertEqual(ai['delivery_verified_unknown_rows'], 0)
+
+    def test_missing_publisher_flags_count_as_unknown(self):
+        f = fixture(True)
+        del f['records'][0]['payment_ready_publisher']
+        del f['records'][0]['delivery_verified_publisher']
+        result = analyze(f)
+        data = next(r for r in result['categories'] if r['category'] == 'Data')
+        self.assertEqual(data['payment_ready_unknown_rows'], 1)
+        self.assertEqual(data['delivery_verified_unknown_rows'], 1)
+
     def test_invalid_flags_rejected(self):
         f = fixture(); f['records'][0]['payment_ready_publisher'] = 1
         with self.assertRaisesRegex(ValueError, 'boolean'): analyze(f)
