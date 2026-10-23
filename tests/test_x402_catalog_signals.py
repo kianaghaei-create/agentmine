@@ -6,10 +6,10 @@ from src.x402_catalog_signals import analyze
 def fixture(complete=False):
     rows = [
         {'slug': 'a', 'category': 'Data', 'publisher_30d_volume_usd': 5,
-         'publisher_30d_buyer_addresses': 1, 'payment_ready_publisher': True,
+         'publisher_30d_buyer_addresses': 1, 'traction_status': 'measured', 'payment_ready_publisher': True,
          'delivery_verified_publisher': False},
         {'slug': 'b', 'category': 'Data', 'publisher_30d_volume_usd': '0',
-         'publisher_30d_buyer_addresses': 0, 'payment_ready_publisher': True,
+         'publisher_30d_buyer_addresses': 0, 'traction_status': 'measured', 'payment_ready_publisher': True,
          'delivery_verified_publisher': True},
         {'slug': 'c', 'category': 'AI', 'publisher_30d_volume_usd': None,
          'publisher_30d_buyer_addresses': None, 'payment_ready_publisher': False,
@@ -102,6 +102,33 @@ class SignalsTests(unittest.TestCase):
     def test_invalid_flags_rejected(self):
         f = fixture(); f['records'][0]['payment_ready_publisher'] = 1
         with self.assertRaisesRegex(ValueError, 'boolean'): analyze(f)
+    def test_unmeasured_status_cannot_be_zero_activity(self):
+        f = fixture(True)
+        f['records'][1]['traction_status'] = 'unmeasured'
+        f['records'][1]['publisher_30d_volume_usd'] = None
+        f['records'][1]['publisher_30d_buyer_addresses'] = None
+        result = analyze(f)
+        self.assertEqual(result['publisher_zero_flow_service_rows'], 0)
+        self.assertEqual(result['unmeasured_flow_service_rows'], 2)
+
+    def test_missing_status_with_zero_volume_is_not_measured(self):
+        f = fixture(True)
+        del f['records'][1]['traction_status']
+        with self.assertRaisesRegex(ValueError, 'unmeasured traction'):
+            analyze(f)
+
+    def test_nonmeasured_positive_volume_rejected(self):
+        f = fixture(True)
+        f['records'][0]['traction_status'] = 'unmeasured'
+        with self.assertRaisesRegex(ValueError, 'unmeasured traction'):
+            analyze(f)
+
+    def test_measured_without_volume_rejected(self):
+        f = fixture(True)
+        f['records'][0]['publisher_30d_volume_usd'] = None
+        with self.assertRaisesRegex(ValueError, 'measured traction'):
+            analyze(f)
+
     def test_zero_directory(self):
         f = fixture(True); f['records'] = []; f['rows_collected'] = 0; f['publisher_total_listings'] = 0
         r = analyze(f)
