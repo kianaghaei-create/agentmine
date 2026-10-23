@@ -1,0 +1,119 @@
+"""Offline bridge between publisher x402 service monitoring and quote cost ranking.
+
+Never executes paid requests. Catalog, uptime and price floors are publisher
+claims; license_allowed/verified flags are caller assertions, NOT verification.
+"""
+from collections import Counter
+from decimal import Decimal, InvalidOperation
+from urllib.parse import urlsplit
+
+from src.agentmine_cost_router import choose
+from src.x402_route_readiness import evaluate
+
+
+def _https(url):
+    if not isinstance(url, str):
+        return False
+    try:
+        parsed = urlsplit(url)
+        return (parsed.scheme == 'https' and bool(parsed.hostname)
+                and parsed.username is None and parsed.password is None
+                and parsed.port in (None, 443))
+    except ValueError:
+        return False
+
+
+def _money(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float, str, Decimal)):
+        return None
+    try:
+        d = Decimal(str(value))
+        return d if d.is_finite() and d >= 0 else None
+    except (InvalidOperation, ValueError):
+        return None
+
+
+def rank_candidates(quotes, services, *, observed_at, max_age_seconds,
+                    min_quality, max_total_usd, max_probe_age_seconds=3600):
+    """Rank only explicitly authorized, endpoint-matched, monitored candidates.
+
+    Each quote needs service_slug, endpoint_id, source_url and the existing
+    Cost Router fields. The service data is a list of x402 List `data` objects.
+    Duplicate slugs are ambiguous and fail closed. This is a *simulation*;
+    no price/uptime/paid response is independently confirmed.
+    """
+    # Validate parameters even for empty candidate sets.
+    evaluate({}, observed_at=observed_at,
+             max_probe_age_seconds=max_probe_age_seconds)
+    if not isinstance(quotes, list) or not isinstance(services, list):
+        raise ValueError('quotes and services must be lists')
+    if type(max_age_seconds) not in (int, float) or not 0 <= max_age_seconds < float('inf'):
+        raise ValueError('invalid max_age_seconds')
+    if type(min_quality) not in (int, float) or not 0 <= min_quality <= 1:
+        raise ValueError('invalid min_quality')
+    if _money(max_total_usd) is None:
+        raise ValueError('invalid max_total_usd')
+
+    by_slug = {}
+    duplicates = set()
+    for service in services:
+        if not isinstance(service, dict):
+            continue
+        slug = service.get('slug')
+        if not isinstance(slug, str) or not slug:
+            continue
+        if slug in by_slug:
+            duplicates.add(slug)
+        else:
+            by_slug[slug] = service
+    rejected = Counter()
+    candidates = []
+    for q in quotes:
+        if not isinstance(q, dict):
+            rejected['malformed_quote'] += 1
+            continue
+        slug, eid = q.get('service_slug'), q.get('endpoint_id')
+        if not isinstance(slug, str) or slug not in by_slug or slug in duplicates:
+            rejected['missing_or_ambiguous_service'] += 1
+            continue
+        service = by_slug[slug]
+        if not _https(service.get('base_url')) or not _https(q.get('source_url')):
+            rejected['missing_https_source'] += 1
+            continue
+        endpoints = service.get('endpoints')
+        if not isinstance(endpoints, list) or not isinstance(eid, str) or not eid:
+            rejected['missing_endpoint'] += 1
+            continue
+        matching = [e for e in endpoints if isinstance(e, dict) and e.get('id') == eid]
+        if len(matching) != 1 or matching[0].get('is_active') is not True:
+            rejected['missing_or_inactive_endpoint'] += 1
+            continue
+        floor = _money(matching[0].get('min_price_usd'))
+        stated = _money(q.get('source_usd'))
+        if floor is None or stated is None or stated < floor:
+            rejected['price_below_publisher_floor_or_unknown'] += 1
+            continue
+        readiness = evaluate(service, observed_at=observed_at,
+                             max_probe_age_seconds=max_probe_age_seconds)
+        if not readiness['eligible_for_live_route_candidate']:
+            rejected['monitoring_not_ready'] += 1
+            continue
+        chosen = choose([q], max_age_seconds=max_age_seconds,
+                        min_quality=min_quality, max_total_usd=max_total_usd)
+        if chosen['status'] != 'selected':
+            rejected['quote_policy_rejected'] += 1
+            continue
+        candidates.append((Decimal(chosen['total_usd']), -q['quality'],
+                           q['provider'], slug, eid, chosen))
+    if not candidates:
+        return {'status': 'no_eligible_quote', 'selected': None,
+                'rejected_by_reason': dict(sorted(rejected.items())),
+                'evidence_type': 'publisher_monitored_candidate_not_paid_delivery',
+                'verified_paying_customers': None}
+    cost, _, provider, slug, eid, chosen = min(candidates, key=lambda x: x[:5])
+    return {'status': 'selected', 'selected': provider,
+            'service_slug': slug, 'endpoint_id': eid,
+            'total_usd': str(cost), 'source': chosen['source'],
+            'rejected_by_reason': dict(sorted(rejected.items())),
+            'evidence_type': 'publisher_monitored_candidate_not_paid_delivery',
+            'verified_paying_customers': None}
