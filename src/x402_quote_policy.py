@@ -33,12 +33,34 @@ def _money(value):
         return None
 
 
+
+def _endpoint_bound(service, endpoint, quote_url):
+    """Require an exact HTTPS URL matching the publisher's concrete endpoint path.
+
+    A directory listing, a different origin, a path prefix, query or fragment
+    cannot stand in for the paid endpoint. Templated paths are not resolved by
+    this offline router; reject until a separately validated binding exists.
+    """
+    base, path = service.get('base_url'), endpoint.get('path')
+    if not _https(base) or not _https(quote_url):
+        return False
+    if (not isinstance(path, str) or not path.startswith('/') or path.startswith('//')
+            or any(c in path for c in ('?', '#', '\\', '{', '}'))):
+        return False
+    parsed = urlsplit(base)
+    if parsed.query or parsed.fragment or parsed.username or parsed.password:
+        return False
+    # The x402 List endpoint path is absolute on the service origin.
+    expected = f'{parsed.scheme}://{parsed.netloc}{path}'
+    return quote_url == expected
+
+
 def rank_candidates(quotes, services, *, observed_at, max_age_seconds,
                     min_quality, max_total_usd, max_probe_age_seconds=3600):
     """Rank only explicitly authorized, endpoint-matched, monitored candidates.
 
-    Each quote needs service_slug, endpoint_id, source_url and the existing
-    Cost Router fields. The service data is a list of x402 List `data` objects.
+    Each quote needs service_slug, endpoint_id and source_url equal to the
+    concrete publisher base_url + endpoint path, plus Cost Router fields. The service data is a list of x402 List `data` objects.
     Duplicate slugs are ambiguous and fail closed. This is a *simulation*;
     no price/uptime/paid response is independently confirmed.
     """
@@ -87,6 +109,9 @@ def rank_candidates(quotes, services, *, observed_at, max_age_seconds,
         matching = [e for e in endpoints if isinstance(e, dict) and e.get('id') == eid]
         if len(matching) != 1 or matching[0].get('is_active') is not True:
             rejected['missing_or_inactive_endpoint'] += 1
+            continue
+        if not _endpoint_bound(service, matching[0], q.get('source_url')):
+            rejected['endpoint_url_not_bound'] += 1
             continue
         floor = _money(matching[0].get('min_price_usd'))
         stated = _money(q.get('source_usd'))
