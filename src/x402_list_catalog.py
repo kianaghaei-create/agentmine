@@ -87,10 +87,17 @@ def collect(*, max_pages=4, per_page=25, fetch=fetch_page, pause=time.sleep, del
             if slug in seen:
                 raise ValueError('duplicate service slug across pages')
             seen.add(slug)
-            traction = (entry.get('assessment') or {})
-            if not isinstance(traction, dict):
+            # Missing publisher flags are UNKNOWN, not evidence of False.
+            # Preserve explicit False; reject malformed non-boolean claims.
+            for flag in ('payment_ready', 'verified'):
+                if entry.get(flag) is not None and type(entry[flag]) is not bool:
+                    raise ValueError('invalid publisher readiness flag')
+            assessment = entry.get('assessment')
+            if assessment is None:
+                assessment = {}
+            if not isinstance(assessment, dict):
                 raise ValueError('invalid service assessment')
-            traction = traction.get('traction')
+            traction = assessment.get('traction')
             if traction is not None and not isinstance(traction, dict):
                 raise ValueError('invalid service traction')
             rows.append({
@@ -98,8 +105,8 @@ def collect(*, max_pages=4, per_page=25, fetch=fetch_page, pause=time.sleep, del
                 'category': entry.get('category'),
                 'base_url': entry.get('base_url'),
                 'status': entry.get('status'),
-                'payment_ready_publisher': entry.get('payment_ready') is True,
-                'delivery_verified_publisher': entry.get('verified') is True,
+                'payment_ready_publisher': entry.get('payment_ready'),
+                'delivery_verified_publisher': entry.get('verified'),
                 'listed_min_price_usd': entry.get('min_price_usd'),
                 'traction_status': traction.get('status') if traction else None,
                 'publisher_30d_volume_usd': traction.get('volume_usd_30d') if traction else None,
