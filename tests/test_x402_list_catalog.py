@@ -36,6 +36,41 @@ class CatalogTests(unittest.TestCase):
         r = collect(max_pages=1, per_page=2, fetch=lambda n, s: page(n, total=2), delay=0)
         self.assertEqual(r['records'][0]['publisher_30d_volume_usd'], 0)
         self.assertEqual(r['records'][0]['publisher_30d_buyer_addresses'], 0)
+    def test_missing_publisher_flags_are_unknown_not_false(self):
+        payload = page(1, size=1, total=1)
+        del payload['data'][0]['payment_ready']
+        del payload['data'][0]['verified']
+        result = collect(max_pages=1, per_page=1,
+                         fetch=lambda n, s: payload, delay=0)
+        self.assertIsNone(result['records'][0]['payment_ready_publisher'])
+        self.assertIsNone(result['records'][0]['delivery_verified_publisher'])
+
+    def test_explicit_false_publisher_flags_stay_false(self):
+        payload = page(1, size=1, total=1)
+        payload['data'][0]['payment_ready'] = False
+        payload['data'][0]['verified'] = False
+        result = collect(max_pages=1, per_page=1,
+                         fetch=lambda n, s: payload, delay=0)
+        self.assertIs(result['records'][0]['payment_ready_publisher'], False)
+        self.assertIs(result['records'][0]['delivery_verified_publisher'], False)
+
+    def test_malformed_publisher_flags_fail_closed(self):
+        for field in ('payment_ready', 'verified'):
+            for bad in (1, 0, 'false', [], {}):
+                with self.subTest(field=field, bad=bad):
+                    payload = page(1, size=1, total=1)
+                    payload['data'][0][field] = bad
+                    with self.assertRaisesRegex(ValueError, 'readiness flag'):
+                        collect(max_pages=1, per_page=1,
+                                fetch=lambda n, s: payload, delay=0)
+
+    def test_malformed_empty_assessment_not_silently_ignored(self):
+        payload = page(1, size=1, total=1)
+        payload['data'][0]['assessment'] = []
+        with self.assertRaisesRegex(ValueError, 'assessment'):
+            collect(max_pages=1, per_page=1,
+                    fetch=lambda n, s: payload, delay=0)
+
     def test_inconsistent_total_rejected(self):
         with self.assertRaisesRegex(ValueError, 'totals changed'):
             collect(max_pages=2, per_page=2, fetch=lambda n,s: page(n,total=3 if n==1 else 4), delay=0)
