@@ -49,8 +49,18 @@ def evaluate(service, *, observed_at, max_probe_age_seconds=3600):
     if not isinstance(assessment, dict):
         reasons.append('missing_assessment')
     else:
+        # Detail uses compliance.staleness; list summaries flatten this to
+        # compliance_staleness. Conflicting evidence must fail closed.
         compliance = assessment.get('compliance')
-        stale = compliance.get('staleness') if isinstance(compliance, dict) else None
+        flat = assessment.get('compliance_staleness')
+        if compliance is None:
+            stale = flat
+        elif isinstance(compliance, dict):
+            stale = compliance.get('staleness')
+        else:
+            stale = None
+        if compliance is not None and flat is not None and flat != stale:
+            stale = None
         if not isinstance(stale, dict) or stale.get('probe_failing') is not False:
             reasons.append('probe_failure_or_unknown')
         else:
