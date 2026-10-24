@@ -1,0 +1,38 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-24T01:59:48.103Z",
+  "traction_as_of": "2026-10-24T01:41:51.477Z",
+  "retrieved_date_utc": "2026-10-24",
+  "evidence_type": "publisher_reported_measured_listed_service_activity_not_verified_paying_customers",
+  "market_scope": "x402 List indexed services and monitored facilitators, not the x402 ecosystem",
+  "supply": {
+    "listed_services": 1009,
+    "listed_endpoints": 7668,
+    "services_with_traction_measurement": 768,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 939,
+    "new_listings_30d": 260,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 376883.872659,
+    "listed_service_settlement_count": 1758974,
+    "distinct_buyer_addresses_reported": 9018,
+    "top_10_services_volume_share_pct": 96.2,
+    "top_1_service_volume_share_pct": 71.4,
+    "top_1_service_top_buyer_share_pct": 98.9,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 19.7
+  },
+  "source_method_note": "Net per address; self-payments excluded; listed-address forwarding deducted. Per-service volumes overlap and must not be summed. Buyer addresses are not unique people or companies.",
+  "caveats": [
+    "Publisher-reported measurements are not independently audited by AgentMine.",
+    "Top service's imported flow and 98.9% concentration in one buyer address make organic demand uncertain.",
+    "Top-1 and top-10 shares are rounded, so implied volume and concentration bounds are conditional arithmetic.",
+    "Overlapping rolling 30-day windows cannot be interpreted as sales growth.",
+    "No observed AgentMine paying customers, actual routing savings, revenue or payment conversion."
+  ]
+}
