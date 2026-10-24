@@ -1,6 +1,6 @@
 """Offline conditional delivery for a previously seen, fresh, licensed source.
 
-Avoid re-sending identical task-scoped payloads only when a caller proves it
+Avoid re-sending identical task-scoped payloads only when a caller claims it
 already holds that exact payload digest. Does NOT avoid upstream HTTP requests,
 prove token savings, or verify buyer activity. Never returns stale/future data.
 """
