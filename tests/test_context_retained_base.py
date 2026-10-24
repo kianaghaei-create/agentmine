@@ -48,6 +48,9 @@ class RetainedBaseTests(unittest.TestCase):
         self.assertGreater(r["second_two_way_json_bytes_avoided"], 0)
         self.assertEqual(r["two_call_baseline_json_bytes"] - r["two_call_retained_json_bytes"],
                          r["second_two_way_json_bytes_avoided"])
+        # First and second envelopes differ by one digit in source_age_seconds.
+        self.assertEqual(r["first_two_way_json_bytes"],
+                         r["baseline_second_two_way_json_bytes"] + 1)
         self.assertFalse(r["actual_http_bytes_measured"])
         self.assertFalse(r["tokens_measured"])
         self.assertIsNone(r["upstream_requests_avoided"])
