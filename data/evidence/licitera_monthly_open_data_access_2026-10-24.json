@@ -1,0 +1,58 @@
+{
+  "evidence_type": "publisher_advertised_open_data_availability_not_downloaded_rows_or_customer_demand",
+  "observed_at_utc": "2026-10-24T20:46:06Z",
+  "publisher": "Licitera",
+  "source_urls": [
+    "https://licitera.se/oppen-data",
+    "https://licitera.se/utvecklare",
+    "https://www.upphandlingsmyndigheten.se/om-oss/var-oppna-data/"
+  ],
+  "monthly_export": {
+    "month": "2026-09",
+    "built_at_utc": "2026-10-01T18:45:00Z",
+    "publisher_advertised_rows": {
+      "procurements": 1240,
+      "awards": 90,
+      "buyers": 467,
+      "suppliers": 76,
+      "court_decisions": 19
+    },
+    "advertised_files": [
+      "upphandlingar.csv.gz",
+      "tilldelningar.csv.gz",
+      "kopare.csv.gz",
+      "leverantorer.csv.gz",
+      "domar.csv.gz"
+    ],
+    "documented_encoding": "UTF-8 BOM, semicolon CSV, four leading # metadata lines",
+    "license": "CC BY 4.0 for free previous-month bulk files only",
+    "source_attribution": "Licitera (licitera.se), CC BY 4.0 — sammanställt ur TED, Upphandlingsmyndigheten och Konkurrensverket. Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera",
+    "raw_bulk_downloaded_this_run": false,
+    "reason_not_downloaded": "Network access from local runtime failed DNS; web retrieval did not support application/gzip. No authentication or alternative restricted route attempted.",
+    "measured_cpv48_rows": null,
+    "measured_cpv72_rows": null,
+    "measured_supplier_concentration": null,
+    "verified_paying_customers": null
+  },
+  "access_and_competition": {
+    "public_read_api": "https://licitera.se/api/procurements",
+    "guest_limit": "at most 5 list rows and first page, as stated by publisher",
+    "public_monthly_bulk": "free without login, replaces each month",
+    "full_history": "requires separate data-module agreement; not included in Pro; restricted",
+    "mcp_tool_count_advertised": 44,
+    "mcp_tool_calls": "requires API/MCP module by application and quote; not freely callable",
+    "implication": "Generic tender search, awards, supplier/buyer analytics, renewals, CPV navigation and agent MCP are already offered by a direct competitor. Free monthly bulk is an authorized path for non-live evidence if the actual file can be acquired."
+  },
+  "analytical_caveats": [
+    "Counts are publisher-advertised file row totals, not independently parsed CSV or a national census.",
+    "Monthly tender publication and monthly award records are different cohorts; do not divide awards by tender rows to estimate conversion.",
+    "Directory and MCP functionality is advertised, not independently tested; customer counts and sales unknown.",
+    "Do not infer actual CPV48 supplier demand, time saved, revenue or payment intent from catalog or file counts.",
+    "Only use explicitly public CC BY 4.0 monthly files; do not access restricted daily history or bypass guest limits."
+  ],
+  "tested_offline_analyzer": "src/licitera_monthly_supply.py",
+  "offline_regression_tests": 15,
+  "local_test_result": "15/15 passed on Git blob-identical source/test bytes; exact-tree GitHub CI pending",
+  "agentmine_verified_customers": null,
+  "agentmine_revenue_sek": null
+}
