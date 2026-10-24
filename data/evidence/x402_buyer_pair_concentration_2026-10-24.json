@@ -1,0 +1,49 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-24T09:40:07.053Z",
+  "traction_as_of": "2026-10-24T08:41:48.015Z",
+  "observed_via_web_date_utc": "2026-10-24",
+  "source_fields_selected_not_full_raw_response": true,
+  "market_scope": "publisher monitored listed services and measured facilitators, not whole x402 ecosystem",
+  "supply": {
+    "listed_services": 1009,
+    "listed_endpoints": 7668,
+    "services_with_traction_measurement": 768,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 938
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": "377732.577448",
+    "listed_service_settlement_count": 1777831,
+    "distinct_buyer_addresses_reported": 9055,
+    "top_10_services_volume_share_pct": "96.2",
+    "top_1_service_volume_share_pct": "71.3",
+    "top_1_service_top_buyer_share_pct": "98.9",
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": "19.7"
+  },
+  "derived": {
+    "assumed_max_rounding_error_percentage_points": "0.05",
+    "minimum_one_address_service_pair_share_pct": "70.430625",
+    "minimum_one_address_service_pair_flow_usd": "266039.41",
+    "maximum_flow_outside_that_pair_usd": "111693.17",
+    "central_point_estimate_pair_share_pct": "70.5157",
+    "interpretation": "Conditional lower bound on one buyer-address/service pair within publisher-monitored rolling flow, NOT a bound on verified organic buyers or address-independent market."
+  },
+  "evidence_type": "publisher_reported_settlements_and_conditional_mathematical_bound_not_verified_customers",
+  "verified_unique_paying_buyers": null,
+  "verified_agentmine_revenue_usd": null,
+  "organic_demand_usd": null,
+  "caveats": [
+    "Publisher's top-service and largest-buyer shares are assumed to have compatible denominators; no independent audit.",
+    "Both percentages displayed to 0.1 percentage point; bounds assume nearest-0.1 rounding with at most 0.05 pp error each.",
+    "One address is not a person or legal business; self-related and imported flow may exist.",
+    "Outside-pair volume may still include the same economic actor or wash transactions; it is not an estimate of organic demand.",
+    "Rolling 30-day windows overlap, so this snapshot cannot establish sales growth or AgentMine capture.",
+    "Source's 19.7% coverage describes measured facilitator flow, not all x402 transactions.",
+    "Selected source fields transcribed from publisher JSON response; not a preserved complete raw API response."
+  ]
+}
