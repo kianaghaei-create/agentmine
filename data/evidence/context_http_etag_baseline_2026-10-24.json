@@ -1,0 +1,70 @@
+{
+  "experiment": "constructed_http11_etag_baseline_on_two_real_publisher_snapshots",
+  "date_utc": "2026-10-24",
+  "publisher": "x402 List",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "prior_fixture": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "current_fixture": "data/evidence/x402_list_stats_2026-10-24T061109Z.json",
+  "source_computed_at_utc": [
+    "2026-10-24T01:59:48.103Z",
+    "2026-10-24T06:11:09.613Z"
+  ],
+  "requested_fields": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct"
+  ],
+  "task": "constructed_repeated_three_field_task_not_observed_buyer_workflow",
+  "as_of": "2026-10-24T06:12:00Z",
+  "max_age_seconds": 21600,
+  "measurement_kind": "deterministically_constructed_http11_request_and_response_frames_not_observed_network",
+  "baseline_protocol": "two unconditional GETs versus first GET then If-None-Match GET; ETag covers entire serialized response envelope",
+  "measurements": {
+    "unchanged_source": {
+      "conditional_status": 304,
+      "unconditional_two_call_http11_bytes": 4998,
+      "conditional_two_call_http11_bytes": 2848,
+      "bytes_avoided": 2150,
+      "reduction_pct": 43.02
+    },
+    "real_publisher_refresh": {
+      "conditional_status": 200,
+      "unconditional_two_call_http11_bytes": 4997,
+      "conditional_two_call_http11_bytes": 5080,
+      "bytes_avoided": -83,
+      "reduction_pct": -1.66
+    },
+    "request_bytes": {
+      "unconditional_get": 91,
+      "conditional_get": 174
+    },
+    "full_response_http11_bytes": {
+      "prior": 2408,
+      "current": 2407
+    },
+    "unchanged_304_response_http11_bytes": 175,
+    "origin_etag_support_verified": false,
+    "actual_http_network_bytes_measured": false,
+    "upstream_source_requests_avoided": 0,
+    "token_cost_measured": false,
+    "verified_cost_savings_usd": null,
+    "verified_paying_customers": null
+  },
+  "code": "src/context_http_etag_baseline.py",
+  "tests": "tests/test_context_http_etag_baseline.py",
+  "ci": {
+    "run_url": "https://github.com/kianaghaei-create/agentmine/actions/runs/40091256866",
+    "head_commit": "2c01bef7a2b0c92876d300823581f253a64aed9b",
+    "tests_passed": 345
+  },
+  "limitations": [
+    "Both input observations are genuine saved publisher snapshots but the GETs, responses, task, headers and ETag server behavior are constructed, not observed.",
+    "This does not establish whether the x402 List origin implements ETag, HTTP caching, 304, or cache freshness.",
+    "The two rolling 30-day settlement windows overlap; they are not incremental verified sales.",
+    "ETag 304 still requires revalidation and does not eliminate an origin request in this modeled direct-to-origin design.",
+    "No HTTP transport compression, TLS, TCP, hosting, cache storage, memory, tokens or paid buyer activity was measured.",
+    "The earlier retained-base result is canonical JSON and cannot be directly compared numerically with these modeled HTTP/1.1 frames."
+  ],
+  "decision": "Standard conditional GET is an essential free baseline for identical data; it cannot substitute for delta delivery on changed responses, but modeled HTTP savings do not establish a differentiated monetizable product. Prioritize real buyer tasks and measured full unit economics before deployment."
+}
