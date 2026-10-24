@@ -1,0 +1,51 @@
+{
+  "experiment": "offline_lossless_context_delta_vs_full_response",
+  "measurement_date_utc": "2026-10-24",
+  "source_fixture": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "source_evidence_type": "publisher_reported_market_snapshot_not_verified_customer_activity",
+  "source_record_canonical_sha256": "d9316aadc5313410906b768ff4ebf246f834a983c312a3c95f72271cd12c52a3",
+  "fields": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct"
+  ],
+  "as_of": "2026-10-24T02:00:00Z",
+  "max_age_seconds": 3600,
+  "scenarios": [
+    {
+      "name": "timestamp_only_constructed",
+      "modification": "source_computed_at advanced from 2026-10-24T01:59:48.103Z to 2026-10-24T01:59:49.103Z",
+      "full_response_canonical_json_bytes": 2192,
+      "delta_response_canonical_json_bytes": 984,
+      "bytes_avoided": 1208,
+      "reduction_pct": 55.11,
+      "delta_exact_reconstruction": true
+    },
+    {
+      "name": "selected_fact_changed_constructed",
+      "modification": "supply.listed_services incremented from 1009 to 1010",
+      "full_response_canonical_json_bytes": 2192,
+      "delta_response_canonical_json_bytes": 1111,
+      "bytes_avoided": 1081,
+      "reduction_pct": 49.32,
+      "delta_exact_reconstruction": true
+    },
+    {
+      "name": "identical_snapshot_constructed",
+      "modification": "none",
+      "full_response_canonical_json_bytes": 2192,
+      "unchanged_receipt_canonical_json_bytes": 695,
+      "bytes_avoided": 1497,
+      "reduction_pct": 68.29,
+      "delta_exact_reconstruction": true
+    }
+  ],
+  "measured_quantity": "canonical_utf8_json_response_envelope_bytes_in_local_function_calls",
+  "verified_http_requests_avoided": null,
+  "verified_token_savings": null,
+  "verified_dollar_savings": null,
+  "verified_paying_customers": null,
+  "actual_agent_task_cohort": false,
+  "warning": "Constructed offline follow-ups on one historical publisher snapshot. Modified timestamp and listing count are synthetic scenarios, NOT newly observed market events. Byte differences exclude HTTP headers, transport and upstream fetches. No measured buyer value, paid demand, money or model correctness."
+}
