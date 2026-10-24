@@ -30,12 +30,12 @@ class WireBenchmarkTests(unittest.TestCase):
         self.assertEqual(result['status'], 'compared')
         self.assertTrue(result['cache_hit'])
         self.assertGreater(result['repeat_with_digest_canonical_utf8_bytes'], 0)
-        self.assertGreater(result['measured_wire_bytes_avoided'], 0)
-        self.assertLess(result['measured_wire_bytes_avoided'],
+        self.assertGreater(result['canonical_response_json_bytes_avoided'], 0)
+        self.assertLess(result['canonical_response_json_bytes_avoided'],
                         result['payload_only_bytes_suppressed'])
         self.assertEqual(result['total_two_calls_without_digest_bytes'] -
                          result['total_two_calls_with_digest_bytes'],
-                         result['measured_wire_bytes_avoided'])
+                         result['canonical_response_json_bytes_avoided'])
         self.assertIsNone(result['verified_upstream_requests_avoided'])
         self.assertIsNone(result['verified_token_savings'])
         self.assertIsNone(result['verified_cost_savings_usd'])
@@ -45,7 +45,7 @@ class WireBenchmarkTests(unittest.TestCase):
         next_snapshot['supply']['listed_services'] += 1
         result = self.run_benchmark(next_snapshot=next_snapshot)
         self.assertFalse(result['cache_hit'])
-        self.assertEqual(result['measured_wire_bytes_avoided'], 0)
+        self.assertEqual(result['canonical_response_json_bytes_avoided'], 0)
         self.assertEqual(result['payload_only_bytes_suppressed'], 0)
 
     def test_even_timestamp_change_invalidates_exact_payload_digest(self):
@@ -53,7 +53,7 @@ class WireBenchmarkTests(unittest.TestCase):
         next_snapshot['source_computed_at'] = '2026-10-24T01:59:49.103Z'
         result = self.run_benchmark(next_snapshot=next_snapshot)
         self.assertFalse(result['cache_hit'])
-        self.assertEqual(result['measured_wire_bytes_avoided'], 0)
+        self.assertEqual(result['canonical_response_json_bytes_avoided'], 0)
 
     def test_stale_second_observation_does_not_count_as_saving(self):
         next_snapshot = copy.deepcopy(self.snapshot)
@@ -61,7 +61,7 @@ class WireBenchmarkTests(unittest.TestCase):
         result = self.run_benchmark(next_snapshot=next_snapshot)
         self.assertEqual(result['status'], 'second_observation_unavailable')
         self.assertEqual(result['second_status'], 'stale_source')
-        self.assertIsNone(result['measured_wire_bytes_avoided'])
+        self.assertIsNone(result['canonical_response_json_bytes_avoided'])
 
     def test_invalid_license_does_not_generate_benchmark(self):
         bad = copy.deepcopy(self.snapshot)
