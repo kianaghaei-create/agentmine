@@ -1,0 +1,26 @@
+{
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+  "source_kind": "official_aggregate",
+  "publisher": "Upphandlingsmyndigheten",
+  "source_published_date": "2026-02-05",
+  "checked_date": "2026-10-24",
+  "reference_year": 2024,
+  "advertised_procurements": 17575,
+  "after_advertised_procurements": 11203,
+  "after_advertised_coverage_pct": "63.7",
+  "bid_count_coverage_pct": "58",
+  "one_bid_reported_pct": "19",
+  "matching_denominator_verified": false,
+  "source_locations": {
+    "after_advertising": "Tänk på after 2024 aggregate bid counts (11,203 / 17,575)",
+    "bid_count_coverage": "Tänk på near bottom: 58% of advertised procurements have bid counts",
+    "one_bid_reported": "Intro and bid distribution: 19% of procurements have one bid"
+  },
+  "limitations": [
+    "The reported 19% share and 58% coverage are not independently reconciled to the same row-level denominator.",
+    "The sensitivity calculation assumes matching denominators and cannot establish an unconditional national rate.",
+    "Missingness may be nonrandom (e.g. cancellations and unadvertised results).",
+    "National aggregate figures must not be applied to CPV48 or CPV72 without category-specific coverage.",
+    "No verified AgentMine buyers, supplier time saved, payment willingness, or revenue."
+  ]
+}
