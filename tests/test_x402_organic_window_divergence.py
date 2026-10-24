@@ -29,6 +29,14 @@ class OrganicWindowDivergenceTests(unittest.TestCase):
         self.assertIsNone(result['verified_agentmine_revenue_usd'])
         self.assertIn('NOT new weekly sales', result['interpretation'])
 
+    def test_publisher_wallet_counts_do_not_identify_customers(self):
+        self.assertEqual(self.evidence['latest_headline_seller_wallets_any_revenue'], 38162)
+        self.assertEqual(self.evidence['latest_headline_median_seller_revenue_usd'], '0.01')
+        result = analyze(self.evidence)
+        self.assertEqual(result['publisher_heuristic_organic_seller_wallets_latest'], 92)
+        self.assertIsNone(result['verified_unique_paying_businesses'])
+        self.assertIsNone(result['verified_agentmine_buyer_demand'])
+
     def test_exact_filter_excluded_amount(self):
         result = analyze(self.evidence)
         self.assertEqual(result['publisher_filter_excluded_30d_previous_usd'], '371393.3356642985')
