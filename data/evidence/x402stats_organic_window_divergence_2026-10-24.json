@@ -1,0 +1,36 @@
+{
+  "source_url": "https://x402stats.io/llms-full.txt",
+  "methodology_url": "https://x402stats.io/methodology",
+  "license": "CC BY 4.0",
+  "attribution": "x402stats — State of x402, x402stats.io",
+  "methodology": "2026-07-01.v1",
+  "source_updated_at": "2026-10-24T11:48:22.691Z",
+  "observed_date_utc": "2026-10-24",
+  "source_fields_selected_not_complete_raw": true,
+  "weekly_records": [
+    {
+      "date": "2026-10-12",
+      "reported_volume_usd": "1056292.8636402986",
+      "organic_volume_usd": "684899.5279760001",
+      "organic_seller_wallets": 94
+    },
+    {
+      "date": "2026-10-19",
+      "reported_volume_usd": "1226015.486376337",
+      "organic_volume_usd": "710273.3020830004",
+      "organic_seller_wallets": 92
+    }
+  ],
+  "latest_headline_seller_wallets_any_revenue": 38162,
+  "latest_headline_median_seller_revenue_usd": "0.01",
+  "latest_headline_top_10_wallets_raw_volume_share_pct": "79",
+  "evidence_kind": "publisher_reported_weekly_rolling_30d_with_heuristic_organic_filter_not_audited_customers",
+  "caveats": [
+    "Publisher last weekly observation 2026-10-19 despite 2026-10-24 page update; do not date the market estimate as 2026-10-24.",
+    "30-day windows overlap by 23 days; week-to-week differences are not new sales or revenue growth.",
+    "Publisher organic is a heuristic requiring at least $100 seller wallet revenue, three buyer wallets, non-dust payments and exclusion of known facilitator wallets; not proof of independent commercial demand.",
+    "Filter-excluded volume is not independently verified fraud or wash trading.",
+    "Different publishers and on-chain scopes cannot be added or compared as identical cohorts.",
+    "No verified AgentMine paying customers, real income, customer conversion or costs."
+  ]
+}
