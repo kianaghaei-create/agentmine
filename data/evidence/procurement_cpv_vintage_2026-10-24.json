@@ -1,0 +1,15 @@
+{
+  "source_kind": "official_published_aggregate",
+  "bid_count_coverage_by_cpv_verified": false,
+  "paying_buyers_verified": false,
+  "observed_at_utc": "2026-10-24T16:46:00Z",
+  "method": "Manual transcription of Table 1 from two official reports, no live tender/lot microdata; PDF page is printed page number.",
+  "observations": [
+    {"source_id":"uhm_report_2024","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2024-2.pdf","pdf_page":32,"reference_year":2023,"cpv":"48","mean_bids":"2.2"},
+    {"source_id":"uhm_report_2024","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2024-2.pdf","pdf_page":32,"reference_year":2023,"cpv":"72","mean_bids":"4.7"},
+    {"source_id":"uhm_report_2025","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf","pdf_page":33,"reference_year":2023,"cpv":"48","mean_bids":"2.3"},
+    {"source_id":"uhm_report_2025","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf","pdf_page":33,"reference_year":2024,"cpv":"48","mean_bids":"2.3"},
+    {"source_id":"uhm_report_2025","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf","pdf_page":34,"reference_year":2023,"cpv":"72","mean_bids":"4.5"},
+    {"source_id":"uhm_report_2025","source_url":"https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf","pdf_page":34,"reference_year":2024,"cpv":"72","mean_bids":"3.7"}
+  ]
+}
