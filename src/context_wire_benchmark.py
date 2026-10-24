@@ -35,7 +35,7 @@ def benchmark(snapshot, fields, *, as_of, max_age_seconds, next_snapshot=None):
             'status': 'second_observation_unavailable',
             'second_status': baseline['status'],
             'cache_hit': False,
-            'measured_wire_bytes_avoided': None,
+            'canonical_response_json_bytes_avoided': None,
             'verified_upstream_requests_avoided': None,
             'verified_token_savings': None,
             'verified_cost_savings_usd': None,
@@ -54,7 +54,7 @@ def benchmark(snapshot, fields, *, as_of, max_age_seconds, next_snapshot=None):
         'first_response_canonical_utf8_bytes': first_bytes,
         'repeat_without_digest_canonical_utf8_bytes': baseline_bytes,
         'repeat_with_digest_canonical_utf8_bytes': conditional_bytes,
-        'measured_wire_bytes_avoided': saving,
+        'canonical_response_json_bytes_avoided': saving,
         'payload_only_bytes_suppressed': (
             first['payload_bytes'] if conditional['status'] == 'unchanged' else 0),
         'total_two_calls_without_digest_bytes': first_bytes + baseline_bytes,
