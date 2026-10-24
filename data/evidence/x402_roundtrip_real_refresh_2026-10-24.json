@@ -1,0 +1,69 @@
+{
+  "experiment": "offline_two_way_json_delta_cost_on_two_real_publisher_snapshots",
+  "publisher": "x402 List",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "source_license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "prior_fixture": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "current_fixture": "data/evidence/x402_list_stats_2026-10-24T061109Z.json",
+  "prior_source_computed_at": "2026-10-24T01:59:48.103Z",
+  "current_source_computed_at": "2026-10-24T06:11:09.613Z",
+  "prior_traction_as_of": "2026-10-24T01:41:51.477Z",
+  "current_traction_as_of": "2026-10-24T05:41:48.593Z",
+  "field_selection_constructed_not_buyer_observed": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct"
+  ],
+  "as_of": "2026-10-24T06:12:00Z",
+  "max_age_seconds": 21600,
+  "observed_publisher_changes": {
+    "payment_ready_services": [
+      939,
+      938
+    ],
+    "listed_service_deduplicated_settlements_usd": [
+      376883.872659,
+      377395.454832
+    ],
+    "listed_service_settlement_count": [
+      1758974,
+      1769607
+    ],
+    "distinct_buyer_addresses_reported": [
+      9018,
+      9036
+    ],
+    "top_1_service_volume_share_pct": [
+      71.4,
+      71.3
+    ]
+  },
+  "measurements": {
+    "baseline_request_json_bytes": 199,
+    "baseline_response_json_bytes": 2192,
+    "baseline_two_way_json_bytes": 2391,
+    "client_carried_prior_status": "delta",
+    "client_carried_prior_request_json_bytes": 1810,
+    "client_carried_prior_response_json_bytes": 1203,
+    "client_carried_prior_two_way_json_bytes": 3013,
+    "client_carried_prior_response_only_bytes_avoided": 989,
+    "client_carried_prior_two_way_bytes_avoided": -622,
+    "digest_only_status": "delivered",
+    "digest_only_request_json_bytes": 289,
+    "digest_only_response_json_bytes": 2192,
+    "digest_only_two_way_json_bytes": 2481,
+    "digest_only_two_way_bytes_avoided": -90,
+    "actual_http_bytes_measured": false,
+    "tokens_measured": false,
+    "verified_cost_savings_usd": null,
+    "verified_paying_customers": null,
+    "warning": "Offline canonical JSON request+response sizes over caller-supplied publisher snapshots, not HTTP traffic or dollars. Client-carried base bytes must not be ignored; digest-only has no server cache and cannot suppress a response. Rolling windows are overlapping; publisher wallet flow is not verified paying customers."
+  },
+  "measurement_method": "Local Python execution of new Git-blob-identical benchmark source and test files, using functionally equivalent local reconstructions of existing dependencies; exact full committed GitHub CI not verified at time of recording.",
+  "interpretation": "Although the delta response is smaller, uploading the entire previous context in the request makes the two-way JSON total larger. Sending only a digest cannot safely suppress delivery without server-side retained state, which is not implemented. No actual HTTP request was made.",
+  "verified_agentmine_revenue_usd": null,
+  "verified_paying_customers": null,
+  "verified_token_savings": null,
+  "verified_http_savings": null
+}
