@@ -1,0 +1,21 @@
+{
+  "source_kind": "official_aggregate",
+  "publisher": "Upphandlingsmyndigheten",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+  "source_published": "2026-02-05",
+  "source_checked": "2026-10-24",
+  "reference_year": 2024,
+  "advertised_procurements": 17575,
+  "after_advertised_procurements": 11203,
+  "total_reported_bids": 74133,
+  "reported_mean_bids": "4.6",
+  "bid_count_coverage_pct": "58",
+  "bids_with_supplier_metadata": 71128,
+  "same_denominator_independently_verified": false,
+  "locations": {
+    "total_bids_and_mean": "I genomsnitt 4,6 anbud per upphandling",
+    "coverage": "Tänk på (58 procent)",
+    "supplier_metadata_cohort": "Antal anbudsgivare och anbud efter företagsstorlek för leverantören, 2024"
+  },
+  "interpretation": "Cross-table denominator audit, not proof of an official data error: procurement, lot, bid and supplier-metadata counting units may differ. Not a CPV48 measurement, paid buyer signal or AgentMine revenue."
+}
