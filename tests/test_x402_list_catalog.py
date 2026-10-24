@@ -111,6 +111,48 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(fetch_page(1,2,opener=opener,pause=sleeps.append)['meta']['page'],1)
         self.assertEqual(len(attempts),2)
         self.assertEqual(sleeps,[1])
+    def test_fetch_retry_after_waits_at_least_server_delay(self):
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+            def read(self, n): return json.dumps(page(1)).encode()
+        attempts, sleeps = [], []
+        def opener(req, timeout):
+            attempts.append(1)
+            if len(attempts) == 1:
+                raise HTTPError(req.full_url, 429, 'slow down', {'Retry-After': '4'}, None)
+            return Response()
+        fetch_page(1, 2, opener=opener, pause=sleeps.append)
+        self.assertEqual((len(attempts), sleeps), (2, [4]))
+
+    def test_fetch_does_not_override_long_or_date_retry_after(self):
+        for value in ('120', 'Sun, 25 Oct 2026 00:00:00 GMT', '-1', 'NaN'):
+            attempts, sleeps = [], []
+            def opener(req, timeout):
+                attempts.append(1)
+                raise HTTPError(req.full_url, 429, 'slow down', {'Retry-After': value}, None)
+            with self.subTest(value=value), self.assertRaises(HTTPError):
+                fetch_page(1, 2, opener=opener, pause=sleeps.append)
+            self.assertEqual((len(attempts), sleeps), (1, []))
+
+    def test_fetch_5xx_bounded_retries(self):
+        attempts, sleeps = [], []
+        def opener(req, timeout):
+            attempts.append(1)
+            raise HTTPError(req.full_url, 503, 'unavailable', {}, None)
+        with self.assertRaises(HTTPError):
+            fetch_page(1, 2, opener=opener, pause=sleeps.append)
+        self.assertEqual((len(attempts), sleeps), (3, [1, 2]))
+
+    def test_fetch_403_never_retried(self):
+        attempts, sleeps = [], []
+        def opener(req, timeout):
+            attempts.append(1)
+            raise HTTPError(req.full_url, 403, 'forbidden', {}, None)
+        with self.assertRaises(HTTPError):
+            fetch_page(1, 2, opener=opener, pause=sleeps.append)
+        self.assertEqual((len(attempts), sleeps), (1, []))
+
     def test_fetch_401_not_retried(self):
         attempts=[]
         def opener(req,timeout):
