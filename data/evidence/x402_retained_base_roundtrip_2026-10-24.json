@@ -1,0 +1,48 @@
+{
+  "experiment": "bounded_server_retained_base_two_way_json_on_real_publisher_refresh",
+  "observation_date_utc": "2026-10-24",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "publisher": "x402 List",
+  "prior_fixture": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "current_fixture": "data/evidence/x402_list_stats_2026-10-24T061109Z.json",
+  "prior_computed_at": "2026-10-24T01:59:48.103Z",
+  "current_computed_at": "2026-10-24T06:11:09.613Z",
+  "requested_fields": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct"
+  ],
+  "task_type": "constructed_three_field_repeat_not_observed_buyer_request",
+  "as_of": "2026-10-24T06:12:00Z",
+  "max_age_seconds": 21600,
+  "measurements": {
+    "base_hit": true,
+    "second_status": "delta",
+    "first_two_way_json_bytes": 2391,
+    "baseline_second_two_way_json_bytes": 2391,
+    "retained_second_request_json_bytes": 289,
+    "retained_second_response_json_bytes": 1203,
+    "retained_second_two_way_json_bytes": 1492,
+    "second_two_way_json_bytes_avoided": 899,
+    "two_call_baseline_json_bytes": 4782,
+    "two_call_retained_json_bytes": 3883,
+    "two_call_json_reduction_pct": 18.8,
+    "actual_http_bytes_measured": false,
+    "upstream_requests_avoided": null,
+    "tokens_measured": false,
+    "cache_storage_and_cpu_cost_measured": false,
+    "verified_cost_savings_usd": null,
+    "verified_paying_customers": null
+  },
+  "verification": "Expected deterministic canonical JSON values asserted by exact-tree GitHub Actions unit tests; do not claim until run passes.",
+  "limitations": [
+    "These are local serialized JSON sizes, not observed HTTP, token or dollar savings.",
+    "Cache is process-local and not authenticated; scope string is not a security boundary.",
+    "Storage, CPU, hosting, memory eviction, cache warm-up and upstream retrieval costs are not included.",
+    "Two genuine publisher observations have overlapping rolling windows, not measured incremental sales.",
+    "Constructed repeat task is not buyer usage or verified willingness to pay.",
+    "Free HTTP conditional caching and existing native caches remain unbenchmarked."
+  ],
+  "decision": "Research only: do not deploy or monetize generic retained-base cache without buyer tasks, native-cache baseline and real unit economics."
+}
