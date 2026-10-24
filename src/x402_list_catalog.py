@@ -7,6 +7,7 @@ No payments, credentials, or service endpoint requests are performed.
 import argparse
 import json
 import math
+from decimal import Decimal, InvalidOperation
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,6 +18,20 @@ from urllib.request import Request, urlopen
 SOURCE = 'https://x402-list.com/api/v1/services'
 MAX_PAGE_BYTES = 2_000_000
 
+
+
+def _validate_optional_amount(value, field):
+    """Reject corrupt publisher monetary values without coercing or rounding."""
+    if value is None:
+        return
+    if type(value) not in (int, float, str):
+        raise ValueError('invalid ' + field)
+    try:
+        amount = Decimal(str(value))
+    except InvalidOperation as exc:
+        raise ValueError('invalid ' + field) from exc
+    if not amount.is_finite() or amount < 0:
+        raise ValueError('invalid ' + field)
 
 def fetch_page(page, per_page, *, opener=urlopen, pause=time.sleep):
     """Fetch one free directory page; retry only 429 and transient 5xx."""
@@ -109,6 +124,12 @@ def collect(*, max_pages=4, per_page=25, fetch=fetch_page, pause=time.sleep, del
             traction = assessment.get('traction')
             if traction is not None and not isinstance(traction, dict):
                 raise ValueError('invalid service traction')
+            _validate_optional_amount(entry.get('min_price_usd'), 'listed min price')
+            if traction is not None:
+                _validate_optional_amount(traction.get('volume_usd_30d'), 'publisher volume')
+                buyers = traction.get('unique_buyers_30d')
+                if buyers is not None and (type(buyers) is not int or buyers < 0):
+                    raise ValueError('invalid publisher buyer-address count')
             rows.append({
                 'slug': slug,
                 'category': entry.get('category'),
