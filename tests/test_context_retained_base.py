@@ -52,6 +52,16 @@ class RetainedBaseTests(unittest.TestCase):
         self.assertFalse(r["tokens_measured"])
         self.assertIsNone(r["upstream_requests_avoided"])
         self.assertIsNone(r["verified_paying_customers"])
+        expected = json.loads((EVIDENCE / "x402_retained_base_roundtrip_2026-10-24.json").read_text())["measurements"]
+        for key in ("first_two_way_json_bytes",
+                    "baseline_second_two_way_json_bytes",
+                    "retained_second_request_json_bytes",
+                    "retained_second_response_json_bytes",
+                    "retained_second_two_way_json_bytes",
+                    "second_two_way_json_bytes_avoided",
+                    "two_call_baseline_json_bytes", "two_call_retained_json_bytes"):
+            with self.subTest(key=key):
+                self.assertEqual(r[key], expected[key])
 
     def test_same_source_returns_receipt_not_zero_bytes(self):
         cache = RetainedBaseCache()
