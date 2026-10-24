@@ -6,7 +6,7 @@ TED notices and submission portals require independent review before alerts.
 """
 import argparse
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 import json
 from pathlib import Path
 import re
@@ -30,7 +30,7 @@ def _parse_display(value):
         raise ValueError("reported_deadline must be ISO date or offset-aware timestamp")
     if _DATE.fullmatch(value):
         try:
-            return "date_label", date.fromisoformat(value).isoformat()
+            return "date_label", date.fromisoformat(value).isoformat(), None
         except ValueError as exc:
             raise ValueError("invalid deadline date") from exc
     if _TIMESTAMP.fullmatch(value):
@@ -40,7 +40,7 @@ def _parse_display(value):
             raise ValueError("invalid deadline timestamp") from exc
         if dt.utcoffset() is None:
             raise ValueError("timestamp must include offset")
-        return "offset_timestamp", dt.date().isoformat()
+        return "offset_timestamp", dt.date().isoformat(), dt.astimezone(timezone.utc)
     raise ValueError("unsupported deadline display")
 
 
@@ -68,6 +68,9 @@ def triage(evidence):
     seen = set()
     labels, kinds, formats = set(), set(), set()
     explicit_stages = defaultdict(set)
+    date_only_by_stage = defaultdict(set)
+    instants_by_stage = defaultdict(set)
+    precision_by_stage = defaultdict(set)
     unknown_stage_dates = set()
     stage_label_reviews = []
     known_stage_dates = defaultdict(set)
@@ -82,7 +85,7 @@ def triage(evidence):
         if url in seen:
             raise ValueError("duplicate source URL")
         seen.add(url)
-        fmt, day = _parse_display(row.get("reported_deadline"))
+        fmt, day, instant = _parse_display(row.get("reported_deadline"))
         stage = row.get("stage_claim", "unknown")
         label = row.get("display_label_claim", "unknown")
         if stage not in _STAGES or label not in _LABELS:
@@ -91,6 +94,11 @@ def triage(evidence):
             unknown_stage_dates.add(day)
         else:
             explicit_stages[stage].add(day)
+            precision_by_stage[stage].add(fmt)
+            if instant is None:
+                date_only_by_stage[stage].add(day)
+            else:
+                instants_by_stage[stage].add(instant)
             known_stage_dates[day].add(stage)
             if label not in ("unknown", "generic_deadline", _STAGE_LABEL[stage]):
                 stage_label_reviews.append(url)
@@ -105,18 +113,32 @@ def triage(evidence):
                 and known_stage_dates[day]
                 and any(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
             stage_label_reviews.append(url)
-    same_stage = sorted(stage for stage, dates in explicit_stages.items() if len(dates) > 1)
+    # Exact cutoff times are compared as UTC instants, not calendar labels.
+    # Date-only claims cannot establish a matching hour or minute.
+    same_stage_instant = sorted(stage for stage, instants in instants_by_stage.items() if len(instants) > 1)
+    same_stage_date_only = sorted(stage for stage, dates in date_only_by_stage.items() if len(dates) > 1)
+    same_stage = sorted(set(same_stage_instant) | set(same_stage_date_only))
+    mixed_precision = sorted(stage for stage, precisions in precision_by_stage.items() if len(precisions) > 1)
     disagreement = len(labels) > 1
+    timezone_equivalent = (disagreement and not unknown_stage_dates and not mixed_precision
+                           and len(explicit_stages) == 1 and formats == {'offset_timestamp'}
+                           and not same_stage and all(len(v) == 1 for v in instants_by_stage.values()))
     if same_stage:
         stage_status = "same_stage_display_conflict_needs_primary_review"
     elif disagreement and unknown_stage_dates:
         stage_status = "unknown_stage_discrepancy_needs_primary_review"
+    elif mixed_precision:
+        stage_status = "mixed_precision_requires_primary_review"
+    elif timezone_equivalent:
+        stage_status = "equivalent_utc_instant_different_calendar_labels"
     elif disagreement:
         stage_status = "different_stages_not_directly_comparable"
     elif stage_label_reviews:
         stage_status = "stage_label_requires_review"
     else:
         stage_status = "stage_consistent_displays_unverified"
+    needs_review = bool(same_stage or mixed_precision or stage_label_reviews or
+                        (disagreement and not timezone_equivalent))
     return {
         "publication_number": evidence["publication_number"],
         "observation_count": len(rows),
@@ -124,7 +146,9 @@ def triage(evidence):
         "display_formats": sorted(formats),
         "source_kinds": sorted(kinds),
         "calendar_label_disagreement": disagreement,
-        "triage_status": "manual_primary_source_review" if disagreement else "unverified_display_agreement",
+        "same_stage_instant_conflict_stages": same_stage_instant,
+        "mixed_precision_review_stages": mixed_precision,
+        "triage_status": "manual_primary_source_review" if needs_review else "unverified_display_agreement",
         "explicit_stage_calendar_dates": {k: sorted(v) for k, v in sorted(explicit_stages.items())},
         "unknown_stage_calendar_dates": sorted(unknown_stage_dates),
         "same_stage_display_conflict_stages": same_stage,
