@@ -72,6 +72,8 @@ def triage(evidence):
     instants_by_stage = defaultdict(set)
     precision_by_stage = defaultdict(set)
     unknown_stage_dates = set()
+    unknown_stage_instants = defaultdict(set)
+    known_stage_instants_by_day = defaultdict(set)
     stage_label_reviews = []
     known_stage_dates = defaultdict(set)
     parsed = []
@@ -92,6 +94,8 @@ def triage(evidence):
             raise ValueError("unknown procurement stage or deadline label")
         if stage == "unknown":
             unknown_stage_dates.add(day)
+            if instant is not None:
+                unknown_stage_instants[day].add(instant)
         else:
             explicit_stages[stage].add(day)
             precision_by_stage[stage].add(fmt)
@@ -99,6 +103,7 @@ def triage(evidence):
                 date_only_by_stage[stage].add(day)
             else:
                 instants_by_stage[stage].add(instant)
+                known_stage_instants_by_day[day].add(instant)
             known_stage_dates[day].add(stage)
             if label not in ("unknown", "generic_deadline", _STAGE_LABEL[stage]):
                 stage_label_reviews.append(url)
@@ -113,6 +118,15 @@ def triage(evidence):
                 and known_stage_dates[day]
                 and any(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
             stage_label_reviews.append(url)
+    # An unknown-stage source with a different explicit time cannot establish
+    # same-stage conflict, but must not be silently counted as agreement.
+    unknown_stage_time_discrepancy = sorted(
+        day for day, instants in unknown_stage_instants.items()
+        if len(instants) > 1 or (
+            bool(known_stage_instants_by_day[day])
+            and any(instant not in known_stage_instants_by_day[day] for instant in instants)
+        )
+    )
     # Exact cutoff times are compared as UTC instants, not calendar labels.
     # Date-only claims cannot establish a matching hour or minute.
     same_stage_instant = sorted(stage for stage, instants in instants_by_stage.items() if len(instants) > 1)
@@ -125,6 +139,8 @@ def triage(evidence):
                            and not same_stage and all(len(v) == 1 for v in instants_by_stage.values()))
     if same_stage:
         stage_status = "same_stage_display_conflict_needs_primary_review"
+    elif unknown_stage_time_discrepancy:
+        stage_status = "unknown_stage_time_discrepancy_needs_primary_review"
     elif disagreement and unknown_stage_dates:
         stage_status = "unknown_stage_discrepancy_needs_primary_review"
     elif mixed_precision:
@@ -137,7 +153,7 @@ def triage(evidence):
         stage_status = "stage_label_requires_review"
     else:
         stage_status = "stage_consistent_displays_unverified"
-    needs_review = bool(same_stage or mixed_precision or stage_label_reviews or
+    needs_review = bool(same_stage or mixed_precision or unknown_stage_time_discrepancy or stage_label_reviews or
                         (disagreement and not timezone_equivalent))
     return {
         "publication_number": evidence["publication_number"],
@@ -147,6 +163,7 @@ def triage(evidence):
         "source_kinds": sorted(kinds),
         "calendar_label_disagreement": disagreement,
         "same_stage_instant_conflict_stages": same_stage_instant,
+        "unknown_stage_time_discrepancy_calendar_dates": unknown_stage_time_discrepancy,
         "mixed_precision_review_stages": mixed_precision,
         "triage_status": "manual_primary_source_review" if needs_review else "unverified_display_agreement",
         "explicit_stage_calendar_dates": {k: sorted(v) for k, v in sorted(explicit_stages.items())},
