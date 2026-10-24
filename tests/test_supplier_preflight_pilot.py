@@ -39,6 +39,14 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(result['correctness_regression_count'], 1)
         self.assertFalse(result['minimum_sample_quality_gate_met'])
 
+    def test_both_methods_wrong_still_blocks_quality_gate(self):
+        data = fixture(); data['tasks'][0]['baseline_correct'] = False
+        data['tasks'][0]['agent_correct'] = False
+        result = run(data)
+        self.assertEqual(result['correctness_regression_count'], 0)
+        self.assertEqual(result['agent_error_count'], 1)
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+
     def test_unchecked_source_blocks_gate(self):
         data = fixture(); data['tasks'][0]['primary_source_checked'] = False
         self.assertFalse(run(data)['minimum_sample_quality_gate_met'])
