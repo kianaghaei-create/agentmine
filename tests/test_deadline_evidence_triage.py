@@ -86,5 +86,40 @@ class StageTests(unittest.TestCase):
         self.assertFalse(result['legal_deadline_verified'])
 
 
+    def test_same_day_different_hours_cannot_be_agreement(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00', stage='participation_request'),
+                               row('2026-11-06T17:00:00+01:00', stage='participation_request')))
+        self.assertFalse(result['calendar_label_disagreement'])
+        self.assertEqual(result['same_stage_instant_conflict_stages'], ['participation_request'])
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_equal_instants_in_different_offsets_not_conflict(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00', stage='participation_request'),
+                               row('2026-11-06T08:00:00Z', stage='participation_request')))
+        self.assertEqual(result['same_stage_instant_conflict_stages'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+    def test_cross_midnight_equal_utc_instant_not_false_conflict(self):
+        result = triage(bundle(row('2026-11-06T23:30:00-02:00', stage='bid_submission'),
+                               row('2026-11-07T01:30:00Z', stage='bid_submission')))
+        self.assertTrue(result['calendar_label_disagreement'])
+        self.assertEqual(result['same_stage_display_conflict_stages'], [])
+        self.assertEqual(result['stage_aware_triage_status'], 'equivalent_utc_instant_different_calendar_labels')
+
+    def test_same_stage_mixed_precision_requires_review(self):
+        result = triage(bundle(row('2026-11-06', stage='bid_submission'),
+                               row('2026-11-06T17:00:00+01:00', stage='bid_submission')))
+        self.assertEqual(result['mixed_precision_review_stages'], ['bid_submission'])
+        self.assertEqual(result['stage_aware_triage_status'], 'mixed_precision_requires_primary_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+
+    def test_different_stages_different_times_no_same_stage_conflict(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00', stage='participation_request'),
+                               row('2026-11-06T17:00:00+01:00', stage='bid_submission')))
+        self.assertEqual(result['same_stage_instant_conflict_stages'], [])
+        self.assertEqual(result['mixed_precision_review_stages'], [])
+
+
 if __name__ == '__main__':
     unittest.main()
