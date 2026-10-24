@@ -1,0 +1,35 @@
+{
+  "observed_date": "2026-10-24",
+  "vendor": "Tilldelat",
+  "evidence_kind": "vendor_advertised_not_independently_tested",
+  "verified_customers": null,
+  "sources": {
+    "pricing": "https://tilldelat.se/pris",
+    "api": "https://tilldelat.se/api"
+  },
+  "advertised_pricing_sek_ex_vat": {
+    "pro_annual": 9950,
+    "pro_monthly": 995,
+    "market_insight_addon_annual": 9950,
+    "market_insight_addon_monthly": 995
+  },
+  "advertised_features": [
+    {"id": "tender_monitoring", "source": "pricing"},
+    {"id": "award_winners_bid_counts", "source": "pricing"},
+    {"id": "expiry_signals", "source": "api"},
+    {"id": "cancel_reissue_signals", "source": "api"},
+    {"id": "supplier_tracking", "source": "pricing"},
+    {"id": "agent_api_mcp", "source": "api"},
+    {"id": "concentration_analytics", "source": "api"},
+    {"id": "low_bid_intensity", "source": "api"},
+    {"id": "whitespace_mapping", "source": "api"},
+    {"id": "bid_history", "source": "api"}
+  ],
+  "caveats": [
+    "Published prices and functionality are vendor claims; no subscriptions or paying customers independently verified.",
+    "The API's low-bid metric is described as a share of tenders with at most two bids among records with known counts, not a national one-bid share.",
+    "Whitespaces are supplier/competitor opportunity signals, not proven buyer requests or opt-in RFQs.",
+    "Annual and monthly price plans are alternatives, not additional charges. Insight is an add-on requiring Pro.",
+    "No external API access, payments, signup, scraping or public deployment performed."
+  ]
+}
