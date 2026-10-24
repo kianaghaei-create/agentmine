@@ -1,0 +1,28 @@
+{
+  "experiment": "source_bound_task_specific_x402_context_projection",
+  "benchmark_date_utc": "2026-10-24",
+  "source_snapshot_path": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "source_snapshot_blob_sha": "1ebca8d3026f1d765416bca2625643e925ccea9e",
+  "source_record_canonical_sha256": "d9316aadc5313410906b768ff4ebf246f834a983c312a3c95f72271cd12c52a3",
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher_observed_at": "2026-10-24T01:59:48.103Z",
+  "selected_fields": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct"
+  ],
+  "full_source_canonical_utf8_bytes": 1731,
+  "projected_context_canonical_utf8_bytes": 1504,
+  "byte_difference": 227,
+  "byte_reduction_pct": 13.11,
+  "selected_field_values_preserved_exactly": true,
+  "publisher_method_and_all_caveats_preserved": true,
+  "comparison_scope": "same original JSON source, three selected fact fields; not a semantically equivalent replacement for arbitrary questions",
+  "tokenizer_used": null,
+  "actual_tokens_measured": false,
+  "model_answer_quality_measured": false,
+  "cost_savings_usd": null,
+  "paying_customers": null,
+  "interpretation": "13.11% reduction in canonical JSON bytes is modest once attribution, timestamps and all publisher caveats are retained. Not evidence of a commercial token-compression advantage.",
+  "reproduce": "python -m src.x402_compact_context --input data/evidence/x402_list_stats_2026-10-24T015948Z.json --fields supply.listed_services activity_30d.listed_service_deduplicated_settlements_usd activity_30d.top_10_services_volume_share_pct"
+}
