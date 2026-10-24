@@ -19,14 +19,14 @@
   "measurements": {
     "base_hit": true,
     "second_status": "delta",
-    "first_two_way_json_bytes": 2391,
+    "first_two_way_json_bytes": 2392,
     "baseline_second_two_way_json_bytes": 2391,
     "retained_second_request_json_bytes": 289,
     "retained_second_response_json_bytes": 1203,
     "retained_second_two_way_json_bytes": 1492,
     "second_two_way_json_bytes_avoided": 899,
-    "two_call_baseline_json_bytes": 4782,
-    "two_call_retained_json_bytes": 3883,
+    "two_call_baseline_json_bytes": 4783,
+    "two_call_retained_json_bytes": 3884,
     "two_call_json_reduction_pct": 18.8,
     "actual_http_bytes_measured": false,
     "upstream_requests_avoided": null,
@@ -35,7 +35,7 @@
     "verified_cost_savings_usd": null,
     "verified_paying_customers": null
   },
-  "verification": "Expected deterministic canonical JSON values asserted by exact-tree GitHub Actions unit tests; do not claim until run passes.",
+  "verification": "Deterministic canonical JSON values asserted in GitHub Actions exact-tree unit tests; source first envelope is 1 byte longer due to a five-digit source age.",
   "limitations": [
     "These are local serialized JSON sizes, not observed HTTP, token or dollar savings.",
     "Cache is process-local and not authenticated; scope string is not a security boundary.",
