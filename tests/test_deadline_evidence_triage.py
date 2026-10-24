@@ -121,5 +121,34 @@ class StageTests(unittest.TestCase):
         self.assertEqual(result['mixed_precision_review_stages'], [])
 
 
+    def test_unknown_stage_same_day_conflicting_hours_requires_review(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00'),
+                               row('2026-11-06T17:00:00+01:00')))
+        self.assertFalse(result['calendar_label_disagreement'])
+        self.assertEqual(result['unknown_stage_time_discrepancy_calendar_dates'], ['2026-11-06'])
+        self.assertEqual(result['stage_aware_triage_status'], 'unknown_stage_time_discrepancy_needs_primary_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertEqual(result['same_stage_display_conflict_stages'], [])
+
+    def test_unknown_stage_hour_differs_from_known_stage_requires_review(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00', stage='participation_request'),
+                               row('2026-11-06T17:00:00+01:00')))
+        self.assertEqual(result['unknown_stage_time_discrepancy_calendar_dates'], ['2026-11-06'])
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_unknown_stage_same_instant_different_offsets_is_not_time_conflict(self):
+        result = triage(bundle(row('2026-11-06T09:00:00+01:00', stage='participation_request'),
+                               row('2026-11-06T08:00:00Z')))
+        self.assertEqual(result['unknown_stage_time_discrepancy_calendar_dates'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+    def test_unknown_stage_same_day_date_only_does_not_invent_time_conflict(self):
+        result = triage(bundle(row('2026-11-06', stage='participation_request'),
+                               row('2026-11-06T17:00:00+01:00')))
+        self.assertEqual(result['unknown_stage_time_discrepancy_calendar_dates'], [])
+        self.assertFalse(result['legal_deadline_verified'])
+
+
 if __name__ == '__main__':
     unittest.main()
