@@ -57,6 +57,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     deltas = []
     costs = Decimal(0)
     correctness_regressions = 0
+    agent_errors = 0
     unchecked = 0
     for row in tasks:
         if not isinstance(row, dict) or set(row) != _ALLOWED_TASK:
@@ -77,10 +78,11 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         costs += _decimal(row['incremental_variable_cost_sek'], 'incremental_variable_cost_sek')
         deltas.append(baseline - agent)
         correctness_regressions += int(row['baseline_correct'] and not row['agent_correct'])
+        agent_errors += int(not row['agent_correct'])
         unchecked += int(not row['primary_source_checked'])
     total_minutes = sum(deltas, Decimal(0))
     net_value = total_minutes * hourly / Decimal(60) - costs
-    sample_gate = len(tasks) >= min_tasks and correctness_regressions == 0 and unchecked == 0
+    sample_gate = len(tasks) >= min_tasks and agent_errors == 0 and unchecked == 0
     return {
         'sample_kind': snapshot['sample_kind'],
         'source_observed_at_utc': snapshot['observed_at_utc'],
@@ -91,6 +93,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'faster_task_count': sum(delta > 0 for delta in deltas),
         'slower_task_count': sum(delta < 0 for delta in deltas),
         'correctness_regression_count': correctness_regressions,
+        'agent_error_count': agent_errors,
         'primary_source_unchecked_count': unchecked,
         'scenario_hourly_labor_cost_sek': str(hourly),
         'scenario_value_capture_pct': str(capture),
