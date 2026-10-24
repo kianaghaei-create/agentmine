@@ -1,0 +1,76 @@
+{
+  "review_date_utc": "2026-10-24",
+  "signal": "public_developer_reported_agent_context_token_overhead",
+  "evidence_strength": "developer_self_report_not_independently_reproduced",
+  "sources": [
+    {
+      "source_url": "https://github.com/openclaw/openclaw/issues/97317",
+      "source_project": "OpenClaw",
+      "reported_measurement_date": "2026-06-27",
+      "status_at_review": "closed_not_planned_2026-10-24",
+      "method_note": "Reporter compared token usage per run for five existing isolated cron jobs before and after enabling lightContext and limiting toolsAllow. Two baselines were approximate. Maintainer noted current behavior/options and requested fresh reproduction on recent releases; do not extrapolate to current versions.",
+      "comparisons": [
+        {
+          "id": "openclaw_upstream_12h",
+          "comparison_type": "same_job_configuration_change",
+          "before_tokens": 65611,
+          "after_tokens": 5672,
+          "approximate": false
+        },
+        {
+          "id": "openclaw_postiz_hourly",
+          "comparison_type": "same_job_configuration_change",
+          "before_tokens": 65531,
+          "after_tokens": 5367,
+          "approximate": false
+        },
+        {
+          "id": "openclaw_rss_6h",
+          "comparison_type": "same_job_configuration_change",
+          "before_tokens": 65498,
+          "after_tokens": 5324,
+          "approximate": false
+        },
+        {
+          "id": "openclaw_daily_cost_audit",
+          "comparison_type": "same_job_configuration_change",
+          "before_tokens": 100000,
+          "after_tokens": 6584,
+          "approximate": true
+        },
+        {
+          "id": "openclaw_calendar_recap",
+          "comparison_type": "same_job_configuration_change",
+          "before_tokens": 99000,
+          "after_tokens": 11442,
+          "approximate": true
+        }
+      ]
+    },
+    {
+      "source_url": "https://github.com/regionstockholm/intehrgrator/issues/277",
+      "source_project": "regionstockholm/intehrgrator",
+      "reported_measurement_date": "2026-10-23",
+      "status_at_review": "open_2026-10-24",
+      "method_note": "Maintainer compared whole API prompt to copy-inline delivery mode on two fixtures using tiktoken o200k_base. Different delivery modes are NOT a same-output benchmark and do not establish that one is a drop-in replacement.",
+      "comparisons": [
+        {
+          "id": "intehrgrator_sdv_api_vs_copy_inline",
+          "comparison_type": "different_delivery_modes",
+          "before_tokens": 83616,
+          "after_tokens": 6211,
+          "approximate": false
+        },
+        {
+          "id": "intehrgrator_mhv1_api_vs_copy_inline",
+          "comparison_type": "different_delivery_modes",
+          "before_tokens": 129990,
+          "after_tokens": 13725,
+          "approximate": false
+        }
+      ]
+    }
+  ],
+  "interpretation": "Real public engineering cost-friction signals; NOT AgentMine user demand, verified token billing, paid willingness to pay, repeat usage, equivalent outputs or revenue. The OpenClaw issue was closed not planned and must not be presented as an unresolved current platform bug.",
+  "next_validation": "Find one consented prospective buyer with a reproducible, source-licensed before/after context task; verify output quality, actual token usage and invoice-equivalent cost before product prioritization."
+}
