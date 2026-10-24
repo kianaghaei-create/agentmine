@@ -71,6 +71,48 @@ class CatalogTests(unittest.TestCase):
             collect(max_pages=1, per_page=1,
                     fetch=lambda n, s: payload, delay=0)
 
+    def test_invalid_price_rejected_before_market_analysis(self):
+        for bad in (True, -0.01, 'NaN', 'Infinity', 'not-a-price', [], {}):
+            with self.subTest(value=bad):
+                payload = page(1, size=1, total=1)
+                payload['data'][0]['min_price_usd'] = bad
+                with self.assertRaisesRegex(ValueError, 'listed min price'):
+                    collect(max_pages=1, per_page=1,
+                            fetch=lambda n, size: payload, delay=0)
+
+    def test_invalid_publisher_traction_volume_rejected(self):
+        for bad in (True, -1, 'NaN', '-Infinity', 'unknown', {}, []):
+            with self.subTest(value=bad):
+                payload = page(1, size=1, total=1)
+                payload['data'][0]['assessment']['traction']['volume_usd_30d'] = bad
+                with self.assertRaisesRegex(ValueError, 'publisher volume'):
+                    collect(max_pages=1, per_page=1,
+                            fetch=lambda n, size: payload, delay=0)
+
+    def test_invalid_publisher_buyer_address_count_rejected(self):
+        for bad in (True, -1, 1.5, '2', {}, []):
+            with self.subTest(value=bad):
+                payload = page(1, size=1, total=1)
+                payload['data'][0]['assessment']['traction']['unique_buyers_30d'] = bad
+                with self.assertRaisesRegex(ValueError, 'buyer-address count'):
+                    collect(max_pages=1, per_page=1,
+                            fetch=lambda n, size: payload, delay=0)
+
+    def test_missing_and_zero_price_and_traction_are_not_fabricated(self):
+        payload = page(1, size=1, total=1)
+        payload['data'][0]['min_price_usd'] = None
+        payload['data'][0]['assessment']['traction'] = {}
+        r = collect(max_pages=1, per_page=1, fetch=lambda n, size: payload, delay=0)
+        self.assertIsNone(r['records'][0]['listed_min_price_usd'])
+        self.assertIsNone(r['records'][0]['publisher_30d_volume_usd'])
+        self.assertIsNone(r['records'][0]['publisher_30d_buyer_addresses'])
+        payload['data'][0]['min_price_usd'] = '0.000001'
+        payload['data'][0]['assessment']['traction'] = {
+            'volume_usd_30d': '0.000001', 'unique_buyers_30d': 0}
+        r = collect(max_pages=1, per_page=1, fetch=lambda n, size: payload, delay=0)
+        self.assertEqual(r['records'][0]['listed_min_price_usd'], '0.000001')
+        self.assertEqual(r['records'][0]['publisher_30d_buyer_addresses'], 0)
+
     def test_inconsistent_total_rejected(self):
         with self.assertRaisesRegex(ValueError, 'totals changed'):
             collect(max_pages=2, per_page=2, fetch=lambda n,s: page(n,total=3 if n==1 else 4), delay=0)
