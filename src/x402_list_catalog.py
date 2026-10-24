@@ -34,7 +34,16 @@ def fetch_page(page, per_page, *, opener=urlopen, pause=time.sleep):
         except HTTPError as exc:
             if exc.code not in (429, 500, 502, 503, 504) or attempt == 2:
                 raise
-            pause(2 ** attempt)
+            delay_seconds = 2 ** attempt
+            retry_after = exc.headers.get('Retry-After') if exc.headers else None
+            if retry_after is not None:
+                value = retry_after.strip()
+                # Respect server backoff; never silently retry early when the
+                # server requests a long or non-numeric (HTTP-date) delay.
+                if not value.isascii() or not value.isdecimal() or len(value) > 2 or int(value) > 30:
+                    raise
+                delay_seconds = max(delay_seconds, int(value))
+            pause(delay_seconds)
     raise RuntimeError('unreachable')
 
 
