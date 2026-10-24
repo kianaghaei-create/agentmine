@@ -82,6 +82,24 @@ class HttpETagBaselineTests(unittest.TestCase):
         self.assertIsNone(r["verified_paying_customers"])
         self.assertIsNone(r["verified_cost_savings_usd"])
 
+    def test_published_constructed_frame_counts_match(self):
+        evidence = json.loads(
+            (ROOT / "context_http_etag_baseline_2026-10-24.json").read_text()
+        )["measurements"]
+        for actual, expected in (
+            (self.run_benchmark(self.old, self.old), evidence["unchanged_source"]),
+            (self.run_benchmark(), evidence["real_publisher_refresh"]),
+        ):
+            with self.subTest(status=expected["conditional_status"]):
+                self.assertEqual(actual["conditional_second_status"],
+                                 expected["conditional_status"])
+                self.assertEqual(actual["two_call_unconditional_http11_bytes"],
+                                 expected["unconditional_two_call_http11_bytes"])
+                self.assertEqual(actual["two_call_conditional_http11_bytes"],
+                                 expected["conditional_two_call_http11_bytes"])
+                self.assertEqual(actual["two_call_http11_bytes_avoided"],
+                                 expected["bytes_avoided"])
+
     def test_frames_have_complete_crlf_headers_and_body(self):
         r = deliver(self.old, FIELDS, as_of=NOW, max_age_seconds=21600)
         full = _response(r)
