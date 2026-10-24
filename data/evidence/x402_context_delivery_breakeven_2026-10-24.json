@@ -1,0 +1,77 @@
+{
+  "experiment": "source_bound_agent_context_delivery_break_even",
+  "benchmark_date_utc": "2026-10-24",
+  "source_snapshot_path": "data/evidence/x402_list_stats_2026-10-24T015948Z.json",
+  "source_snapshot_blob_sha": "1ebca8d3026f1d765416bca2625643e925ccea9e",
+  "source_record_canonical_sha256": "d9316aadc5313410906b768ff4ebf246f834a983c312a3c95f72271cd12c52a3",
+  "source": "https://x402-list.com/api/v1/stats",
+  "source_license": "CC-BY-4.0",
+  "source_attribution": "Data: x402-list.com (CC BY 4.0)",
+  "publisher_computed_at": "2026-10-24T01:59:48.103Z",
+  "field_order": [
+    "supply.listed_services",
+    "activity_30d.listed_service_deduplicated_settlements_usd",
+    "activity_30d.top_10_services_volume_share_pct",
+    "supply.listed_endpoints",
+    "supply.services_with_traction_measurement",
+    "supply.verified_delivery_services",
+    "supply.payment_ready_services",
+    "supply.new_listings_30d",
+    "supply.median_listed_endpoint_price_usd",
+    "activity_30d.listed_service_settlement_count",
+    "activity_30d.distinct_buyer_addresses_reported",
+    "activity_30d.top_1_service_volume_share_pct",
+    "activity_30d.top_1_service_top_buyer_share_pct",
+    "activity_30d.top_1_service_data_imported",
+    "activity_30d.coverage_of_measured_facilitator_flow_pct"
+  ],
+  "comparison": "canonical UTF-8 JSON bytes of payload alone; excludes result wrapper; preserves publisher caveats, attribution, license and source SHA in projected payload",
+  "full_source_canonical_utf8_bytes": 1731,
+  "measured_prefix_examples": [
+    {
+      "requested_fields": 3,
+      "projected_bytes": 1504,
+      "byte_difference": 227,
+      "byte_difference_pct": 13.11,
+      "chosen_mode": "requested_facts_projection"
+    },
+    {
+      "requested_fields": 8,
+      "projected_bytes": 1688,
+      "byte_difference": 43,
+      "byte_difference_pct": 2.48,
+      "chosen_mode": "requested_facts_projection"
+    },
+    {
+      "requested_fields": 9,
+      "projected_bytes": 1735,
+      "byte_difference": -4,
+      "byte_difference_pct": -0.23,
+      "chosen_mode": "original_source_fallback"
+    },
+    {
+      "requested_fields": 15,
+      "projected_bytes": 2059,
+      "byte_difference": -328,
+      "byte_difference_pct": -18.95,
+      "chosen_mode": "original_source_fallback"
+    }
+  ],
+  "first_expanding_prefix_field_count": 9,
+  "first_expanding_prefix_note": "Threshold applies only to this particular ordered, constructed field sequence and this dated source, not to all agent queries.",
+  "source_publisher_activity_is_not_verified_customers": true,
+  "task_queries_observed": false,
+  "task_field_coverage_validated_by_users": false,
+  "actual_tokens_measured": false,
+  "model_answer_quality_measured": false,
+  "actual_cost_savings_usd": null,
+  "paying_customers": null,
+  "revenue_usd": null,
+  "reproduction": "python -m src.context_delivery_decision --input data/evidence/x402_list_stats_2026-10-24T015948Z.json --prefix-benchmark --fields [the ordered field paths listed in field_order]",
+  "code_path": "src/context_delivery_decision.py",
+  "test_path": "tests/test_context_delivery_decision.py",
+  "ci_run_url": "https://github.com/kianaghaei-create/agentmine/actions/runs/40067702871",
+  "ci_exact_commit": "f9d211251c52410981490095bcd74b49ea32dd2b",
+  "ci_tests_passed": 295,
+  "interpretation": "A provenance-preserving projection expands source bytes by nine requested fields in this scenario. Prefer original-source fallback rather than claim savings; test task correctness and real tokenizer/billing before considering monetization."
+}
