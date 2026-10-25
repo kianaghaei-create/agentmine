@@ -1,0 +1,42 @@
+{
+  "evidence_type": "official_TED_cross_month_procedure_identity_not_verified_competitor_recall",
+  "observed_at_utc": "2026-10-25T16:45:24Z",
+  "sources": [
+    "https://api.ted.europa.eu/v3/notices/search",
+    "https://licitera.se/oppen-data"
+  ],
+  "cross_month_query": "publication-date >= 20260801 AND publication-date <= 20261025 AND buyer-country = SWE AND classification-cpv = 7231*",
+  "observed": {
+    "complete_extended_ted_publication_numbers": 27,
+    "notices_by_publication_month": {
+      "2026-08": 4,
+      "2026-09": 13,
+      "2026-10": 10
+    },
+    "september_ted_publication_numbers": 13,
+    "september_licitera_procurement_rows": 1240,
+    "september_licitera_any_cpv7231_rows": 8,
+    "exact_7231_ted_publication_matches": 8,
+    "september_unmatched_contract_notices": 3,
+    "unmatched_contract_notices_same_procedure_as_matched_september": 2,
+    "unmatched_contract_notices_without_procedure_link_in_bounded_aug_oct_cpv7231_swe_cohort": 1
+  },
+  "provenance": {
+    "read_only_real_data_workflow": "https://github.com/kianaghaei-create/agentmine/actions/runs/40213186841",
+    "workflow_head": "c4b9238bfa848c1337e8d5591d49af02b7ff8807",
+    "aggregate_only_artifact_id": 12606113342,
+    "artifact_digest_sha256": "72a81f6e412a975c65f3d49f790ddb2aa62b5423874da9bf858b05a5d5d465b1",
+    "exact_tree_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/40213186827",
+    "ci_head": "c4b9238bfa848c1337e8d5591d49af02b7ff8807",
+    "ci_tests_passed": 548,
+    "validation": "GitHub job log reports complete aggregate 27-notice cohort and three-category procedure reconciliation; GitHub Actions artifact metadata reports ZIP digest. Artifact ZIP content not independently downloaded this run."
+  },
+  "interpretation": "The two already procedure-linked September unmatched contract notices remain linked. The remaining one has no same-procedure link among 27 official Swedish CPV7231 TED notices published Aug 1-Oct 25, 2026. This bounded negative search does not establish a distinct procurement, incumbent product miss, current open tender, supplier demand, willingness to pay or AgentMine revenue. Other CPV groups, months and non-TED sources are outside the search.",
+  "verified_distinct_new_opportunities": null,
+  "verified_competitor_search_misses": null,
+  "verified_current_open_deadlines": null,
+  "verified_paying_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null,
+  "next_gate": "Test authorized incumbent search retrieval and consented supplier task outcomes; if identity uncertainty matters, inspect other CPV families/months rather than claiming a missed opportunity."
+}
