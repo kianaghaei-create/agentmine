@@ -59,6 +59,7 @@ def public_date_diagnostic(path):
     reader = csv.DictReader(io.StringIO("".join(lines)), delimiter=";")
     shapes = Counter()
     safe_examples = []
+    anonymized_shapes = Counter()
     for row in reader:
         value = (row.get("Publicerad") or "").strip()
         if re.fullmatch(r"20\d{2}-\d{2}-\d{2}", value):
@@ -69,10 +70,13 @@ def public_date_diagnostic(path):
             shapes["iso_datetime"] += 1
         else:
             shapes["other"] += 1
+            masked = "".join("9" if char.isdigit() else "A" if char.isalpha() else char for char in value[:60])
+            anonymized_shapes[masked] += 1
         if shapes["other"] and len(safe_examples) < 3 and re.fullmatch(r"[0-9TZ:+. /-]{1,40}", value):
             if value not in safe_examples:
                 safe_examples.append(value)
-    return {"date_shapes": dict(shapes), "safe_other_examples": safe_examples}
+    return {"date_shapes": dict(shapes), "safe_other_examples": safe_examples,
+            "anonymized_other_patterns": anonymized_shapes.most_common(4)}
 
 
 def previous_month(now):
