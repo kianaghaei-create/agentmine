@@ -6,6 +6,7 @@ memory and only count summaries are returned.
 """
 from collections import Counter
 from datetime import date
+import re
 from src.ted_procedure_gap_triage import _procedure
 
 SOURCE = "https://api.ted.europa.eu/v3/notices/search"
@@ -39,8 +40,10 @@ def _checked(snapshot, query):
         stamp = row.get("publication-date")
         if not isinstance(stamp, str):
             raise ValueError("missing TED publication date")
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(?:[+-][0-9]{2}:[0-9]{2}|Z)?", stamp):
+            raise ValueError("invalid TED publication date shape")
         try:
-            day = date.fromisoformat(stamp)
+            day = date.fromisoformat(stamp[:10])
         except ValueError as exc:
             raise ValueError("invalid TED publication date") from exc
         if not START <= day <= END:
