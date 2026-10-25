@@ -21,7 +21,10 @@ def _titles(value):
         values = value
     else:
         return set()
-    if len(values) > 20:
+    # TED notice-title commonly contains one translation per EU language (24).
+    # Do not discard the entire official title projection at 20 languages.
+    # Keep strict bounds for unexpectedly large/malformed payloads.
+    if len(values) > (32 if isinstance(value, dict) else 20):
         return set()
     flat = []
     for item in values:
@@ -29,7 +32,7 @@ def _titles(value):
             flat.extend(item[:20])
         else:
             flat.append(item)
-    if len(flat) > 40:
+    if len(flat) > 64:
         return set()
     normalized = set()
     for item in flat:
