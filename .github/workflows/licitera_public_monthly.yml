@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/workflows/licitera_public_monthly.yml"
       - "src/licitera_public_monthly_runner.py"
+      - "src/licitera_monthly_supply.py"
+      - "src/licitera_cpv_segment.py"
   workflow_dispatch:
 
 permissions:
