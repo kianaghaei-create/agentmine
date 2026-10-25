@@ -90,4 +90,37 @@ class Tests(unittest.TestCase):
     def test_missing_data_fails_closed(self):
         self.assertEqual(analyze([None,observation('routed')])['measured_comparable_pairs'],0)
 
+
+    def test_privacy_rejects_unexpected_customer_fields(self):
+        row = observation(customer_email='private@example.org')
+        result = analyze([row, observation('routed')])
+        self.assertEqual(result['quoted_comparable_pairs'], 0)
+        self.assertEqual(result['rejected_tasks'][0]['reason'], 'invalid_observation')
+        self.assertNotIn('private@example.org', str(result))
+
+    def test_invalid_task_identifier_never_echoed(self):
+        result = analyze([observation(task_id='person@example.org'),
+                          observation('routed', task_id='person@example.org')])
+        self.assertEqual(result['quoted_comparable_pairs'], 0)
+        self.assertEqual(len(result['rejected_tasks']), 2)
+        self.assertNotIn('person@example.org', str(result))
+        self.assertTrue(all(row['reason'] == 'missing_or_duplicate_mode'
+                            for row in result['rejected_tasks']))
+
+    def test_source_urls_with_query_secrets_or_fragments_rejected(self):
+        for source in ('https://example.org/evidence?api_key=secret123',
+                       'https://example.org/evidence#private'):
+            with self.subTest(source=source):
+                result = analyze([observation(evidence_url=source), observation('routed')])
+                self.assertEqual(result['quoted_comparable_pairs'], 0)
+                self.assertEqual(result['rejected_tasks'][0]['reason'], 'invalid_observation')
+                self.assertNotIn('secret123', str(result))
+
+    def test_required_fields_cannot_be_silently_omitted(self):
+        row = observation()
+        del row['network_usd']
+        result = analyze([row, observation('routed')])
+        self.assertEqual(result['quoted_comparable_pairs'], 0)
+        self.assertEqual(result['rejected_tasks'][0]['reason'], 'invalid_observation')
+
 if __name__ == '__main__': unittest.main()
