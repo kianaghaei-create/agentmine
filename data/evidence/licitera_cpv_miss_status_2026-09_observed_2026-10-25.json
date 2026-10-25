@@ -1,22 +1,23 @@
 {
   "evidence_type": "observed_public_monthly_cpv_main_union_miss_status_not_live_or_competitor_results",
   "publication_month": "2026-09",
-  "observed_at_utc": "2026-10-25T08:48:23Z",
+  "observed_at_utc": "2026-10-25T08:49:11Z",
   "source_page": "https://licitera.se/oppen-data",
   "license": "CC BY 4.0, free public previous-month exports only",
   "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
   "provenance": {
-    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178073760",
-    "workflow_head_sha": "e481accd6bdd582311f517bbfef12ce1b4a9b78e",
-    "artifact_id": 12593003306,
-    "artifact_zip_sha256": "e6dcc515b89ca5582855ff56b0868dde1bb0789791ae6a4e17701deb32f1d066",
-    "evidence_from": "successful real-data GitHub Actions job log; aggregate artifact created, not independently extracted in this run",
-    "exact_head_ci_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178073724",
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178127678",
+    "workflow_head_sha": "64c99db1fd503e5bc4a939cdb601456823c34939",
+    "artifact_id": 12592649055,
+    "artifact_zip_sha256": "bcb498b570fb1f72c01ad0ec1d41e9972c105e5e808d308f62fb473d40c6c31a",
+    "evidence_from": "Successful corrected real-data GitHub Actions job log; aggregate artifact uploaded; source-file hashes are preserved in runner after provenance-shadowing bug fix. Artifact contents not independently extracted this run. Latest test-only commit does not change runner source.",
+    "exact_head_ci_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178133557",
     "exact_head_ci_tests_passed": 493,
     "prior_same_month_public_gzip_sha256_not_reverified_this_run": {
       "upphandlingar.csv.gz": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
       "tilldelningar.csv.gz": "264af06b07db084b9fe71bcacbcbe255deaecc1c0bf401efbbc91576be"
-    }
+    },
+    "provenance_integrity_fix": "Earlier runner head e481acc shadowed source_files metadata while reconciling source breakdown; corrected at 64c99db and protected by test e48d923."
   },
   "total_public_procurement_rows": 1240,
   "any_cpv48_or_72_unique_notice_rows": 159,
