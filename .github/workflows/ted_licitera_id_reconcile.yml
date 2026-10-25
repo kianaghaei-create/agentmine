@@ -1,0 +1,34 @@
+name: Cross-source TED Licitera CPV7231 ID reconciliation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_licitera_id_reconcile.yml"
+      - "src/ted_licitera_id_reconcile.py"
+      - "src/ted_notice_evidence.py"
+      - "src/ted_cpv7231_public_probe.py"
+      - "src/licitera_monthly_supply.py"
+      - "src/licitera_cpv_segment.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-public-id-join:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Reconcile only free September 2026 public cohorts (aggregate-only)
+        run: python3 -m src.ted_licitera_id_reconcile --output ted-licitera-aggregate.json
+      - name: Upload aggregate counts only (no source IDs, names or raw rows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-licitera-cpv7231-aggregate
+          path: ted-licitera-aggregate.json
+          if-no-files-found: error
+          retention-days: 7
