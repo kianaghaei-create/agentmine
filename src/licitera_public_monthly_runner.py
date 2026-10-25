@@ -5,12 +5,14 @@ public deployment. Raw files remain in a temporary directory and are deleted.
 Source: https://licitera.se/oppen-data (CC BY 4.0, attribution required).
 """
 import argparse
+from collections import Counter
 import csv
 from datetime import datetime, timezone
 import gzip
 import hashlib
 import io
 import json
+import re
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.request import Request, urlopen
@@ -45,6 +47,32 @@ def public_header_diagnostic(path):
                     "column_names": columns if safe else None}
     return {"candidate_line": None, "column_count": 0,
             "recognized_header": False, "column_names": None}
+
+
+
+def public_date_diagnostic(path):
+    """Aggregate public date-field shapes without logging tender rows or IDs."""
+    with gzip.open(path, "rt", encoding="utf-8-sig", newline="") as handle:
+        lines = handle.readlines()
+    while lines and (not lines[0].strip() or lines[0].lstrip().startswith("#")):
+        lines.pop(0)
+    reader = csv.DictReader(io.StringIO("".join(lines)), delimiter=";")
+    shapes = Counter()
+    safe_examples = []
+    for row in reader:
+        value = (row.get("Publicerad") or "").strip()
+        if re.fullmatch(r"20\d{2}-\d{2}-\d{2}", value):
+            shapes["iso_date"] += 1
+        elif not value:
+            shapes["missing"] += 1
+        elif re.fullmatch(r"20\d{2}-\d{2}-\d{2}[T ][0-9:.+Z-]{2,35}", value):
+            shapes["iso_datetime"] += 1
+        else:
+            shapes["other"] += 1
+        if shapes["other"] and len(safe_examples) < 3 and re.fullmatch(r"[0-9TZ:+. /-]{1,40}", value):
+            if value not in safe_examples:
+                safe_examples.append(value)
+    return {"date_shapes": dict(shapes), "safe_other_examples": safe_examples}
 
 
 def previous_month(now):
@@ -89,6 +117,7 @@ def run(*, now=None, fetcher=fetch_public_file):
         sources = {name: fetcher(name, paths[name]) for name in _NAMES}
         for name in _NAMES:
             print("Public monthly CSV schema:", name, json.dumps(public_header_diagnostic(paths[name]), ensure_ascii=False))
+        print("Public procurement date shapes:", json.dumps(public_date_diagnostic(paths["upphandlingar.csv.gz"]), ensure_ascii=False))
         segments = analyze_segments(paths["upphandlingar.csv.gz"], expected_month=month)
         supply = analyze_supply(paths["upphandlingar.csv.gz"], expected_month=month,
                                 award_csv=paths["tilldelningar.csv.gz"])
