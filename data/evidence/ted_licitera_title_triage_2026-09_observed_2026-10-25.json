@@ -1,0 +1,40 @@
+{
+  "evidence_type": "official_TED_to_Licitera_title_candidate_coverage_not_entity_resolution_or_competitor_recall",
+  "publication_month": "2026-09",
+  "observed_at_utc": "2026-10-25T13:41:06.345596Z",
+  "source_urls": [
+    "https://api.ted.europa.eu/v3/notices/search",
+    "https://licitera.se/oppen-data"
+  ],
+  "license_and_attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine. TED official public Search API.",
+  "observed": {
+    "ted_complete_cpv7231_swe_publication_numbers": 13,
+    "licitera_september_procurement_rows": 1240,
+    "licitera_any_cpv7231_rows": 8,
+    "exact_publication_number_matches": 8,
+    "ted_contract_notice_numbers_absent_from_full_licitera_export": 3,
+    "ted_award_notice_numbers_absent_from_full_licitera_export": 2,
+    "licitera_rows_with_usable_title": 1212,
+    "unmatched_ted_contract_notices_with_usable_title_before_parser_fix": 0,
+    "unmatched_ted_contract_notices_with_usable_title_after_parser_fix": 3,
+    "unmatched_ted_contract_notices_with_any_exact_normalized_title_candidate": 0
+  },
+  "method": "Fixed the 20-language title-map cap, which discarded normal TED 24-language notice-title projections. Accept up to 32 language entries and 64 flattened strings, with fail-closed bounds and regression tests. Compare only casefolded/Unicode-NFKC/whitespace-normalized titles against all Licitera September rows; no identifiers or titles published.",
+  "provenance": {
+    "code_commit": "2079b2faa8cdf0defc16fb8a3b493b442ad09a8f",
+    "regression_tests_commit": "c58d776394735109cd8617976c66ae8d57da589b",
+    "exact_tree_ci_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40198725670",
+    "exact_tree_tests_passed": 532,
+    "real_data_workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40198723450",
+    "aggregate_artifact_id": 12600644956,
+    "aggregate_artifact_zip_sha256": "29711fe3c3da370ddfe91b5ddbb50b4d1e972d74b117ae60e8920f366e4abce9",
+    "licitera_source_gzip_sha256": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1"
+  },
+  "interpretation": "All three unmatched TED contract notices have usable multilingual titles after the fix, but none has a literally identical normalized title anywhere in the 1,240-row Licitera September export. This rules out simple exact-title aliases in that cohort, not differently translated/edited titles, another publication month, alternative procedure references or the searchable Licitera product. The three notices are not independently verified live opportunities.",
+  "verified_incumbent_product_search_misses": null,
+  "verified_current_open_deadlines": null,
+  "verified_supplier_time_savings": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "next_gate": "Check procedure identifiers and related-publication references for the three official notices via lawful public TED fields, then perform authorized incumbent retrieval and opt-in supplier time-saved comparison; avoid fuzzy identity claims without primary source verification."
+}
