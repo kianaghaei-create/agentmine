@@ -46,6 +46,7 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(result["exact_joined_licitera_rows"], 2)
         self.assertEqual(result["exact_joined_distinct_ted_publication_numbers"], 2)
         self.assertEqual(result["matched_ted_notice_types"], {"award_notice": 1, "contract_notice": 1})
+        self.assertEqual(result["ted_unmatched_notice_types"], {})
         self.assertEqual(result["matched_licitera_broad_main_48_72_baseline"], {"covered": 1, "missed": 1})
         self.assertIsNone(result["cross_source_recall_estimate"])
         for secret in ("internal-secret-a", "000001-2026", "000002-2026"):
@@ -62,6 +63,7 @@ class ReconciliationTests(unittest.TestCase):
         result = reconcile([row("a", "000001-2026"), row("b", "000001-2026")], ted())
         self.assertEqual(result["exact_joined_licitera_rows"], 2)
         self.assertEqual(result["exact_joined_distinct_ted_publication_numbers"], 1)
+        self.assertEqual(result["ted_unmatched_notice_types"], {"contract_award_notice": 1})
 
     def test_reject_duplicate_internal_id(self):
         with self.assertRaisesRegex(ValueError, "duplicate"):
