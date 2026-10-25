@@ -72,7 +72,7 @@ def public_date_diagnostic(path):
             shapes["other"] += 1
             masked = "".join("9" if char.isdigit() else "A" if char.isalpha() else char for char in value[:60])
             anonymized_shapes[masked] += 1
-        if shapes["other"] and len(safe_examples) < 3 and re.fullmatch(r"[0-9TZ:+. /-]{1,40}", value):
+        if shapes["other"] and len(safe_examples) < 3 and (re.fullmatch(r"[0-9TZ:+. /-]{1,40}", value) or re.fullmatch(r"[A-Za-zÅÄÖåäö]{3} [A-Za-zÅÄÖåäö]{3} [0-9]{2}", value)):
             if value not in safe_examples:
                 safe_examples.append(value)
     return {"date_shapes": dict(shapes), "safe_other_examples": safe_examples,
