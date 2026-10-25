@@ -41,6 +41,27 @@ class TitleGapTriageTests(unittest.TestCase):
                         [notice({"sv": "Helt annat namn", "en": "Data management services"})])
         self.assertEqual(result["title_candidate_categories"], {"one_same_date_title_candidate_not_identity": 1})
 
+    def test_ted_24_language_title_projection_is_not_silently_discarded(self):
+        languages = ("bul", "spa", "ces", "dan", "deu", "ell", "est", "fin",
+                     "fra", "gle", "hrv", "hun", "ita", "lav", "lit", "mlt",
+                     "nld", "pol", "por", "ron", "slk", "slv", "swe", "eng")
+        multilingual = {language: [f"Translated procurement {i}"]
+                        for i, language in enumerate(languages)}
+        multilingual["swe"] = ["Municipal data platform"]
+        result = triage([row("Municipal data platform")],
+                        [notice(multilingual)])
+        self.assertEqual(result["unmatched_ted_contract_notices_with_usable_title"], 1)
+        self.assertEqual(result["title_candidate_categories"],
+                         {"one_same_date_title_candidate_not_identity": 1})
+        self.assertIsNone(result["verified_same_procurement_entities"])
+        self.assertNotIn("Municipal data platform", str(result))
+
+    def test_oversized_language_map_is_rejected_without_leaking_text(self):
+        multilingual = {f"language{i}": "Municipal data platform" for i in range(33)}
+        result = triage([row("Municipal data platform")], [notice(multilingual)])
+        self.assertEqual(result["title_candidate_categories"],
+                         {"missing_usable_ted_title": 1})
+
     def test_nested_language_list(self):
         result = triage([row("Data management services")],
                         [notice({"eng": ["Data management services"]})])
