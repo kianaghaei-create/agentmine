@@ -1,0 +1,173 @@
+{
+  "evidence_type": "observed_real_public_cpv_four_digit_subfamily_supply_not_paying_demand",
+  "retrieved_at_utc": "2026-10-25T05:42:30.845387Z",
+  "publication_month": "2026-09",
+  "publisher": "Licitera",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0, public previous-month exports",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "source_sha256": {
+    "upphandlingar.csv.gz": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+    "tilldelningar.csv.gz": "264af06b07db084b9fe71bcacbcbe1accbe255deaecc1c0bf401efbbc91576be"
+  },
+  "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40166502288",
+  "workflow_head_sha": "61b25259ea374028b33c1f062a9ac61e58d88575",
+  "artifact_id": 12588158050,
+  "artifact_digest": "sha256:274fabb478116fa8069e9474c2c4d1468d1c12b2d2e33886fddb9fd4f899b4ac",
+  "exact_tree_unit_tests": {
+    "passed": 490,
+    "total": 490,
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40166512711",
+    "head_sha": "96074567fdaa8b27f54958ce2209c70f99146bc3"
+  },
+  "procurement_rows": 1240,
+  "cpv48_any_notice_rows": 84,
+  "cpv72_any_notice_rows": 122,
+  "cpv48_or_72_unique_notice_rows": 159,
+  "notices_in_multiple_four_digit_families": 80,
+  "four_digit_families_at_least_5_notices": 16,
+  "suppressed_families_below_5_notices": 30,
+  "suppressed_small_family_notice_memberships": 62,
+  "observed_subfamilies": [
+    {
+      "cpv_prefix": "7200",
+      "notice_rows": 80,
+      "main_family_rows": 59,
+      "secondary_only_rows": 21,
+      "distinct_unverified_buyer_ids": 58,
+      "publisher_open_labeled_rows_not_live": 37
+    },
+    {
+      "cpv_prefix": "4800",
+      "notice_rows": 55,
+      "main_family_rows": 24,
+      "secondary_only_rows": 31,
+      "distinct_unverified_buyer_ids": 40,
+      "publisher_open_labeled_rows_not_live": 40
+    },
+    {
+      "cpv_prefix": "7222",
+      "notice_rows": 23,
+      "main_family_rows": 8,
+      "secondary_only_rows": 15,
+      "distinct_unverified_buyer_ids": 20,
+      "publisher_open_labeled_rows_not_live": 15
+    },
+    {
+      "cpv_prefix": "7226",
+      "notice_rows": 23,
+      "main_family_rows": 12,
+      "secondary_only_rows": 11,
+      "distinct_unverified_buyer_ids": 20,
+      "publisher_open_labeled_rows_not_live": 16
+    },
+    {
+      "cpv_prefix": "7221",
+      "notice_rows": 13,
+      "main_family_rows": 4,
+      "secondary_only_rows": 9,
+      "distinct_unverified_buyer_ids": 11,
+      "publisher_open_labeled_rows_not_live": 10
+    },
+    {
+      "cpv_prefix": "4881",
+      "notice_rows": 12,
+      "main_family_rows": 3,
+      "secondary_only_rows": 9,
+      "distinct_unverified_buyer_ids": 11,
+      "publisher_open_labeled_rows_not_live": 8
+    },
+    {
+      "cpv_prefix": "7225",
+      "notice_rows": 10,
+      "main_family_rows": 0,
+      "secondary_only_rows": 10,
+      "distinct_unverified_buyer_ids": 10,
+      "publisher_open_labeled_rows_not_live": 9
+    },
+    {
+      "cpv_prefix": "4821",
+      "notice_rows": 10,
+      "main_family_rows": 1,
+      "secondary_only_rows": 9,
+      "distinct_unverified_buyer_ids": 9,
+      "publisher_open_labeled_rows_not_live": 8
+    },
+    {
+      "cpv_prefix": "4845",
+      "notice_rows": 10,
+      "main_family_rows": 2,
+      "secondary_only_rows": 8,
+      "distinct_unverified_buyer_ids": 8,
+      "publisher_open_labeled_rows_not_live": 6
+    },
+    {
+      "cpv_prefix": "4840",
+      "notice_rows": 8,
+      "main_family_rows": 1,
+      "secondary_only_rows": 7,
+      "distinct_unverified_buyer_ids": 8,
+      "publisher_open_labeled_rows_not_live": 6
+    },
+    {
+      "cpv_prefix": "7231",
+      "notice_rows": 8,
+      "main_family_rows": 0,
+      "secondary_only_rows": 8,
+      "distinct_unverified_buyer_ids": 8,
+      "publisher_open_labeled_rows_not_live": 8
+    },
+    {
+      "cpv_prefix": "4844",
+      "notice_rows": 7,
+      "main_family_rows": 2,
+      "secondary_only_rows": 5,
+      "distinct_unverified_buyer_ids": 7,
+      "publisher_open_labeled_rows_not_live": 5
+    },
+    {
+      "cpv_prefix": "4833",
+      "notice_rows": 6,
+      "main_family_rows": 0,
+      "secondary_only_rows": 6,
+      "distinct_unverified_buyer_ids": 6,
+      "publisher_open_labeled_rows_not_live": 6
+    },
+    {
+      "cpv_prefix": "7220",
+      "notice_rows": 6,
+      "main_family_rows": 1,
+      "secondary_only_rows": 5,
+      "distinct_unverified_buyer_ids": 6,
+      "publisher_open_labeled_rows_not_live": 4
+    },
+    {
+      "cpv_prefix": "7232",
+      "notice_rows": 5,
+      "main_family_rows": 3,
+      "secondary_only_rows": 2,
+      "distinct_unverified_buyer_ids": 5,
+      "publisher_open_labeled_rows_not_live": 5
+    },
+    {
+      "cpv_prefix": "4890",
+      "notice_rows": 5,
+      "main_family_rows": 1,
+      "secondary_only_rows": 4,
+      "distinct_unverified_buyer_ids": 4,
+      "publisher_open_labeled_rows_not_live": 4
+    }
+  ],
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null,
+  "interpretation": "CPV7225 (10/10) and CPV7231 (8/8) appeared exclusively as secondary codes in the September publisher sample. A main-only search would miss all notices carrying these families in this sample. This is a discovery-coverage finding, not proof of unserved demand or monetizable differentiation; incumbent search capabilities must be compared.",
+  "limitations": [
+    "A single monthly publisher cohort is not a national or representative market census.",
+    "Four-digit families overlap; summing their notice counts double counts rows.",
+    "The broad 7200 and 4800 family prefixes are not narrowly differentiated products.",
+    "Buyer IDs are publisher labels, not independently verified unique firms.",
+    "Publisher 'open' labels are not verified current deadlines, and September notices may be stale.",
+    "No actual supplier preflight, buyer consent, time saving, payment intent or customer acquisition observed."
+  ]
+}
