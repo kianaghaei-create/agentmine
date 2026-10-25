@@ -16,12 +16,13 @@ class RunnerTests(unittest.TestCase):
     def test_public_header_diagnostic_never_echoes_data_rows(self):
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / 'proc.csv.gz'
-            path.write_bytes(gzip.compress(('\\ufeff# metadata\\n\\n# second\\n' + P + 'private-id;b1;48000000;48000000;2026-09-01;r1;ted\\n').encode('utf-8')))
+            data = chr(0xfeff) + '# metadata\n\n# second\n' + P + 'private-id;b1;48000000;48000000;2026-09-01;r1;ted\n'
+            path.write_bytes(gzip.compress(data.encode('utf-8')))
             diag = public_header_diagnostic(path)
             self.assertEqual(diag['recognized_header'], True)
             self.assertIn('Internt id', diag['column_names'])
             self.assertNotIn('private-id', str(diag))
-            path.write_bytes(gzip.compress(b'not-a-header\\nprivate@example.com;secret\\n'))
+            path.write_bytes(gzip.compress(b'not-a-header\nprivate@example.com;secret\n'))
             diag = public_header_diagnostic(path)
             self.assertEqual(diag['recognized_header'], False)
             self.assertNotIn('private@example.com', str(diag))
