@@ -59,7 +59,7 @@ def _checked(snapshot, query):
 
 
 def triage_cross_month(september_notices, matched_ids, unmatched_contract_notices,
-                       extended_snapshot, september_query):
+                       extended_snapshot):
     """Compare unmatched September contract UUIDs with other TED 7231 notices.
 
     No match in this bounded CPV/country/time cohort does NOT establish a new
