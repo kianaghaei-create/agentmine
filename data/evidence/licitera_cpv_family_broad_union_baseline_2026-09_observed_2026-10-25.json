@@ -1,0 +1,66 @@
+{
+  "evidence_type": "observed_public_monthly_family_main_union_search_baseline_not_competitor_retrieval",
+  "publication_month": "2026-09",
+  "observed_at_utc": "2026-10-25T07:47:42Z",
+  "publisher": "Licitera",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0, public previous-month exports",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "source_file_hashes_from_prior_verified_same_month_snapshot": {
+    "upphandlingar.csv.gz": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+    "tilldelningar.csv.gz": "264af06b07db084b9fe71bcacbcbe1accbe255deaecc1c0bf401efbbc91576be"
+  },
+  "source_hash_caveat": "Hashes are from the earlier verified September 2026 aggregate snapshot; this run's source hashes were not independently extracted from its artifact.",
+  "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40174117016",
+  "workflow_head_sha": "eb4da300b2522d4fe91ff70fa1278aef828e187c",
+  "workflow_artifact_id": 12591183032,
+  "workflow_artifact_digest": "sha256:a0b5ae75d8b04654b1be90c89daff6b36caac461671401f41a4301d2d83522f0",
+  "exact_tree_ci": {
+    "passed": 491,
+    "total": 491,
+    "run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40174117000",
+    "head_sha": "eb4da300b2522d4fe91ff70fa1278aef828e187c"
+  },
+  "publisher_procurement_rows": 1240,
+  "any_cpv48_or_72_unique_notice_rows": 159,
+  "covered_by_main_48_or_72": 132,
+  "missed_by_main_48_or_72": 27,
+  "family_baselines": [
+    {
+      "cpv_prefix": "7222",
+      "any_code_notice_rows": 23,
+      "missed_by_main_72": 10,
+      "missed_by_main_48_or_72": 7
+    },
+    {
+      "cpv_prefix": "7226",
+      "any_code_notice_rows": 23,
+      "missed_by_main_72": 7,
+      "missed_by_main_48_or_72": 1
+    },
+    {
+      "cpv_prefix": "7225",
+      "any_code_notice_rows": 10,
+      "missed_by_main_72": 1,
+      "missed_by_main_48_or_72": 1
+    },
+    {
+      "cpv_prefix": "7231",
+      "any_code_notice_rows": 8,
+      "missed_by_main_72": 6,
+      "missed_by_main_48_or_72": 6
+    }
+  ],
+  "interpretation": "A broad main-CPV 48-or-72 baseline finds cross-segment primary codes that a main-72-only baseline misses. CPV 7226's apparent misses fall from seven to one; 7222 from ten to seven. CPV 7231 remains six of eight. These are hypothetical search-baseline misses, not tested failures of incumbent procurement services.",
+  "limitations": [
+    "Only one publisher's September publication cohort, not a complete national census.",
+    "Family cohorts overlap; family misses cannot be summed into unique missed notices.",
+    "Main-code baselines are hypothetical and not observed search results from competitor products.",
+    "Publisher status is not a verified open deadline; CPV tags do not prove a qualified business opportunity.",
+    "Small samples, especially CPV7231 n=8; no verified supplier time savings, buyer payment intent, AgentMine customers or revenue.",
+    "No raw notice, buyer or supplier records are included."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null
+}
