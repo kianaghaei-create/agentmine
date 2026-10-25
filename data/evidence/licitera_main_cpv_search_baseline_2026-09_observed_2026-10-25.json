@@ -1,0 +1,66 @@
+{
+  "evidence_type": "observed_public_monthly_main_cpv_search_baseline_not_customer_demand",
+  "publication_month": "2026-09",
+  "observed_at_utc": "2026-10-25T06:49:16Z",
+  "publisher": "Licitera",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0, public previous-month exports",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40170457984",
+  "workflow_head_sha": "ec886fab4b75b6482f418e7714b01b242efe8662",
+  "workflow_artifact_id": 12589108516,
+  "workflow_artifact_digest": "sha256:6d4683c924a2855c8a6d57c70d64dad09d0e25a6f88e4ee2bc17fdafd0601643",
+  "exact_tree_ci": {
+    "passed": 491,
+    "total": 491,
+    "run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40170458123",
+    "head_sha": "ec886fab4b75b6482f418e7714b01b242efe8662"
+  },
+  "publisher_procurement_rows": 1240,
+  "cpv48_72_union_any_code_notices": 159,
+  "union_notices_covered_by_main_48_or_72": 132,
+  "union_notices_missed_by_main_48_or_72": 27,
+  "union_missed_share": 0.16981132075471697,
+  "family_main_segment_baseline": [
+    {
+      "cpv_prefix": "7222",
+      "any_code_notices": 23,
+      "secondary_only_at_four_digits": 15,
+      "covered_by_main_72": 13,
+      "missed_by_main_72": 10
+    },
+    {
+      "cpv_prefix": "7226",
+      "any_code_notices": 23,
+      "secondary_only_at_four_digits": 11,
+      "covered_by_main_72": 16,
+      "missed_by_main_72": 7
+    },
+    {
+      "cpv_prefix": "7225",
+      "any_code_notices": 10,
+      "secondary_only_at_four_digits": 10,
+      "covered_by_main_72": 9,
+      "missed_by_main_72": 1
+    },
+    {
+      "cpv_prefix": "7231",
+      "any_code_notices": 8,
+      "secondary_only_at_four_digits": 8,
+      "covered_by_main_72": 2,
+      "missed_by_main_72": 6
+    }
+  ],
+  "interpretation": "Secondary-only four-digit CPV matches are not equivalent to missed opportunities under a broad main-CPV 48/72 search. For CPV 7225, 9/10 notices would still be found by a main-CPV 72 search, whereas for CPV 7231 only 2/8 would. Across the 48/72 union, 27/159 are outside both broad main segments.",
+  "limitations": [
+    "One publisher's previous-month cohort; not a complete Swedish tender census.",
+    "Main-segment matching is a hypothetical search baseline, not a measured incumbent product comparison. Actual tools may search all CPVs or use semantic matching.",
+    "Family cohorts overlap, so family misses cannot be summed into unique missed notices.",
+    "Publisher statuses are not verified live deadlines. Publisher IDs are not verified distinct businesses.",
+    "Raw export hashes for this run are in the workflow aggregate artifact, not independently reproduced in this summary.",
+    "No supplier workflow time saved, willingness to pay, AgentMine customers or revenue measured."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null
+}
