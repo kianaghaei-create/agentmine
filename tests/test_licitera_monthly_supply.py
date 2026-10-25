@@ -82,6 +82,15 @@ class MonthlyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'outside expected'):
             analyze(p, expected_month='2026-09')
 
+    def test_live_publisher_weekday_month_day_dates(self):
+        p = self.write('short-date.csv.gz', PROC + 'p1;b1;48000000;Thu Sep 17;r1;open;ted\n')
+        self.assertEqual(analyze(p, expected_month='2026-09')['main_cpv48_rows'], 1)
+        for value, error in [('Wed Sep 17', 'weekday'), ('Thu Aug 17', 'outside expected'),
+                             ('Thu Sep 32', 'publication date'), ('Thu Sep 17 2026', 'publication date')]:
+            p = self.write('short-date.csv.gz', PROC + f'p1;b1;48000000;{value};r1;open;ted\n')
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, error):
+                analyze(p, expected_month='2026-09')
+
     def test_invalid_month_and_date(self):
         p, _ = self.fixtures()
         for month in ('2026-13', '2026-9', '2026-00', 202609):
