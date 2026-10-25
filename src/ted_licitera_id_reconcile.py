@@ -72,6 +72,7 @@ def reconcile(rows, ted_snapshot):
     seen_internal = set()
     ted_ref_ids = set()
     matched_ids = set()
+    all_licitera_matched_ted_ids = set()
     source_labels = Counter()
     ref_types = Counter()
     matched_types = Counter()
@@ -93,10 +94,17 @@ def reconcile(rows, ted_snapshot):
             if not re.fullmatch(r"[0-9]{8}(?:-[0-9])?", main):
                 raise ValueError("invalid main CPV")
             codes.add(main)
+        source = row["Källa"].strip().lower()
+        # Search the WHOLE monthly export before filtering to Licitera's
+        # 7231 rows. A TED notice absent from that cohort may still exist
+        # under a different Licitera CPV classification.
+        if source == "ted":
+            any_ref = reference_number(row["Källreferens"].strip())
+            if any_ref in ted_ids:
+                all_licitera_matched_ted_ids.add(any_ref)
         if not any(code.startswith("7231") for code in codes):
             continue
         selected += 1
-        source = row["Källa"].strip().lower()
         source_labels[source if source == "ted" else "other_or_unknown"] += 1
         if source != "ted":
             continue
@@ -125,6 +133,8 @@ def reconcile(rows, ted_snapshot):
     if matched_rows > recognized or len(matched_ids) > len(ted_ids):
         raise ValueError("impossible join counts")
     unmatched_ted_types = Counter()
+    unmatched_found_elsewhere = Counter()
+    unmatched_absent_from_export = Counter()
     for pub, notice in ted_ids.items():
         if pub in matched_ids:
             continue
@@ -135,6 +145,16 @@ def reconcile(rows, ted_snapshot):
             unmatched_ted_types["contract_award_notice"] += 1
         else:
             unmatched_ted_types["other_or_unknown"] += 1
+        kind = ("contract_notice" if isinstance(kind, str) and kind.startswith("cn-") else
+                "contract_award_notice" if isinstance(kind, str) and kind.startswith("can-") else
+                "other_or_unknown")
+        if pub in all_licitera_matched_ted_ids:
+            unmatched_found_elsewhere[kind] += 1
+        else:
+            unmatched_absent_from_export[kind] += 1
+    if (sum(unmatched_found_elsewhere.values()) + sum(unmatched_absent_from_export.values())
+            != len(ted_ids) - len(matched_ids)):
+        raise ValueError("TED unmatched cohort decomposition failed")
     return {
         "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
         "publication_month": EXPECTED_MONTH,
@@ -156,13 +176,16 @@ def reconcile(rows, ted_snapshot):
         "matched_licitera_publisher_status_not_live": dict(sorted(matched_status.items())),
         "ted_publication_numbers_without_exact_licitera_join": len(ted_ids) - len(matched_ids),
         "ted_unmatched_notice_types": dict(sorted(unmatched_ted_types.items())),
+        "ted_unmatched_7231_notice_types_found_in_other_licitera_rows": dict(sorted(unmatched_found_elsewhere.items())),
+        "ted_unmatched_notice_types_absent_from_entire_licitera_export": dict(sorted(unmatched_absent_from_export.items())),
+        "ted_publication_numbers_matched_anywhere_in_licitera_export": len(all_licitera_matched_ted_ids),
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
         "verified_supplier_time_savings": None,
         "verified_agentmine_paying_customers": None,
         "verified_agentmine_revenue": None,
-        "warning": "TED notices include contract and award types; Licitera rows are procurement entities. Unmatched IDs may reflect format, filtering, timing or entity granularity, not missing supplier opportunities. Publisher open status is not a current deadline. Source IDs are never emitted. Exact joins do not establish competitor recall, supplier fit, time savings or payment demand."
+        "warning": "TED notices include contract and award types; Licitera rows are procurement entities. Unmatched 7231-cohort IDs are separately checked against all Licitera rows; absence from the export is not proof of missing product coverage, due to timing, scope or entity granularity. Publisher open status is not a current deadline. Source IDs are never emitted. Exact joins do not establish competitor recall, supplier fit, time savings or payment demand."
     }
 
 
