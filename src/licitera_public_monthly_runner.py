@@ -5,6 +5,7 @@ public deployment. Raw files remain in a temporary directory and are deleted.
 Source: https://licitera.se/oppen-data (CC BY 4.0, attribution required).
 """
 import argparse
+import csv
 from datetime import datetime, timezone
 import gzip
 import hashlib
@@ -20,6 +21,30 @@ from src.licitera_monthly_supply import analyze as analyze_supply
 _BASE = "https://licitera.se/oppen-data/"
 _NAMES = ("upphandlingar.csv.gz", "tilldelningar.csv.gz")
 _MAX_COMPRESSED = 2_000_000
+
+
+
+def public_header_diagnostic(path):
+    """Report only public CSV column labels, never the first data record."""
+    known = {"Internt id", "Köpare-id", "Huvud-CPV", "CPV-koder",
+             "Publicerad", "Källreferens", "Källa", "Upphandling-id",
+             "Leverantör-id", "Titel", "Status"}
+    with gzip.open(path, "rt", encoding="utf-8-sig", newline="") as handle:
+        for line_number, line in enumerate(handle, 1):
+            if line_number > 16:
+                break
+            if not line.strip() or line.lstrip().startswith("#"):
+                continue
+            columns = next(csv.reader([line], delimiter=";"))
+            recognized = "Internt id" in columns and len(columns) >= 3
+            safe = (sum(value in known for value in columns) >= 2
+                    and all(0 < len(value) <= 80 and "@" not in value
+                            and "\\n" not in value for value in columns))
+            return {"candidate_line": line_number, "column_count": len(columns),
+                    "recognized_header": recognized,
+                    "column_names": columns if safe else None}
+    return {"candidate_line": None, "column_count": 0,
+            "recognized_header": False, "column_names": None}
 
 
 def previous_month(now):
@@ -62,6 +87,8 @@ def run(*, now=None, fetcher=fetch_public_file):
     with TemporaryDirectory() as tmp:
         paths = {name: Path(tmp) / name for name in _NAMES}
         sources = {name: fetcher(name, paths[name]) for name in _NAMES}
+        for name in _NAMES:
+            print("Public monthly CSV schema:", name, json.dumps(public_header_diagnostic(paths[name]), ensure_ascii=False))
         segments = analyze_segments(paths["upphandlingar.csv.gz"], expected_month=month)
         supply = analyze_supply(paths["upphandlingar.csv.gz"], expected_month=month,
                                 award_csv=paths["tilldelningar.csv.gz"])
