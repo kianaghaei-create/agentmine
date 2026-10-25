@@ -46,6 +46,8 @@ class RunnerTests(unittest.TestCase):
 
     def test_aggregate_counts_and_no_raw_identifiers(self):
         report = run(now=datetime(2026,10,25,tzinfo=timezone.utc), fetcher=self.fake())
+        self.assertEqual(set(report['source_files']), {'upphandlingar.csv.gz', 'tilldelningar.csv.gz'})
+        self.assertTrue(all(len(info['sha256']) == 64 for info in report['source_files'].values()))
         self.assertEqual(report['procurement_supply']['procurement_rows'], 1)
         self.assertEqual(report['cpv_segments']['segments']['48']['any_cpv_rows'], 1)
         self.assertEqual(report['cpv_segments']['segments']['72']['any_cpv_rows'], 1)
