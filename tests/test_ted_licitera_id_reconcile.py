@@ -94,6 +94,20 @@ class ReconciliationTests(unittest.TestCase):
         self.assertNotIn("Municipal data platform", str(result))
         self.assertNotIn("999999-2026", str(result))
 
+    def test_official_procedure_overlap_is_not_incumbent_search_failure(self):
+        snap = ted()
+        snap["notices"][0]["procedure-identifier"] = "11111111-1111-4111-8111-111111111111"
+        snap["notices"][1]["notice-type"] = "cn-standard"
+        snap["notices"][1]["procedure-identifier"] = "11111111-1111-4111-8111-111111111111"
+        snap["notices"][1]["previous-notice-id-proc"] = ["000001-2026"]
+        result = reconcile([row("only-one", "000001-2026")], snap)
+        proc = result["ted_contract_absent_from_export_official_procedure_triage"]
+        self.assertEqual(proc["procedure_cohort_categories"],
+                         {"same_procedure_as_exact_matched_notice": 1})
+        self.assertEqual(proc["unmatched_contract_notices_explicitly_referring_to_matched_publication"], 1)
+        self.assertIsNone(proc["verified_licitera_product_search_misses"])
+        self.assertNotIn("11111111-1111", str(result))
+
     def test_unknown_formats_are_not_assumed_missing_from_ted(self):
         result = reconcile([row("a", "2026/S 123-000001"), row("b", "", source="ted"),
                             row("c", "000001-2026", source="uhm")], ted())
