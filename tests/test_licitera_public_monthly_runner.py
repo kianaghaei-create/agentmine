@@ -6,13 +6,26 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from src.licitera_public_monthly_runner import previous_month, fetch_public_file, run
+from src.licitera_public_monthly_runner import previous_month, fetch_public_file, run, public_header_diagnostic
 
 P = 'Internt id;Köpare-id;Huvud-CPV;CPV-koder;Publicerad;Källreferens;Källa\n'
 A = 'Internt id;Upphandling-id;Leverantör-id\n'
 
 
 class RunnerTests(unittest.TestCase):
+    def test_public_header_diagnostic_never_echoes_data_rows(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / 'proc.csv.gz'
+            path.write_bytes(gzip.compress(('\\ufeff# metadata\\n\\n# second\\n' + P + 'private-id;b1;48000000;48000000;2026-09-01;r1;ted\\n').encode('utf-8')))
+            diag = public_header_diagnostic(path)
+            self.assertEqual(diag['recognized_header'], True)
+            self.assertIn('Internt id', diag['column_names'])
+            self.assertNotIn('private-id', str(diag))
+            path.write_bytes(gzip.compress(b'not-a-header\\nprivate@example.com;secret\\n'))
+            diag = public_header_diagnostic(path)
+            self.assertEqual(diag['recognized_header'], False)
+            self.assertNotIn('private@example.com', str(diag))
+
     def test_previous_month_and_naive_refused(self):
         self.assertEqual(previous_month(datetime(2027, 1, 2, tzinfo=timezone.utc)), '2026-12')
         self.assertEqual(previous_month(datetime(2026, 10, 25, tzinfo=timezone.utc)), '2026-09')
