@@ -124,6 +124,17 @@ def reconcile(rows, ted_snapshot):
     matched_rows = sum(matched_types.values())
     if matched_rows > recognized or len(matched_ids) > len(ted_ids):
         raise ValueError("impossible join counts")
+    unmatched_ted_types = Counter()
+    for pub, notice in ted_ids.items():
+        if pub in matched_ids:
+            continue
+        kind = notice.get("notice-type")
+        if isinstance(kind, str) and kind.startswith("cn-"):
+            unmatched_ted_types["contract_notice"] += 1
+        elif isinstance(kind, str) and kind.startswith("can-"):
+            unmatched_ted_types["contract_award_notice"] += 1
+        else:
+            unmatched_ted_types["other_or_unknown"] += 1
     return {
         "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
         "publication_month": EXPECTED_MONTH,
@@ -144,6 +155,7 @@ def reconcile(rows, ted_snapshot):
         "matched_licitera_broad_main_48_72_baseline": dict(sorted(matched_main_union.items())),
         "matched_licitera_publisher_status_not_live": dict(sorted(matched_status.items())),
         "ted_publication_numbers_without_exact_licitera_join": len(ted_ids) - len(matched_ids),
+        "ted_unmatched_notice_types": dict(sorted(unmatched_ted_types.items())),
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
