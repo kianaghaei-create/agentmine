@@ -156,5 +156,29 @@ class PilotTests(unittest.TestCase):
 
 
 
+    def test_incorrect_baseline_cannot_pass_quality_or_economic_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        data['tasks'][0]['baseline_correct'] = False
+        # An agent that corrects a bad baseline is useful, but the times
+        # are not an apples-to-apples comparison of correct task outcomes.
+        result = run(data)
+        self.assertEqual(result['baseline_error_count'], 1)
+        self.assertEqual(result['agent_error_count'], 0)
+        self.assertEqual(result['correctness_regression_count'], 0)
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertIsNone(result['verified_willingness_to_pay'])
+
+    def test_correct_baselines_required_across_entire_pilot_sample(self):
+        data = fixture(6)
+        data['sample_kind'] = 'self_reported_consented'
+        data['tasks'][-1]['baseline_correct'] = False
+        result = run(data, min_tasks=5)
+        self.assertEqual(result['paired_task_count'], 6)
+        self.assertEqual(result['baseline_error_count'], 1)
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+
+
 if __name__ == '__main__':
     unittest.main()
