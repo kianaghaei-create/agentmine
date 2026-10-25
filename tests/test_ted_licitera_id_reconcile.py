@@ -80,6 +80,20 @@ class ReconciliationTests(unittest.TestCase):
                          {"contract_award_notice": 1})
         self.assertEqual(result["ted_publication_numbers_matched_anywhere_in_licitera_export"], 1)
 
+    def test_unmatched_contract_title_candidate_is_not_entity_identity(self):
+        snap = ted()
+        snap["notices"][0]["notice-title"] = {"eng": "Municipal data platform"}
+        rows = [row("hidden-internal", "999999-2026", main="72220000", cpvs="72220000")]
+        rows[0]["Titel"] = "Municipal data platform"
+        result = reconcile(rows, snap)
+        title = result["ted_contract_absent_from_export_title_date_triage"]
+        self.assertEqual(title["unmatched_ted_contract_notices"], 1)
+        self.assertEqual(title["title_candidate_categories"],
+                         {"one_same_date_title_candidate_not_identity": 1})
+        self.assertIsNone(title["verified_same_procurement_entities"])
+        self.assertNotIn("Municipal data platform", str(result))
+        self.assertNotIn("999999-2026", str(result))
+
     def test_unknown_formats_are_not_assumed_missing_from_ted(self):
         result = reconcile([row("a", "2026/S 123-000001"), row("b", "", source="ted"),
                             row("c", "000001-2026", source="uhm")], ted())
