@@ -21,6 +21,22 @@ class TedNoticeEvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             request_body(' ')
 
+    def test_bounded_procedure_projection_preserves_default_fields(self):
+        from src.ted_notice_evidence import FIELDS
+        fields = FIELDS + ["procedure-identifier", "previous-notice-id-proc"]
+        body = request_body("publication-date>=20260901", fields=fields)
+        self.assertEqual(body["fields"], fields)
+        calls = []
+        def fetch(request):
+            calls.append(request)
+            return {"notices": [], "totalNoticeCount": 0, "timedOut": False}
+        collect("publication-date>=20260901", fetch_page=fetch, fields=fields)
+        self.assertEqual(calls[0]["fields"], fields)
+        for bad in ([], ["procedure-identifier"], FIELDS + ["procedure-identifier", "procedure-identifier"],
+                    FIELDS + [42]):
+            with self.assertRaisesRegex(ValueError, "projection"):
+                request_body("publication-date>=20260901", fields=bad)
+
     def test_complete_two_page_iteration(self):
         calls = []
         def fetch(body):
