@@ -29,7 +29,8 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(Decimal(result['median_incremental_minutes_saved']), Decimal('30'))
         self.assertEqual(Decimal(result['scenario_net_labor_value_sek']), Decimal('1240'))
         self.assertEqual(Decimal(result['scenario_max_software_price_per_task_sek']), Decimal('62'))
-        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
         self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
         self.assertIsNone(result['verified_paying_customers'])
 
@@ -109,6 +110,50 @@ class PilotTests(unittest.TestCase):
                    {'min_tasks': True}, {'min_tasks': 0}):
             with self.subTest(kw=kw), self.assertRaises(ValueError):
                 run(**kw)
+
+
+    def test_synthetic_never_passes_evidence_gate_despite_perfect_fixtures(self):
+        result = run(fixture(10), min_tasks=5)
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_consented_self_reported_positive_scenario_passes_only_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        result = run(data)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertTrue(result['self_reported_positive_economic_screen_met'])
+        self.assertIsNone(result['verified_willingness_to_pay'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_consented_correct_but_slower_tasks_fail_economic_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        for row in data['tasks']:
+            row['agent_minutes'] = '60'
+        result = run(data)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertLess(Decimal(result['scenario_net_labor_value_sek']), 0)
+
+    def test_consented_correct_but_high_cost_fails_economic_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        for row in data['tasks']:
+            row['incremental_variable_cost_sek'] = '300'
+        result = run(data)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+
+    def test_self_reported_wrong_agent_result_never_passes_economic_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        data['tasks'][0]['agent_correct'] = False
+        result = run(data)
+        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+
 
 
 if __name__ == '__main__':
