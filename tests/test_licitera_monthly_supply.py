@@ -50,6 +50,14 @@ class MonthlyTests(unittest.TestCase):
         self.assertIsNone(r['agentmine_revenue_sek'])
         self.assertIn('CC BY 4.0', r['attribution'])
 
+    def test_blank_and_indented_metadata_before_header(self):
+        path = self.folder / 'preamble.csv.gz'
+        content = chr(0xfeff) + '# first metadata\n\n   # second metadata\n  \n' + PROC + 'p1;b1;48000000;2026-09-01;r1;open;ted\n'
+        path.write_bytes(gzip.compress(content.encode('utf-8')))
+        result = analyze(path, expected_month='2026-09')
+        self.assertEqual(result['procurement_rows'], 1)
+        self.assertEqual(result['main_cpv48_rows'], 1)
+
     def test_without_awards_no_supplier_inference(self):
         p, _ = self.fixtures()
         self.assertIsNone(analyze(p, expected_month='2026-09')['award_file'])
