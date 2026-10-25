@@ -150,5 +150,33 @@ class StageTests(unittest.TestCase):
         self.assertFalse(result['legal_deadline_verified'])
 
 
+    def test_unknown_bid_label_not_flagged_if_one_known_stage_matches(self):
+        # Questions and bid submission may share a date. An unknown-stage
+        # directory's bid label is supported by the explicit bid-stage row.
+        official_questions = row('2026-11-06', stage='questions',
+                                 label='questions_deadline', host='questions.example.org')
+        official_bid = row('2026-11-06', stage='bid_submission',
+                           label='bid_deadline', host='bid.example.org')
+        directory_bid = row('2026-11-06', stage='unknown',
+                            label='bid_deadline', host='directory.example.org')
+        result = triage(bundle(official_questions, official_bid, directory_bid))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['stage_aware_triage_status'], 'stage_consistent_displays_unverified')
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_unknown_bid_label_flagged_when_no_known_stage_matches(self):
+        official_questions = row('2026-11-06', stage='questions',
+                                 label='questions_deadline', host='questions.example.org')
+        official_application = row('2026-11-06', stage='participation_request',
+                                   label='participation_deadline', host='apply.example.org')
+        directory_bid = row('2026-11-06', stage='unknown',
+                            label='bid_deadline', host='directory.example.org')
+        result = triage(bundle(official_questions, official_application, directory_bid))
+        self.assertEqual(result['stage_label_review_source_urls'], [directory_bid['source_url']])
+        self.assertEqual(result['stage_aware_triage_status'], 'stage_label_requires_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+
 if __name__ == '__main__':
     unittest.main()
