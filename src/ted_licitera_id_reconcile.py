@@ -216,7 +216,9 @@ def main():
           json.dumps({k: report[k] for k in (
               "ted_publication_numbers", "licitera_any_cpv7231_procurement_rows",
               "licitera_ted_reference_formats", "exact_joined_licitera_rows",
-              "exact_joined_distinct_ted_publication_numbers")}, ensure_ascii=False))
+              "exact_joined_distinct_ted_publication_numbers",
+              "ted_unmatched_7231_notice_types_found_in_other_licitera_rows",
+              "ted_unmatched_notice_types_absent_from_entire_licitera_export")}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
