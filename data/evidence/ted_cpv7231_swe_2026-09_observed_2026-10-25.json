@@ -1,0 +1,46 @@
+{
+  "evidence_type": "official_ted_cpv7231_2026_09_swedish_public_notice_cohort_not_matched_to_licitera",
+  "observed_at_utc": "2026-10-25T09:44:04.821885Z",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "documentation_url": "https://docs.ted.europa.eu/api/latest/search.html",
+  "query": "publication-date >= 20260901 AND publication-date <= 20260930 AND buyer-country = SWE AND classification-cpv = 7231*",
+  "scope": "ALL",
+  "only_latest_versions": true,
+  "publication_month": "2026-09",
+  "country": "SWE",
+  "cpv_prefix": "7231",
+  "official_ted_reported_total_notices": 13,
+  "observed_unique_publication_numbers": 13,
+  "complete_for_query": true,
+  "notice_type_counts": {
+    "contract_notice": 11,
+    "contract_award_notice": 2
+  },
+  "missing_buyer_country_rows": 0,
+  "buyer_country_filter_mismatch_rows": 0,
+  "missing_classification_cpv_rows": 0,
+  "no_7231_cpv_in_returned_fields_rows": 0,
+  "provenance": {
+    "github_actions_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40181859635",
+    "workflow_head_sha": "9b0f86bc8b3da052aee4e955cab19b246e6e20b9",
+    "artifact_id": 12594775477,
+    "artifact_zip_sha256": "099079d43268c6dd663980fdb1d8f529c20fe55de454ba8da7cc0d3acfbd38c9",
+    "exact_tested_tree_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/40181895767",
+    "exact_tested_tree_sha": "ce1892f7e7df86b9c8ea4c4dc05a302bdc4a5693",
+    "tests_passed": 509,
+    "method": "Read-only official TED Search API; raw notices held transiently and only aggregate result uploaded; counts checked against reported total. ZIP digest from GitHub artifact metadata."
+  },
+  "cross_source_context": {
+    "licitera_publisher_september_any_cpv_7231_notice_rows": 8,
+    "licitera_publisher_broad_main_48_72_misses": 6,
+    "matched_notice_ids_across_sources": false,
+    "comparable_cohorts": false,
+    "reason": "TED publication numbers include both competition and award notice types; Licitera procurement IDs and filtering/normalization are different. The counts must not be subtracted or treated as competitor misses."
+  },
+  "verified_live_deadlines": null,
+  "verified_competitor_retrieval_failures": null,
+  "verified_supplier_time_savings": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "next_gate": "Only compare notice-level records with explicit publication-number joins and incumbent authorized search results; verify submission deadlines and supplier fit before asserting actionable leads or product differentiation."
+}
