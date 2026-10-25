@@ -1,0 +1,78 @@
+{
+  "evidence_type": "observed_public_monthly_cpv_main_union_miss_status_not_live_or_competitor_results",
+  "publication_month": "2026-09",
+  "observed_at_utc": "2026-10-25T08:48:23Z",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0, free public previous-month exports only",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "provenance": {
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178073760",
+    "workflow_head_sha": "e481accd6bdd582311f517bbfef12ce1b4a9b78e",
+    "artifact_id": 12593003306,
+    "artifact_zip_sha256": "e6dcc515b89ca5582855ff56b0868dde1bb0789791ae6a4e17701deb32f1d066",
+    "evidence_from": "successful real-data GitHub Actions job log; aggregate artifact created, not independently extracted in this run",
+    "exact_head_ci_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40178073724",
+    "exact_head_ci_tests_passed": 493,
+    "prior_same_month_public_gzip_sha256_not_reverified_this_run": {
+      "upphandlingar.csv.gz": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+      "tilldelningar.csv.gz": "264af06b07db084b9fe71bcacbcbe255deaecc1c0bf401efbbc91576be"
+    }
+  },
+  "total_public_procurement_rows": 1240,
+  "any_cpv48_or_72_unique_notice_rows": 159,
+  "broad_main_cpv_48_or_72_covered": 132,
+  "broad_main_cpv_48_or_72_missed": 27,
+  "selected_four_digit_families": [
+    {
+      "cpv_prefix": "7231",
+      "any_cpv_notice_rows": 8,
+      "missed_by_broad_main_48_or_72": 6,
+      "missed_publisher_status_not_live": {
+        "open": 6
+      },
+      "missed_source_labels": {
+        "ted": 6
+      }
+    },
+    {
+      "cpv_prefix": "7222",
+      "any_cpv_notice_rows": 23,
+      "missed_by_broad_main_48_or_72": 7,
+      "missed_publisher_status_not_live": {
+        "awarded": 3,
+        "open": 4
+      },
+      "missed_source_labels": {
+        "ted": 6,
+        "unknown_or_other": 1
+      }
+    },
+    {
+      "cpv_prefix": "7225",
+      "any_cpv_notice_rows": 10,
+      "missed_by_broad_main_48_or_72": 1,
+      "missed_publisher_status_not_live": null,
+      "missed_source_labels": null,
+      "reason": "sparse group suppression (<5)"
+    },
+    {
+      "cpv_prefix": "7226",
+      "any_cpv_notice_rows": 23,
+      "missed_by_broad_main_48_or_72": 1,
+      "missed_publisher_status_not_live": null,
+      "missed_source_labels": null,
+      "reason": "sparse group suppression (<5)"
+    }
+  ],
+  "interpretation": "Within this publisher's September file, all six CPV7231 notices missed by a hypothetical broad main-48/72 search have publisher status 'open' and source label 'ted'. This is not a verified current deadline, independently confirmed active tender, observed competitor retrieval failure, supplier fit, customer demand or payment.",
+  "limitations": [
+    "One publisher's September publication cohort; not a national census or independently verified current opportunity list.",
+    "A status of 'open' is publisher-reported in the file and not independently checked against live notices.",
+    "No tender IDs, titles, buyer identities or raw rows are published; cohort overlap means family counts cannot be summed.",
+    "Hypothetical main-CPV search baseline does not establish whether incumbent procurement products miss these notices.",
+    "Small CPV7231 cohort (8 total, 6 missed); no measured supplier time savings or willingness to pay."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null
+}
