@@ -249,6 +249,13 @@ def main():
               "exact_joined_distinct_ted_publication_numbers",
               "ted_unmatched_7231_notice_types_found_in_other_licitera_rows",
               "ted_unmatched_notice_types_absent_from_entire_licitera_export")}, ensure_ascii=False))
+    cross = report.get("ted_contract_absent_cross_month_official_procedure_triage")
+    if cross is not None:
+        print("Official bounded TED cross-month procedure identity:",
+              json.dumps({k: cross[k] for k in (
+                  "extended_publication_numbers", "publication_month_counts",
+                  "unmatched_contract_notices", "procedure_link_categories")},
+                         ensure_ascii=False))
 
 
 if __name__ == "__main__":
