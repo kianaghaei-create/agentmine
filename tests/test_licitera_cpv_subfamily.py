@@ -41,11 +41,11 @@ class CpvSubfamilyTests(unittest.TestCase):
 
     def test_narrow_secondary_only_is_not_necessarily_broad_segment_miss(self):
         r = self.report(
-            "p1;b1;72000000;72250000;2026-09-01;r1;open\\n"
-            "p2;b2;48000000;72250000;2026-09-02;r2;open\\n"
-            "p3;b3;12345678;72250000;2026-09-03;r3;open\\n"
-            "p4;b4;;72250000;2026-09-04;r4;open\\n"
-            "p5;b5;72250000;72250000;2026-09-05;r5;open\\n")
+            "p1;b1;72000000;72250000;2026-09-01;r1;open\n"
+            "p2;b2;48000000;72250000;2026-09-02;r2;open\n"
+            "p3;b3;12345678;72250000;2026-09-03;r3;open\n"
+            "p4;b4;;72250000;2026-09-04;r4;open\n"
+            "p5;b5;72250000;72250000;2026-09-05;r5;open\n")
         family = next(g for g in r["subfamilies"] if g["cpv_four_digit_prefix"] == "7225")
         self.assertEqual(family["notice_rows"], 5)
         self.assertEqual(family["main_family_rows"], 1)
