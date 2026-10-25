@@ -1,0 +1,37 @@
+{
+  "publication_number": "699156-2026",
+  "observed_on": "2026-10-25",
+  "evidence_type": "public_source_stage_label_mismatch_primary_portal_vs_third_party",
+  "procurement_reference": "KS/2026:00638",
+  "observations": [
+    {
+      "publication_number": "699156-2026",
+      "source_kind": "official_buyer_submission_portal",
+      "source_url": "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=73494",
+      "reported_deadline": "2026-11-06",
+      "stage_claim": "participation_request",
+      "display_label_claim": "participation_deadline"
+    },
+    {
+      "publication_number": "699156-2026",
+      "source_kind": "third_party_summary",
+      "source_url": "https://licitera.se/upphandling/servicearendehanteringssystem-32fcaba7cd",
+      "reported_deadline": "2026-11-06",
+      "stage_claim": "unknown",
+      "display_label_claim": "bid_deadline"
+    }
+  ],
+  "source_display_evidence": {
+    "official_portal": "Negotiated procedure; Qualification application; To submit a tender ... first need to apply to submit tenders and get qualified; Final day for applications: 11/6/2026.",
+    "licitera": "Öppen Sista anbudsdag 6 nov; published 2026-10-09; same procurement title and buyer."
+  },
+  "assessment": "The two public pages agree on calendar date but describe different procurement stages: official buyer submission portal calls it qualification/application; Licitera displays last bid day. Verified mismatch of displayed stage labels, not a confirmed legal-deadline error or evidence of a competitor missing a procurement.",
+  "original_ted_notice_access": "blocked_by_javascript_bot_gate",
+  "legal_deadline_verified": false,
+  "final_bid_deadline_verified": false,
+  "independently_measured_supplier_time_savings": null,
+  "verified_paying_customers": null,
+  "verified_agentmine_revenue_sek": null,
+  "source_retrieval_note": "Both public pages were read through ordinary accessible web views on 2026-10-25. No account login, paid API, form submission, automated scraping or access-control bypass. Original TED notice and amendments were not independently read.",
+  "next_validation": "Check current buyer portal and amendments immediately before any supplier-facing alert. Replicate stage-label error rate on a predeclared representative cohort, then measure consented supplier decisions and actual time saved."
+}
