@@ -1,0 +1,43 @@
+{
+  "evidence_type": "official_TED_procedure_uuid_cohort_triage_not_verified_competitor_recall",
+  "observed_at_utc": "2026-10-25T14:44:02.029602Z",
+  "publication_month": "2026-09",
+  "scope": "Swedish TED CPV 7231 notices in September 2026 compared with Licitera's free September procurement export",
+  "source_urls": [
+    "https://api.ted.europa.eu/v3/notices/search",
+    "https://licitera.se/oppen-data"
+  ],
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine. TED official public Search API.",
+  "observed": {
+    "ted_notices_complete": 13,
+    "licitera_export_procurement_rows": 1240,
+    "exact_ted_publication_number_matches_in_licitera_7231": 8,
+    "unmatched_ted_contract_notices_absent_by_exact_publication_number_in_entire_licitera_export": 3,
+    "unmatched_ted_award_notices_absent_by_exact_publication_number_in_entire_licitera_export": 2,
+    "unmatched_contract_notices_with_official_procedure_uuid": 3,
+    "unmatched_contract_notices_same_procedure_as_one_or_more_exact_matched_september_notices": 2,
+    "unmatched_contract_notices_without_same_procedure_in_matched_september_cohort": 1,
+    "unmatched_contract_notices_explicitly_referencing_matched_publication_number": 0,
+    "matched_notices_explicitly_referencing_unmatched_contract_publication_number": 0,
+    "exact_normalized_title_candidates_for_three_unmatched_contract_notices": 0
+  },
+  "provenance": {
+    "actual_data_workflow": "https://github.com/kianaghaei-create/agentmine/actions/runs/40203610937",
+    "actual_data_workflow_head": "64018a94adff36e76970c745ee65b15c07411017",
+    "artifact_id": 12602706984,
+    "artifact_sha256": "d58ea1ff9871429f8f8cf93bcde8061bef419193bb0102a1f98192f72558a510",
+    "public_licitera_source_gzip_sha256": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+    "exact_tree_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/40203655362",
+    "ci_head": "50d3017b33c337d29a210773d2532b1312a3ed10",
+    "ci_unit_tests_passed": 541,
+    "validation": "Downloaded GitHub Actions aggregate-only ZIP; SHA-256 matched GitHub artifact digest and job log. Parsed aggregate JSON; CI job log reports 541 tests OK."
+  },
+  "interpretation": "Two of the three TED contract notices absent by exact publication number from Licitera's September export share an official procedure UUID with an already exact-matched TED notice. They therefore cannot be counted as three independently established new procurement procedures. The remaining one lacks a same-procedure match only WITHIN this bounded September 7231 matched cohort; it may be linked to a different month, classification or procurement entity. Zero in-cohort explicit prior-notice links is not proof that no links exist elsewhere.",
+  "verified_incumbent_product_search_misses": null,
+  "verified_distinct_additional_procurement_opportunities": null,
+  "verified_current_open_deadlines": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null,
+  "next_gate": "Inspect the one unmatched distinct-UUID notice against lawful official cross-month procedure references and test actual incumbent product search via authorized access. Validate supplier task outcomes and willingness to pay before prioritizing marketplace monetization."
+}
