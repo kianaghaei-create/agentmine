@@ -158,6 +158,16 @@ def run(*, now=None, fetcher=fetch_public_file):
                 raise ValueError("CPV family broad-union coverage reconciliation failed")
             if family["missed_by_main_union_rows"] > family["missed_by_main_segment_only_rows"]:
                 raise ValueError("CPV family union cannot miss more than its own main segment")
+            statuses = family["missed_union_status_rows_not_live"]
+            sources = family["missed_union_source_rows"]
+            if statuses is None or sources is None:
+                if statuses is not None or sources is not None:
+                    raise ValueError("inconsistent sparse missed-union breakdown")
+                if family["missed_by_main_union_rows"] >= subfamilies["minimum_group_rows"]:
+                    raise ValueError("missing non-sparse missed-union breakdown")
+            elif (sum(statuses.values()) != family["missed_by_main_union_rows"]
+                  or sum(sources.values()) != family["missed_by_main_union_rows"]):
+                raise ValueError("CPV missed-union status/source reconciliation failed")
         if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
             raise ValueError("CPV48 main-code reconciliation failed")
         if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
@@ -206,7 +216,9 @@ def main():
                "covered_by_main_segment_only_rows": g["covered_by_main_segment_only_rows"],
                "missed_by_main_segment_only_rows": g["missed_by_main_segment_only_rows"],
                "covered_by_main_union_rows": g["covered_by_main_union_rows"],
-               "missed_by_main_union_rows": g["missed_by_main_union_rows"]}
+               "missed_by_main_union_rows": g["missed_by_main_union_rows"],
+               "missed_union_status_rows_not_live": g["missed_union_status_rows_not_live"],
+               "missed_union_source_rows": g["missed_union_source_rows"]}
               for g in niche["subfamilies"]
               if g["cpv_four_digit_prefix"] in {"7222", "7225", "7226", "7231"}
           ], ensure_ascii=False))
