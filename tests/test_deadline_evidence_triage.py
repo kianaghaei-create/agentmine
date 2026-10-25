@@ -178,5 +178,33 @@ class StageTests(unittest.TestCase):
         self.assertFalse(result['legal_deadline_verified'])
 
 
+    def test_two_unverified_directory_stage_labels_same_date_need_review(self):
+        licitera = row('2026-10-27', label='bid_deadline',
+                       kind='third_party_summary', host='licitera.se')
+        tilldelat = row('2026-10-27', label='participation_deadline',
+                        kind='third_party_summary', host='tilldelat.se')
+        result = triage(bundle(licitera, tilldelat))
+        self.assertEqual(result['stage_label_review_source_urls'],
+                         sorted([licitera['source_url'], tilldelat['source_url']]))
+        self.assertEqual(result['stage_aware_triage_status'], 'stage_label_requires_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+        self.assertFalse(result['submission_portal_present'])
+
+    def test_two_unverified_directories_agreeing_stage_label_not_flagged(self):
+        first = row('2026-10-27', label='participation_deadline', host='first.example.org')
+        second = row('2026-10-27', label='participation_deadline', host='second.example.org')
+        result = triage(bundle(first, second))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+    def test_generic_label_is_not_an_opposing_stage_claim(self):
+        specific = row('2026-10-27', label='participation_deadline', host='first.example.org')
+        generic = row('2026-10-27', label='generic_deadline', host='second.example.org')
+        result = triage(bundle(specific, generic))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+
 if __name__ == '__main__':
     unittest.main()
