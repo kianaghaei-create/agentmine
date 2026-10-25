@@ -43,9 +43,24 @@ class ProbeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "month"):
             summarize(a)
 
-    def test_wrong_country(self):
+    def test_wrong_country_is_flagged_not_hidden(self):
         a = fixture(); a["notices"][0]["buyer-country"] = "NOR"
-        with self.assertRaisesRegex(ValueError, "Swedish"):
+        out = summarize(a)
+        self.assertEqual(out["buyer_country_filter_mismatch_rows"], 1)
+        self.assertFalse(out["buyer_country_filter_consistent_in_returned_rows"])
+
+    def test_list_country_shape(self):
+        a = fixture(); a["notices"][0]["buyer-country"] = ["SWE"]
+        out = summarize(a)
+        self.assertTrue(out["buyer_country_filter_consistent_in_returned_rows"])
+
+    def test_multiple_countries_are_flagged(self):
+        a = fixture(); a["notices"][0]["buyer-country"] = ["SWE", "NOR"]
+        self.assertEqual(summarize(a)["multi_country_rows"], 1)
+
+    def test_invalid_country_shape(self):
+        a = fixture(); a["notices"][0]["buyer-country"] = {"eng": "SWE"}
+        with self.assertRaisesRegex(ValueError, "shape"):
             summarize(a)
 
     def test_bad_cpv(self):
