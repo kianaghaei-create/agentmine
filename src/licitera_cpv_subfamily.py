@@ -70,10 +70,16 @@ def analyze(path, *, expected_month, min_group_rows=5):
                 "secondary_other_segment_main_rows": 0,
                 "secondary_outside_scope_main_rows": 0,
                 "secondary_missing_main_rows": 0,
+                "covered_by_main_union_rows": 0,
+                "missed_by_main_union_rows": 0,
                 "buyer_ids": Counter(),
                 "unknown_buyer_rows": 0, "status_rows": Counter(),
             })
             group["notice_rows"] += 1
+            if main[:2] in _SEGMENTS:
+                group["covered_by_main_union_rows"] += 1
+            else:
+                group["missed_by_main_union_rows"] += 1
             if main[:4] == family:
                 group["main_family_rows"] += 1
             else:
@@ -118,6 +124,8 @@ def analyze(path, *, expected_month, min_group_rows=5):
             "secondary_missing_main_rows": group["secondary_missing_main_rows"],
             "covered_by_main_segment_only_rows": (group["main_family_rows"] + group["secondary_same_segment_main_rows"]),
             "missed_by_main_segment_only_rows": (group["secondary_other_segment_main_rows"] + group["secondary_outside_scope_main_rows"] + group["secondary_missing_main_rows"]),
+            "covered_by_main_union_rows": group["covered_by_main_union_rows"],
+            "missed_by_main_union_rows": group["missed_by_main_union_rows"],
             "distinct_unverified_buyer_ids": len(group["buyer_ids"]),
             "unknown_buyer_id_rows": group["unknown_buyer_rows"],
             "publisher_status_rows_not_live": dict(sorted(group["status_rows"].items())),
@@ -148,5 +156,5 @@ def analyze(path, *, expected_month, min_group_rows=5):
         "subfamilies": retained,
         "verified_paying_customers": None,
         "verified_agentmine_revenue": None,
-        "warning": "Four-digit CPV labels describe publisher notice supply, not buyer requests or payments. A notice can occur in several families, so family counts cannot be summed into unique notices. Secondary-only at four digits does not imply a broad main-CPV 48/72 search misses the notice. Buyer IDs are unverified labels; row HHI is not market share. Publisher 'open' status is not a verified current deadline or actionable opportunity. No customer willingness to pay or time savings measured.",
+        "warning": "Four-digit CPV labels describe publisher notice supply, not buyer requests or payments. A notice can occur in several families, so family counts cannot be summed into unique notices. Secondary-only at four digits, or missed by the family\'s main segment, does not imply a broad main-CPV 48/72 search misses the notice. Buyer IDs are unverified labels; row HHI is not market share. Publisher 'open' status is not a verified current deadline or actionable opportunity. No customer willingness to pay or time savings measured.",
     }
