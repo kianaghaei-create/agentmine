@@ -119,6 +119,20 @@ def triage(evidence):
                 and known_stage_dates[day]
                 and all(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
             stage_label_reviews.append(url)
+    # Two independent directory displays can disagree about *which stage*
+    # their identical date describes, even if neither source has an
+    # independently verified stage. This is a review candidate only; it
+    # cannot establish which directory is right or the legal deadline.
+    unknown_specific_labels = defaultdict(set)
+    unknown_specific_sources = defaultdict(set)
+    for url, day, stage, label in parsed:
+        if stage == "unknown" and label in ("bid_deadline", "participation_deadline",
+                                              "questions_deadline"):
+            unknown_specific_labels[day].add(label)
+            unknown_specific_sources[day].add(url)
+    for day, claimed in unknown_specific_labels.items():
+        if len(claimed) > 1 and not known_stage_dates[day]:
+            stage_label_reviews.extend(unknown_specific_sources[day])
     # An unknown-stage source with a different explicit time cannot establish
     # same-stage conflict, but must not be silently counted as agreement.
     unknown_stage_time_discrepancy = sorted(
