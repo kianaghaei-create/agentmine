@@ -1,0 +1,52 @@
+{
+  "observed_at_utc": "2026-10-25T17:43:48Z",
+  "evidence_type": "official_TED_bounded_all_CPV_procedure_identity_not_competitor_recall",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "official_field_reference": "https://docs.ted.europa.eu/ODS/latest/reuse/field-list.html",
+  "source_comparison": "https://licitera.se/oppen-data",
+  "licitera_attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "public_query_scope": {
+    "country": "all",
+    "cpv": "all",
+    "publication_start": "2026-01-01",
+    "publication_end": "2026-10-25",
+    "procedure_identifier": "exact UUIDv4 derived from one unresolved September notice; deliberately not published"
+  },
+  "context": {
+    "september_2026_ted_7231_swe_publication_numbers": 13,
+    "licitera_september_export_rows": 1240,
+    "exact_matched_publication_numbers": 8,
+    "unmatched_contract_notice_numbers": 3,
+    "unmatched_contract_notices_linked_to_matched_september_procedures": 2,
+    "unresolved_after_aug_oct_cpv7231_swe_scan": 1
+  },
+  "targeted_procedure_result": {
+    "complete_for_exact_procedure_query": true,
+    "notices_in_procedure": 1,
+    "peer_notices": 0,
+    "peer_publication_months": {},
+    "peer_cpv_categories": {},
+    "peer_notice_types": {}
+  },
+  "validation": {
+    "github_actions_real_data_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40217849888",
+    "workflow_head_sha": "ae9efe21b1b4246dde4f28fff825d88c5c269219",
+    "artifact_id": 12607299501,
+    "artifact_zip_sha256_reported_by_github": "54d8095d1c4d7c2a4f16a5070c12798118fad0752148add5b2c4b1898cd64165",
+    "independently_downloaded_and_hashed": false,
+    "github_actions_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/40217842545",
+    "ci_test_count": 557,
+    "ci_conclusion": "success",
+    "ci_head_sha": "0c3dde35ad197e490d7ced57c31702a200e56a78"
+  },
+  "interpretation": "The one previously unresolved contract notice has no other official TED notice sharing its procedure UUID within the exact-query Jan 1-Oct 25 2026 result set across all CPV categories and countries. This does not prove the procedure is absent from a competitor's live search, that the tender is open, that it is an incremental supplier lead, or that customers would pay.",
+  "verified_competitor_search_misses": null,
+  "verified_current_deadlines": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_time_savings": null,
+  "new_costs_incurred": null,
+  "no_sensitive_customer_data_used": true,
+  "no_public_deployment": true,
+  "next_gate": "Authorized incumbent product search for the specific official notice plus opt-in supplier workflow test; do not infer product recall from free monthly export differences."
+}
