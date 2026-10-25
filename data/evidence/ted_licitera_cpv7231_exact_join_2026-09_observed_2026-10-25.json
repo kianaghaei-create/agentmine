@@ -1,0 +1,47 @@
+{
+  "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
+  "observed_at_utc": "2026-10-25T10:45:49.760735Z",
+  "publication_month": "2026-09",
+  "cpv_prefix": "7231",
+  "country": "SWE",
+  "source_urls": [
+    "https://licitera.se/oppen-data",
+    "https://api.ted.europa.eu/v3/notices/search"
+  ],
+  "ted_query": "publication-date >= 20260901 AND publication-date <= 20260930 AND buyer-country = SWE AND classification-cpv = 7231*",
+  "license_and_attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine. TED official public Search API.",
+  "observed": {
+    "ted_publication_numbers_complete": 13,
+    "licitera_total_procurement_rows": 1240,
+    "licitera_any_cpv7231_procurement_rows": 8,
+    "licitera_ted_source_rows": 8,
+    "recognized_ted_publication_number_references": 8,
+    "exact_joined_licitera_rows": 8,
+    "exact_joined_distinct_ted_publication_numbers": 8,
+    "matched_ted_contract_notices": 8,
+    "matched_licitera_publisher_status_open_not_live": 8,
+    "matched_licitera_rows_covered_by_broad_main_cpv48_or_72": 2,
+    "matched_licitera_rows_missed_by_hypothetical_broad_main_cpv48_or_72": 6,
+    "ted_publication_numbers_without_exact_licitera_join": 5,
+    "unmatched_ted_contract_notices": 3,
+    "unmatched_ted_award_notices": 2
+  },
+  "provenance": {
+    "github_actions_real_data_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40186099562",
+    "runner_head_sha": "1f19d30451e667df76d6279bcfb168f97231f0fa",
+    "artifact_id": 12596402053,
+    "artifact_zip_sha256": "c0cc6da9e1620b9182e8deee9e736437a36a44fd38ba3dc8ac7a807487b1861f",
+    "source_licitera_gzip_sha256": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+    "exact_tree_test_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40186105008",
+    "exact_tree_test_head": "6e98c569c058a592221ffe1e18ee4b66dd67f3ef",
+    "tests_passed": 518,
+    "method": "Bounded read-only official TED API and public previous-month Licitera gzip, exact six-digit TED publication number joins, no raw identifiers in log or artifact. Artifact downloaded and inspected."
+  },
+  "interpretation": "All 8 Licitera September CPV7231 procurement rows were exact-matched to official TED contract notices. The six broad-main-CPV search misses are genuine secondary-code associations for these exact notices, but this does not prove incumbent supplier search misses. Three other official TED contract notices and two award notices have no exact match in Licitera's 8-row September CPV7231 cohort; differences may be due to notice/entity type, scope, normalization, timing or publisher selection, not necessarily missing actionable leads.",
+  "verified_incumbent_retrieval_failures": null,
+  "verified_live_deadlines": null,
+  "verified_supplier_time_savings": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "next_gate": "Investigate the three unmatched official TED contract notice types using source-linked lawful notice-level inspection without publishing raw buyer data; then compare authorized incumbent search retrieval and consented supplier outcome/time saved. Do not infer customers, market share or payments."
+}
