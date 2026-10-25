@@ -1,0 +1,64 @@
+{
+  "evidence_type": "observed_real_public_publisher_award_cpv_joins_not_market_share_or_customer_demand",
+  "observed_at_utc": "2026-10-25T04:50:32.559039Z",
+  "publication_month": "2026-09",
+  "publisher": "Licitera",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0, public previous-month exports",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "source_sha256": {
+    "upphandlingar.csv.gz": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1",
+    "tilldelningar.csv.gz": "264af06b07db084b9fe71bcacbcbe1accbe255deaecc1c0bf401efbbc91576be"
+  },
+  "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40163344610",
+  "workflow_head_sha": "29931fc22c8c160219fd082b871e4773da8ca7f4",
+  "artifact_id": 12587152310,
+  "artifact_digest": "sha256:0a8e28444eadce28acc7052cc6d73af7f88251ea5dbf3623f0d3b827aa93f890",
+  "unit_tests": {
+    "count": 483,
+    "passed": 483,
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40163344589"
+  },
+  "cohort": {
+    "procurement_rows": 1240,
+    "award_rows": 90,
+    "award_rows_joined_to_same_month_procurements": 82,
+    "award_rows_not_joined_to_same_month_procurements": 8
+  },
+  "cpv48_any": {
+    "procurement_notice_rows": 84,
+    "matched_award_rows": 0,
+    "distinct_matched_tender_ids": 0,
+    "supplier_id_concentration": null,
+    "suppression_reason": "too_few_matched_award_rows"
+  },
+  "cpv72_any": {
+    "procurement_notice_rows": 122,
+    "matched_award_rows": 9,
+    "distinct_matched_tender_ids": 7,
+    "main_cpv_award_rows": 8,
+    "secondary_only_award_rows": 1,
+    "distinct_unverified_supplier_ids": 9,
+    "unknown_supplier_id_award_rows": 0,
+    "top_supplier_id_award_row_share": 0.1111111111111111,
+    "supplier_id_award_row_hhi": 0.1111111111111111
+  },
+  "cpv48_or_72_union": {
+    "procurement_notice_rows": 159,
+    "matched_award_rows": 9,
+    "distinct_matched_tender_ids": 7
+  },
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_payment_conversion": null,
+  "interpretation": "No CPV48 award rows can be joined to this month's published notices despite 84 CPV48 notice rows. Nine CPV72 matched award rows each have a different unverified supplier label. Neither result estimates supplier market concentration or tender-to-award conversion; award and publication exports cover different cohorts.",
+  "limitations": [
+    "Monthly publisher cohort is not a national census.",
+    "Award rows and published tenders represent different time/cohort definitions; zero CPV48 joins is not zero CPV48 awards.",
+    "One tender can have multiple award rows; rows are not distinct tenders.",
+    "Supplier IDs are unverified publisher labels, not necessarily distinct firms.",
+    "The nine CPV72 matched award rows are too few and selection-biased for market-share inference.",
+    "CPV48 and CPV72 any-code groups overlap and must not be summed.",
+    "No customer payment, real task time saving or AgentMine revenue was measured."
+  ]
+}
