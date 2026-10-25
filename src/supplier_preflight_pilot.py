@@ -82,7 +82,11 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         unchecked += int(not row['primary_source_checked'])
     total_minutes = sum(deltas, Decimal(0))
     net_value = total_minutes * hourly / Decimal(60) - costs
-    sample_gate = len(tasks) >= min_tasks and agent_errors == 0 and unchecked == 0
+    # Synthetic arithmetic fixtures must never pass an evidence-based pilot gate.
+    # Self-reported consent and correctness are still NOT independently verified.
+    sample_gate = (snapshot['sample_kind'] == 'self_reported_consented'
+                   and len(tasks) >= min_tasks and agent_errors == 0 and unchecked == 0)
+    economic_screen = sample_gate and total_minutes > 0 and net_value > 0
     return {
         'sample_kind': snapshot['sample_kind'],
         'source_observed_at_utc': snapshot['observed_at_utc'],
@@ -101,12 +105,13 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'scenario_net_labor_value_sek': str(net_value),
         'scenario_max_software_price_per_task_sek': str(max(Decimal(0), net_value * capture / (Decimal(100) * len(tasks)))),
         'minimum_sample_quality_gate_met': sample_gate,
+        'self_reported_positive_economic_screen_met': economic_screen,
         'commercial_validation_status': 'NOT_VALIDATED',
         'verified_willingness_to_pay': None,
         'verified_paying_customers': None,
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
-                   'The quality gate is not a safety certification, statistical significance test or permission to deploy. '
+                   'The self-reported quality/economic screens never establish willingness to pay, independent validation or permission to deploy. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
     }
 
