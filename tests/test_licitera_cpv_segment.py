@@ -71,6 +71,12 @@ class SegmentTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'outside expected'):
             analyze(self.write('p1;b1;48000000;48000000;2026-10-01;r1;ted;x\n'), expected_month='2026-09')
 
+    def test_live_weekday_month_day_format(self):
+        p = self.write('p1;b1;48000000;48000000;Thu Sep 17;r1;ted;x\n')
+        self.assertEqual(analyze(p, expected_month='2026-09')['segments']['48']['any_cpv_rows'], 1)
+        with self.assertRaisesRegex(ValueError, 'weekday'):
+            analyze(self.write('p1;b1;48000000;48000000;Wed Sep 17;r1;ted;x\n'), expected_month='2026-09')
+
     def test_bad_date_rejected(self):
         with self.assertRaisesRegex(ValueError, 'publication date'):
             analyze(self.write('p1;b1;48000000;48000000;2026-09-32;r1;ted;x\n'), expected_month='2026-09')
