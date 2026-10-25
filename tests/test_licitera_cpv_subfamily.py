@@ -95,15 +95,15 @@ class CpvSubfamilyTests(unittest.TestCase):
         self.assertEqual(r["subfamilies"][0]["main_family_rows"], 0)
 
     def test_missed_union_status_and_source_are_observed_not_live(self):
-        header = "Internt id;Köpare-id;Huvud-CPV;CPV-koder;Publicerad;Källreferens;Status;Källa\\n"
+        header = "Internt id;Köpare-id;Huvud-CPV;CPV-koder;Publicerad;Källreferens;Status;Källa\n"
         lines = []
         for i in range(1, 7):
             status = "open" if i <= 4 else ("awarded" if i == 5 else "cancelled")
             source = "ted" if i <= 5 else "uhm"
-            lines.append(f"p{i};b{i};12345678;72310000;2026-09-{i:02d};r{i};{status};{source}\\n")
+            lines.append(f"p{i};b{i};12345678;72310000;2026-09-{i:02d};r{i};{status};{source}\n")
         lines.extend([
-            "p7;b7;72000000;72310000;2026-09-07;r7;open;ted\\n",
-            "p8;b8;48000000;72310000;2026-09-08;r8;open;ted\\n",
+            "p7;b7;72000000;72310000;2026-09-07;r7;open;ted\n",
+            "p8;b8;48000000;72310000;2026-09-08;r8;open;ted\n",
         ])
         r = self.report("".join(lines), min_group_rows=5, header=header)
         group = next(g for g in r["subfamilies"] if g["cpv_four_digit_prefix"] == "7231")
@@ -116,8 +116,8 @@ class CpvSubfamilyTests(unittest.TestCase):
 
     def test_sparse_missed_union_details_suppressed(self):
         r = self.report(
-            "p1;b1;12345678;72310000;2026-09-01;r1;open\\n"
-            "p2;b2;72000000;72310000;2026-09-02;r2;awarded\\n",
+            "p1;b1;12345678;72310000;2026-09-01;r1;open\n"
+            "p2;b2;72000000;72310000;2026-09-02;r2;awarded\n",
             min_group_rows=2)
         group = r["subfamilies"][0]
         self.assertEqual(group["missed_by_main_union_rows"], 1)
