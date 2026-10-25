@@ -1,0 +1,105 @@
+"""Fetch only Licitera's openly licensed previous-month bulk files and emit aggregates.
+
+No login, pagination, restricted history, buyer identities, external payments or
+public deployment. Raw files remain in a temporary directory and are deleted.
+Source: https://licitera.se/oppen-data (CC BY 4.0, attribution required).
+"""
+import argparse
+from datetime import datetime, timezone
+import gzip
+import hashlib
+import io
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from urllib.request import Request, urlopen
+
+from src.licitera_cpv_segment import analyze as analyze_segments
+from src.licitera_monthly_supply import analyze as analyze_supply
+
+_BASE = "https://licitera.se/oppen-data/"
+_NAMES = ("upphandlingar.csv.gz", "tilldelningar.csv.gz")
+_MAX_COMPRESSED = 2_000_000
+
+
+def previous_month(now):
+    if now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("now must be timezone-aware")
+    year, month = now.year, now.month
+    return f"{year - 1 if month == 1 else year:04d}-{12 if month == 1 else month - 1:02d}"
+
+
+def fetch_public_file(name, destination, *, opener=urlopen):
+    if name not in _NAMES:
+        raise ValueError("only public monthly procurement and award files are permitted")
+    req = Request(_BASE + name, headers={"User-Agent": "AgentMine-public-monthly-research/1.0", "Accept": "application/gzip"})
+    with opener(req, timeout=20) as response:
+        if response.status != 200:
+            raise ValueError("unexpected download HTTP status")
+        mime = response.headers.get("Content-Type", "").split(";")[0].strip().lower()
+        if mime not in {"application/gzip", "application/x-gzip", "application/octet-stream"}:
+            raise ValueError("unexpected download content type")
+        claimed = response.headers.get("Content-Length")
+        if claimed is not None and (not claimed.isdecimal() or int(claimed) > _MAX_COMPRESSED):
+            raise ValueError("download length invalid or exceeds cap")
+        payload = response.read(_MAX_COMPRESSED + 1)
+    if len(payload) > _MAX_COMPRESSED or not payload.startswith(b"\x1f\x8b"):
+        raise ValueError("download is too large or not gzip")
+    # Validate gzip CRC/footer with a bounded decompression.
+    try:
+        with gzip.GzipFile(fileobj=io.BytesIO(payload)) as handle:
+            if len(handle.read(12_000_001)) > 12_000_000:
+                raise ValueError("decompressed export exceeds size cap")
+    except (OSError, EOFError) as exc:
+        raise ValueError("invalid gzip payload") from exc
+    Path(destination).write_bytes(payload)
+    return {"url": _BASE + name, "compressed_bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+
+
+def run(*, now=None, fetcher=fetch_public_file):
+    now = now or datetime.now(timezone.utc)
+    month = previous_month(now)
+    with TemporaryDirectory() as tmp:
+        paths = {name: Path(tmp) / name for name in _NAMES}
+        sources = {name: fetcher(name, paths[name]) for name in _NAMES}
+        segments = analyze_segments(paths["upphandlingar.csv.gz"], expected_month=month)
+        supply = analyze_supply(paths["upphandlingar.csv.gz"], expected_month=month,
+                                award_csv=paths["tilldelningar.csv.gz"])
+        if segments["rows"] == 0 or segments["rows"] != supply["procurement_rows"]:
+            raise ValueError("empty or inconsistent procurement cohort")
+        if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
+            raise ValueError("CPV48 main-code reconciliation failed")
+        if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
+            raise ValueError("CPV72 main-code reconciliation failed")
+        return {
+            "evidence_type": "public_monthly_publisher_rows_not_verified_buyer_demand",
+            "retrieved_at_utc": now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "publication_month": month,
+            "source_page": "https://licitera.se/oppen-data",
+            "license": "CC BY 4.0, public previous-month exports only",
+            "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+            "source_files": sources,
+            "procurement_supply": supply,
+            "cpv_segments": segments,
+            "verified_agentmine_customers": None,
+            "verified_payment_conversion": None,
+            "verified_agentmine_revenue": None,
+            "warning": "Public monthly publisher cohort, not a national census. Buyer/supplier IDs are not verified companies, row shares are not market shares, awards may belong to earlier publication cohorts, and these records do not prove customer demand."
+        }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True, help="Aggregate-only JSON; never raw files")
+    args = parser.parse_args()
+    report = run()
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("Monthly public source analyzed:", report["publication_month"],
+          "rows:", report["procurement_supply"]["procurement_rows"],
+          "CPV48 any:", report["cpv_segments"]["segments"]["48"]["any_cpv_rows"],
+          "CPV72 any:", report["cpv_segments"]["segments"]["72"]["any_cpv_rows"])
+
+
+if __name__ == "__main__":
+    main()
