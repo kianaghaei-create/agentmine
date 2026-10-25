@@ -20,6 +20,11 @@ from src.licitera_public_monthly_runner import fetch_public_file
 from src.ted_notice_evidence import collect
 from src.ted_cpv7231_public_probe import QUERY, SOURCE, EXPECTED_MONTH, summarize
 from src.ted_title_gap_triage import triage as triage_unmatched_titles
+from src.ted_procedure_gap_triage import triage as triage_unmatched_procedures
+
+TED_RECONCILIATION_FIELDS = ["publication-number", "publication-date", "notice-type", "notice-title",
+                             "buyer-name", "buyer-country", "classification-cpv",
+                             "procedure-identifier", "previous-notice-id-proc"]
 
 _PUBLICATION_NUMBER = re.compile(r"^[0-9]{6}-20[0-9]{2}$")
 _TED_PATH = re.compile(r"^/(?:[a-z]{2}/)?notice/-/detail/([0-9]{6}-20[0-9]{2})/?$")
@@ -160,6 +165,8 @@ def reconcile(rows, ted_snapshot):
             != len(ted_ids) - len(matched_ids)):
         raise ValueError("TED unmatched cohort decomposition failed")
     title_triage = triage_unmatched_titles(rows, unmatched_contract_absent, month=EXPECTED_MONTH)
+    procedure_triage = triage_unmatched_procedures(list(ted_ids.values()), matched_ids,
+                                                   unmatched_contract_absent)
     if title_triage["unmatched_ted_contract_notices"] != unmatched_absent_from_export["contract_notice"]:
         raise ValueError("unmatched contract title triage does not reconcile")
     return {
@@ -187,6 +194,7 @@ def reconcile(rows, ted_snapshot):
         "ted_unmatched_notice_types_absent_from_entire_licitera_export": dict(sorted(unmatched_absent_from_export.items())),
         "ted_publication_numbers_matched_anywhere_in_licitera_export": len(all_licitera_matched_ted_ids),
         "ted_contract_absent_from_export_title_date_triage": title_triage,
+        "ted_contract_absent_from_export_official_procedure_triage": procedure_triage,
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
@@ -206,7 +214,8 @@ def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None):
     with TemporaryDirectory() as tmp:
         path = Path(tmp) / "upphandlingar.csv.gz"
         source = fetcher("upphandlingar.csv.gz", path)
-        snapshot = collect(QUERY, max_pages=2, limit=100, **({"fetch_page": ted_fetcher} if ted_fetcher else {}))
+        snapshot = collect(QUERY, max_pages=2, limit=100, fields=TED_RECONCILIATION_FIELDS,
+                           **({"fetch_page": ted_fetcher} if ted_fetcher else {}))
         result = reconcile(_rows(path, _REQUIRED), snapshot)
         result["observed_at_utc"] = now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
         result["licitera_source_file"] = source
