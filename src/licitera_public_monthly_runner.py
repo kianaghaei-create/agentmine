@@ -18,6 +18,7 @@ from tempfile import TemporaryDirectory
 from urllib.request import Request, urlopen
 
 from src.licitera_cpv_segment import analyze as analyze_segments
+from src.licitera_award_cpv_cohort import analyze as analyze_award_cpv
 from src.licitera_monthly_supply import analyze as analyze_supply
 
 _BASE = "https://licitera.se/oppen-data/"
@@ -125,12 +126,16 @@ def run(*, now=None, fetcher=fetch_public_file):
         segments = analyze_segments(paths["upphandlingar.csv.gz"], expected_month=month)
         supply = analyze_supply(paths["upphandlingar.csv.gz"], expected_month=month,
                                 award_csv=paths["tilldelningar.csv.gz"])
+        award_cpv = analyze_award_cpv(paths["upphandlingar.csv.gz"],
+                                      paths["tilldelningar.csv.gz"], expected_month=month)
         if segments["rows"] == 0 or segments["rows"] != supply["procurement_rows"]:
             raise ValueError("empty or inconsistent procurement cohort")
         if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
             raise ValueError("CPV48 main-code reconciliation failed")
         if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
             raise ValueError("CPV72 main-code reconciliation failed")
+        if award_cpv["award_rows_joined_to_same_month_procurements"] != supply["award_file"]["award_rows_joined_to_same_month_procurements"]:
+            raise ValueError("same-month award join reconciliation failed")
         return {
             "evidence_type": "public_monthly_publisher_rows_not_verified_buyer_demand",
             "retrieved_at_utc": now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -141,6 +146,7 @@ def run(*, now=None, fetcher=fetch_public_file):
             "source_files": sources,
             "procurement_supply": supply,
             "cpv_segments": segments,
+            "cpv_award_supplier_cohort": award_cpv,
             "verified_agentmine_customers": None,
             "verified_payment_conversion": None,
             "verified_agentmine_revenue": None,
