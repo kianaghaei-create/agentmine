@@ -42,7 +42,9 @@ def _rows(path, required):
     except UnicodeError as exc:
         raise ValueError("monthly export must be UTF-8") from exc
     lines = decoded.splitlines(keepends=True)
-    while lines and lines[0].startswith("#"):
+    # Publisher metadata may contain blank lines or indented comment markers.
+    # Strip only the leading preamble, never comments inside CSV records.
+    while lines and (not lines[0].strip() or lines[0].lstrip().startswith("#")):
         lines.pop(0)
     content = "".join(lines)
     reader = csv.DictReader(io.StringIO(content), delimiter=";", strict=True)
