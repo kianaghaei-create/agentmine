@@ -28,11 +28,37 @@ class CpvSubfamilyTests(unittest.TestCase):
         self.assertEqual(families["7221"]["notice_rows"], 2)
         self.assertEqual(families["7221"]["main_family_rows"], 1)
         self.assertEqual(families["7221"]["secondary_only_rows"], 1)
+        self.assertEqual(families["7221"]["secondary_other_segment_main_rows"], 1)
+        self.assertEqual(families["7221"]["covered_by_main_segment_only_rows"], 1)
+        self.assertEqual(families["7221"]["missed_by_main_segment_only_rows"], 1)
+        self.assertEqual(r["union_notices_covered_by_main_48_or_72"], 2)
+        self.assertEqual(r["union_notices_missed_by_main_48_or_72"], 0)
         self.assertEqual(families["4800"]["notice_rows"], 2)
         self.assertEqual(families["7221"]["publisher_status_rows_not_live"], {"closed": 1, "open": 1})
         self.assertEqual(families["7221"]["buyer_id_row_concentration"]["top_id_row_share"], 0.5)
         self.assertNotIn("p1", str(r))
         self.assertNotIn("b1", str(r))
+
+    def test_narrow_secondary_only_is_not_necessarily_broad_segment_miss(self):
+        r = self.report(
+            "p1;b1;72000000;72250000;2026-09-01;r1;open\\n"
+            "p2;b2;48000000;72250000;2026-09-02;r2;open\\n"
+            "p3;b3;12345678;72250000;2026-09-03;r3;open\\n"
+            "p4;b4;;72250000;2026-09-04;r4;open\\n"
+            "p5;b5;72250000;72250000;2026-09-05;r5;open\\n")
+        family = next(g for g in r["subfamilies"] if g["cpv_four_digit_prefix"] == "7225")
+        self.assertEqual(family["notice_rows"], 5)
+        self.assertEqual(family["main_family_rows"], 1)
+        self.assertEqual(family["secondary_only_rows"], 4)
+        self.assertEqual(family["secondary_same_segment_main_rows"], 1)
+        self.assertEqual(family["secondary_other_segment_main_rows"], 1)
+        self.assertEqual(family["secondary_outside_scope_main_rows"], 1)
+        self.assertEqual(family["secondary_missing_main_rows"], 1)
+        self.assertEqual(family["covered_by_main_segment_only_rows"], 2)
+        self.assertEqual(family["missed_by_main_segment_only_rows"], 3)
+        self.assertEqual(r["union_48_72_notice_rows"], 5)
+        self.assertEqual(r["union_notices_covered_by_main_48_or_72"], 3)
+        self.assertEqual(r["union_notices_missed_by_main_48_or_72"], 2)
 
     def test_rank_and_suppress_small_families(self):
         r = self.report(
@@ -80,6 +106,7 @@ class CpvSubfamilyTests(unittest.TestCase):
             self.report("", min_group_rows=True)
         r = self.report("")
         self.assertEqual(r["union_48_72_notice_rows"], 0)
+        self.assertEqual(r["union_notices_missed_by_main_48_or_72"], 0)
         self.assertEqual(r["subfamilies"], [])
         self.assertIsNone(r["verified_agentmine_revenue"])
 
