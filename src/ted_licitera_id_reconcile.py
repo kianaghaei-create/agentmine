@@ -19,6 +19,7 @@ from src.licitera_cpv_segment import _cpvs
 from src.licitera_public_monthly_runner import fetch_public_file
 from src.ted_notice_evidence import collect
 from src.ted_cpv7231_public_probe import QUERY, SOURCE, EXPECTED_MONTH, summarize
+from src.ted_title_gap_triage import triage as triage_unmatched_titles
 
 _PUBLICATION_NUMBER = re.compile(r"^[0-9]{6}-20[0-9]{2}$")
 _TED_PATH = re.compile(r"^/(?:[a-z]{2}/)?notice/-/detail/([0-9]{6}-20[0-9]{2})/?$")
@@ -135,6 +136,7 @@ def reconcile(rows, ted_snapshot):
     unmatched_ted_types = Counter()
     unmatched_found_elsewhere = Counter()
     unmatched_absent_from_export = Counter()
+    unmatched_contract_absent = []
     for pub, notice in ted_ids.items():
         if pub in matched_ids:
             continue
@@ -152,9 +154,14 @@ def reconcile(rows, ted_snapshot):
             unmatched_found_elsewhere[kind] += 1
         else:
             unmatched_absent_from_export[kind] += 1
+            if kind == "contract_notice":
+                unmatched_contract_absent.append(notice)
     if (sum(unmatched_found_elsewhere.values()) + sum(unmatched_absent_from_export.values())
             != len(ted_ids) - len(matched_ids)):
         raise ValueError("TED unmatched cohort decomposition failed")
+    title_triage = triage_unmatched_titles(rows, unmatched_contract_absent, month=EXPECTED_MONTH)
+    if title_triage["unmatched_ted_contract_notices"] != unmatched_absent_from_export["contract_notice"]:
+        raise ValueError("unmatched contract title triage does not reconcile")
     return {
         "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
         "publication_month": EXPECTED_MONTH,
@@ -179,13 +186,14 @@ def reconcile(rows, ted_snapshot):
         "ted_unmatched_7231_notice_types_found_in_other_licitera_rows": dict(sorted(unmatched_found_elsewhere.items())),
         "ted_unmatched_notice_types_absent_from_entire_licitera_export": dict(sorted(unmatched_absent_from_export.items())),
         "ted_publication_numbers_matched_anywhere_in_licitera_export": len(all_licitera_matched_ted_ids),
+        "ted_contract_absent_from_export_title_date_triage": title_triage,
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
         "verified_supplier_time_savings": None,
         "verified_agentmine_paying_customers": None,
         "verified_agentmine_revenue": None,
-        "warning": "TED notices include contract and award types; Licitera rows are procurement entities. Unmatched 7231-cohort IDs are separately checked against all Licitera rows; absence from the export is not proof of missing product coverage, due to timing, scope or entity granularity. Publisher open status is not a current deadline. Source IDs are never emitted. Exact joins do not establish competitor recall, supplier fit, time savings or payment demand."
+        "warning": "TED notices include contract and award types; Licitera rows are procurement entities. Unmatched 7231-cohort IDs are separately checked against all Licitera rows; absence from the export is not proof of missing product coverage, due to timing, scope or entity granularity. Publisher open status is not a current deadline. Source IDs and titles are never emitted. Title/date candidates do not prove identity. Exact joins do not establish competitor recall, supplier fit, time savings or payment demand."
     }
 
 
