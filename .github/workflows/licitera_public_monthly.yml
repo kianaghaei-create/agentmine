@@ -8,6 +8,8 @@ on:
       - "src/licitera_public_monthly_runner.py"
       - "src/licitera_monthly_supply.py"
       - "src/licitera_cpv_segment.py"
+      - "src/licitera_cpv_subfamily.py"
+      - "src/licitera_award_cpv_cohort.py"
   workflow_dispatch:
 
 permissions:
