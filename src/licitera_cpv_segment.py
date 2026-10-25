@@ -12,7 +12,7 @@ import json
 import re
 from pathlib import Path
 
-from src.licitera_monthly_supply import _rows, _concentration, _MONTH, _CPV
+from src.licitera_monthly_supply import _rows, _concentration, _MONTH, _CPV, _publication_date
 
 _REQUIRED = {"Internt id", "Köpare-id", "Huvud-CPV", "CPV-koder", "Publicerad", "Källreferens", "Källa"}
 _SEGMENTS = ("48", "72")
@@ -46,15 +46,7 @@ def analyze(path, *, expected_month):
         if not ident or len(ident) > 160 or ident in seen_ids:
             raise ValueError("missing or duplicate procurement ID")
         seen_ids.add(ident)
-        published_text = row["Publicerad"].strip()
-        if not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", published_text):
-            raise ValueError("invalid publication date")
-        try:
-            published = date.fromisoformat(published_text)
-        except ValueError as exc:
-            raise ValueError("invalid publication date") from exc
-        if published.strftime("%Y-%m") != expected_month:
-            raise ValueError("procurement outside expected publication month")
+        _publication_date(row["Publicerad"].strip(), expected_month)
         main = row["Huvud-CPV"].strip()
         if main and not _CPV.fullmatch(main):
             raise ValueError("invalid main CPV")
