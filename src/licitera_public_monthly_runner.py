@@ -18,6 +18,7 @@ from tempfile import TemporaryDirectory
 from urllib.request import Request, urlopen
 
 from src.licitera_cpv_segment import analyze as analyze_segments
+from src.licitera_cpv_subfamily import analyze as analyze_subfamilies
 from src.licitera_award_cpv_cohort import analyze as analyze_award_cpv
 from src.licitera_monthly_supply import analyze as analyze_supply
 
@@ -124,12 +125,24 @@ def run(*, now=None, fetcher=fetch_public_file):
             print("Public monthly CSV schema:", name, json.dumps(public_header_diagnostic(paths[name]), ensure_ascii=False))
         print("Public procurement date shapes:", json.dumps(public_date_diagnostic(paths["upphandlingar.csv.gz"]), ensure_ascii=False))
         segments = analyze_segments(paths["upphandlingar.csv.gz"], expected_month=month)
+        subfamilies = analyze_subfamilies(paths["upphandlingar.csv.gz"], expected_month=month)
         supply = analyze_supply(paths["upphandlingar.csv.gz"], expected_month=month,
                                 award_csv=paths["tilldelningar.csv.gz"])
         award_cpv = analyze_award_cpv(paths["upphandlingar.csv.gz"],
                                       paths["tilldelningar.csv.gz"], expected_month=month)
         if segments["rows"] == 0 or segments["rows"] != supply["procurement_rows"]:
             raise ValueError("empty or inconsistent procurement cohort")
+        if subfamilies["procurement_rows"] != segments["rows"]:
+            raise ValueError("CPV subfamily row reconciliation failed")
+        for segment in ("48", "72"):
+            if subfamilies["segment_any_notice_rows"].get(segment, 0) != segments["segments"][segment]["any_cpv_rows"]:
+                raise ValueError("CPV subfamily segment reconciliation failed")
+        if subfamilies["union_48_72_notice_rows"] != (
+            segments["segments"]["48"]["any_cpv_rows"]
+            + segments["segments"]["72"]["any_cpv_rows"]
+            - segments["rows_with_both_48_and_72_any_cpv"]
+        ):
+            raise ValueError("CPV subfamily union reconciliation failed")
         if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
             raise ValueError("CPV48 main-code reconciliation failed")
         if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
@@ -146,6 +159,7 @@ def run(*, now=None, fetcher=fetch_public_file):
             "source_files": sources,
             "procurement_supply": supply,
             "cpv_segments": segments,
+            "cpv_four_digit_subfamilies": subfamilies,
             "cpv_award_supplier_cohort": award_cpv,
             "verified_agentmine_customers": None,
             "verified_payment_conversion": None,
