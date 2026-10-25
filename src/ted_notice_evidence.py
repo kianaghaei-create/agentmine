@@ -13,14 +13,20 @@ FIELDS = ["publication-number", "publication-date", "notice-type", "notice-title
           "buyer-name", "buyer-country", "classification-cpv"]
 
 
-def request_body(query, limit=50, token=None):
+def request_body(query, limit=50, token=None, fields=None):
     if not isinstance(query, str) or not query.strip() or len(query) > 2000:
         raise ValueError("invalid TED query")
     if type(limit) is not int or not 1 <= limit <= 250:
         raise ValueError("limit must be integer 1..250")
     if token is not None and (not isinstance(token, str) or not token.strip()):
         raise ValueError("invalid iteration token")
-    body = {"query": query, "fields": FIELDS, "limit": limit,
+    projection = FIELDS if fields is None else fields
+    if (not isinstance(projection, list) or not projection or len(projection) > 30
+            or not all(isinstance(field, str) and field.strip() for field in projection)
+            or len(set(projection)) != len(projection)
+            or not set(FIELDS).issubset(projection)):
+        raise ValueError("invalid TED field projection")
+    body = {"query": query, "fields": list(projection), "limit": limit,
             "scope": "ALL", "paginationMode": "ITERATION", "onlyLatestVersions": True}
     if token is not None:
         body["iterationNextToken"] = token
@@ -48,10 +54,10 @@ def _notice_id(row):
     return value
 
 
-def collect(query, fetch_page=post_json, *, max_pages=2, limit=50, observed_at=None):
+def collect(query, fetch_page=post_json, *, max_pages=2, limit=50, observed_at=None, fields=None):
     if type(max_pages) is not int or not 1 <= max_pages <= 100:
         raise ValueError("invalid max_pages")
-    body = request_body(query, limit)
+    body = request_body(query, limit, fields=fields)
     observed_at = observed_at or datetime.now(timezone.utc).isoformat()
     try:
         stamp = datetime.fromisoformat(observed_at.replace("Z", "+00:00"))
