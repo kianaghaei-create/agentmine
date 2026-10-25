@@ -56,6 +56,15 @@ class CrossMonthProcedureTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "incomplete"):
             triage_cross_month([a, b], {"000001-2026"}, [b], snap)
 
+    def test_real_ted_date_offset_shape_is_accepted(self):
+        a = notice("000001-2026", "2026-09", P1)
+        b = dict(a); b["publication-date"] = "2026-09-12+02:00"
+        result = triage_cross_month([b], set(), [b], snapshot([b]))
+        self.assertEqual(result["september_notice_numbers_present"], 1)
+        c = dict(b); c["publication-date"] = "2026-09-12+99:00"
+        with self.assertRaises(ValueError):
+            triage_cross_month([b], set(), [b], snapshot([c]))
+
     def test_reject_inconsistent_projection_and_dates(self):
         a = notice("000001-2026", "2026-09", P1)
         for field, bad in (("buyer-country", "NOR"), ("classification-cpv", ["72000000"]),
