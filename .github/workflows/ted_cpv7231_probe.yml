@@ -1,0 +1,31 @@
+name: Official TED CPV7231 independent probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_cpv7231_probe.yml"
+      - "src/ted_cpv7231_public_probe.py"
+      - "src/ted_notice_evidence.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aggregate-official-ted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Query bounded public TED September 2026 Swedish CPV7231 cohort
+        run: python3 -m src.ted_cpv7231_public_probe --output ted-cpv7231-aggregate.json
+      - name: Upload aggregate only (no notice IDs or buyer names)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-cpv7231-public-aggregate
+          path: ted-cpv7231-aggregate.json
+          if-no-files-found: error
+          retention-days: 7
