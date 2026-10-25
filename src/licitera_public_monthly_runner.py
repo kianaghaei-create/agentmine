@@ -188,6 +188,20 @@ def main():
           "rows:", report["procurement_supply"]["procurement_rows"],
           "CPV48 any:", report["cpv_segments"]["segments"]["48"]["any_cpv_rows"],
           "CPV72 any:", report["cpv_segments"]["segments"]["72"]["any_cpv_rows"])
+    niche = report["cpv_four_digit_subfamilies"]
+    print("Broad main-CPV 48/72 union coverage:",
+          niche["union_notices_covered_by_main_48_or_72"],
+          "missed:", niche["union_notices_missed_by_main_48_or_72"])
+    print("Four-digit main-segment search baseline:",
+          json.dumps([
+              {"cpv_prefix": g["cpv_four_digit_prefix"],
+               "notice_rows": g["notice_rows"],
+               "secondary_only_rows": g["secondary_only_rows"],
+               "covered_by_main_segment_only_rows": g["covered_by_main_segment_only_rows"],
+               "missed_by_main_segment_only_rows": g["missed_by_main_segment_only_rows"]}
+              for g in niche["subfamilies"]
+              if g["cpv_four_digit_prefix"] in {"7222", "7225", "7226", "7231"}
+          ], ensure_ascii=False))
 
 
 if __name__ == "__main__":
