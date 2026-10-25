@@ -27,6 +27,43 @@ _MAX_BYTES = 12_000_000
 _MAX_ROWS = 100_000
 
 
+
+_WEEKDAYS_EN = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+_MONTHS_EN = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+_SHORT_DAY = re.compile(r"^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ([0-3][0-9])$")
+
+
+def _publication_date(value, expected_month):
+    """Validate ISO dates or publisher's yearless 'Thu Sep 17' dates.
+
+    The public monthly export uses English weekday/month tokens without a year.
+    The year is supplied by the explicitly selected publication-month cohort,
+    and the weekday is checked independently to reject ambiguous/misdated rows.
+    """
+    if _ISO_DAY.fullmatch(value):
+        try:
+            published = date.fromisoformat(value)
+        except ValueError as exc:
+            raise ValueError("invalid publication date") from exc
+    else:
+        match = _SHORT_DAY.fullmatch(value)
+        if not match:
+            raise ValueError("invalid publication date")
+        year, month = (int(part) for part in expected_month.split("-"))
+        if match.group(2) != _MONTHS_EN[month - 1]:
+            raise ValueError("procurement outside expected publication month")
+        try:
+            published = date(year, month, int(match.group(3)))
+        except ValueError as exc:
+            raise ValueError("invalid publication date") from exc
+        if match.group(1) != _WEEKDAYS_EN[published.weekday()]:
+            raise ValueError("invalid publication date weekday mismatch")
+    if published.strftime("%Y-%m") != expected_month:
+        raise ValueError("procurement outside expected publication month")
+    return published
+
+
 def _rows(path, required):
     """Read the documented UTF-8 BOM / semicolon / # metadata format.
 
@@ -95,14 +132,7 @@ def analyze(procurement_csv, *, expected_month, award_csv=None):
         if identifier in seen:
             raise ValueError("duplicate procurement ID in monthly export")
         seen.add(identifier)
-        if not _ISO_DAY.fullmatch(row["Publicerad"]):
-            raise ValueError("invalid publication date")
-        try:
-            published = date.fromisoformat(row["Publicerad"])
-        except ValueError as exc:
-            raise ValueError("invalid publication date") from exc
-        if published.strftime("%Y-%m") != expected_month:
-            raise ValueError("procurement outside expected publication month")
+        _publication_date(row["Publicerad"], expected_month)
         buyer = row["Köpare-id"].strip()
         if buyer:
             buyers[_id(buyer, "buyer ID")] += 1
