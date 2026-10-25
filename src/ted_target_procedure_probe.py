@@ -6,7 +6,7 @@ a competitor failed to find a tender. No raw publication IDs or UUIDs are emitte
 from collections import Counter
 from datetime import date
 from src.ted_cross_month_procedure import triage_cross_month
-from src.ted_notice_evidence import collect, ENDPOINT
+from src.ted_notice_evidence import collect, ENDPOINT, FIELDS
 from src.ted_procedure_gap_triage import _procedure
 
 START = date(2026, 1, 1)
@@ -118,7 +118,7 @@ def probe(september_notices, matched_ids, unmatched_contract_notices,
     """
     number, procedure = _target(september_notices, matched_ids,
                                 unmatched_contract_notices, extended_snapshot)
-    kwargs = {"max_pages": 2, "limit": 100, "fields": fields}
+    kwargs = {"max_pages": 2, "limit": 100, "fields": fields if fields is not None else FIELDS + ["procedure-identifier"]}
     if fetch_page is not None:
         kwargs["fetch_page"] = fetch_page
     snapshot = collect(_query(procedure), **kwargs)
