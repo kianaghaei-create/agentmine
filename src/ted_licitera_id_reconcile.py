@@ -21,6 +21,7 @@ from src.ted_notice_evidence import collect
 from src.ted_cpv7231_public_probe import QUERY, SOURCE, EXPECTED_MONTH, summarize
 from src.ted_title_gap_triage import triage as triage_unmatched_titles
 from src.ted_procedure_gap_triage import triage as triage_unmatched_procedures
+from src.ted_cross_month_procedure import CROSS_MONTH_QUERY, triage_cross_month
 
 TED_RECONCILIATION_FIELDS = ["publication-number", "publication-date", "notice-type", "notice-title",
                              "buyer-name", "buyer-country", "classification-cpv",
@@ -58,7 +59,7 @@ def reference_number(reference):
     return m.group(1) if m else None
 
 
-def reconcile(rows, ted_snapshot):
+def reconcile(rows, ted_snapshot, cross_month_snapshot=None):
     """Return only cohort aggregates. Inputs must remain ephemeral and private to runner.
 
     Denominators: Licitera procurement rows versus TED *publication numbers*;
@@ -169,6 +170,9 @@ def reconcile(rows, ted_snapshot):
                                                    unmatched_contract_absent)
     if title_triage["unmatched_ted_contract_notices"] != unmatched_absent_from_export["contract_notice"]:
         raise ValueError("unmatched contract title triage does not reconcile")
+    cross_month_triage = (triage_cross_month(list(ted_ids.values()), matched_ids,
+                           unmatched_contract_absent, cross_month_snapshot)
+                          if cross_month_snapshot is not None else None)
     return {
         "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
         "publication_month": EXPECTED_MONTH,
@@ -195,6 +199,7 @@ def reconcile(rows, ted_snapshot):
         "ted_publication_numbers_matched_anywhere_in_licitera_export": len(all_licitera_matched_ted_ids),
         "ted_contract_absent_from_export_title_date_triage": title_triage,
         "ted_contract_absent_from_export_official_procedure_triage": procedure_triage,
+        "ted_contract_absent_cross_month_official_procedure_triage": cross_month_triage,
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
@@ -205,7 +210,7 @@ def reconcile(rows, ted_snapshot):
     }
 
 
-def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None):
+def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None, cross_month=False):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("now must be timezone aware")
@@ -216,7 +221,13 @@ def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None):
         source = fetcher("upphandlingar.csv.gz", path)
         snapshot = collect(QUERY, max_pages=2, limit=100, fields=TED_RECONCILIATION_FIELDS,
                            **({"fetch_page": ted_fetcher} if ted_fetcher else {}))
-        result = reconcile(_rows(path, _REQUIRED), snapshot)
+        extended = (collect(CROSS_MONTH_QUERY, max_pages=3, limit=100,
+                            fields=TED_RECONCILIATION_FIELDS,
+                            **({"fetch_page": ted_fetcher} if ted_fetcher else {}))
+                    if cross_month else None)
+        result = reconcile(_rows(path, _REQUIRED), snapshot, extended)
+        if extended is not None:
+            result["ted_cross_month_observed_at"] = extended["observed_at"]
         result["observed_at_utc"] = now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
         result["licitera_source_file"] = source
         result["ted_observed_at"] = snapshot["observed_at"]
@@ -226,8 +237,10 @@ def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--cross-month", action="store_true",
+                   help="Run bounded official Aug-Oct 2026 TED procedure identity check")
     args = p.parse_args()
-    report = run()
+    report = run(cross_month=args.cross_month)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Cross-source CPV7231 exact ID reconciliation:",
           json.dumps({k: report[k] for k in (
