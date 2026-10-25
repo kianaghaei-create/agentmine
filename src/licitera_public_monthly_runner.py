@@ -143,6 +143,15 @@ def run(*, now=None, fetcher=fetch_public_file):
             - segments["rows_with_both_48_and_72_any_cpv"]
         ):
             raise ValueError("CPV subfamily union reconciliation failed")
+        if subfamilies["union_notices_covered_by_main_48_or_72"] != (
+            supply["main_cpv48_rows"] + supply["main_cpv72_rows"]
+        ):
+            raise ValueError("broad main-CPV union coverage reconciliation failed")
+        if subfamilies["union_notices_missed_by_main_48_or_72"] != (
+            subfamilies["union_48_72_notice_rows"]
+            - subfamilies["union_notices_covered_by_main_48_or_72"]
+        ):
+            raise ValueError("broad main-CPV union missingness reconciliation failed")
         if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
             raise ValueError("CPV48 main-code reconciliation failed")
         if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
