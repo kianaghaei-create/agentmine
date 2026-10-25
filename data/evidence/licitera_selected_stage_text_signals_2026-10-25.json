@@ -1,0 +1,59 @@
+{
+  "observed_on": "2026-10-25",
+  "evidence_type": "selected_public_directory_internal_stage_text_signals",
+  "selection_method": "Targeted public web search for 2026 Swedish notices containing application/participation language; convenience sample, not random or exhaustive.",
+  "sample_size": 3,
+  "source_publisher": "Licitera",
+  "source_reuse_note": "Only short factual descriptions and links retained; no bulk data replication.",
+  "cases": [
+    {
+      "ted_publication_number": "715274-2026",
+      "buyer": "Norbergs kommun",
+      "title": "System för schema och bemanning",
+      "directory_url": "https://licitera.se/upphandling/system-for-schema-och-bemanning-62e7fb4bc9",
+      "directory_display": "Sista anbudsdag 27 okt",
+      "directory_display_date": "2026-10-27",
+      "directory_description_stage_cue": "Inbjudan att inkomma med ansökan om att få lämna anbud",
+      "source_status": "directory_text_only",
+      "primary_submission_stage_verified": false,
+      "deadline_stage_verified": false,
+      "primary_access": "TendSign link redirected to login; no access bypass."
+    },
+    {
+      "ted_publication_number": "706894-2026",
+      "buyer": "Jönköpings kommun",
+      "title": "Dynamiskt inköpssystem för inköp av fordon",
+      "directory_url": "https://licitera.se/upphandling/dynamiskt-inkopssystem-for-inkop-av-fordon-4ff8bfec9b",
+      "directory_display": "Sista anbudsdag 30 nov 2030",
+      "directory_display_date": "2030-11-30",
+      "directory_description_stage_cue": "Inbjudan till ansökan om deltagande i dynamiskt inköpssystem",
+      "source_status": "directory_text_only",
+      "primary_submission_stage_verified": false,
+      "deadline_stage_verified": false,
+      "primary_access": "e-Avrop notice link exposed login prompt; no access bypass."
+    },
+    {
+      "ted_publication_number": "643105-2026",
+      "buyer": "Skellefteå kommun",
+      "title": "Dynamiskt Inköpssystem avseende Verksamhetsutveckling",
+      "directory_url": "https://licitera.se/upphandling/dynamiskt-inkopssystem-avseende-verksamhetsutveckling-51e7768c53",
+      "directory_display": "Sista anbudsdag 29 sep 2036",
+      "directory_display_date": "2036-09-29",
+      "directory_description_stage_cue": "Inbjudan till ansökan om deltagande i dynamiskt inköpssystem",
+      "source_status": "directory_text_only",
+      "primary_submission_stage_verified": false,
+      "deadline_stage_verified": false,
+      "primary_access": "e-Avrop notice link exposed login prompt; no access bypass."
+    }
+  ],
+  "measured_counts": {
+    "directory_internal_stage_text_signals": 3,
+    "independently_verified_primary_portal_stage_mismatches": 0,
+    "verified_legal_deadline_errors": 0,
+    "verified_supplier_time_saved": 0,
+    "verified_agentmine_paying_customers": 0
+  },
+  "interpretation": "Three selected directory pages display a generic last-bid-day label while their own descriptions refer to an application/participation process. This is a source-internal stage ambiguity candidate, not a confirmed incorrect date, deadline, legal conflict, competitor error rate or willingness to pay. Two DIS dates may represent long-lived qualification windows rather than single tender submissions.",
+  "limitations": "Selected from targeted search, no population denominator, possible date-label semantics and publisher normalization; primary notices were inaccessible without login or JavaScript challenge. Do not extrapolate prevalence or send supplier deadline alerts.",
+  "next_validation": "Predeclare a bounded consecutive cohort of negotiated procedures and DIS notices, retrieve primary source with authorization, record stage classification and date semantics, then measure consented supplier decision outcomes."
+}
