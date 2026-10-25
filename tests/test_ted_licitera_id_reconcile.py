@@ -52,6 +52,34 @@ class ReconciliationTests(unittest.TestCase):
         for secret in ("internal-secret-a", "000001-2026", "000002-2026"):
             self.assertNotIn(secret, str(result))
 
+    def test_ted_notice_missing_from_cpv_cohort_can_exist_elsewhere(self):
+        rows = [row("outside", "000001-2026", main="72220000", cpvs="72220000"),
+                row("inside", "000002-2026", cpvs="72311000")]
+        result = reconcile(rows, ted())
+        self.assertEqual(result["licitera_any_cpv7231_procurement_rows"], 1)
+        self.assertEqual(result["exact_joined_licitera_rows"], 1)
+        self.assertEqual(result["ted_unmatched_notice_types"], {"contract_notice": 1})
+        self.assertEqual(result["ted_unmatched_7231_notice_types_found_in_other_licitera_rows"],
+                         {"contract_notice": 1})
+        self.assertEqual(result["ted_unmatched_notice_types_absent_from_entire_licitera_export"], {})
+        self.assertEqual(result["ted_publication_numbers_matched_anywhere_in_licitera_export"], 2)
+
+    def test_ted_unmatched_notice_genuinely_absent_from_monthly_export(self):
+        result = reconcile([row("inside", "000001-2026")], ted())
+        self.assertEqual(result["ted_unmatched_7231_notice_types_found_in_other_licitera_rows"], {})
+        self.assertEqual(result["ted_unmatched_notice_types_absent_from_entire_licitera_export"],
+                         {"contract_award_notice": 1})
+        self.assertEqual(result["ted_publication_numbers_matched_anywhere_in_licitera_export"], 1)
+
+    def test_duplicate_ted_reference_outside_cpv_does_not_create_false_miss(self):
+        rows = [row("inside", "000001-2026"),
+                row("outside", "000001-2026", main="72220000", cpvs="72220000")]
+        result = reconcile(rows, ted())
+        self.assertEqual(result["ted_unmatched_7231_notice_types_found_in_other_licitera_rows"], {})
+        self.assertEqual(result["ted_unmatched_notice_types_absent_from_entire_licitera_export"],
+                         {"contract_award_notice": 1})
+        self.assertEqual(result["ted_publication_numbers_matched_anywhere_in_licitera_export"], 1)
+
     def test_unknown_formats_are_not_assumed_missing_from_ted(self):
         result = reconcile([row("a", "2026/S 123-000001"), row("b", "", source="ted"),
                             row("c", "000001-2026", source="uhm")], ted())
