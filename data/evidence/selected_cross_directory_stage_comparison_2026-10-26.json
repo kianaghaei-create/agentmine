@@ -1,0 +1,90 @@
+{
+  "observed_on": "2026-10-26",
+  "evidence_type": "selected_public_directory_display_comparison_not_primary_verification",
+  "selection": "Convenience follow-up to three preselected Licitera stage-text ambiguity candidates from 2026-10-25; NOT representative, random or exhaustive.",
+  "cases": [
+    {
+      "publication_number": "715274-2026",
+      "buyer": "Norbergs kommun",
+      "title": "System för schema och bemanning",
+      "observations": [
+        {
+          "publication_number": "715274-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://licitera.se/upphandling/system-for-schema-och-bemanning-62e7fb4bc9",
+          "reported_deadline": "2026-10-27",
+          "stage_claim": "unknown",
+          "display_label_claim": "bid_deadline"
+        },
+        {
+          "publication_number": "715274-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://tilldelat.se/upphandling/system-for-schema-och-bemanning-091403",
+          "reported_deadline": "2026-10-27",
+          "stage_claim": "unknown",
+          "display_label_claim": "participation_deadline"
+        }
+      ]
+    },
+    {
+      "publication_number": "706894-2026",
+      "buyer": "Jönköpings kommun",
+      "title": "Dynamiskt inköpssystem för inköp av fordon",
+      "observations": [
+        {
+          "publication_number": "706894-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://licitera.se/upphandling/dynamiskt-inkopssystem-for-inkop-av-fordon-4ff8bfec9b",
+          "reported_deadline": "2030-11-30",
+          "stage_claim": "unknown",
+          "display_label_claim": "bid_deadline"
+        },
+        {
+          "publication_number": "706894-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://tilldelat.se/upphandling/dynamiskt-inkopssystem-for-inkop-av-fordon-d7cd15",
+          "reported_deadline": "2030-12-01",
+          "stage_claim": "unknown",
+          "display_label_claim": "participation_deadline"
+        }
+      ]
+    },
+    {
+      "publication_number": "643105-2026",
+      "buyer": "Skellefteå kommun",
+      "title": "Dynamiskt Inköpssystem avseende Verksamhetsutveckling",
+      "observations": [
+        {
+          "publication_number": "643105-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://licitera.se/upphandling/dynamiskt-inkopssystem-avseende-verksamhetsutveckling-51e7768c53",
+          "reported_deadline": "2036-09-29",
+          "stage_claim": "unknown",
+          "display_label_claim": "bid_deadline"
+        },
+        {
+          "publication_number": "643105-2026",
+          "source_kind": "third_party_summary",
+          "source_url": "https://tilldelat.se/upphandling/dynamiskt-inkopssystem-avseende-verksamhetsutveckling-2fb351",
+          "reported_deadline": "2036-09-30",
+          "stage_claim": "unknown",
+          "display_label_claim": "participation_deadline"
+        }
+      ]
+    }
+  ],
+  "observed_counts": {
+    "matched_publication_numbers": 3,
+    "different_display_stage_labels": 3,
+    "same_calendar_date_different_stage_label": 1,
+    "different_calendar_date_and_stage_label": 2,
+    "independently_verified_legal_deadline_errors": 0,
+    "independently_verified_customer_savings": 0,
+    "verified_agentmine_paying_customers": 0
+  },
+  "competitor_capability": "Tilldelat publicly labels these three notices as participation/application deadline, unlike Licitera's bid deadline label; thus stage-aware directory labeling is already advertised/observed in another product, not a unique AgentMine feature.",
+  "additional_competitor_offer_source": "https://tilldelat.se/api",
+  "additional_competitor_offer_claim": "Tilldelat advertises a 21-tool MCP server, procurement and competition analytics, and Pro API access (1,000 calls/day) at 9,950 SEK/year or 995 SEK/month excluding VAT. This is an advertised offer, not verified customers or product performance.",
+  "limitations": "All six rows are third-party directory displays. Primary TED notices, amendments, and submission portals have NOT been independently reviewed; a one-day difference could be timezone/date semantics or updates. Do not send deadline alerts or attribute legal error. Do not infer market prevalence, actual customer benefit or sales.",
+  "next_validation": "Retrieve official buyer submission-stage and amendment data via authorized public access; test actual supplier task outcomes and willingness to pay before prioritizing a deadline-stage product."
+}
