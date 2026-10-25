@@ -84,8 +84,13 @@ def collect(query, fetch_page=post_json, *, max_pages=2, limit=50, observed_at=N
         next_token = payload.get("iterationNextToken")
         if next_token is not None and (not isinstance(next_token, str) or not next_token.strip()):
             raise ValueError("invalid iteration token")
-        if not next_token:
-            complete = len(rows) >= total
+        # TED can return an iteration token even after all reported unique
+        # publication numbers have been collected. Do not mark a full page
+        # as partial solely because a terminal token is still present.
+        if len(rows) > total:
+            raise ValueError("TED unique notices exceed reported total")
+        if not next_token or len(rows) == total:
+            complete = len(rows) == total
             break
         if next_token in tokens:
             raise ValueError("repeated TED iteration token")
