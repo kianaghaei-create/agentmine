@@ -8,6 +8,7 @@ on:
       - "src/ted_licitera_id_reconcile.py"
       - "src/ted_title_gap_triage.py"
       - "src/ted_procedure_gap_triage.py"
+      - "src/ted_cross_month_procedure.py"
       - "src/ted_notice_evidence.py"
       - "src/ted_cpv7231_public_probe.py"
       - "src/licitera_monthly_supply.py"
@@ -26,7 +27,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Reconcile only free September 2026 public cohorts (aggregate-only)
-        run: python3 -m src.ted_licitera_id_reconcile --output ted-licitera-aggregate.json
+        run: python3 -m src.ted_licitera_id_reconcile --cross-month --output ted-licitera-aggregate.json
       - name: Upload aggregate counts only (no source IDs, names or raw rows)
         uses: actions/upload-artifact@v4
         with:
