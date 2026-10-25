@@ -1,0 +1,73 @@
+{
+  "evidence_type": "observed_real_public_publisher_monthly_aggregate_not_customer_demand",
+  "retrieved_at_utc": "2026-10-25T03:53:16.186608Z",
+  "publication_month": "2026-09",
+  "publisher": "Licitera",
+  "source_page": "https://licitera.se/oppen-data",
+  "license": "CC BY 4.0 for free previous-month files; attribution required",
+  "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
+  "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40159854167",
+  "workflow_head_sha": "51cb26a0fa3a2b4e4fbbfe942781ae473fd977d2",
+  "artifact_id": 12586565399,
+  "artifact_digest": "sha256:825b1eedc3c37af98d86a082b07ef38d86eb75fe50782db83d2ae30e31c641ae",
+  "source_files": {
+    "upphandlingar.csv.gz": {
+      "url": "https://licitera.se/oppen-data/upphandlingar.csv.gz",
+      "compressed_bytes": 143320,
+      "sha256": "b7098a3fdf4126c9946616208d40d1f68d952deb51f9ed7861561b7c3166c9c1"
+    },
+    "tilldelningar.csv.gz": {
+      "url": "https://licitera.se/oppen-data/tilldelningar.csv.gz",
+      "compressed_bytes": 7116,
+      "sha256": "264af06b07db084b9fe71bcacbcbe1accbe255deaecc1c0bf401efbbc91576be"
+    }
+  },
+  "tender_rows": 1240,
+  "main_cpv48_rows": 43,
+  "any_cpv48_rows": 84,
+  "cpv48_secondary_only_rows": 41,
+  "cpv48_buyer_ids": 62,
+  "cpv48_top_buyer_id_row_share": 0.05952380952380952,
+  "cpv48_buyer_id_hhi": 0.02069160997732426,
+  "main_cpv72_rows": 89,
+  "any_cpv72_rows": 122,
+  "cpv72_secondary_only_rows": 33,
+  "cpv72_buyer_ids": 86,
+  "cpv72_top_buyer_id_row_share": 0.10655737704918032,
+  "cpv72_buyer_id_hhi": 0.022574576726686373,
+  "rows_with_both_48_and_72_any_cpv": 47,
+  "union_any_cpv48_or_72_rows": 159,
+  "all_tender_buyer_ids": 461,
+  "all_tender_top_buyer_id_row_share": 0.05887096774193548,
+  "all_tender_buyer_id_hhi": 0.007751040582726326,
+  "unknown_main_cpv_rows": 1,
+  "duplicate_source_reference_rows": 0,
+  "source_row_counts": {
+    "ted": 1140,
+    "unknown_or_other": 100
+  },
+  "status_row_counts": {
+    "open": 957,
+    "awarded": 108,
+    "cancelled": 2,
+    "unknown_or_other": 173
+  },
+  "award_rows": 90,
+  "award_rows_joined_to_same_month_tenders": 82,
+  "award_rows_unmatched_to_same_month_tenders": 8,
+  "award_supplier_ids": 76,
+  "award_supplier_id_hhi": 0.01654320987654321,
+  "award_top_supplier_id_row_share": 0.05555555555555555,
+  "publisher_date_format_observed": "English abbreviated weekday/month/day without year, e.g. Thu Sep 17; year inferred from monthly cohort and weekday validated",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_payment_conversion": null,
+  "limitations": [
+    "One publisher's free monthly export cohort, not national market share or verified buyer demand.",
+    "Buyer and supplier IDs are publisher labels, not independently verified businesses.",
+    "CPV48 and CPV72 any-code groups overlap; do not sum without subtracting overlap.",
+    "September tender notices and award rows are not comparable outcome cohorts.",
+    "Publisher-reported status and source labels are not independently audited.",
+    "Actual time savings, willingness to pay and AgentMine customer counts remain unmeasured."
+  ]
+}
