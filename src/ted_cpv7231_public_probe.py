@@ -41,6 +41,8 @@ def summarize(snapshot):
         raise ValueError("observation time must be offset-aware")
     kinds, ids = Counter(), set()
     missing_country = missing_cpv = outside_cpv = 0
+    country_filter_mismatches = 0
+    multi_country_rows = 0
     for row in rows:
         if not isinstance(row, dict):
             raise ValueError("invalid TED notice")
@@ -60,8 +62,16 @@ def summarize(snapshot):
         country = row.get("buyer-country")
         if country is None:
             missing_country += 1
-        elif country != "SWE":
-            raise ValueError("TED query returned notice outside Swedish buyers")
+        elif isinstance(country, str):
+            if country != "SWE":
+                country_filter_mismatches += 1
+        elif isinstance(country, list) and all(isinstance(x, str) for x in country):
+            if len(set(country)) > 1:
+                multi_country_rows += 1
+            if "SWE" not in country:
+                country_filter_mismatches += 1
+        else:
+            raise ValueError("unsupported TED buyer-country shape")
         codes = row.get("classification-cpv", [])
         if not isinstance(codes, list) or not all(isinstance(x, str) for x in codes):
             raise ValueError("TED classification-cpv must be a list of strings")
@@ -93,6 +103,9 @@ def summarize(snapshot):
         "observed_unique_publication_numbers": len(rows),
         "notice_type_counts_in_sample": dict(sorted(kinds.items())),
         "missing_buyer_country_rows": missing_country,
+        "buyer_country_filter_mismatch_rows": country_filter_mismatches,
+        "multi_country_rows": multi_country_rows,
+        "buyer_country_filter_consistent_in_returned_rows": country_filter_mismatches == 0 and missing_country == 0,
         "missing_classification_cpv_rows": missing_cpv,
         "no_7231_cpv_in_returned_fields_rows": outside_cpv,
         "verified_current_open_deadlines": None,
@@ -100,7 +113,7 @@ def summarize(snapshot):
         "verified_supplier_time_savings": None,
         "verified_paying_agentmine_customers": None,
         "agentmine_revenue": None,
-        "interpretation": "TED publication-number cohort, not matched to Licitera procurement IDs. Truncated crawl is a sample only. Search filters do not verify deadlines, competitor recall or paying demand.",
+        "interpretation": "TED publication-number cohort, not matched to Licitera procurement IDs. Country/CPV projection mismatches are reported rather than silently discarded. Truncated crawl is a sample only. Search filters do not verify deadlines, competitor recall or paying demand.",
     }
 
 
