@@ -82,7 +82,7 @@ class TedNoticeEvidenceTests(unittest.TestCase):
         n = [0]
         def fetch(_):
             n[0] += 1
-            return {"notices": [row(str(n[0]))], "totalNoticeCount": n[0],
+            return {"notices": [row(str(n[0]))], "totalNoticeCount": n[0] + 1,
                     "iterationNextToken": 'n' if n[0] == 1 else None}
         with self.assertRaisesRegex(ValueError, 'changed'):
             collect('PD>=20261001', fetch, max_pages=2)
