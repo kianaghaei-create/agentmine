@@ -152,6 +152,12 @@ def run(*, now=None, fetcher=fetch_public_file):
             - subfamilies["union_notices_covered_by_main_48_or_72"]
         ):
             raise ValueError("broad main-CPV union missingness reconciliation failed")
+        for family in subfamilies["subfamilies"]:
+            if (family["covered_by_main_union_rows"] + family["missed_by_main_union_rows"]
+                    != family["notice_rows"]):
+                raise ValueError("CPV family broad-union coverage reconciliation failed")
+            if family["missed_by_main_union_rows"] > family["missed_by_main_segment_only_rows"]:
+                raise ValueError("CPV family union cannot miss more than its own main segment")
         if segments["segments"]["48"]["main_cpv_rows"] != supply["main_cpv48_rows"]:
             raise ValueError("CPV48 main-code reconciliation failed")
         if segments["segments"]["72"]["main_cpv_rows"] != supply["main_cpv72_rows"]:
@@ -198,7 +204,9 @@ def main():
                "notice_rows": g["notice_rows"],
                "secondary_only_rows": g["secondary_only_rows"],
                "covered_by_main_segment_only_rows": g["covered_by_main_segment_only_rows"],
-               "missed_by_main_segment_only_rows": g["missed_by_main_segment_only_rows"]}
+               "missed_by_main_segment_only_rows": g["missed_by_main_segment_only_rows"],
+               "covered_by_main_union_rows": g["covered_by_main_union_rows"],
+               "missed_by_main_union_rows": g["missed_by_main_union_rows"]}
               for g in niche["subfamilies"]
               if g["cpv_four_digit_prefix"] in {"7222", "7225", "7226", "7231"}
           ], ensure_ascii=False))
