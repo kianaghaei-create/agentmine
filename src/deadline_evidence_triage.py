@@ -111,12 +111,13 @@ def triage(evidence):
         labels.add(day)
         formats.add(fmt)
         kinds.add(kind)
-    # A generic third-party 'bid deadline' label on the same date as a
-    # documented participation deadline needs review, not automatic correction.
+    # Flag a generic label only if NONE of the known stages on that day
+    # supports it. Several distinct stages can legitimately share a date;
+    # one matching known stage prevents a false discrepancy.
     for url, day, stage, label in parsed:
         if (stage == "unknown" and label in ("bid_deadline", "participation_deadline")
                 and known_stage_dates[day]
-                and any(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
+                and all(_STAGE_LABEL[known] != label for known in known_stage_dates[day])):
             stage_label_reviews.append(url)
     # An unknown-stage source with a different explicit time cannot establish
     # same-stage conflict, but must not be silently counted as agreement.
