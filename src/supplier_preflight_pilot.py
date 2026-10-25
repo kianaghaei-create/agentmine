@@ -57,6 +57,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     deltas = []
     costs = Decimal(0)
     correctness_regressions = 0
+    baseline_errors = 0
     agent_errors = 0
     unchecked = 0
     for row in tasks:
@@ -78,6 +79,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         costs += _decimal(row['incremental_variable_cost_sek'], 'incremental_variable_cost_sek')
         deltas.append(baseline - agent)
         correctness_regressions += int(row['baseline_correct'] and not row['agent_correct'])
+        baseline_errors += int(not row['baseline_correct'])
         agent_errors += int(not row['agent_correct'])
         unchecked += int(not row['primary_source_checked'])
     total_minutes = sum(deltas, Decimal(0))
@@ -85,7 +87,8 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     # Synthetic arithmetic fixtures must never pass an evidence-based pilot gate.
     # Self-reported consent and correctness are still NOT independently verified.
     sample_gate = (snapshot['sample_kind'] == 'self_reported_consented'
-                   and len(tasks) >= min_tasks and agent_errors == 0 and unchecked == 0)
+                   and len(tasks) >= min_tasks and baseline_errors == 0
+                   and agent_errors == 0 and unchecked == 0)
     economic_screen = sample_gate and total_minutes > 0 and net_value > 0
     return {
         'sample_kind': snapshot['sample_kind'],
@@ -97,6 +100,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'faster_task_count': sum(delta > 0 for delta in deltas),
         'slower_task_count': sum(delta < 0 for delta in deltas),
         'correctness_regression_count': correctness_regressions,
+        'baseline_error_count': baseline_errors,
         'agent_error_count': agent_errors,
         'primary_source_unchecked_count': unchecked,
         'scenario_hourly_labor_cost_sek': str(hourly),
@@ -111,6 +115,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_paying_customers': None,
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
+                   'Time deltas from incorrect baselines are not comparable savings and fail the sample-quality screen. '
                    'The self-reported quality/economic screens never establish willingness to pay, independent validation or permission to deploy. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
     }
