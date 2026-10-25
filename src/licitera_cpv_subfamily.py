@@ -33,6 +33,7 @@ def analyze(path, *, expected_month, min_group_rows=5):
     groups = {}
     segment_notices = Counter()
     union_notices = 0
+    main_scope_union_notices = 0
     multi_family_notices = 0
     for row in rows:
         identifier = _id(row["Internt id"], "procurement ID")
@@ -49,6 +50,8 @@ def analyze(path, *, expected_month, min_group_rows=5):
         families = {code[:4] for code in codes if code[:2] in _SEGMENTS}
         if families:
             union_notices += 1
+            if main[:2] in _SEGMENTS:
+                main_scope_union_notices += 1
             if len(families) > 1:
                 multi_family_notices += 1
         for segment in _SEGMENTS:
@@ -62,7 +65,12 @@ def analyze(path, *, expected_month, min_group_rows=5):
         for family in families:
             group = groups.setdefault(family, {
                 "notice_rows": 0, "main_family_rows": 0,
-                "secondary_only_rows": 0, "buyer_ids": Counter(),
+                "secondary_only_rows": 0,
+                "secondary_same_segment_main_rows": 0,
+                "secondary_other_segment_main_rows": 0,
+                "secondary_outside_scope_main_rows": 0,
+                "secondary_missing_main_rows": 0,
+                "buyer_ids": Counter(),
                 "unknown_buyer_rows": 0, "status_rows": Counter(),
             })
             group["notice_rows"] += 1
@@ -70,6 +78,14 @@ def analyze(path, *, expected_month, min_group_rows=5):
                 group["main_family_rows"] += 1
             else:
                 group["secondary_only_rows"] += 1
+                if not main:
+                    group["secondary_missing_main_rows"] += 1
+                elif main[:2] == family[:2]:
+                    group["secondary_same_segment_main_rows"] += 1
+                elif main[:2] in _SEGMENTS:
+                    group["secondary_other_segment_main_rows"] += 1
+                else:
+                    group["secondary_outside_scope_main_rows"] += 1
             if buyer:
                 group["buyer_ids"][buyer] += 1
             else:
@@ -96,6 +112,12 @@ def analyze(path, *, expected_month, min_group_rows=5):
             "notice_rows": n,
             "main_family_rows": group["main_family_rows"],
             "secondary_only_rows": group["secondary_only_rows"],
+            "secondary_same_segment_main_rows": group["secondary_same_segment_main_rows"],
+            "secondary_other_segment_main_rows": group["secondary_other_segment_main_rows"],
+            "secondary_outside_scope_main_rows": group["secondary_outside_scope_main_rows"],
+            "secondary_missing_main_rows": group["secondary_missing_main_rows"],
+            "covered_by_main_segment_only_rows": (group["main_family_rows"] + group["secondary_same_segment_main_rows"]),
+            "missed_by_main_segment_only_rows": (group["secondary_other_segment_main_rows"] + group["secondary_outside_scope_main_rows"] + group["secondary_missing_main_rows"]),
             "distinct_unverified_buyer_ids": len(group["buyer_ids"]),
             "unknown_buyer_id_rows": group["unknown_buyer_rows"],
             "publisher_status_rows_not_live": dict(sorted(group["status_rows"].items())),
@@ -115,6 +137,8 @@ def analyze(path, *, expected_month, min_group_rows=5):
         "attribution": "Licitera (licitera.se), CC BY 4.0; Uppgifter: Upphandlingsmyndigheten | Bearbetning: Licitera | Analys: AgentMine",
         "procurement_rows": len(rows),
         "union_48_72_notice_rows": union_notices,
+        "union_notices_covered_by_main_48_or_72": main_scope_union_notices,
+        "union_notices_missed_by_main_48_or_72": union_notices - main_scope_union_notices,
         "segment_any_notice_rows": dict(segment_notices),
         "notices_in_multiple_four_digit_families": multi_family_notices,
         "minimum_group_rows": min_group_rows,
@@ -124,5 +148,5 @@ def analyze(path, *, expected_month, min_group_rows=5):
         "subfamilies": retained,
         "verified_paying_customers": None,
         "verified_agentmine_revenue": None,
-        "warning": "Four-digit CPV labels describe publisher notice supply, not buyer requests or payments. A notice can occur in several families, so family counts cannot be summed into unique notices. Buyer IDs are unverified labels; row HHI is not market share. Publisher 'open' status is not a verified current deadline or actionable opportunity. No customer willingness to pay or time savings measured.",
+        "warning": "Four-digit CPV labels describe publisher notice supply, not buyer requests or payments. A notice can occur in several families, so family counts cannot be summed into unique notices. Secondary-only at four digits does not imply a broad main-CPV 48/72 search misses the notice. Buyer IDs are unverified labels; row HHI is not market share. Publisher 'open' status is not a verified current deadline or actionable opportunity. No customer willingness to pay or time savings measured.",
     }
