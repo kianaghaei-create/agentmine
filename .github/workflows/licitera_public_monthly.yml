@@ -1,0 +1,30 @@
+name: Public monthly procurement evidence
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/licitera_public_monthly.yml"
+      - "src/licitera_public_monthly_runner.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aggregate-public-monthly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch only free previous-month public exports and calculate aggregate statistics
+        run: python3 -m src.licitera_public_monthly_runner --output public-monthly-aggregate.json
+      - name: Publish aggregate-only research artifact (no raw data)
+        uses: actions/upload-artifact@v4
+        with:
+          name: licitera-public-monthly-aggregate
+          path: public-monthly-aggregate.json
+          if-no-files-found: error
+          retention-days: 7
