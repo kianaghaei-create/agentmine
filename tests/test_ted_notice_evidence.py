@@ -37,6 +37,22 @@ class TedNoticeEvidenceTests(unittest.TestCase):
         self.assertEqual(snapshot['unique_notices_collected'], 2)
         self.assertEqual(snapshot['pages_fetched'], 2)
 
+    def test_terminal_token_does_not_mark_complete_result_partial(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026'), row('2-2026')],
+            "totalNoticeCount": 2, "iterationNextToken": 'terminal',
+            "timedOut": False}, max_pages=1, limit=2)
+        self.assertTrue(snapshot['complete'])
+        self.assertIsNone(snapshot['next_iteration_token'])
+        self.assertEqual(snapshot['unique_notices_collected'], 2)
+
+    def test_unique_notice_count_cannot_exceed_reported_total(self):
+        with self.assertRaisesRegex(ValueError, 'exceed'):
+            collect('PD>=20261001', lambda _: {
+                "notices": [row('1-2026'), row('2-2026')],
+                "totalNoticeCount": 1, "iterationNextToken": 'n',
+                "timedOut": False}, max_pages=1, limit=2)
+
     def test_partial_crawl_preserves_next_token(self):
         snapshot = collect('PD>=20261001', lambda _: {
             "notices": [row('1-2026')], "totalNoticeCount": 10,
