@@ -30,7 +30,7 @@ class CpvSubfamilyTests(unittest.TestCase):
         self.assertEqual(families["7221"]["secondary_only_rows"], 1)
         self.assertEqual(families["4800"]["notice_rows"], 2)
         self.assertEqual(families["7221"]["publisher_status_rows_not_live"], {"closed": 1, "open": 1})
-        self.assertIsNone(families["7221"]["buyer_id_row_concentration"])
+        self.assertEqual(families["7221"]["buyer_id_row_concentration"]["top_id_row_share"], 0.5)
         self.assertNotIn("p1", str(r))
         self.assertNotIn("b1", str(r))
 
