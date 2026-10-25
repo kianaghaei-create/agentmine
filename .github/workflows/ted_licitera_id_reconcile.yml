@@ -7,6 +7,7 @@ on:
       - ".github/workflows/ted_licitera_id_reconcile.yml"
       - "src/ted_licitera_id_reconcile.py"
       - "src/ted_title_gap_triage.py"
+      - "src/ted_procedure_gap_triage.py"
       - "src/ted_notice_evidence.py"
       - "src/ted_cpv7231_public_probe.py"
       - "src/licitera_monthly_supply.py"
