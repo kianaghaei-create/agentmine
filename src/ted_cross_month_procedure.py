@@ -40,7 +40,7 @@ def _checked(snapshot, query):
         stamp = row.get("publication-date")
         if not isinstance(stamp, str):
             raise ValueError("missing TED publication date")
-        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(?:[+-][0-9]{2}:[0-9]{2}|Z)?", stamp):
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(?:[+-](?:0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]|Z)?", stamp):
             raise ValueError("invalid TED publication date shape")
         try:
             day = date.fromisoformat(stamp[:10])
