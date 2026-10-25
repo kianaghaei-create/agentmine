@@ -17,11 +17,12 @@ from urllib.parse import urlsplit
 from src.licitera_monthly_supply import _rows, _publication_date
 from src.licitera_cpv_segment import _cpvs
 from src.licitera_public_monthly_runner import fetch_public_file
-from src.ted_notice_evidence import collect
+from src.ted_notice_evidence import collect, post_json
 from src.ted_cpv7231_public_probe import QUERY, SOURCE, EXPECTED_MONTH, summarize
 from src.ted_title_gap_triage import triage as triage_unmatched_titles
 from src.ted_procedure_gap_triage import triage as triage_unmatched_procedures
 from src.ted_cross_month_procedure import CROSS_MONTH_QUERY, triage_cross_month
+from src.ted_target_procedure_probe import probe as probe_unlinked_procedure
 
 TED_RECONCILIATION_FIELDS = ["publication-number", "publication-date", "notice-type", "notice-title",
                              "buyer-name", "buyer-country", "classification-cpv",
@@ -59,7 +60,7 @@ def reference_number(reference):
     return m.group(1) if m else None
 
 
-def reconcile(rows, ted_snapshot, cross_month_snapshot=None):
+def reconcile(rows, ted_snapshot, cross_month_snapshot=None, *, cross_cpv_fetcher=None):
     """Return only cohort aggregates. Inputs must remain ephemeral and private to runner.
 
     Denominators: Licitera procurement rows versus TED *publication numbers*;
@@ -173,6 +174,12 @@ def reconcile(rows, ted_snapshot, cross_month_snapshot=None):
     cross_month_triage = (triage_cross_month(list(ted_ids.values()), matched_ids,
                            unmatched_contract_absent, cross_month_snapshot)
                           if cross_month_snapshot is not None else None)
+    if cross_cpv_fetcher is not None and cross_month_snapshot is None:
+        raise ValueError("cross-CPV probe requires validated cross-month cohort")
+    target_probe = (probe_unlinked_procedure(list(ted_ids.values()), matched_ids,
+                    unmatched_contract_absent, cross_month_snapshot,
+                    fetch_page=cross_cpv_fetcher, fields=TED_RECONCILIATION_FIELDS)
+                    if cross_cpv_fetcher is not None else None)
     return {
         "evidence_type": "exact_publication_number_cross_source_cohort_join_not_competitor_recall",
         "publication_month": EXPECTED_MONTH,
@@ -200,6 +207,7 @@ def reconcile(rows, ted_snapshot, cross_month_snapshot=None):
         "ted_contract_absent_from_export_title_date_triage": title_triage,
         "ted_contract_absent_from_export_official_procedure_triage": procedure_triage,
         "ted_contract_absent_cross_month_official_procedure_triage": cross_month_triage,
+        "ted_contract_absent_all_cpv_official_procedure_probe": target_probe,
         "cross_source_recall_estimate": None,
         "verified_incumbent_search_misses": None,
         "verified_current_open_deadlines": None,
@@ -210,10 +218,12 @@ def reconcile(rows, ted_snapshot, cross_month_snapshot=None):
     }
 
 
-def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None, cross_month=False):
+def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None, cross_month=False, cross_cpv=False):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("now must be timezone aware")
+    if cross_cpv and not cross_month:
+        raise ValueError("cross-CPV requires cross-month cohort")
     if now.strftime("%Y-%m") != "2026-10":
         raise ValueError("September 2026 is no longer the previous-month free cohort")
     with TemporaryDirectory() as tmp:
@@ -225,7 +235,8 @@ def run(*, fetcher=fetch_public_file, ted_fetcher=None, now=None, cross_month=Fa
                             fields=TED_RECONCILIATION_FIELDS,
                             **({"fetch_page": ted_fetcher} if ted_fetcher else {}))
                     if cross_month else None)
-        result = reconcile(_rows(path, _REQUIRED), snapshot, extended)
+        result = reconcile(_rows(path, _REQUIRED), snapshot, extended,
+                           cross_cpv_fetcher=(ted_fetcher or post_json) if cross_cpv else None)
         if extended is not None:
             result["ted_cross_month_observed_at"] = extended["observed_at"]
         result["observed_at_utc"] = now.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
@@ -239,8 +250,10 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--cross-month", action="store_true",
                    help="Run bounded official Aug-Oct 2026 TED procedure identity check")
+    p.add_argument("--cross-cpv", action="store_true",
+                   help="Check unresolved TED procedure UUID across all CPVs (bounded 2026)")
     args = p.parse_args()
-    report = run(cross_month=args.cross_month)
+    report = run(cross_month=args.cross_month, cross_cpv=args.cross_cpv)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Cross-source CPV7231 exact ID reconciliation:",
           json.dumps({k: report[k] for k in (
@@ -256,6 +269,12 @@ def main():
                   "extended_publication_numbers", "publication_month_counts",
                   "unmatched_contract_notices", "procedure_link_categories")},
                          ensure_ascii=False))
+    targeted = report.get("ted_contract_absent_all_cpv_official_procedure_probe")
+    if targeted is not None:
+        print("Official targeted TED all-CPV procedure identity:",
+              json.dumps({k: targeted[k] for k in (
+                  "notices_in_procedure", "peer_notices", "peer_publication_months",
+                  "peer_cpv_categories", "peer_notice_types")}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
