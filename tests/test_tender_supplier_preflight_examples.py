@@ -36,6 +36,10 @@ class HistoricalPreflightTests(unittest.TestCase):
         self.assertIsNone(result['actual_supplier_time_saved_minutes'])
         self.assertIsNone(result['verified_paying_customers'])
 
+    def test_published_cards_are_exactly_reproducible(self):
+        published = json.loads((EVIDENCE / 'ted_three_historical_supplier_preflights_2026-10-26.json').read_text(encoding='utf-8'))
+        self.assertEqual(published, build(*real()))
+
     def test_rejects_projection_stage_mismatch(self):
         args = real()
         for row in args[1]['rows']:
