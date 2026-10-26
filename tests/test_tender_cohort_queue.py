@@ -64,6 +64,23 @@ class TenderCohortQueueTests(unittest.TestCase):
         s["notices"][1]["publication-date"] = ["2026-10-19"]
         self.assertEqual(len(build_queue(s, QUERY)["items"]), 20)
 
+    def test_accepts_official_ted_offset_publication_date(self):
+        s = snapshot()
+        s["notices"][0]["publication-date"] = "2026-10-20+02:00"
+        s["notices"][1]["publication-date"] = ["2026-10-19-05:00"]
+        queue = build_queue(s, QUERY)
+        self.assertEqual(queue["cohort_size"], 20)
+        self.assertTrue(all(item["publication_date"] in ("2026-10-19", "2026-10-20")
+                            for item in queue["items"]))
+
+    def test_rejects_invalid_offset_publication_date(self):
+        for value in ("2026-10-19+99:00", "2026-10-19+02:99",
+                      "2026-02-30+02:00"):
+            s = snapshot()
+            s["notices"][0]["publication-date"] = value
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "publication-date"):
+                build_queue(s, QUERY)
+
     def test_rejects_shortfall_and_boolean_count(self):
         with self.assertRaisesRegex(ValueError, "fewer"):
             build_queue(snapshot(19), QUERY)
