@@ -1,6 +1,6 @@
 # AgentMine — Project memory (source of truth)
 
-Last reviewed: 2026-10-25
+Last reviewed: 2026-10-26
 
 ## North star
 **Build a profitable, scalable, low-touch business that can earn money in the background.** DaaS / x402 / agent APIs are hypotheses, **not** the goal. Pivot freely when evidence supports a better opportunity. Prefer recurring revenue, high gross margin, repeatable distribution, low operating overhead, legal data access, and a defensible advantage.
@@ -658,3 +658,12 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - Corrected four fixture rows to explicitly model caller-asserted primary submission-portal stage observations, preserving their intended same-day multi-stage assertions. Added one regression proving an additional unknown-stage third-party label cannot launder two contradictory explicit non-primary stage claims. Published and read back `tests/test_deadline_evidence_triage.py` commit `1e6baa6c22b773cf45b5da9240f7f07857a13902`. No production source changed.
 - **Exact committed-tree CI passed 588/588 tests** in GitHub Actions run https://github.com/kianaghaei-create/agentmine/actions/runs/40277311512 ; job logs independently confirm the three targeted cases and full test count. The previous two failing runs are superseded, not erased.
 - This is test integrity/CI restoration only, not an observed customer outcome, legal deadline verification, new paying demand or a new product feature. Primary source kinds are still caller-asserted. Next: predeclared primary-source cohort and consented paired supplier correctness/time/cost plus willingness-to-pay checks, without spending, sensitive data or deployment.
+
+
+## x402 monitor chronology consistency gate — 2026-10-26 07:43 Europe/Stockholm
+- Re-read NORTH_STAR, PROJECT_MEMORY, ROADMAP, CURRENT_EXPERIMENT, issue #1 (no comments), existing Intelligence, RFQ, supplier pilot, direct-route benchmark and x402 routing source/tests. Both Intelligence modules already exist; no duplicate needed.
+- Found an **offline data-integrity fail-open** in `src/x402_route_readiness.py`: a publisher monitoring record with `last_success_at > last_checked_at` (success allegedly after its latest check) could pass both independent freshness thresholds and be selected for a hypothetical paid route. This is a **synthetic code-level scenario**, not an observed publisher inconsistency, service failure, paid delivery or customer harm.
+- Published source fix commit `5a2edb6eaa6d0f030302b5c004863fbbb63b2755`: conflicting success/check chronology now adds `last_success_after_last_check` and fails readiness. Existing equal timestamps and legitimately older success remain eligible if other checks pass. Published four regression cases commit `e39269eab3918a92c681292a90a9f7592ac4abf7` including a cheaper inconsistent candidate losing to a valid route. Both source and tests read back from GitHub.
+- **Exact committed-tree CI PASSED 592/592** on test commit `e39269eab3918a92c681292a90a9f7592ac4abf7`, including all four new cases; GitHub Actions run https://github.com/kianaghaei-create/agentmine/actions/runs/40281419813 . This is a fail-closed **offline quote selection** control, not independent source authentication, licensing, uptime, measured savings, or delivery proof.
+- Rechecked publisher x402 List public stats (https://x402-list.com/api/v1/stats) with `computed_at=2026-10-26T04:47:26.199Z`: 1,001 listings, 746 measured service rows, 13 delivery-verified rows and 90.2% publisher per-service average 24h uptime. Rolling flow and buyer addresses are publisher observations, not verified unique paying businesses. Small same-day movements from prior snapshot do not establish trend or new demand; no redundant evidence file published.
+- Next: prioritize source-backed real information tasks, paired direct-vs-routed observed delivery/variable costs and opt-in supplier time/correctness/WTP validation before any exchange fee or Supplier Growth commercialization. No new independently verified buyers, AgentMine revenue, paid demand, supplier savings, payments, spend, sensitive data or public deployment.
