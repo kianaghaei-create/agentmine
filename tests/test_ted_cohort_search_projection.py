@@ -55,7 +55,7 @@ class Tests(unittest.TestCase):
     def test_incomplete_frame_fails_closed(self):
         def partial(body):
             return {"notices": [{"publication-number": "600201-2026"}],
-                    "totalNoticeCount": 40, "iterationNextToken": "next"}
+                    "totalNoticeCount": 40}
         with self.assertRaisesRegex(ValueError, "incomplete"):
             project_cohort(cohort(), fetch_page=partial)
 
