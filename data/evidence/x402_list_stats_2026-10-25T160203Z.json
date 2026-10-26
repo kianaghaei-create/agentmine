@@ -1,0 +1,55 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-25T16:02:03.464Z",
+  "traction_as_of": "2026-10-25T15:42:00.112Z",
+  "collected_on": "2026-10-26",
+  "evidence_type": "publisher_reported_activity_not_independently_audited_or_agentmine_customer_data",
+  "market_scope": "Publisher indexed listed services and monitored facilitator flows, not whole x402 ecosystem",
+  "supply": {
+    "listed_services": 1003,
+    "listed_endpoints": 7640,
+    "services_with_traction_measurement": 757,
+    "verified_delivery_services": 13,
+    "payment_ready_services": 932,
+    "median_listed_endpoint_price_usd": 0.01
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlements_usd": 374576.110837,
+    "listed_service_settlement_count": 1826889,
+    "distinct_buyer_addresses_reported": 9470,
+    "top_10_services_volume_share_pct": 96.1,
+    "top_1_service_volume_share_pct": 68.8,
+    "top_1_service_top_buyer_share_pct": 98.8,
+    "top_1_service_data_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 19.9
+  },
+  "conditional_tail_fee_math": {
+    "assumed_tail_share_pct": 3.9,
+    "non_top_10_observed_flow_usd_30d_from_rounded_share": 14608.468322643,
+    "hypothetical_fee_rate_pct": 5,
+    "hypothetical_fee_if_all_tail_routed_usd_30d": 730.42341613215,
+    "hypothetical_fee_if_5pct_tail_routed_usd_30d": 36.5211708066075,
+    "formula": "reported listed-service flow * (1 - rounded top10 share) * hypothetical fee rate * hypothetical capture fraction",
+    "interpretation": "Scenario arithmetic only; neither attainable platform revenue nor total market ceiling. Assumes fee is chargeable on routed volume, ignores all costs."
+  },
+  "comparison_with_prior_publisher_snapshot": {
+    "prior_source_computed_at": "2026-10-23T04:48:45.353Z",
+    "prior_listed_services": 1012,
+    "prior_listed_service_deduplicated_settlements_usd_30d": 373067.514883,
+    "prior_top_10_share_pct": 96,
+    "caveat": "Overlapping rolling windows and revised publisher estimates; differences are not sales growth."
+  },
+  "caveats": [
+    "Buyer addresses are not unique paying people or firms.",
+    "Publisher monitoring and deduplication claims have not been independently audited.",
+    "Top-one imported service and 98.8% largest-buyer-address concentration make organic demand inference fragile.",
+    "Top-ten share is rounded; derived fee-pool amounts are approximate.",
+    "Coverage is of publisher's measured facilitator flow, not entire x402 ecosystem.",
+    "Catalog listings and observed settlements do not prove AgentMine demand, payment conversion, customers or revenue."
+  ],
+  "agentmine_verified_paying_customers": null,
+  "agentmine_verified_revenue": null
+}
