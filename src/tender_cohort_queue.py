@@ -22,6 +22,10 @@ def _date(value):
     try:
         if re.fullmatch(r"[0-9]{8}", value):
             result = datetime.strptime(value, "%Y%m%d").date()
+        elif re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}[+-][0-9]{2}:[0-9]{2}", value):
+            # TED publication-date may carry a UTC offset, e.g. 2026-09-17+02:00.
+            # Preserve its local calendar date, rather than shifting to UTC.
+            result = datetime.strptime(value, "%Y-%m-%d%z").date()
         else:
             result = date.fromisoformat(value)
     except ValueError as exc:
