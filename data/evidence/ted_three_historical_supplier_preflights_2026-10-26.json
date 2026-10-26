@@ -18,7 +18,17 @@
       "supplier_bid_no_bid": "UNDETERMINED",
       "historical_not_live_opportunity": true,
       "amendments_and_eligibility_unverified": true,
-      "supplier_capability_unknown": true
+      "supplier_capability_unknown": true,
+      "competitor_observations": [
+        {
+          "source_url": "https://tilldelat.se/upphandling/konsulttjanster-inom-foretags-och-branschutveckling-1c21eb",
+          "public_display": "2026-09-29"
+        },
+        {
+          "source_url": "https://find.tenderdeck.org/tenders/600201-2026/sweden-business-development-consultancy-services-konsulttjanster-inom-foretags-o",
+          "public_display": "2026-09-30 23:59 CET"
+        }
+      ]
     },
     {
       "publication_number": "603727-2026",
@@ -30,12 +40,18 @@
       "directory_url": "https://upphandla.app/en/tender/603727-2026",
       "directory_display_status": "no_deadline_displayed",
       "primary_portal_stage_corroborated": true,
-      "competitor_examples_count": 0,
+      "competitor_examples_count": 1,
       "preflight_action": "REVIEW_QUALIFICATION_REQUIREMENTS",
       "supplier_bid_no_bid": "UNDETERMINED",
       "historical_not_live_opportunity": true,
       "amendments_and_eligibility_unverified": true,
-      "supplier_capability_unknown": true
+      "supplier_capability_unknown": true,
+      "competitor_observations": [
+        {
+          "source_url": "https://tilldelat.se/upphandling/system-for-strategi-planering-och-uppfoljning-318ec3",
+          "public_display": "participation_date_displayed: 2026-10-09"
+        }
+      ]
     },
     {
       "publication_number": "610120-2026",
@@ -52,7 +68,13 @@
       "supplier_bid_no_bid": "UNDETERMINED",
       "historical_not_live_opportunity": true,
       "amendments_and_eligibility_unverified": true,
-      "supplier_capability_unknown": true
+      "supplier_capability_unknown": true,
+      "competitor_observations": [
+        {
+          "source_url": "https://www.procurdo.com/upphandling/it-sakerhetstjanst-security-operations-center-1cbc654c346b494caa5b094c6c5ea236",
+          "public_display": "Sista anbud 2026-10-07"
+        }
+      ]
     }
   ],
   "actual_paired_supplier_tasks": 0,
