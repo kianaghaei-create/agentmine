@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/ted_primary_xml_review.yml"
+      - "src/ted_primary_xml_review.py"
+      - "tests/test_ted_primary_xml_review.py"
+      - "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json"
   workflow_dispatch:
 
 permissions:
