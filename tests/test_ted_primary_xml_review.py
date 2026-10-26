@@ -24,6 +24,15 @@ class Tests(unittest.TestCase):
         self.assertEqual(result["xml_contract_folder_id"],"proc-123")
         self.assertFalse(result["legal_deadline_verified"])
 
+    def test_nested_lot_cpv_does_not_pollute_procedure(self):
+        xml = XML.replace(
+            b'<cac:MainCommodityClassification><cbc:ItemClassificationCode listName="cpv">72221000</cbc:ItemClassificationCode></cac:MainCommodityClassification></cac:ProcurementProjectLot>',
+            b'<cac:ProcurementProject><cac:MainCommodityClassification><cbc:ItemClassificationCode listName="cpv">72221000</cbc:ItemClassificationCode></cac:MainCommodityClassification></cac:ProcurementProject></cac:ProcurementProjectLot>'
+        )
+        r = parse_notice(xml, "600201-2026")
+        self.assertEqual(r["procedure_main_cpv_codes"], ["79411100"])
+        self.assertEqual(r["lot_main_cpv_codes"][0]["main_cpv_codes"], ["72221000"])
+
     def test_deadline_raw_not_legal(self):
         r=parse_notice(XML,"600201-2026")
         self.assertEqual(r["raw_deadline_fields"],[{"xml_field":"TenderSubmissionDeadlinePeriod","values":[{"field":"EndDate","value":"2026-09-29+02:00"},{"field":"EndTime","value":"23:59:00+02:00"}]}])
