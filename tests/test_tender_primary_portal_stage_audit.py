@@ -154,6 +154,18 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         self.assertEqual(result["primary_portal_unverified_count"], 20)
         self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 0)
 
+    def test_tendsign_login_does_not_count_as_public_portal_verification(self):
+        args = fixtures()
+        row = args[3]["observations"][0]
+        row["portal_url"] = "https://tendsign.com/doc.aspx?MeFormsNoticeId=98869&GoTo=Tender"
+        row["portal_status"] = "not_observed_tool_access"
+        for field in ("portal_stage", "portal_deadline_raw", "portal_date_interpretation"):
+            row.pop(field, None)
+        result = audit(*args)
+        self.assertEqual(result["original_notice_observed_count"], 1)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 0)
+        self.assertEqual(result["primary_portal_unverified_count"], 20)
+
     def test_committed_public_evidence_fixed20_integration(self):
         import json
         from pathlib import Path
@@ -167,7 +179,7 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
             load("ted_fixed20_primary_portal_stage_2026-10-26.json"),
         )
         self.assertEqual(result["fixed_cohort_count"], 20)
-        self.assertEqual(result["original_notice_observed_count"], 4)
+        self.assertEqual(result["original_notice_observed_count"], 5)
         self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 2)
         self.assertEqual(result["primary_portal_unverified_count"], 18)
         self.assertEqual(result["amendments_checked_count"], 0)
