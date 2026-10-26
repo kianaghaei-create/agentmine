@@ -100,7 +100,7 @@ def audit(cohort, official, directory, primary):
             # The observed Swedish TED original uses DD/MM/YYYY. A contradictory
             # transcription must not be counted as independently corroborated.
             original_token = f"{original_date.day:02d}/{original_date.month:02d}/{original_date.year}"
-            if not re.search(r"(?<!\\d)" + re.escape(original_token) + r"(?!\\d)", row["official_deadline_raw"]):
+            if not re.search(r"(?<!\d)" + re.escape(original_token) + r"(?!\d)", row["official_deadline_raw"]):
                 raise ValueError("original raw date contradicts normalized original date")
             if row.get("amendments_status") != "not_checked":
                 raise ValueError("unverified amendment status must not claim clearance")
@@ -121,7 +121,7 @@ def audit(cohort, official, directory, primary):
                     raise ValueError("portal deadline text missing")
                 # A nonempty label (e.g. "No deadline") is not evidence of a
                 # displayed date. Keep numeric portal locale ambiguous.
-                if not re.search(r"(?<!\\d)\\d{1,2}/\\d{1,2}/\\d{4}(?!\\d)", row["portal_deadline_raw"]):
+                if not re.search(r"(?<!\d)\d{1,2}/\d{1,2}/\d{4}(?!\d)", row["portal_deadline_raw"]):
                     raise ValueError("public portal date token missing")
                 if row.get("portal_date_interpretation") != "unverified_locale":
                     raise ValueError("do not silently parse ambiguous portal date")
