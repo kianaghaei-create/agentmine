@@ -32,7 +32,12 @@ def _utc(value):
         raise ValueError('invalid observed_at') from exc
     if dt.tzinfo is None or dt.utcoffset() is None:
         raise ValueError('observed_at must include timezone')
-    return dt.astimezone(timezone.utc)
+    observed = dt.astimezone(timezone.utc)
+    # A future observation cannot be evidence of completed delivery or cost.
+    # Check both quoted and measured rows before any paired comparison.
+    if observed > datetime.now(timezone.utc):
+        raise ValueError('observed_at cannot be in the future')
+    return observed
 
 
 def _amount(value):
