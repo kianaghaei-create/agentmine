@@ -206,5 +206,46 @@ class StageTests(unittest.TestCase):
         self.assertEqual(result['triage_status'], 'unverified_display_agreement')
 
 
+    def test_explicit_directory_bid_stage_cannot_launder_primary_application_stage(self):
+        # A directory may self-assert a stage as well as its display label.
+        # That assertion must not cancel the conflicting primary-stage claim.
+        portal = row('2026-11-06', stage='participation_request',
+                     label='participation_deadline',
+                     kind='official_buyer_submission_portal', host='www.kommersannons.se')
+        directory = row('2026-11-06', stage='bid_submission',
+                        label='bid_deadline', kind='third_party_summary',
+                        host='licitera.se')
+        result = triage(bundle(portal, directory))
+        self.assertEqual(result['stage_label_review_source_urls'], [directory['source_url']])
+        self.assertEqual(result['stage_aware_triage_status'], 'stage_label_requires_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_multiple_primary_stages_on_same_date_support_directory_stage(self):
+        # Both stages can genuinely share a calendar date.
+        portal = row('2026-11-06', stage='participation_request',
+                     label='participation_deadline',
+                     kind='official_buyer_submission_portal', host='www.kommersannons.se')
+        ted = row('2026-11-06', stage='bid_submission', label='bid_deadline',
+                  kind='original_ted_notice', host='ted.europa.eu')
+        directory = row('2026-11-06', stage='bid_submission',
+                        label='bid_deadline', kind='third_party_summary',
+                        host='licitera.se')
+        result = triage(bundle(portal, ted, directory))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+    def test_official_summary_stage_does_not_override_primary_stage(self):
+        portal = row('2026-11-06', stage='participation_request',
+                     label='participation_deadline',
+                     kind='official_buyer_submission_portal', host='www.kommersannons.se')
+        summary = row('2026-11-06', stage='bid_submission', label='bid_deadline',
+                      kind='official_summary', host='op.europa.eu')
+        result = triage(bundle(portal, summary))
+        self.assertEqual(result['stage_label_review_source_urls'], [summary['source_url']])
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+
 if __name__ == '__main__':
     unittest.main()
