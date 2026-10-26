@@ -8,6 +8,8 @@ from datetime import date, datetime, timezone
 import json
 from pathlib import Path
 
+from src.tender_primary_portal_stage_audit import audit
+
 SELECTED = ("600201-2026", "603727-2026", "610120-2026")
 FIELD_TO_STAGE = {"deadline-receipt-tender-date-lot": "tender",
                   "deadline-receipt-request-date-lot": "participation_request"}
@@ -54,6 +56,9 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
         raise ValueError("fixed-20 identity mismatch")
     if primary.get("evidence_type") != "fixed20_primary_portal_stage_observations":
         raise ValueError("unsupported primary evidence")
+    # Do not promote a caller-supplied portal flag to corroboration without
+    # validating the public portal URL, dated display text and matching stage.
+    audit(cohort, official, directory, primary)
     first = cohort.get("reviewed_first_record")
     if not isinstance(first, dict) or first.get("publication_number") != SELECTED[0]:
         raise ValueError("missing independent first-record review")
