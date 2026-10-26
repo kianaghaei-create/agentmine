@@ -78,6 +78,8 @@ def parse_notice(xml_bytes, publication_number):
     root = ET.fromstring(xml_bytes)
     # Do not assume an eForms XML schema for every historical TED notice.
     namespace = root.tag.partition("}")[0].lstrip("{") if "}" in root.tag else None
+    if not root.tag.startswith("{urn:oasis:names:specification:ubl:schema:xsd:") or _local(root.tag) not in {"ContractNotice", "ContractAwardNotice", "PriorInformationNotice", "Notice"}:
+        raise ValueError("unsupported TED notice XML schema")
     # Root-level procedure CPV must not absorb nested lot-level project CPVs.
     procedure = []
     for node in root:
@@ -128,9 +130,14 @@ def fetch_xml(publication_number, *, opener=None):
         data = response.read(_XML_LIMIT + 1)
         if len(data) > _XML_LIMIT:
             raise ValueError("notice XML exceeds size limit")
-        ctype = response.headers.get("Content-Type", "").lower()
-        if "xml" not in ctype and not data.lstrip().startswith(b"<?xml"):
-            raise ValueError("response is not XML")
+        # TED may serve a legitimate XML attachment with an octet-stream MIME
+        # and no XML declaration. Inspect the actual payload, never trust MIME.
+        try:
+            root = ET.fromstring(data)
+        except ET.ParseError as exc:
+            raise ValueError("response is not XML") from exc
+        if not root.tag.startswith("{urn:oasis:names:specification:ubl:schema:xsd:") or _local(root.tag) not in {"ContractNotice", "ContractAwardNotice", "PriorInformationNotice", "Notice"}:
+            raise ValueError("unsupported TED notice XML schema")
         return data
 
 
@@ -159,6 +166,7 @@ def review_cohort(cohort, *, fetcher=fetch_xml, observed_at=None, pause_seconds=
                             "source_url": f"https://ted.europa.eu/en/notice/{notice_id}/xml",
                             "status": "original_xml_unavailable_or_invalid",
                             "error_type": type(exc).__name__,
+                            "error_code": str(exc) if isinstance(exc, ValueError) and str(exc) in {"response is not XML", "unsupported TED notice XML schema", "unexpected TED redirect destination", "notice XML exceeds size limit"} else "other",
                             "original_notice_xml_parsed": False,
                             "amendments_checked": False,
                             "submission_portal_verified": False,
