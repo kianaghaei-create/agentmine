@@ -66,9 +66,37 @@ class Tests(unittest.TestCase):
     def test_future_observation_rejected(self):
         with self.assertRaises(ValueError):review_cohort(cohort(),fetcher=lambda _:XML,observed_at=(datetime.now(timezone.utc)+timedelta(days=1)).isoformat())
 
-    def test_unsupported_xml_schema_does_not_fabricate_cpv(self):
-        r=parse_notice(b"<Other><Deadline><Date>2026-09-29</Date></Deadline></Other>","600201-2026")
-        self.assertEqual(r["procedure_main_cpv_codes"],[])
-        self.assertEqual(r["xml_root"],"Other")
+    def test_unsupported_xml_schema_rejected(self):
+        with self.assertRaisesRegex(ValueError, "unsupported TED notice XML schema"):
+            parse_notice(b"<Other><Deadline><Date>2026-09-29</Date></Deadline></Other>", "600201-2026")
+
+    def test_known_notice_without_cpv_does_not_fabricate(self):
+        xml=b'<ContractNotice xmlns="urn:oasis:names:specification:ubl:schema:xsd:ContractNotice-2"/>'
+        result=parse_notice(xml,"600201-2026")
+        self.assertEqual(result["procedure_main_cpv_codes"],[])
+        self.assertEqual(result["xml_root"],"ContractNotice")
+
+    def test_fetch_accepts_valid_xml_without_declaration_or_xml_mime(self):
+        import io
+        class Response(io.BytesIO):
+            headers={"Content-Type": "application/octet-stream"}
+            def __enter__(self): return self
+            def __exit__(self, *args): self.close()
+        class Opener:
+            def open(self, req, timeout):
+                return Response(XML.split(b"?>",1)[1].lstrip())
+        result=fetch_xml("600201-2026",opener=Opener())
+        self.assertTrue(result.lstrip().startswith(b"<ContractNotice"))
+
+    def test_fetch_rejects_html_even_with_xml_mime(self):
+        import io
+        class Response(io.BytesIO):
+            headers={"Content-Type": "application/xml"}
+            def __enter__(self): return self
+            def __exit__(self, *args): self.close()
+        class Opener:
+            def open(self, req, timeout): return Response(b"<html/>")
+        with self.assertRaisesRegex(ValueError,"unsupported TED notice XML schema"):
+            fetch_xml("600201-2026",opener=Opener())
 
 if __name__=="__main__":unittest.main()
