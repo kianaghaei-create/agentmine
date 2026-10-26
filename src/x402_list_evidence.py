@@ -79,6 +79,23 @@ def summarize(payload, *, fetched_at):
     top10 = _nonnegative_number(traction.get("top_10_services_share_pct"), "top10", Decimal(100))
     if top1 > top10:
         raise ValueError("top 1 share exceeds top 10")
+    # Publisher concentration is not a count of independent paying people.
+    buyer_raw = traction.get("top_1_service_top_buyer_share_pct")
+    buyer_share = (_nonnegative_number(buyer_raw, "top1 buyer share", Decimal(100))
+                   if buyer_raw is not None else None)
+    coverage_raw = traction.get("coverage_of_measured_flow_pct")
+    coverage = (_nonnegative_number(coverage_raw, "measured flow coverage", Decimal(100))
+                if coverage_raw is not None else None)
+    freshness = traction.get("measured_flow_freshness")
+    stale_groups = total_groups = cursor_age = None
+    if freshness is not None:
+        if not isinstance(freshness, dict):
+            raise ValueError("invalid measured flow freshness")
+        stale_groups = _count(freshness.get("stale_sync_groups"), "stale sync groups")
+        total_groups = _count(freshness.get("total_sync_groups"), "total sync groups")
+        cursor_age = _count(freshness.get("oldest_cursor_age_seconds"), "oldest cursor age")
+        if stale_groups > total_groups:
+            raise ValueError("stale groups exceed total groups")
     if type(traction.get("top_1_service_imported")) is not bool:
         raise ValueError("top_1_service_imported must be boolean")
     if (services == 0 and (endpoints or measured or volume or settlements or top1 or top10)) or (settlements == 0 and volume):
@@ -104,6 +121,17 @@ def summarize(payload, *, fetched_at):
         "top1_share_pct": str(top1),
         "top10_share_pct": str(top10),
         "top1_data_imported": traction["top_1_service_imported"],
+        "publisher_top1_service_top_buyer_share_pct": str(buyer_share) if buyer_share is not None else None,
+        "publisher_implied_top1_buyer_share_of_listed_flow_pct": (
+            str((top1 * buyer_share / Decimal(100)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
+            if buyer_share is not None else None),
+        "publisher_measured_flow_coverage_pct": str(coverage) if coverage is not None else None,
+        "publisher_stale_sync_groups_at_computation": stale_groups,
+        "publisher_total_sync_groups_at_computation": total_groups,
+        "publisher_oldest_cursor_age_seconds_at_computation": cursor_age,
+        "publisher_ingest_freshness_at_computation": (
+            "UNKNOWN" if stale_groups is None else
+            "STALE" if stale_groups else "NO_REPORTED_STALE_GROUPS"),
         "flow_outside_top10_usd_30d": str(outside_top10.quantize(cent, rounding=ROUND_HALF_UP)),
         "hypothetical_1pct_fee_on_all_outside_top10_usd_30d": str((outside_top10 / 100).quantize(cent, rounding=ROUND_HALF_UP)),
         "verified_paying_customers": None,
@@ -112,6 +140,8 @@ def summarize(payload, *, fetched_at):
         "evidence_kind": "publisher_reported_service_settlements_not_independently_audited",
         "warning": "Publisher's listed-service and measured-facilitator slice only, not whole market. "
                    "Imported top-service data and self/wash payments may distort concentration. "
+                   "Top-service buyer concentration is publisher-implied, not independently verified; "
+                   "ingest freshness refers to source computation, not fetch time. "
                    "Addresses are not verified unique buyers. A 1% fee on 100% of residual flow "
                    "is a gross arithmetic stress case, not attainable revenue or profit. "
                    "No paying AgentMine customers, conversion or costs are inferred.",
