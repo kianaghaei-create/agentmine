@@ -1,0 +1,46 @@
+name: Official TED CPV72 competition review cohort
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_cpv72_cohort.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  predeclared-public-notice-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Collect complete September Swedish CPV72 competition-notice frame
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmpdir="$(mktemp -d)"
+          trap 'rm -rf "$tmpdir"' EXIT
+          query='publication-date >= 20260901 AND publication-date <= 20260930 AND buyer-country = SWE AND classification-cpv = 72* AND notice-type IN (cn-standard cn-social cn-desg)'
+          python3 -m src.ted_notice_evidence --fetch --query "$query" --max-pages 10 --limit 100 --output "$tmpdir/ted.json"
+          python3 -m src.tender_cohort_queue --input "$tmpdir/ted.json" --query "$query" --count 20 --output ted-cpv72-competition-cohort.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          cohort = json.loads(Path("ted-cpv72-competition-cohort.json").read_text())
+          assert cohort["cohort_size"] == 20
+          assert cohort["primary_source_reviews_completed"] == 0
+          print("Predeclared TED frame notices:", cohort["complete_query_population_notices"])
+          print("Public IDs queued for independent primary-source review:", cohort["cohort_size"])
+          print("No deadline or supplier outcomes verified.")
+          PY
+      - name: Upload only public notice IDs and unverified review status
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-cpv72-competition-cohort
+          path: ted-cpv72-competition-cohort.json
+          if-no-files-found: error
+          retention-days: 7
