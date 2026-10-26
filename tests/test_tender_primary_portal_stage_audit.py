@@ -166,6 +166,20 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 0)
         self.assertEqual(result["primary_portal_unverified_count"], 20)
 
+    def test_ted_610120_competitor_stage_label_is_not_primary_portal_proof(self):
+        import json
+        from pathlib import Path
+        evidence = json.loads((Path(__file__).resolve().parents[1] / "data" / "evidence" /
+                               "ted_fixed20_primary_portal_stage_2026-10-26.json").read_text(encoding="utf-8"))
+        row = next(x for x in evidence["observations"] if x["publication_number"] == "610120-2026")
+        self.assertEqual(row["official_stage"], "participation_request")
+        self.assertEqual(row["official_deadline_date"], "2026-10-07")
+        self.assertIn("Sista anbud", row["competitor_observation"])
+        self.assertEqual(row["portal_status"], "not_observed_tool_access")
+        self.assertEqual(row["amendments_status"], "not_checked")
+        self.assertNotIn("portal_stage", row)
+        self.assertNotIn("portal_deadline_raw", row)
+
     def test_committed_public_evidence_fixed20_integration(self):
         import json
         from pathlib import Path
