@@ -31,6 +31,9 @@ class HistoricalPreflightTests(unittest.TestCase):
         self.assertEqual([r['primary_portal_stage_corroborated'] for r in result['examples']],
                          [False, True, False])
         self.assertTrue(all(r['supplier_bid_no_bid'] == 'UNDETERMINED' for r in result['examples']))
+        self.assertEqual([r['competitor_examples_count'] for r in result['examples']], [2, 1, 1])
+        self.assertTrue(all(claim['source_url'].startswith('https://')
+                            for card in result['examples'] for claim in card['competitor_observations']))
         self.assertEqual(result['actual_paired_supplier_tasks'], 0)
         self.assertEqual(result['explicit_price_or_pilot_responses'], 0)
         self.assertIsNone(result['actual_supplier_time_saved_minutes'])
