@@ -12,7 +12,7 @@ _FIELD = {
     "deadline-receipt-request-date-lot": "participation_request",
     "deadline-receipt-tender-date-lot": "tender",
 }
-_PORTAL_HOSTS = {"www.kommersannons.se", "kommersannons.se", "annonser.clira.io", "www.e-avrop.com"}
+_PORTAL_HOSTS = {"www.kommersannons.se", "kommersannons.se", "annonser.clira.io", "www.e-avrop.com", "tendsign.com"}
 _STATUSES = {"public_stage_and_date_text", "not_observed_tool_access"}
 
 
