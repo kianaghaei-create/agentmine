@@ -1,0 +1,61 @@
+{
+  "source": "https://x402-list.com/api/v1/stats",
+  "publisher": "x402 List",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "source_computed_at": "2026-10-26T01:48:53.045Z",
+  "traction_as_of": "2026-10-26T01:42:17.021Z",
+  "collected_on": "2026-10-26",
+  "evidence_type": "publisher_reported_directory_and_measured_flow_not_independently_audited",
+  "market_scope": "Publisher-indexed listed services, with limited monitored facilitator flow, not the x402 ecosystem",
+  "supply": {
+    "listed_services": 1002,
+    "listed_endpoints": 7639,
+    "measured_traction_service_rows": 745,
+    "publisher_delivery_verified_service_rows": 13,
+    "payment_ready_service_rows": 932,
+    "median_listed_endpoint_price_usd": 0.01,
+    "mean_listed_endpoint_price_usd": 0.377
+  },
+  "reliability": {
+    "publisher_mean_service_uptime_24h_pct": 90.1,
+    "publisher_mean_service_uptime_7d_pct": 92,
+    "publisher_avg_response_time_ms": 487,
+    "method": "Per-service mean of latest daily uptime rollup; NOT traffic-weighted or independently tested end-to-end task success",
+    "publisher_delivery_verified_fraction_of_listings_pct_rounded": 1.3
+  },
+  "activity_30d": {
+    "listed_service_deduplicated_settlement_usd": 351555.487869,
+    "settlement_count": 1818862,
+    "buyer_addresses": 9400,
+    "top_10_services_share_pct": 95.9,
+    "top_1_service_share_pct": 71.1,
+    "top_1_service_top_buyer_share_pct": 98.8,
+    "top_1_service_imported": true,
+    "coverage_of_measured_facilitator_flow_pct": 18.9
+  },
+  "conditional_arithmetic": {
+    "top1_largest_buyer_address_share_of_listed_flow_pct_from_rounded_shares": 70.2468,
+    "non_top10_listed_flow_usd_30d_from_rounded_share": 14413.775002629,
+    "hypothetical_fee_rate_pct": 5,
+    "hypothetical_tail_capture_pct": 5,
+    "hypothetical_gross_fee_usd_30d_before_costs": 36.03443750657,
+    "interpretation": "Sensitivity only, not an attainable revenue forecast or a measured AgentMine fee; rounded shares and overlapping publisher windows."
+  },
+  "competitor_context": {
+    "source": "https://github.com/Fizzl13/x402-doctor",
+    "publisher_advertised_offer": "Unfunded-wallet x402 endpoint diagnostics and $0.05 paid fix recommendation; offer and pricing not independently tested, no verified customer counts.",
+    "implication": "Basic endpoint health checks already have public competing offers; do not claim unserved quality-verification niche."
+  },
+  "caveats": [
+    "Service-average uptime is not buyer-weighted uptime, user experience or a demonstrated willingness-to-pay signal.",
+    "Only 13 delivery-verified service rows is a publisher verification category, not proof 989 services are broken.",
+    "Flow is measured only on the publisher's indexed listed services and tracked facilitator slice; publisher estimates are not independently audited.",
+    "Buyer addresses are not verified unique paying people or companies; imported top-service flow has extreme one-address concentration.",
+    "Per-service flow values must not be summed due to overlapping attribution; 30-day rolling snapshots overlap and differences are not sales growth.",
+    "Supplier listings are not independently verified supplier companies, and no AgentMine paying customers, cost savings or revenue are established."
+  ],
+  "agentmine_verified_paying_customers": null,
+  "agentmine_verified_revenue_usd": null,
+  "agentmine_measured_variable_cost_usd": null
+}
