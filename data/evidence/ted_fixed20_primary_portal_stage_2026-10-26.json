@@ -4,7 +4,7 @@
   "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
   "official_projection_path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
   "directory_observation_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
-  "selection": "Incremental public-source checks from the unchanged predeclared 20-notice cohort. Four official originals inspected here, two accessible primary portal stage/date views; retain all 20 and missing-access cases. This is not a random portal-access sample.",
+  "selection": "Incremental public-source checks from the unchanged predeclared 20-notice cohort. Five official originals inspected here, two accessible primary portal stage/date views; retain all 20 and missing-access cases. This is not a random portal-access sample.",
   "observations": [
     {
       "publication_number": "606049-2026",
@@ -77,11 +77,39 @@
       "primary_notice_selection_criteria": "see_procurement_documents",
       "source_retrieved_on_utc_date": "2026-10-26",
       "caveat": "Official original TED notice shows participation-request date and negotiated procedure. The original linked e-Avrop portal redirects to NoAccess; no portal, amendments or operative deadline verified. The 00:00 timestamp requires careful interpretation and is not a final legal cutoff assertion."
+    },
+    {
+      "publication_number": "610120-2026",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/610120-2026/html",
+      "official_stage": "participation_request",
+      "official_deadline_date": "2026-10-07",
+      "official_deadline_raw": "Tidsfrist för mottagande av anbudsansökningar: 07/10/2026 21:59:59 (UTC+00:00) Västeuropeisk tid",
+      "portal_url": "https://tendsign.com/doc.aspx?MeFormsNoticeId=98869&GoTo=Tender",
+      "portal_status": "not_observed_tool_access",
+      "amendments_status": "not_checked",
+      "directory_url": "https://upphandla.app/en/tender/610120-2026",
+      "directory_observation": "No deadline",
+      "competitor_url": "https://www.procurdo.com/upphandling/it-sakerhetstjanst-security-operations-center-1cbc654c346b494caa5b094c6c5ea236",
+      "competitor_observation": "Sista anbud 2026-10-07",
+      "additional_competitor_url": "https://tenderiva.com/sv/tender/610120-2026-sverige-sakerhetstjanster-it-sakerhetstjanst-security-operations-center",
+      "additional_competitor_observation": "Tidsfrist 7 okt. 2026 21:59 UTC (generic deadline label)",
+      "primary_notice_procedure": "negotiated_with_prior_publication",
+      "primary_notice_estimated_value_sek": "11000000",
+      "primary_notice_main_cpv": "79710000",
+      "primary_notice_secondary_cpv": [
+        "72212730",
+        "72212732"
+      ],
+      "primary_notice_second_stage_min_invitees": 3,
+      "primary_notice_language": "svenska",
+      "primary_notice_selection_criteria": "see_procurement_documents",
+      "source_retrieved_on_utc_date": "2026-10-26",
+      "caveat": "Official TED original identifies an application deadline, while Procurdo publicly labels the same day 'Sista anbud' and Upphandla displays 'No deadline'. Tenderiva supplies a generic deadline. TendSign document and submission URLs redirect to login, so portal stage/date, amendments, eligibility and operative legal deadline are unverified. This is a source-backed third-party stage-label discrepancy, not a verified legal error or supplier outcome."
     }
   ],
   "counts": {
     "predeclared_notices": 20,
-    "official_original_text_observed": 4,
+    "official_original_text_observed": 5,
     "portal_stage_text_observed": 2,
     "portal_stage_agreement_with_official_original": 2,
     "directory_no_date_despite_public_primary_portal_date_text": 2,
@@ -92,12 +120,13 @@
     "verified_paying_customers": 0
   },
   "limitations": [
-    "Four official original TED HTML texts observed within the fixed 20, with two public portal stage/date views. An additional previously inspected 600201-2026 is recorded separately, not in this fixture.",
+    "Five official original TED HTML texts observed within the fixed 20, with two public portal stage/date views. An additional previously inspected 600201-2026 is recorded separately, not in this fixture.",
     "Public primary portal English dates 10/1/2026 and 10/9/2026 have locale ambiguity; the official notice ISO dates are independently readable, but operative legal dates require amendment review.",
     "609601-2026 e-Avrop portal denied access; 609559-2026 Clira portal inaccessible. Do not infer their portal data.",
     "Kommers Additions and qualification forms for 603727-2026 require login. No amendment histories cleared for any of the 20.",
     "Two accessible public primary portal stage/date texts with directory No deadline establish a narrow display omission, not an error rate in all 20, a legal error, buyer outcome, causality, unique differentiation or payment intent.",
-    "No paid requests, credentials, private customer data, public deployment or transactions."
+    "No paid requests, credentials, private customer data, public deployment or transactions.",
+    "610120-2026: official original identifies participation deadline 7 October 2026 21:59:59 UTC; Procurdo labels it 'Sista anbud', Upphandla shows 'No deadline', while TendSign portal redirects to login. No independent portal verification, amendments, supplier decision or legal deadline clearance."
   ],
   "source_checked_on": "2026-10-26"
 }
