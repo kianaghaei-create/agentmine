@@ -126,6 +126,17 @@ def triage(evidence):
     for url, day, stage in unverified_explicit_stage_claims:
         if primary_stage_dates[day] and stage not in primary_stage_dates[day]:
             stage_label_reviews.append(url)
+    # Two non-primary sources can each self-assert internally consistent but
+    # contradictory stages for the same calendar date. Without a primary
+    # stage observation, neither assertion establishes which stage is correct.
+    # Queue both for review rather than silently reporting stage agreement.
+    unverified_stage_sources_by_day = defaultdict(lambda: defaultdict(set))
+    for url, day, stage in unverified_explicit_stage_claims:
+        unverified_stage_sources_by_day[day][stage].add(url)
+    for day, sources_by_stage in unverified_stage_sources_by_day.items():
+        if len(sources_by_stage) > 1 and not primary_stage_dates[day]:
+            for source_urls in sources_by_stage.values():
+                stage_label_reviews.extend(source_urls)
     # Flag a generic label only if NONE of the known stages on that day
     # supports it. Several distinct stages can legitimately share a date;
     # one matching known stage prevents a false discrepancy.
