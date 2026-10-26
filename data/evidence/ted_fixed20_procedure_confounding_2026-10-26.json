@@ -1,0 +1,177 @@
+{
+  "evidence_type": "predeclared_fixed20_public_third_party_procedure_label_observations_not_verified_legal_procedure",
+  "observed_at_utc": "2026-10-26T15:42:00Z",
+  "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+  "official_projection_path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
+  "selection_rule": "Same original fixed 20; do not exclude inaccessible or cross-source cases.",
+  "procedure_observations": [
+    {
+      "publication_number": "600201-2026",
+      "source_url": "https://upphandla.app/en/tender/600201-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "601453-2026",
+      "source_url": "https://upphandla.app/en/tender/601453-2026",
+      "observation_status": "page_unavailable",
+      "procedure_kind": null
+    },
+    {
+      "publication_number": "601656-2026",
+      "source_url": "https://upphandla.app/en/tender/601656-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "601730-2026",
+      "source_url": "https://upphandla.app/en/tender/601730-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "602708-2026",
+      "source_url": "https://upphandla.app/en/tender/602708-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "603727-2026",
+      "source_url": "https://upphandla.app/en/tender/603727-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "605974-2026",
+      "source_url": "https://tenderiva.com/sv/tender/605974-2026-sverige-it-tjanster-konsultverksamhet-programvaruutveckling-internet-och-stod-larplattform-2027",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "606049-2026",
+      "source_url": "https://upphandla.app/en/tender/606049-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "restricted_selective",
+      "raw_procedure_label": "Selektivt förfarande"
+    },
+    {
+      "publication_number": "609559-2026",
+      "source_url": "https://upphandla.app/en/tender/609559-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "609601-2026",
+      "source_url": "https://upphandla.app/en/tender/609601-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "610120-2026",
+      "source_url": "https://upphandla.app/en/tender/610120-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "610810-2026",
+      "source_url": "https://upphandla.app/en/tender/610810-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "611111-2026",
+      "source_url": "https://upphandla.app/en/tender/611111-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_url": "https://upphandla.app/en/tender/612139-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "612757-2026",
+      "source_url": "https://upphandla.app/en/tender/612757-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "613716-2026",
+      "source_url": "https://upphandla.app/en/tender/613716-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "613749-2026",
+      "source_url": "https://upphandla.app/en/tender/613749-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "615392-2026",
+      "source_url": "https://upphandla.app/en/tender/615392-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    },
+    {
+      "publication_number": "615414-2026",
+      "source_url": "https://upphandla.app/en/tender/615414-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "negotiated_with_prior_publication",
+      "raw_procedure_label": "Förhandlat förfarande med föregående annonsering"
+    },
+    {
+      "publication_number": "615576-2026",
+      "source_url": "https://upphandla.app/en/tender/615576-2026",
+      "observation_status": "label_observed",
+      "procedure_kind": "open",
+      "raw_procedure_label": "Öppet förfarande"
+    }
+  ],
+  "additional_competitor_display_examples": [
+    {
+      "publication_number": "603727-2026",
+      "source_url": "https://tenderiva.com/sv/tender/603727-2026-sverige-programvaruutvecklingstjanster-for-affarstransaktioner-och-personliga-affarer-system-for-strategi-planering-och-uppfoljning",
+      "displayed_generic_deadline": "2026-10-09T23:59:00+02:00"
+    },
+    {
+      "publication_number": "609559-2026",
+      "source_url": "https://tenderiva.com/sv/tender/609559-2026-sverige-it-tjanster-konsultverksamhet-programvaruutveckling-internet-och-stod-lan-och-wifi",
+      "displayed_generic_deadline": "2026-10-05T23:59:00+02:00"
+    },
+    {
+      "publication_number": "610120-2026",
+      "source_url": "https://tenderiva.com/sv/tender/610120-2026-sverige-sakerhetstjanster-it-sakerhetstjanst-security-operations-center",
+      "displayed_generic_deadline": "2026-10-07T21:59:00Z"
+    },
+    {
+      "publication_number": "615414-2026",
+      "source_url": "https://tenderiva.com/sv/tender/615414-2026-sverige-programmering-av-mjukvara-samt-radgivning-crm-system-for-va-och-avfall-forhandlat-forfarande",
+      "displayed_generic_deadline": "2026-09-28T23:59:00+02:00"
+    }
+  ],
+  "limitations": [
+    "All eight request-stage records have non-open procedure labels and all eleven observable tender-stage records have open procedure labels: cannot identify whether missingness tracks stage or procedure independently.",
+    "One tender-stage page was unavailable; one procedure label was cross-checked at Tenderiva rather than Upphandla.",
+    "Tenderiva generic Tidsfrist display does not establish whether it explicitly labels a participation-request deadline.",
+    "TED official projection has field presence, not verified operative deadline; original portal/amendment histories remain unverified.",
+    "Web pages may be cached with varying crawl dates. No supplier usage, customer conversion, revenue, time savings or independent payment evidence."
+  ]
+}
