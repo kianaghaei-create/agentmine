@@ -71,6 +71,28 @@ class Tests(unittest.TestCase):
         self.assertEqual(r['rejected_tasks'][0]['reason'],'time_window_mismatch')
     def test_naive_time_rejected(self):
         self.assertEqual(analyze([observation(observed_at='2026-10-23T10:00:00'),observation('routed')])['quoted_comparable_pairs'],0)
+    def test_future_dated_quote_pair_cannot_be_presented_as_comparable(self):
+        # Same timestamp and evidence on both sides used to pass pairing.
+        future = '2099-01-01T10:00:00Z'
+        r = analyze([observation(observed_at=future),
+                     observation('routed', observed_at=future)])
+        self.assertEqual(r['quoted_comparable_pairs'], 0)
+        self.assertEqual(r['rejected_tasks'][0]['reason'], 'invalid_observation')
+        self.assertIsNone(r['quoted_scenario_delta_usd'])
+
+    def test_future_dated_measured_pair_cannot_be_reported_as_delivery(self):
+        future = '2099-01-01T12:00:00+02:00'
+        r = analyze([observation(kind='measured', observed_at=future),
+                     observation('routed', kind='measured', observed_at=future)])
+        self.assertEqual(r['measured_comparable_pairs'], 0)
+        self.assertEqual(r['rejected_tasks'][0]['reason'], 'invalid_observation')
+        self.assertIsNone(r['caller_asserted_measured_delta_usd'])
+
+    def test_past_offset_aware_pair_still_compares(self):
+        r = analyze([observation(observed_at='2026-10-23T12:00:00+02:00'),
+                     observation('routed', observed_at='2026-10-23T10:00:00Z')])
+        self.assertEqual(r['quoted_comparable_pairs'], 1)
+
     def test_wrong_task_fingerprint_rejected(self):
         r=analyze([observation(),observation('routed',task_spec_sha256='c'*64)])
         self.assertEqual(r['rejected_tasks'][0]['reason'],'different_task')
