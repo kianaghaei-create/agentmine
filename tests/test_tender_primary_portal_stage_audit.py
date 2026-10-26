@@ -117,6 +117,25 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit(*args)
 
+    def test_committed_public_evidence_fixed20_integration(self):
+        import json
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1] / "data" / "evidence"
+        def load(name):
+            return json.loads((root / name).read_text(encoding="utf-8"))
+        result = audit(
+            load("ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json"),
+            load("ted_cpv72_search_projection_summary_2026-10-26.json"),
+            load("ted_fixed20_upphandla_stage_visibility_2026-10-26.json"),
+            load("ted_fixed20_primary_portal_stage_2026-10-26.json"),
+        )
+        self.assertEqual(result["fixed_cohort_count"], 20)
+        self.assertEqual(result["original_notice_observed_count"], 2)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 1)
+        self.assertEqual(result["primary_portal_unverified_count"], 19)
+        self.assertEqual(result["amendments_checked_count"], 0)
+        self.assertEqual(result["verified_operative_deadline_errors"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
