@@ -1,0 +1,49 @@
+{
+  "evidence_type": "publisher_selected_fields_not_raw_response",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "source_license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "retrieved_utc_date": "2026-10-26",
+  "source_computed_at_utc": "2026-10-26T09:24:51.496Z",
+  "source_traction_as_of_utc": "2026-10-26T08:42:00.612Z",
+  "selected_publisher_fields": {
+    "total_services": 1001,
+    "total_endpoints": 7632,
+    "payment_ready_count": 930,
+    "verified_count": 13,
+    "measured_services": 746,
+    "unique_buyer_addresses_30d": 9687,
+    "settlement_count_30d": 1832366,
+    "volume_usd_30d": "352208.720763",
+    "top_1_service_share_pct": "71",
+    "top_10_services_share_pct": "95.9",
+    "top_1_service_top_buyer_share_pct": "98.8",
+    "top_1_service_imported": true,
+    "coverage_of_measured_flow_pct": "18.1",
+    "measured_flow_freshness_at_computation": {
+      "oldest_cursor_age_seconds": 580,
+      "stale_sync_groups": 0,
+      "total_sync_groups": 51,
+      "stale_facilitators": 0,
+      "total_facilitators": 39
+    },
+    "facilitator_volume_usd_30d": "1924007.56",
+    "new_listings_30d": 233,
+    "new_listings_7d": 0
+  },
+  "arithmetic_only_not_revenue": {
+    "publisher_implied_top1_buyer_share_of_listed_flow_pct": "70.15",
+    "publisher_listed_flow_outside_top10_usd_30d": "14440.56",
+    "hypothetical_1pct_fee_on_all_residual_flow_usd_30d": "144.41",
+    "publisher_measured_volume_per_settlement_usd": "0.1922"
+  },
+  "interpretation": [
+    "Selected fields copied from the publisher API response; this is not the complete raw API response or an independently audited chain ledger.",
+    "Top-service buyer share is a publisher-reported wallet/address concentration, not a verified person or customer count. The top service is marked imported.",
+    "Coverage 18.1% is relative to the publisher's measurable facilitator flow, not all x402 activity.",
+    "Publisher verified_count=13 denotes paid delivery probes, not 13 paying customers.",
+    "Publisher freshness is as of its computation time, not necessarily fresh at later retrieval.",
+    "Fee arithmetic assumes impossible-to-verify 100% capture of residual flow; it is not forecast, market share, AgentMine revenue or profit.",
+    "No consented buyers, AgentMine revenue, observed AgentMine variable cost, or payment conversion."
+  ]
+}
