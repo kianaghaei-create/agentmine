@@ -1,0 +1,169 @@
+{
+  "evidence_type": "official_TED_Search_API_fixed_20_cohort_summary_not_legal_deadlines_or_paid_demand",
+  "observed_at_utc": "2026-10-26T11:47:24.852352+00:00",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "official_field_documentation": "https://docs.ted.europa.eu/ODS/latest/reuse/field-list.html",
+  "query": "publication-date >= 20260901 AND publication-date <= 20260930 AND buyer-country = SWE AND classification-cpv = 72* AND notice-type IN (cn-standard cn-social cn-desg)",
+  "selection_rule": "First 20 publication numbers by ascending publication-date and numeric publication-number, selected from complete reconciled official query frame before examining directory mismatches",
+  "initial_query_frame_count": 90,
+  "current_query_frame_count": 90,
+  "complete_current_query_frame": true,
+  "projected_cohort_count": 20,
+  "missing_cohort_count": 0,
+  "field_nonempty_coverage": {
+    "main_classification_proc": 20,
+    "main_classification_lot": 20,
+    "additional_classification_proc": 13,
+    "procedure_identifier": 20,
+    "deadline_receipt_tender_date_lot": 12,
+    "deadline_receipt_request_date_lot": 8,
+    "submission_url_lot": 20
+  },
+  "observed_fixed_cohort_counts": {
+    "main_cpv_72": 13,
+    "main_cpv_48": 4,
+    "main_cpv_other": 3,
+    "has_tender_date": 12,
+    "has_request_date": 8,
+    "distinct_procedure_identifiers": 20
+  },
+  "rows": [
+    {
+      "publication_number": "600201-2026",
+      "procedure_main_cpv": "79411100",
+      "procedure_identifier": "53da505c-1426-4f55-9323-067e3d548cc7",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "601453-2026",
+      "procedure_main_cpv": "32250000",
+      "procedure_identifier": "93dd47eb-8036-40dd-b3a0-287e1818f0c5",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "601656-2026",
+      "procedure_main_cpv": "72224000",
+      "procedure_identifier": "bf3de29a-db8d-4a08-9fc1-5964c8135f18",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "601730-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "392699e0-8c15-47ab-97f0-54eab6c4d010",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "602708-2026",
+      "procedure_main_cpv": "48329000",
+      "procedure_identifier": "6ed38960-ea56-4305-a3f1-668d1b1f13f2",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "603727-2026",
+      "procedure_main_cpv": "72212400",
+      "procedure_identifier": "b469917a-af9b-45af-992d-a226951587df",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "605974-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "6df73e17-0cfc-44c4-87d8-5c83f0136d29",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "606049-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "ee3ebf19-4c56-483e-a2c0-a21c9664d35d",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "609559-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "2b3ed268-91f4-4464-b025-2fee80044f17",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "609601-2026",
+      "procedure_main_cpv": "48000000",
+      "procedure_identifier": "bc6a8376-2ee5-4e30-9b7f-73674227bc15",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "610120-2026",
+      "procedure_main_cpv": "79710000",
+      "procedure_identifier": "3f5e3435-ff54-478d-b840-b0616f2dc38b",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "610810-2026",
+      "procedure_main_cpv": "48160000",
+      "procedure_identifier": "aa26492d-d532-4c5d-8705-ed0f716c8043",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "611111-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "5e0f45f5-81ba-4ad4-afa9-771ca77a6e1b",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "612139-2026",
+      "procedure_main_cpv": "48000000",
+      "procedure_identifier": "cffc7e10-e25d-4cf4-933f-c0c577d1ec5c",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "612757-2026",
+      "procedure_main_cpv": "72260000",
+      "procedure_identifier": "8ed8a7d2-ee71-40ce-9267-6475a5e43c95",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "613716-2026",
+      "procedure_main_cpv": "72320000",
+      "procedure_identifier": "b5cc9d60-5185-4d2d-8252-c68ccc6b8b56",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "613749-2026",
+      "procedure_main_cpv": "72000000",
+      "procedure_identifier": "ba03174a-dfe0-4dd2-8812-34d3e4a2df2f",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "615392-2026",
+      "procedure_main_cpv": "72268000",
+      "procedure_identifier": "1e42451b-957d-4331-b6e2-de4cf0b3ec68",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    },
+    {
+      "publication_number": "615414-2026",
+      "procedure_main_cpv": "72200000",
+      "procedure_identifier": "1e3b439e-dfbc-420a-bcb4-1e75b06fc11c",
+      "field_kind": "deadline-receipt-request-date-lot"
+    },
+    {
+      "publication_number": "615576-2026",
+      "procedure_main_cpv": "72320000",
+      "procedure_identifier": "6b10a6ec-fd5e-4629-b212-826c14b123f3",
+      "field_kind": "deadline-receipt-tender-date-lot"
+    }
+  ],
+  "provenance": {
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40317664693",
+    "workflow_head_sha": "7c2f1901d3d0638fce50c72e56e59efb2dd18f24",
+    "artifact_id": 12647318501,
+    "artifact_zip_sha256": "9563e4716b643fffb1e2fc9715d481d507b7bd20e0261d0602111c3d37997bcf",
+    "full_current_query_frame_sha256": "42c0f64e7e11b3976996b6f144b4fe7effca63848e76813100c3bc74d40e7302",
+    "full_tree_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/40317664772",
+    "full_tree_tests_passed": 625
+  },
+  "limitations": [
+    "Field-kind is determined by nonempty official search projection fields; not independently verified current stage or legally operative deadlines.",
+    "Raw API response artifact retained 7 days; this durable summary preserves identifiers, CPV and field-presence classification, not original XML.",
+    "CPV72 query matches any CPV, including secondary classification. This fixed 20-notice cohort has 13 main CPV72, 4 main CPV48, 3 other; not a market prevalence estimate.",
+    "20 distinct procedure IDs and 20 distinct self-declared buyer name labels in this cohort do not measure unique paying customers or supplier concentration.",
+    "All 20 XML direct-link fetches returned non-XML responses; no XML original, amendment, or portal was verified.",
+    "No verified supplier savings, price response, paying buyer, revenue or actual unit economics."
+  ]
+}
