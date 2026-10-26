@@ -1,0 +1,34 @@
+name: Predeclared TED primary XML evidence review
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_primary_xml_review.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-public-original-notices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run offline parser and cohort integrity tests
+        run: python3 -m unittest tests.test_ted_primary_xml_review -v
+      - name: Fetch 20 predeclared public TED XML notices (read only)
+        run: |
+          python3 -m src.ted_primary_xml_review \
+            --cohort data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json \
+            --output ted-original-xml-review.json
+      - name: Publish limited evidence metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-original-xml-review
+          path: ted-original-xml-review.json
+          retention-days: 7
+          if-no-files-found: error
