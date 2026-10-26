@@ -5,6 +5,7 @@ This audit records source-backed stage/date visibility, not supplier outcomes.
 """
 from collections import Counter
 from datetime import date, datetime, timezone
+import re
 from urllib.parse import urlsplit
 
 _FIELD = {
@@ -96,6 +97,11 @@ def audit(cohort, official, directory, primary):
                 raise ValueError("invalid original deadline date") from exc
             if not isinstance(row.get("official_deadline_raw"), str) or not row["official_deadline_raw"].strip():
                 raise ValueError("original deadline text missing")
+            # The observed Swedish TED original uses DD/MM/YYYY. A contradictory
+            # transcription must not be counted as independently corroborated.
+            original_token = f"{original_date.day:02d}/{original_date.month:02d}/{original_date.year}"
+            if not re.search(r"(?<!\\d)" + re.escape(original_token) + r"(?!\\d)", row["official_deadline_raw"]):
+                raise ValueError("original raw date contradicts normalized original date")
             if row.get("amendments_status") != "not_checked":
                 raise ValueError("unverified amendment status must not claim clearance")
             _url(row.get("portal_url"), _PORTAL_HOSTS)
@@ -113,6 +119,10 @@ def audit(cohort, official, directory, primary):
                     raise ValueError("portal stage missing")
                 if not isinstance(row.get("portal_deadline_raw"), str) or not row["portal_deadline_raw"].strip():
                     raise ValueError("portal deadline text missing")
+                # A nonempty label (e.g. "No deadline") is not evidence of a
+                # displayed date. Keep numeric portal locale ambiguous.
+                if not re.search(r"(?<!\\d)\\d{1,2}/\\d{1,2}/\\d{4}(?!\\d)", row["portal_deadline_raw"]):
+                    raise ValueError("public portal date token missing")
                 if row.get("portal_date_interpretation") != "unverified_locale":
                     raise ValueError("do not silently parse ambiguous portal date")
                 if row["portal_stage"] != original_stage:
