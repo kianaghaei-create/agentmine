@@ -97,6 +97,36 @@ class HistoricalPreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'future as_of'):
             build(*real(), as_of='2099-01-01')
 
+    def test_rejects_fake_portal_corroboration_without_date(self):
+        args = real()
+        for row in args[3]['observations']:
+            if row['publication_number'] == '603727-2026':
+                del row['portal_deadline_raw']
+        with self.assertRaisesRegex(ValueError, 'portal deadline text missing'):
+            build(*args)
+
+    def test_rejects_fake_portal_corroboration_with_no_deadline_text(self):
+        args = real()
+        for row in args[3]['observations']:
+            if row['publication_number'] == '603727-2026':
+                row['portal_deadline_raw'] = 'No deadline'
+        with self.assertRaisesRegex(ValueError, 'public portal date token missing'):
+            build(*args)
+
+    def test_rejects_untrusted_primary_portal_url(self):
+        args = real()
+        for row in args[3]['observations']:
+            if row['publication_number'] == '603727-2026':
+                row['portal_url'] = 'https://example.org/claim'
+        with self.assertRaisesRegex(ValueError, 'untrusted source URL'):
+            build(*args)
+
+    def test_rejects_future_primary_observation(self):
+        args = real()
+        args[3]['observed_on_utc_date'] = '2099-01-01'
+        with self.assertRaisesRegex(ValueError, 'future observation'):
+            build(*args)
+
     def test_rejects_duplicate_official_projection(self):
         args = real()
         args[1]['rows'][1] = copy.deepcopy(args[1]['rows'][0])
