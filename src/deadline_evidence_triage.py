@@ -19,6 +19,9 @@ _KINDS = {"official_summary", "third_party", "original_ted_notice",
           "submission_portal", "official_buyer_submission_portal",
           "third_party_summary", "third_party_republication_of_ted_notice_text"}
 _STAGES = {"participation_request", "bid_submission", "questions", "unknown"}
+# Caller-asserted source kinds, not independently authenticated authorities.
+_PRIMARY_STAGE_SOURCES = {"original_ted_notice", "submission_portal",
+                          "official_buyer_submission_portal"}
 _LABELS = {"participation_deadline", "bid_deadline", "questions_deadline",
            "generic_deadline", "unknown"}
 _STAGE_LABEL = {"participation_request": "participation_deadline",
@@ -76,6 +79,8 @@ def triage(evidence):
     known_stage_instants_by_day = defaultdict(set)
     stage_label_reviews = []
     known_stage_dates = defaultdict(set)
+    primary_stage_dates = defaultdict(set)
+    unverified_explicit_stage_claims = []
     parsed = []
     for row in rows:
         if not isinstance(row, dict) or row.get("publication_number") != evidence["publication_number"]:
@@ -105,12 +110,22 @@ def triage(evidence):
                 instants_by_stage[stage].add(instant)
                 known_stage_instants_by_day[day].add(instant)
             known_stage_dates[day].add(stage)
+            if kind in _PRIMARY_STAGE_SOURCES:
+                primary_stage_dates[day].add(stage)
+            else:
+                unverified_explicit_stage_claims.append((url, day, stage))
             if label not in ("unknown", "generic_deadline", _STAGE_LABEL[stage]):
                 stage_label_reviews.append(url)
         parsed.append((url, day, stage, label))
         labels.add(day)
         formats.add(fmt)
         kinds.add(kind)
+    # A directory's explicit stage is still a directory claim. It cannot
+    # validate itself against a conflicting original notice/submission portal.
+    # This is review-only; source_kind itself is caller-asserted, not proof.
+    for url, day, stage in unverified_explicit_stage_claims:
+        if primary_stage_dates[day] and stage not in primary_stage_dates[day]:
+            stage_label_reviews.append(url)
     # Flag a generic label only if NONE of the known stages on that day
     # supports it. Several distinct stages can legitimately share a date;
     # one matching known stage prevents a false discrepancy.
