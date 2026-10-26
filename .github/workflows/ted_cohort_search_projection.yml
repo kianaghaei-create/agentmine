@@ -1,0 +1,37 @@
+name: Official TED Search API cohort projection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_cohort_search_projection.yml"
+      - "src/ted_cohort_search_projection.py"
+      - "tests/test_ted_cohort_search_projection.py"
+      - "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  project-official-search-fields:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Offline projection and coverage regression tests
+        run: python3 -m unittest tests.test_ted_cohort_search_projection -v
+      - name: Query documented anonymous TED Search API for predeclared frame
+        run: |
+          python3 -m src.ted_cohort_search_projection \
+            --cohort data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json \
+            --output ted-search-cohort-projection.json
+      - name: Upload metadata-only official search projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-search-cohort-projection
+          path: ted-search-cohort-projection.json
+          retention-days: 7
+          if-no-files-found: error
