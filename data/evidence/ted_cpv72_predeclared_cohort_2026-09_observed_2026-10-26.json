@@ -1,0 +1,204 @@
+{
+  "evidence_type": "predeclared_official_TED_competition_notice_cohort_not_unique_procedures_or_buyer_demand",
+  "observed_at_utc": "2026-10-26T09:49:54.393773Z",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "query": "publication-date >= 20260901 AND publication-date <= 20260930 AND buyer-country = SWE AND classification-cpv = 72* AND notice-type IN (cn-standard cn-social cn-desg)",
+  "selection_rule": "First 20 publication numbers by ascending publication-date and numeric publication-number, selected from complete reconciled official query frame before examining directory mismatches",
+  "complete_query_frame_notices": 90,
+  "complete_frame_reconciled": true,
+  "cohort_size": 20,
+  "notice_items": [
+    {
+      "publication_number": "600201-2026",
+      "publication_date": "2026-09-01",
+      "original_notice_checked": true,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "601453-2026",
+      "publication_date": "2026-09-01",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "601656-2026",
+      "publication_date": "2026-09-01",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "601730-2026",
+      "publication_date": "2026-09-01",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "602708-2026",
+      "publication_date": "2026-09-01",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "603727-2026",
+      "publication_date": "2026-09-02",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "605974-2026",
+      "publication_date": "2026-09-02",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "606049-2026",
+      "publication_date": "2026-09-03",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "609559-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "609601-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "610120-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "610810-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "611111-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "612139-2026",
+      "publication_date": "2026-09-04",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "612757-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "613716-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "613749-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "615392-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "615414-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "615576-2026",
+      "publication_date": "2026-09-07",
+      "original_notice_checked": false,
+      "submission_portal_verified": false,
+      "amendments_verified": false
+    }
+  ],
+  "provenance": {
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40302588653",
+    "head_sha": "46ac2bc500c19fc2ce9743e265b552f01b897874",
+    "artifact_id": 12641490845,
+    "artifact_zip_sha256": "491fefb03dda8378405ac1773d72bf4f28dc0385853cf71ffda18fce05d0ee54",
+    "artifact_content_readback": true,
+    "ci_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/40302563764",
+    "ci_passed_tests": 606
+  },
+  "reviewed_first_record": {
+    "publication_number": "600201-2026",
+    "original_notice_url": "https://ted.europa.eu/sv/notice/600201-2026/html",
+    "original_notice_observed_deadline": "2026-09-29T23:59:00+02:00",
+    "original_notice_deadline_kind": "receipt_of_tenders",
+    "original_notice_main_cpv": "79411100",
+    "original_notice_additional_cpv": [
+      "72221000",
+      "79413000"
+    ],
+    "original_notice_procedure": "open",
+    "directory_claims": [
+      {
+        "source_url": "https://tilldelat.se/upphandling/konsulttjanster-inom-foretags-och-branschutveckling-1c21eb",
+        "displayed_deadline_date": "2026-09-29",
+        "timezone": "not_shown"
+      },
+      {
+        "source_url": "https://find.tenderdeck.org/tenders/600201-2026/sweden-business-development-consultancy-services-konsulttjanster-inom-foretags-o",
+        "displayed_deadline": "2026-09-30 23:59 CET",
+        "warning": "Directory display conflicts with original notice date and UTC offset; cannot establish whether it reflects an amendment without checking notice history"
+      }
+    ],
+    "original_submission_portal_url": "https://kommersannons.se/goteborg/Notice/NoticeDispatch.aspx?NoticeId=62873",
+    "portal_access": "restricted_access_page",
+    "amendments_checked": false,
+    "classification": "observed_original_notice_vs_directory_display_disagreement_not_verified_current_legal_error",
+    "commercial_significance": "First preselected CPV72 hit is main CPV79 with CPV72 only secondary. Any-CPV72 notice counts are not counts of primarily IT tenders."
+  },
+  "verified_original_notices_reviewed": 1,
+  "verified_submission_portals_reviewed": 0,
+  "full_primary_and_portal_reviews_completed": 0,
+  "verified_agentmine_customers": null,
+  "verified_supplier_savings": null,
+  "verified_payment_intent": null,
+  "verified_agentmine_revenue": null,
+  "limitations": [
+    "TED notice rows are not unique procurement procedures or active open opportunities.",
+    "20 IDs were selected before looking for mismatches, but only the first original notice was checked; no cohort mismatch prevalence estimate is available.",
+    "Directory deadline conflict is not a verified legal deadline error; portal is restricted and amendments were not checked.",
+    "CPV72 match may be only an additional classification; 90 notices cannot be called 90 primarily IT tenders.",
+    "No independent buyer need, willingness to pay, acquisition cost, actual delivery cost, or supplier time saving."
+  ]
+}
