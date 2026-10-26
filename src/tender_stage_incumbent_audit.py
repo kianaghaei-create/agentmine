@@ -11,7 +11,7 @@ from pathlib import Path
 import re
 
 _ID = re.compile(r"^[1-9][0-9]{0,7}-20[0-9]{2}$")
-_DATE = re.compile(r"^\\d{4}-\\d{2}-\\d{2}$")
+_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _FIELD_STAGE = {
     "deadline-receipt-tender-date-lot": "tender",
     "deadline-receipt-request-date-lot": "participation_request",
@@ -137,7 +137,7 @@ def main(argv=None):
     result = audit(load(args.cohort), load(args.official), load(args.evidence))
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\\n", encoding="utf-8")
+        args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({k: v for k, v in result.items() if k != "items"}, indent=2))
 
 
