@@ -1,0 +1,46 @@
+{
+  "observed_on": "2026-10-26",
+  "evidence_type": "public_vendor_offer_and_noncomparable_market_denominator",
+  "vendor": "Fentlig AB",
+  "vendor_offer": {
+    "source_url": "https://fentlig.se/priser",
+    "basic_monthly_sek_ex_vat": 890,
+    "team_monthly_sek_ex_vat": 2990,
+    "annual_billing_months_charged": 10,
+    "features_advertised_basic": [
+      "source-linked tender requirements and risk extraction",
+      "buyer history",
+      "market statistics",
+      "MCP access for AI assistants",
+      "unlimited users",
+      "one tender watch"
+    ],
+    "features_advertised_team_extra": [
+      "winning bidders and competing bidders",
+      "bid-workflow board",
+      "five tender watches",
+      "competitor data in AI assistant"
+    ],
+    "rest_api_advertised_only_in": "custom enterprise plan",
+    "notes": "Published offers and vendor assertions, not independently tested functionality, paying subscriptions, retention or AgentMine willingness to pay."
+  },
+  "cpv72_comparison": {
+    "official_primary_cpv_2025": {
+      "source_url": "https://prod.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/tjansteupphandlingar-vanligast-2025/",
+      "count": 853,
+      "scope": "2025 Swedish procurement notices with CPV 72 as MAIN CPV group"
+    },
+    "fentlig_any_cpv_2025": {
+      "source_url": "https://fentlig.se/upphandlingar/72-it-tjanster-konsulttjanster-och-programvara",
+      "count": 1878,
+      "scope": "2025 Swedish notices with CPV 72 or a subcode, including secondary CPV; vendor compilation",
+      "reported_awards": 843,
+      "source_page_data_as_of": "2026-10-23"
+    },
+    "comparability": "NOT_COMPARABLE: main CPV only versus any matching CPV, potentially different publication/notice and award methodologies; do not interpret the count difference as missed tenders or market growth.",
+    "verified_paying_agentmine_customers": null,
+    "verified_willingness_to_pay": null
+  },
+  "decision": "Generic procurement discovery, document summarization with source citations, supplier intelligence and MCP access are competitive features, not an unserved AgentMine wedge. Prioritize consented buyer intent or independently verified supplier workflow outcomes.",
+  "limitations": "Vendor self-description and public pages only. No subscription test, live user interviews, paid conversion, data rights assessment or representative supplier outcome measurement. Do not contact vendor or create accounts without authorization."
+}
