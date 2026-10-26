@@ -1,0 +1,135 @@
+{
+  "observed_on": "2026-10-26",
+  "evidence_type": "competitor_owned_public_feature_and_price_claims_not_verified_product_usage_or_sales",
+  "competitor": "Tilldelat",
+  "sources": [
+    {
+      "url": "https://tilldelat.se/api",
+      "purpose": "API and MCP feature inventory, access conditions, error codes",
+      "observed_on": "2026-10-26"
+    },
+    {
+      "url": "https://tilldelat.se/pris",
+      "purpose": "Public Pro and Marknadsinsikt prices and dependency",
+      "observed_on": "2026-10-26"
+    }
+  ],
+  "public_offers": {
+    "pro": {
+      "annual_sek_ex_vat": 9950,
+      "monthly_sek_ex_vat": 995,
+      "api_calls_per_day_advertised": 1000
+    },
+    "marknadsinsikt_add_on": {
+      "annual_sek_ex_vat": 9950,
+      "monthly_sek_ex_vat": 995,
+      "requires_paid_pro_plan": true
+    },
+    "combined_minimum": {
+      "annual_sek_ex_vat": 19900,
+      "monthly_sek_ex_vat": 1990,
+      "calculation": "Pro + Marknadsinsikt, excluding VAT; not a verified customer invoice"
+    }
+  },
+  "advertised_features": [
+    {
+      "feature": "market_share_by_group",
+      "api": "marknadsandel",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    },
+    {
+      "feature": "competitor_whitespace_by_CPV_region_and_buyer_type",
+      "api": "whitespace",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    },
+    {
+      "feature": "supplier_competitor_profile_and_incumbency",
+      "api": "konkurrent-profil",
+      "overlap": [
+        "Supplier Growth SaaS"
+      ]
+    },
+    {
+      "feature": "buyer_procurement_cadence_and_next_purchase_signal",
+      "api": "upphandlingsrytm",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    },
+    {
+      "feature": "supplier_concentration_and_market_shape",
+      "api": "marknaden",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    },
+    {
+      "feature": "bidder_intensity_and_low_competition_segments",
+      "api": "anbudsintensitet",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    },
+    {
+      "feature": "supplier_bid_win_loss_history",
+      "api": "anbudshistorik",
+      "overlap": [
+        "Supplier Growth SaaS"
+      ]
+    },
+    {
+      "feature": "head_to_head_supplier_competitor_history",
+      "api": "jamfor-konkurrenter",
+      "overlap": [
+        "Supplier Growth SaaS"
+      ]
+    },
+    {
+      "feature": "bidder_counts_by_buyer",
+      "api": "anbudsgivare",
+      "overlap": [
+        "Supplier Growth SaaS"
+      ]
+    },
+    {
+      "feature": "agent_native_data_access",
+      "api": "MCP/API",
+      "overlap": [
+        "Agent Exchange discovery/access layer"
+      ]
+    },
+    {
+      "feature": "upcoming_expiring_contracts_and_cancellations",
+      "api": "avtal-loper-ut, avbrutna",
+      "overlap": [
+        "Supplier Growth SaaS",
+        "aggregated Lost Demand Intelligence"
+      ]
+    }
+  ],
+  "advertised_constraints": {
+    "marknadsinsikt_requires_add_on": true,
+    "api_restricted_without_paid_plan": true,
+    "unlicensed_api_requests_not_attempted": true,
+    "full_functionality_not_independently_tested": true
+  },
+  "not_observed_or_not_proven": [
+    "Opt-in RFQ buyer-request routing is not established by these pages.",
+    "An agent-to-agent transaction-fee marketplace or x402 payment facilitator is not established by these pages.",
+    "Historical award data and whitespace are not equivalent to observed unmet buyer requests.",
+    "No independently measured correctness, supplier time savings, customer conversion, retention or paid subscriptions."
+  ],
+  "decision_implication": "Do not pitch generic procurement intelligence, supplier concentration, bidder-intensity, whitespace or MCP/API access as unique AgentMine features. Prioritize independently verified buyer-request intent or measured workflow outcomes before building Supplier Growth or Lost Demand products.",
+  "agentmine_verified_paying_customers": null,
+  "agentmine_verified_revenue": null,
+  "attribution": "Public vendor descriptions: Tilldelat (https://tilldelat.se/api and https://tilldelat.se/pris)."
+}
