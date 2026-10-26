@@ -1,0 +1,156 @@
+{
+  "evidence_type": "predeclared_fixed_20_public_directory_display_comparison_not_legal_deadlines_or_supplier_demand",
+  "observed_at_utc": "2026-10-26T14:53:00Z",
+  "observed_at_note": "Public web retrieval on 2026-10-26; some pages were search-engine cached with varying crawl dates, so this is not a synchronized live crawl.",
+  "official_projection_path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
+  "official_projection_observed_at_utc": "2026-10-26T11:47:24.852352+00:00",
+  "selection_rule": "All 20 fixed predeclared TED September 2026 any-CPV72 notices; checked same predictable public directory route for every ID; one inaccessible, retained in denominator.",
+  "directory": "Upphandla",
+  "directory_display_observations": [
+    {
+      "publication_number": "600201-2026",
+      "source_url": "https://upphandla.app/en/tender/600201-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-09-28"
+    },
+    {
+      "publication_number": "601453-2026",
+      "source_url": "https://upphandla.app/en/tender/601453-2026",
+      "display_status": "page_unavailable",
+      "note": "Page not accessible via public web retrieval; do not infer absence or error."
+    },
+    {
+      "publication_number": "601656-2026",
+      "source_url": "https://upphandla.app/en/tender/601656-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-09-28"
+    },
+    {
+      "publication_number": "601730-2026",
+      "source_url": "https://upphandla.app/en/tender/601730-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "602708-2026",
+      "source_url": "https://upphandla.app/en/tender/602708-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-09-27"
+    },
+    {
+      "publication_number": "603727-2026",
+      "source_url": "https://upphandla.app/en/tender/603727-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "605974-2026",
+      "source_url": "https://upphandla.app/en/tender/605974-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-05"
+    },
+    {
+      "publication_number": "606049-2026",
+      "source_url": "https://upphandla.app/en/tender/606049-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "609559-2026",
+      "source_url": "https://upphandla.app/en/tender/609559-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "609601-2026",
+      "source_url": "https://upphandla.app/en/tender/609601-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "610120-2026",
+      "source_url": "https://upphandla.app/en/tender/610120-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "610810-2026",
+      "source_url": "https://upphandla.app/en/tender/610810-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-08"
+    },
+    {
+      "publication_number": "611111-2026",
+      "source_url": "https://upphandla.app/en/tender/611111-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-06"
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_url": "https://upphandla.app/en/tender/612139-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-09-30"
+    },
+    {
+      "publication_number": "612757-2026",
+      "source_url": "https://upphandla.app/en/tender/612757-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "613716-2026",
+      "source_url": "https://upphandla.app/en/tender/613716-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-04"
+    },
+    {
+      "publication_number": "613749-2026",
+      "source_url": "https://upphandla.app/en/tender/613749-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-05"
+    },
+    {
+      "publication_number": "615392-2026",
+      "source_url": "https://upphandla.app/en/tender/615392-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-05"
+    },
+    {
+      "publication_number": "615414-2026",
+      "source_url": "https://upphandla.app/en/tender/615414-2026",
+      "display_status": "no_deadline_displayed"
+    },
+    {
+      "publication_number": "615576-2026",
+      "source_url": "https://upphandla.app/en/tender/615576-2026",
+      "display_status": "date_displayed",
+      "displayed_date": "2026-10-06"
+    }
+  ],
+  "independent_competitor_observations": [
+    {
+      "publication_number": "603727-2026",
+      "source_url": "https://tilldelat.se/upphandling/system-for-strategi-planering-och-uppfoljning-318ec3",
+      "display_status": "participation_date_displayed",
+      "displayed_date": "2026-10-09"
+    },
+    {
+      "publication_number": "606049-2026",
+      "source_url": "https://tilldelat.se/upphandling/eventnat-99e715",
+      "display_status": "participation_date_displayed",
+      "displayed_date": "2026-10-01"
+    },
+    {
+      "publication_number": "609559-2026",
+      "source_url": "https://tilldelat.se/upphandling/lan-och-wifi-389186",
+      "display_status": "participation_date_displayed",
+      "displayed_date": "2026-10-05"
+    },
+    {
+      "publication_number": "615414-2026",
+      "source_url": "https://tilldelat.se/upphandling/crm-system-for-va-och-avfall-forhandlat-forfarande-310abf",
+      "display_status": "participation_date_displayed",
+      "displayed_date": "2026-09-28"
+    }
+  ],
+  "limitations": [
+    "A TED Search API request-receipt date field is an official publication field, not independently verified currently operative legal deadline.",
+    "Upphandla's 'No deadline' is a public UI label; cannot infer why it was absent, internal database coverage or subscriber behavior.",
+    "Tilldelat already displays participation stage and dates for four independently checked examples, so basic stage labeling is not an exclusive AgentMine feature.",
+    "Only one original TED notice HTML was previously checked; 0/20 primary portals and amendment histories were verified.",
+    "Search engine page freshness varies; directory claims may have changed. No supplier decisions, customer payments, willingness to pay or actual savings measured."
+  ]
+}
