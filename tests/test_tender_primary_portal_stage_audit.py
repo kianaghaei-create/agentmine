@@ -117,6 +117,18 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit(*args)
 
+    def test_official_eavrop_access_denied_keeps_portal_unverified(self):
+        args = fixtures()
+        row = args[3]["observations"][0]
+        row["portal_url"] = "https://www.e-avrop.com/vasteras/e-Upphandling/NoticeLink.aspx?id=120492"
+        row["portal_status"] = "not_observed_tool_access"
+        for field in ("portal_stage", "portal_deadline_raw", "portal_date_interpretation"):
+            row.pop(field, None)
+        result = audit(*args)
+        self.assertEqual(result["original_notice_observed_count"], 1)
+        self.assertEqual(result["primary_portal_unverified_count"], 20)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 0)
+
     def test_committed_public_evidence_fixed20_integration(self):
         import json
         from pathlib import Path
@@ -130,9 +142,9 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
             load("ted_fixed20_primary_portal_stage_2026-10-26.json"),
         )
         self.assertEqual(result["fixed_cohort_count"], 20)
-        self.assertEqual(result["original_notice_observed_count"], 2)
-        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 1)
-        self.assertEqual(result["primary_portal_unverified_count"], 19)
+        self.assertEqual(result["original_notice_observed_count"], 4)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 2)
+        self.assertEqual(result["primary_portal_unverified_count"], 18)
         self.assertEqual(result["amendments_checked_count"], 0)
         self.assertEqual(result["verified_operative_deadline_errors"], 0)
 
