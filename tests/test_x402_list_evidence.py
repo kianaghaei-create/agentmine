@@ -78,6 +78,49 @@ class X402ListEvidenceTests(unittest.TestCase):
         value["data"]["traction"]["settlement_count_30d"] = 0
         with self.assertRaises(ValueError): self.parse(value)
 
+    def test_publisher_top_buyer_concentration_and_freshness(self):
+        value = fixture()
+        t = value["data"]["traction"]
+        t["top_1_service_top_buyer_share_pct"] = 98.8
+        t["coverage_of_measured_flow_pct"] = 18.1
+        t["measured_flow_freshness"] = {
+            "stale_sync_groups": 0, "total_sync_groups": 51,
+            "oldest_cursor_age_seconds": 580,
+        }
+        result = self.parse(value)
+        self.assertEqual(result["publisher_top1_service_top_buyer_share_pct"], "98.8")
+        self.assertEqual(result["publisher_implied_top1_buyer_share_of_listed_flow_pct"], "62.74")
+        self.assertEqual(result["publisher_measured_flow_coverage_pct"], "18.1")
+        self.assertEqual(result["publisher_ingest_freshness_at_computation"], "NO_REPORTED_STALE_GROUPS")
+        self.assertEqual(result["publisher_oldest_cursor_age_seconds_at_computation"], 580)
+        self.assertIsNone(result["verified_paying_customers"])
+
+    def test_unknown_freshness_is_not_reported_as_fresh(self):
+        result = self.parse(fixture())
+        self.assertEqual(result["publisher_ingest_freshness_at_computation"], "UNKNOWN")
+        self.assertIsNone(result["publisher_implied_top1_buyer_share_of_listed_flow_pct"])
+
+    def test_rejects_invalid_top_buyer_share_and_coverage(self):
+        for key in ("top_1_service_top_buyer_share_pct", "coverage_of_measured_flow_pct"):
+            for invalid in (True, -1, 101, "NaN"):
+                value = fixture()
+                value["data"]["traction"][key] = invalid
+                with self.subTest(key=key, invalid=invalid), self.assertRaises(ValueError):
+                    self.parse(value)
+
+    def test_rejects_invalid_freshness_counters(self):
+        for freshness in (
+            {"stale_sync_groups": 3, "total_sync_groups": 2, "oldest_cursor_age_seconds": 1},
+            {"stale_sync_groups": True, "total_sync_groups": 51, "oldest_cursor_age_seconds": 1},
+            {"stale_sync_groups": 0, "total_sync_groups": 51, "oldest_cursor_age_seconds": -1},
+            {"stale_sync_groups": 0, "total_sync_groups": 51},
+            "fresh",
+        ):
+            value = fixture()
+            value["data"]["traction"]["measured_flow_freshness"] = freshness
+            with self.subTest(freshness=freshness), self.assertRaises(ValueError):
+                self.parse(value)
+
     def test_input_not_mutated(self):
         value = fixture()
         original = copy.deepcopy(value)
