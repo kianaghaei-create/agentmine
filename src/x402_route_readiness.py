@@ -73,6 +73,10 @@ def evaluate(service, *, observed_at, max_probe_age_seconds=3600):
                     reasons.append('last_success_in_future')
                 elif age > max_probe_age_seconds:
                     reasons.append('last_success_stale')
+                # A success cannot occur after the latest recorded monitor check.
+                # Inconsistent publisher timestamps must not qualify a paid route.
+                if checked is not None and last_success > checked:
+                    reasons.append('last_success_after_last_check')
     return {
         'eligible_for_live_route_candidate': not reasons,
         'reasons': reasons,
