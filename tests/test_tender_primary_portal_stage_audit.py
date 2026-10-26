@@ -105,6 +105,31 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit(*args)
 
+    def test_portal_label_without_date_cannot_count_as_corrobation(self):
+        args = fixtures()
+        args[3]["observations"][0]["portal_deadline_raw"] = "No deadline"
+        with self.assertRaises(ValueError):
+            audit(*args)
+
+    def test_portal_stage_text_without_date_cannot_count(self):
+        args = fixtures()
+        args[3]["observations"][0]["portal_deadline_raw"] = "Final day for applications"
+        with self.assertRaises(ValueError):
+            audit(*args)
+
+    def test_original_transcription_conflicting_with_iso_date_rejected(self):
+        args = fixtures()
+        args[3]["observations"][0]["official_deadline_raw"] = "09/10/2026 23:59 UTC+02"
+        with self.assertRaises(ValueError):
+            audit(*args)
+
+    def test_ambiguous_portal_locale_retained_without_normalization(self):
+        args = fixtures()
+        args[3]["observations"][0]["portal_deadline_raw"] = "Final day for applications 10/1/2026"
+        result = audit(*args)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 1)
+        self.assertFalse(result["items"][0]["operative_deadline_verified"])
+
     def test_future_observation_rejected(self):
         args = fixtures()
         args[3]["observed_on_utc_date"] = "2099-01-01"
