@@ -154,9 +154,11 @@ class StageTests(unittest.TestCase):
         # Questions and bid submission may share a date. An unknown-stage
         # directory's bid label is supported by the explicit bid-stage row.
         official_questions = row('2026-11-06', stage='questions',
-                                 label='questions_deadline', host='questions.example.org')
+                                 label='questions_deadline', kind='official_buyer_submission_portal',
+                                 host='questions.example.org')
         official_bid = row('2026-11-06', stage='bid_submission',
-                           label='bid_deadline', host='bid.example.org')
+                           label='bid_deadline', kind='official_buyer_submission_portal',
+                           host='bid.example.org')
         directory_bid = row('2026-11-06', stage='unknown',
                             label='bid_deadline', host='directory.example.org')
         result = triage(bundle(official_questions, official_bid, directory_bid))
@@ -167,9 +169,11 @@ class StageTests(unittest.TestCase):
 
     def test_unknown_bid_label_flagged_when_no_known_stage_matches(self):
         official_questions = row('2026-11-06', stage='questions',
-                                 label='questions_deadline', host='questions.example.org')
+                                 label='questions_deadline', kind='official_buyer_submission_portal',
+                                 host='questions.example.org')
         official_application = row('2026-11-06', stage='participation_request',
-                                   label='participation_deadline', host='apply.example.org')
+                                   label='participation_deadline', kind='official_buyer_submission_portal',
+                                   host='apply.example.org')
         directory_bid = row('2026-11-06', stage='unknown',
                             label='bid_deadline', host='directory.example.org')
         result = triage(bundle(official_questions, official_application, directory_bid))
@@ -259,6 +263,21 @@ class StageTests(unittest.TestCase):
         self.assertEqual(result['stage_label_review_source_urls'],
                          sorted([a['source_url'], b['source_url']]))
         self.assertEqual(result['stage_aware_triage_status'], 'stage_label_requires_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_unknown_label_cannot_launder_conflicting_nonprimary_stages(self):
+        # An additional unverified directory label cannot resolve two opposing
+        # explicit non-primary claims. All remain review candidates.
+        bid = row('2026-10-27', stage='bid_submission',
+                  label='bid_deadline', host='bid.example.org')
+        apply = row('2026-10-27', stage='participation_request',
+                    label='participation_deadline', host='apply.example.org')
+        unknown = row('2026-10-27', label='bid_deadline',
+                      host='unknown.example.org')
+        result = triage(bundle(bid, apply, unknown))
+        self.assertEqual(result['stage_label_review_source_urls'],
+                         sorted([bid['source_url'], apply['source_url']]))
         self.assertEqual(result['triage_status'], 'manual_primary_source_review')
         self.assertFalse(result['legal_deadline_verified'])
 
