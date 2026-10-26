@@ -22,3 +22,13 @@ Create reproducible public-source collectors with snapshot timestamp, source URL
 
 ## Stop/pivot conditions
 Do not build generic marketplace or payment facilitator if existing providers already satisfy discovery/payment. Avoid prioritizing metrics dominated by a handful of wallets or providers. No live spend, real wallet funding or public monetized deployment without explicit owner approval.
+
+## Weekly execution gate — 2026-10-26
+**Status:** Phase 0; no verified paid demand or revenue. Current technical controls are offline and do not demonstrate real supplier savings or delivery economics.
+1. **Procurement outcome cohort (predeclared):** 20 consecutive, dated CPV 48/72 public notices; record inclusion criteria, source ID, original notice, accessible submission portal, stage, date, amendments, and missing access. Keep primary and third-party labels separate. Analyze mismatch only for independently verified records, with denominator; do not infer legal error from directory differences.
+2. **Supplier preflight comparison:** 3 source-backed example decisions and opt-in paired trials versus current workflow/incumbents. Measure decision correctness, minutes, variable cost and at least 3 explicit price/pilot responses. No private procurement documents without permission. No-response and no-benefit are outcomes.
+3. **Agent routing alternative:** 3 real lawful public-information tasks comparing direct versus proposed routing. Only call delivery or savings *observed* with timestamped independently supported outputs and actual variable cost. Synthetic quotes remain scenarios.
+4. **Monetization gate:** no transaction fee, Supplier Growth SaaS, Lost Demand Intelligence or opt-in RFQ paid launch until actual identifiable consented buyers, a repeatable outcome and credible unit economics. Published x402 wallet settlements and competitor list prices do not meet this gate.
+5. **Licensing:** use Licitera free CC BY 4.0 monthly bulk only with attribution; full history/OData is separately licensed and not authorized for redistribution or competing data API (https://licitera.se/villkor/datamodul, version 2026-10-20).
+**Pivot hypothesis:** charge for independently verified exception resolution (e.g. procurement-stage ambiguity cleared from original notice/portal) or opt-in RFQ fulfillment, not raw API listings. Test buyer need and liability boundaries before building.
+**Sources:** https://licitera.se/oppen-data ; https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=73494 ; https://licitera.se/upphandling/servicearendehanteringssystem-32fcaba7cd ; https://x402-list.com/api/v1/stats ; GitHub Actions https://github.com/kianaghaei-create/agentmine/actions/runs/40288717963 .
