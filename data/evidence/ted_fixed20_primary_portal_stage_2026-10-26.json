@@ -1,0 +1,60 @@
+{
+  "evidence_type": "fixed20_primary_portal_stage_observations",
+  "observed_on_utc_date": "2026-10-26",
+  "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "official_projection_path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
+  "directory_observation_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+  "selection": "First available original+portal stage check within the predeclared fixed 20; retain all 20 in denominator. Other 18 not independently reviewed.",
+  "observations": [
+    {
+      "publication_number": "606049-2026",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/606049-2026/html",
+      "official_stage": "participation_request",
+      "official_deadline_date": "2026-10-01",
+      "official_deadline_raw": "Tidsfrist för mottagande av anbudsansökningar: 01/10/2026 23:59:00 (UTC+02:00)",
+      "portal_url": "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72841",
+      "portal_status": "public_stage_and_date_text",
+      "portal_stage": "participation_request",
+      "portal_deadline_raw": "Final day for applications 10/1/2026",
+      "portal_date_interpretation": "unverified_locale",
+      "amendments_status": "not_checked",
+      "directory_url": "https://upphandla.app/en/tender/606049-2026",
+      "directory_observation": "No deadline",
+      "competitor_url": "https://tilldelat.se/upphandling/eventnat-99e715",
+      "competitor_observation": "Sista ansökningsdag 1 oktober 2026",
+      "caveat": "Original and public submission portal agree this is a qualification/application stage. Portal's numeric date locale not independently confirmed; no amendments or currently operative legal deadline checked."
+    },
+    {
+      "publication_number": "609559-2026",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/609559-2026/html",
+      "official_stage": "participation_request",
+      "official_deadline_date": "2026-10-05",
+      "official_deadline_raw": "Tidsfrist för mottagande av anbudsansökningar: 05/10/2026 23:59:59 (UTC+02:00)",
+      "portal_url": "https://annonser.clira.io/upphandling/2b3ed268-91f4-4464-b025-2fee80044f17",
+      "portal_status": "not_observed_tool_access",
+      "amendments_status": "not_checked",
+      "directory_url": "https://upphandla.app/en/tender/609559-2026",
+      "directory_observation": "No deadline",
+      "caveat": "Official TED original visible; Clira public portal redirected to a page inaccessible to the retrieval tool. No portal stage/date verification; do not count as primary portal-confirmed."
+    }
+  ],
+  "counts": {
+    "predeclared_notices": 20,
+    "official_original_text_observed": 2,
+    "portal_stage_text_observed": 1,
+    "portal_stage_agreement_with_official_original": 1,
+    "directory_no_date_despite_public_primary_portal_date_text": 1,
+    "portal_not_observed_or_unchecked": 19,
+    "amendments_checked": 0,
+    "verified_legal_deadline_errors": 0,
+    "verified_supplier_savings": 0,
+    "verified_paying_customers": 0
+  },
+  "limitations": [
+    "Publicly observed source text, not independent review of all notice amendments.",
+    "English portal numeric date 10/1/2026 has locale ambiguity; do not silently equate with ISO date.",
+    "Directory omission on one case does not imply a legal error, causality, representative prevalence or buyer willingness to pay.",
+    "No paid requests, credentials, private customer data, public deployment or transactions."
+  ],
+  "source_checked_on": "2026-10-26"
+}
