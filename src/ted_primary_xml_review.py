@@ -78,14 +78,19 @@ def parse_notice(xml_bytes, publication_number):
     root = ET.fromstring(xml_bytes)
     # Do not assume an eForms XML schema for every historical TED notice.
     namespace = root.tag.partition("}")[0].lstrip("{") if "}" in root.tag else None
+    # Root-level procedure CPV must not absorb nested lot-level project CPVs.
     procedure = []
+    for node in root:
+        if _local(node.tag) == "ProcurementProject":
+            procedure.extend(_cpv(node))
     lots = []
     for node in root.iter():
-        kind = _local(node.tag)
-        if kind == "ProcurementProject":
-            procedure.extend(_cpv(node))
-        elif kind == "ProcurementProjectLot":
-            lots.append({"lot_id": _first_text(node, "ID"), "main_cpv_codes": _cpv(node)})
+        if _local(node.tag) == "ProcurementProjectLot":
+            codes = _cpv(node)
+            for child in node:
+                if _local(child.tag) == "ProcurementProject":
+                    codes.extend(_cpv(child))
+            lots.append({"lot_id": _first_text(node, "ID"), "main_cpv_codes": sorted(set(codes))})
     # Capture ID/version with their XML field names, not guessed semantics.
     return {
         "publication_number": publication_number,
