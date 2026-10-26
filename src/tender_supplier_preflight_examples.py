@@ -58,6 +58,9 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
     if not isinstance(first, dict) or first.get("publication_number") != SELECTED[0]:
         raise ValueError("missing independent first-record review")
     cards = []
+    incumbent_rows = directory.get("independent_competitor_observations", [])
+    if not isinstance(incumbent_rows, list):
+        raise ValueError("invalid independent competitor observations")
     for number in SELECTED:
         row = projected[number]
         stage = FIELD_TO_STAGE.get(row.get("field_kind"))
@@ -90,6 +93,9 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
             competitor = first.get("directory_claims", [])
             if len(competitor) < 2:
                 raise ValueError("missing first-record directory comparison")
+            competitor = [{"source_url": c["source_url"],
+                           "public_display": c.get("displayed_deadline_date") or c.get("displayed_deadline")}
+                          for c in competitor]
         else:
             p = originals.get(number)
             if not p or p.get("official_stage") != stage:
@@ -111,11 +117,24 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
                 raise ValueError("unsupported portal status")
             if portal_status == "public_stage_and_date_text" and p.get("portal_stage") != stage:
                 raise ValueError("portal stage mismatch")
-            competitor = ([{"source_url": p["competitor_url"],
-                            "display": p["competitor_observation"]}]
-                          if "competitor_url" in p else [])
+            if number == "603727-2026":
+                matching = [c for c in incumbent_rows if c.get("publication_number") == number]
+                if len(matching) != 1 or matching[0].get("display_status") != "participation_date_displayed":
+                    raise ValueError("missing competitor participation display")
+                competitor = [{"source_url": matching[0]["source_url"],
+                               "public_display": "participation_date_displayed: " + matching[0]["displayed_date"]}]
+            else:
+                competitor = ([{"source_url": p["competitor_url"],
+                                "public_display": p["competitor_observation"]}]
+                              if "competitor_url" in p else [])
         if date_value >= day:
             raise ValueError("historical example date is not yet past")
+        for claim in competitor:
+            if (not isinstance(claim.get("source_url"), str)
+                    or not claim["source_url"].startswith("https://")
+                    or not isinstance(claim.get("public_display"), str)
+                    or not claim["public_display"].strip()):
+                raise ValueError("invalid competitor display evidence")
         cards.append({
             "publication_number": number,
             "original_notice_url": original,
@@ -127,6 +146,7 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
             "directory_display_status": d["display_status"],
             "primary_portal_stage_corroborated": portal_status == "public_stage_and_date_text",
             "competitor_examples_count": len(competitor),
+            "competitor_observations": competitor,
             "preflight_action": ACTIONS[number],
             "supplier_bid_no_bid": "UNDETERMINED",
             "historical_not_live_opportunity": True,
