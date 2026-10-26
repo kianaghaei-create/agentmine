@@ -247,5 +247,47 @@ class StageTests(unittest.TestCase):
         self.assertFalse(result['legal_deadline_verified'])
 
 
+    def test_two_explicit_unverified_directories_disagree_on_same_day(self):
+        # Each directory's internally consistent stage/label must not validate
+        # the other. This is a review candidate, not a legal deadline error.
+        a = row('2026-10-27', stage='bid_submission', label='bid_deadline',
+                kind='third_party_summary', host='licitera.se')
+        b = row('2026-10-27', stage='participation_request',
+                label='participation_deadline', kind='third_party_summary',
+                host='tilldelat.se')
+        result = triage(bundle(a, b))
+        self.assertEqual(result['stage_label_review_source_urls'],
+                         sorted([a['source_url'], b['source_url']]))
+        self.assertEqual(result['stage_aware_triage_status'], 'stage_label_requires_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_two_explicit_unverified_directories_agree_on_same_stage(self):
+        a = row('2026-10-27', stage='participation_request',
+                label='participation_deadline', host='first.example.org')
+        b = row('2026-10-27', stage='participation_request',
+                label='participation_deadline', host='second.example.org')
+        result = triage(bundle(a, b))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+
+    def test_two_primary_stages_support_distinct_directory_claims(self):
+        # Separate official stages may legitimately share a date.
+        primary_a = row('2026-10-27', stage='bid_submission', label='bid_deadline',
+                        kind='original_ted_notice', host='ted.europa.eu')
+        primary_b = row('2026-10-27', stage='participation_request',
+                        label='participation_deadline',
+                        kind='official_buyer_submission_portal',
+                        host='buyer.example.org')
+        directory_a = row('2026-10-27', stage='bid_submission', label='bid_deadline',
+                          host='first.example.org')
+        directory_b = row('2026-10-27', stage='participation_request',
+                          label='participation_deadline', host='second.example.org')
+        result = triage(bundle(primary_a, primary_b, directory_a, directory_b))
+        self.assertEqual(result['stage_label_review_source_urls'], [])
+        self.assertEqual(result['triage_status'], 'unverified_display_agreement')
+        self.assertFalse(result['legal_deadline_verified'])
+
+
 if __name__ == '__main__':
     unittest.main()
