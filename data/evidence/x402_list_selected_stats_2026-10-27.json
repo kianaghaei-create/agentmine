@@ -1,0 +1,58 @@
+{
+  "evidence_type": "publisher_selected_fields_not_raw_response",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "source_license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "retrieved_utc_date": "2026-10-27",
+  "source_computed_at_utc": "2026-10-27T01:21:14.729Z",
+  "source_traction_as_of_utc": "2026-10-27T00:42:25.621Z",
+  "selected_publisher_fields": {
+    "total_services": 1001,
+    "total_endpoints": 7632,
+    "payment_ready_count": 930,
+    "verified_count": 13,
+    "measured_services": 747,
+    "unique_buyer_addresses_30d": 9806,
+    "settlement_count_30d": 1797343,
+    "volume_usd_30d": "348759.618669",
+    "top_1_service_share_pct": "71.7",
+    "top_10_services_share_pct": "95.9",
+    "top_1_service_top_buyer_share_pct": "98.7",
+    "top_1_service_imported": true,
+    "coverage_of_measured_flow_pct": "18",
+    "measured_flow_freshness_at_computation": {
+      "oldest_cursor_age_seconds": 374,
+      "stale_sync_groups": 0,
+      "total_sync_groups": 51,
+      "stale_facilitators": 0,
+      "total_facilitators": 39
+    },
+    "facilitator_volume_usd_30d": "1892653.86",
+    "new_listings_30d": 233,
+    "new_listings_7d": 0
+  },
+  "comparison_to": "data/evidence/x402_list_selected_stats_2026-10-26.json",
+  "observed_rolling_window_change_not_daily_flow": {
+    "previous_traction_as_of_utc": "2026-10-26T08:42:00.612Z",
+    "hours_between_traction_snapshots_approx": "16.01",
+    "change_listed_services": 0,
+    "change_measured_services": 1,
+    "change_buyer_addresses_30d": 119,
+    "change_settlement_count_30d": -35023,
+    "change_volume_usd_30d": "-3449.102094",
+    "change_volume_pct_approx": "-0.98",
+    "change_top1_service_share_percentage_points": "0.7",
+    "new_30d_residual_outside_top10_usd_approx": "14299.14",
+    "hypothetical_1pct_fee_if_all_residual_captured_usd_30d": "142.99"
+  },
+  "limitations": [
+    "These are publisher-selected API fields, not the complete raw response or independently audited blockchain settlements.",
+    "Two rolling 30-day snapshots are approximately 16 hours apart, not daily new purchases or a daily customer growth rate.",
+    "Addresses are not independently verified people, businesses, repeat paying customers or AgentMine buyers.",
+    "Top service's flow is imported and top-buyer concentration may include non-independent wallet activity.",
+    "Published measured facilitator coverage is not coverage of all x402 or all agent spending.",
+    "Verified_count is publisher paid delivery probes, not verified paying customers.",
+    "Hypothetical fee assumes complete capture of the non-top-10 slice; it is not AgentMine revenue, profit, TAM or forecast.",
+    "No independently verified AgentMine payments, buyer demand, acquisition cost or variable operating costs."
+  ]
+}
