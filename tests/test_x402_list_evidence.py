@@ -121,6 +121,41 @@ class X402ListEvidenceTests(unittest.TestCase):
             with self.subTest(freshness=freshness), self.assertRaises(ValueError):
                 self.parse(value)
 
+    def test_rejects_zero_flow_with_nonzero_concentration(self):
+        for field in ("top_1_service_share_pct", "top_10_services_share_pct",
+                      "top_1_service_top_buyer_share_pct"):
+            value = fixture()
+            t = value["data"]["traction"]
+            t["volume_usd_30d"] = "0"
+            t["top_1_service_share_pct"] = 0
+            t["top_10_services_share_pct"] = 0
+            t[field] = 50
+            if field == "top_1_service_share_pct":
+                t["top_10_services_share_pct"] = 50
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "zero observed volume"):
+                self.parse(value)
+
+    def test_rejects_positive_flow_without_measured_services_or_leading_share(self):
+        for field in ("measured_services", "top_1_service_share_pct",
+                      "top_10_services_share_pct", "top_1_service_top_buyer_share_pct"):
+            value = fixture()
+            t = value["data"]["traction"]
+            if field == "top_10_services_share_pct":
+                t["top_1_service_share_pct"] = 0
+            t[field] = 0
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                self.parse(value)
+
+    def test_zero_volume_zero_shares_remains_valid(self):
+        value = fixture()
+        t = value["data"]["traction"]
+        t["volume_usd_30d"] = "0"
+        t["top_1_service_share_pct"] = 0
+        t["top_10_services_share_pct"] = 0
+        result = self.parse(value)
+        self.assertEqual(result["flow_outside_top10_usd_30d"], "0.00")
+        self.assertIsNone(result["verified_paying_customers"])
+
     def test_input_not_mutated(self):
         value = fixture()
         original = copy.deepcopy(value)
