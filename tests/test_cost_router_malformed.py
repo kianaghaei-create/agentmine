@@ -51,6 +51,32 @@ class MalformedQuoteTests(unittest.TestCase):
                                 min_quality=0.8, max_total_usd='0.069')['status'],
                          'no_eligible_quote')
 
+
+    def test_source_provenance_is_required_for_selection(self):
+        for source in (None, '', 'http://example.org/data',
+                       'https://user:password@example.org/data',
+                       'https://example.org/data?api_key=private-token',
+                       'https://example.org/data#secret',
+                       'https://example.org:444/data',
+                       'https://example.org:invalid/data'):
+            with self.subTest(source=source):
+                quote = {**VALID, 'source_url': source}
+                result = choose([quote], **PARAMS)
+                self.assertEqual(result['status'], 'no_eligible_quote')
+                self.assertNotIn('private-token', str(result))
+
+    def test_invalid_cheaper_quote_cannot_beat_attributable_offer(self):
+        cheap = {**VALID, 'provider': 'unattributable',
+                 'source_usd': '0.001', 'source_url': None}
+        result = choose([cheap, VALID], **PARAMS)
+        self.assertEqual(result['selected'], 'provider-a')
+        self.assertEqual(result['source'], VALID['source_url'])
+
+    def test_explicit_https_443_source_is_accepted(self):
+        quote = {**VALID, 'source_url': 'https://example.org:443/data'}
+        result = choose([quote], **PARAMS)
+        self.assertEqual(result['selected'], 'provider-a')
+
     def test_does_not_modify_inputs(self):
         quotes = [None, VALID.copy()]
         choose(quotes, **PARAMS)
