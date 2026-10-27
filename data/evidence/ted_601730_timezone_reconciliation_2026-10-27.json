@@ -1,0 +1,57 @@
+{
+  "evidence_type": "fixed20_secondary_full_notice_timestamp_timezone_reconciliation_not_primary_confirmation",
+  "observed_on_utc_date": "2026-10-27",
+  "publication_number": "601730-2026",
+  "cohort_fixed": true,
+  "full_notice_transcription": {
+    "source": "eVergabe (third-party reproduction of TED notice)",
+    "source_url": "https://www.evergabe.com/fr/appels-doffres/omvarldsanalysverktyg-2425209/",
+    "retrieval": "public webpage directly read 2026-10-27",
+    "field_label": "Tidsfrist för mottagande av anbudsansökningar",
+    "field_raw": "20/09/2026 00:00 +02:00",
+    "stage": "participation_request",
+    "local_datetime": "2026-09-20T00:00:00+02:00",
+    "utc_datetime": "2026-09-19T22:00:00.000Z",
+    "local_calendar_date": "2026-09-20",
+    "utc_calendar_date": "2026-09-19",
+    "evidence_grade": "secondary reproduction, not original TED HTML or XML"
+  },
+  "other_observations": [
+    {
+      "source": "Tendova",
+      "url": "https://tendova.eu/sv/tenders/c6f8ced7-b068-4dec-b013-df3644e0a127",
+      "display": "Ansökningsfrist 19 sep. 2026; header Ingen deadline angiven",
+      "retrieval": "web search result / indexed text, direct page not independently revalidated",
+      "possible_explanation": "UTC calendar date from 20 Sep 00:00 +02:00; timezone rendering unconfirmed"
+    },
+    {
+      "source": "TenderPipe",
+      "url": "https://tenderpipe.com/tender/omvarldsanalysverktyg-6feb43bc/",
+      "display": "20 Sep 2026 Submission deadline",
+      "retrieval": "public webpage read 2026-10-27",
+      "possible_explanation": "local +02 calendar date; generic stage label does not distinguish participation requests"
+    },
+    {
+      "source": "Upphandla",
+      "url": "https://upphandla.app/en/tender/601730-2026",
+      "display": "No deadline",
+      "retrieval": "public webpage read 2026-10-27",
+      "possible_explanation": "date omitted despite full-notice transcription; omission not independently checked against primary"
+    }
+  ],
+  "linked_submission_portal": {
+    "url": "https://www.e-avrop.com/trafiknamnden/e-Upphandling/NoticeLink.aspx?id=134223",
+    "source": "eVergabe notice reproduction",
+    "retrieval": "direct public portal retrieval unsuccessful",
+    "stage_and_date_verified": false
+  },
+  "official_primary": {
+    "url": "https://ted.europa.eu/sv/notice/601730-2026/html",
+    "original_html_retrieved": false,
+    "amendments_checked": false,
+    "operative_deadline_verified": false
+  },
+  "conclusion": "A precisely quoted secondary notice timestamp maps to two different calendar dates (20 September local and 19 September UTC), providing a concrete non-error explanation for third-party 19-versus-20 date labels. This does not prove that any directory actually used UTC or that the legal deadline remained unchanged.",
+  "counting_policy": "Do not increase fixed-20 official-original or accessible-primary-portal counts (remain 5/20 and 2/20). No buyer, savings, sales or price validation.",
+  "source_rights": "Short factual field transcription and source links for narrow research; no bulk copying, account access, paid request or restricted-access bypass."
+}
