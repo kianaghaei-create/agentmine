@@ -1,5 +1,20 @@
 """Offline quote routing: compare licensed, verified information offers."""
 from decimal import Decimal, InvalidOperation
+from urllib.parse import urlsplit
+
+
+def _public_source_url(value):
+    """Require an attributable HTTPS source without embedded credentials."""
+    if not isinstance(value, str) or not value or len(value) > 2048:
+        return False
+    try:
+        parsed = urlsplit(value)
+        return (parsed.scheme == 'https' and bool(parsed.hostname)
+                and parsed.username is None and parsed.password is None
+                and parsed.port in (None, 443)
+                and not parsed.query and not parsed.fragment)
+    except ValueError:
+        return False
 
 def _budget(value):
     """A missing, nonfinite or negative budget must never permit a route."""
@@ -28,6 +43,9 @@ def choose(quotes, *, max_age_seconds, min_quality, max_total_usd):
         try:
             if not isinstance(q.get('provider'),str) or not q['provider'].strip(): continue
             if q.get('license_allowed') is not True or q.get('verified') is not True: continue
+            # A quote with no safe source cannot be traced or independently audited.
+            # Caller-provided license/verification flags are still not proof.
+            if not _public_source_url(q.get('source_url')): continue
             age=q['age_seconds']; quality=q['quality']
             if isinstance(age,bool) or isinstance(quality,bool) or not isinstance(age,(int,float)) or not isinstance(quality,(int,float)): continue
             if not (0<=age<float('inf') and age<=max_age_seconds and 0<=quality<=1 and quality>=min_quality): continue
