@@ -1,0 +1,60 @@
+{
+  "evidence_type": "selected_fixed20_cross_directory_display_disagreement_not_primary_or_buyer_validation",
+  "source_checked_on_utc_date": "2026-10-27",
+  "publication_number": "601730-2026",
+  "buyer": "Region Stockholm - Trafiknämnden",
+  "title": "Omvärldsanalysverktyg",
+  "selection": "Follow-up on one predeclared September 2026 fixed-20 CPV72 notice; not a random sample, rate estimate or operative deadline audit.",
+  "official_projected_field": {
+    "source": "https://api.ted.europa.eu/v3/notices/search",
+    "repository_evidence_path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
+    "projection_observed_at_utc": "2026-10-26T11:47:24.852352+00:00",
+    "field_kind": "deadline-receipt-request-date-lot",
+    "main_cpv": "72000000",
+    "interpretation": "The official Search API projection classifies the field as a participation-request deadline; this selected projection does not contain the actual original deadline value, amendment history or portal confirmation."
+  },
+  "public_display_observations": [
+    {
+      "source": "Upphandla",
+      "source_url": "https://upphandla.app/en/tender/601730-2026",
+      "retrieval_kind": "public_web_page_read_2026-10-27",
+      "displayed_deadline": "No deadline",
+      "stage_label": "none",
+      "caveat": "Absence of a displayed deadline is not proof that the official notice has no deadline."
+    },
+    {
+      "source": "TenderPipe",
+      "source_url": "https://tenderpipe.com/tender/omvarldsanalysverktyg-6feb43bc/",
+      "retrieval_kind": "public_web_page_read_2026-10-27",
+      "displayed_deadline": "20 Sep 2026",
+      "stage_label": "Submission deadline",
+      "caveat": "Generic submission label; cannot independently establish bid versus participation stage or cutoff instant."
+    },
+    {
+      "source": "Tendova",
+      "source_url": "https://tendova.eu/sv/tenders/c6f8ced7-b068-4dec-b013-df3644e0a127",
+      "retrieval_kind": "search_index_excerpt_seen_2026-10-27_direct_page_403",
+      "displayed_header": "Ingen deadline angiven",
+      "displayed_detail": "Ansökningsfrist 19 sep. 2026",
+      "stage_label": "participation_application",
+      "caveat": "Search-indexed excerpt only; direct page returned HTTP 403. Its header/detail disagreement is not independently confirmed on a freshly retrieved page."
+    }
+  ],
+  "observed_signal": "One predeclared notice has a directly readable no-date display and a directly readable generic 20 September display; a search-indexed third-party page shows an application date of 19 September alongside a no-deadline header.",
+  "possible_non_error_explanations": [
+    "UTC/local calendar boundary",
+    "bid-versus-application stage semantics",
+    "publisher cache or update lag",
+    "separate lot deadlines"
+  ],
+  "legal_deadline_verified": false,
+  "official_original_notice_text_retrieved_this_check": false,
+  "amendments_checked": false,
+  "official_submission_portal_checked": false,
+  "measured_supplier_time_saved_minutes": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue_sek": null,
+  "commercial_validation": "NOT_VALIDATED",
+  "next_step": "Review original TED notice, amendments and public buyer submission portal when lawfully accessible; only then test whether a supplier would value resolving this specific exception versus existing incumbent features.",
+  "source_rights": "Public pages were read for narrow descriptive research only; no competitor data bulk extraction, redistribution, login, payment or restricted-access bypass."
+}
