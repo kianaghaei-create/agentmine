@@ -5,7 +5,7 @@ and service attribution can overlap. Directory listings are supply; buyer
 addresses are not independently verified customers. No network or payments.
 """
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import argparse
 import json
@@ -43,6 +43,8 @@ def analyze(snapshot):
         raise ValueError('invalid observation time') from exc
     if timestamp.tzinfo is None or timestamp.utcoffset() is None:
         raise ValueError('observation time must have timezone')
+    if timestamp.astimezone(timezone.utc) > datetime.now(timezone.utc):
+        raise ValueError('observation time cannot be in the future')
     rows = snapshot.get('records')
     total = snapshot.get('publisher_total_listings')
     complete = snapshot.get('complete_directory_snapshot')
