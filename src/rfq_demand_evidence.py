@@ -52,7 +52,13 @@ def _validate(row):
         raise ValueError("invalid created_at") from exc
     if dt.tzinfo is None or dt.utcoffset() is None:
         raise ValueError("created_at must have timezone")
-    return dt.astimezone(timezone.utc)
+    observed = dt.astimezone(timezone.utc)
+    # A future-dated request is not observed opt-in demand, even when the
+    # caller labels it consented or synthetic. Reject the entire snapshot
+    # instead of silently including a future month in demand aggregates.
+    if observed > datetime.now(timezone.utc):
+        raise ValueError("created_at cannot be in the future")
+    return observed
 
 
 def aggregate_opt_in_rfqs(rows, minimum_requests=10, minimum_buyer_tokens=5,
