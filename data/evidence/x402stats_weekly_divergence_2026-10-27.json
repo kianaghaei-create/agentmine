@@ -1,0 +1,50 @@
+{
+  "evidence_type": "third_party_weekly_x402_wallet_flow_comparison_not_verified_agentmine_demand",
+  "review_date_utc": "2026-10-27",
+  "publisher": "x402stats — State of x402",
+  "source_url": "https://x402stats.io/llms-full.txt",
+  "methodology_url": "https://x402stats.io/methodology",
+  "publisher_source_updated_at_utc": "2026-10-27T03:51:22.064Z",
+  "publisher_methodology_version": "2026-07-01.v1",
+  "license": "CC BY 4.0",
+  "attribution": "x402stats — State of x402, x402stats.io",
+  "window_note": "Weekly dated points are overlapping rolling 30-day windows, not disjoint weekly flows or weekly revenue.",
+  "weekly_snapshots": [
+    {
+      "as_of_date": "2026-10-19",
+      "raw_reported_wallet_volume_usd": "1226015.486376337",
+      "publisher_heuristic_organic_volume_usd": "710273.3020830004",
+      "qualifying_organic_seller_wallets": 92
+    },
+    {
+      "as_of_date": "2026-10-26",
+      "raw_reported_wallet_volume_usd": "1551544.402830101",
+      "publisher_heuristic_organic_volume_usd": "663730.216978",
+      "qualifying_organic_seller_wallets": 93
+    }
+  ],
+  "rolling_window_comparison": {
+    "raw_reported_volume_difference_usd": "325528.92",
+    "raw_reported_volume_difference_pct": 26.55,
+    "heuristic_organic_volume_difference_usd": "-46543.09",
+    "heuristic_organic_volume_difference_pct": -6.55,
+    "heuristic_organic_share_previous_pct": 57.93,
+    "heuristic_organic_share_latest_pct": 42.78,
+    "heuristic_organic_share_change_percentage_points": -15.15
+  },
+  "latest_headline_additional_publisher_claims": {
+    "seller_wallets_with_any_revenue": 13650,
+    "qualifying_organic_seller_wallets": 93,
+    "qualifying_organic_seller_wallets_as_pct_of_any_revenue_wallets": 0.68,
+    "median_seller_revenue_usd": "0.05",
+    "top_ten_wallets_share_of_reported_volume_pct": 85
+  },
+  "limitations": [
+    "Raw wallet flow is not verified organic commercial demand; the organic classification is a publisher-defined heuristic, not independently audited customer revenue.",
+    "Seller wallets and buyer addresses are not distinct businesses or customers; facilitator settlement and self-dealing classification may be incomplete.",
+    "The two rolling windows overlap by roughly 23 days; differences are changes in rolling totals, not transactions executed during the intervening week.",
+    "Do not equate this publisher's raw/organic figures with x402 List's deduplicated listed-service slice: coverage, deduplication and windows differ.",
+    "No AgentMine paying customer, conversion, acquisition cost, supplier savings or AgentMine revenue is established."
+  ],
+  "decision_implication": "Do not promote generic x402 transaction-fee exchange from growth in unfiltered wallet volume; prioritize validated independent buyer workflow outcomes and net unit economics."
+}
