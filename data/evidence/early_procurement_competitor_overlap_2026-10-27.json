@@ -1,0 +1,72 @@
+{
+  "evidence_type": "vendor_owned_public_offer_and_terms_not_verified_sales",
+  "observed_on_utc_date": "2026-10-27",
+  "acquisition_method": "Manual read-only review of vendor-owned publicly accessible pages; no account, API key, trial signup, purchase or automated extraction.",
+  "vendors": [
+    {
+      "name": "Consens",
+      "operator": "Nodtech AB",
+      "offer_url": "https://consens.se/",
+      "pricing_url": "https://consens.se/testa",
+      "terms_url": "https://consens.se/villkor",
+      "public_price": {
+        "amount_sek": 595,
+        "unit": "per user per month",
+        "vat": "included",
+        "trial_days": 14,
+        "trial_requires_card": true
+      },
+      "advertised_features": [
+        "Planned procurements derived from public decisions/budgets and procurement plans",
+        "Contract-expiry signals and incumbent supplier monitoring",
+        "Supplier register and sector concentration insights",
+        "Municipal supplier invoiced amounts where local open spending data are published",
+        "Exports and source links"
+      ],
+      "public_claims_not_audited": {
+        "supplier_register_businesses": "over 17000",
+        "market_signal_horizon": "often 1-3 years before announcement"
+      },
+      "rights": "Terms prohibit systematic copying of large parts of database and resale; export only for own organization.",
+      "terms_last_updated_observed": "2026-10-27",
+      "buyer_or_revenue_verification": "NONE"
+    },
+    {
+      "name": "Framkoll",
+      "offer_url": "https://www.framkoll.com/",
+      "pricing_url": "https://www.framkoll.com/priser",
+      "terms_url": "https://www.framkoll.com/villkor",
+      "public_price": {
+        "one_time_report_sek_ex_vat": 1690,
+        "one_time_promotional_end": "2026-12-31",
+        "monthly_report_first_month_sek_ex_vat": 1690,
+        "monthly_report_subsequent_months_sek_ex_vat": 990
+      },
+      "advertised_features": [
+        "Personalized shortlist of up to 15 upcoming contract expiries",
+        "Incumbent supplier and past bid count",
+        "Estimated win chance and recommended approach",
+        "Monthly refreshed personalized report"
+      ],
+      "eligibility": "Vendor states reports require company to have submitted at least three bids since 2024.",
+      "rights": "Terms prohibit onward sale as own data service and large-scale automated extraction to recreate database.",
+      "terms_last_updated_observed": "2026-10-14",
+      "buyer_or_revenue_verification": "NONE"
+    }
+  ],
+  "analysis": {
+    "new_overlap": [
+      "Early procurement signals before notices",
+      "Contract-expiry and incumbent intelligence",
+      "Supplier concentration",
+      "Personalized opportunity recommendations"
+    ],
+    "remaining_hypotheses_unverified": [
+      "Independently verified original-vs-portal exception resolution with measured supplier time/correctness benefit",
+      "Opt-in unmatched RFQ demand with consented buyer and supplier evidence"
+    ],
+    "market_signal_type": "Advertised competing products and asking prices only; not paying-user counts, conversion, independently verified savings, or proof of AgentMine demand.",
+    "no_data_reuse": "Do not ingest or resell these vendors' compiled databases; use lawful primary sources and honor source rights.",
+    "monetization_gate": "Phase 0: no launch until consented paired supplier outcomes, explicit price/pilot responses and credible unit economics."
+  }
+}
