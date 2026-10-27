@@ -101,6 +101,15 @@ def summarize(payload, *, fetched_at):
         raise ValueError("top_1_service_imported must be boolean")
     if (services == 0 and (endpoints or measured or volume or settlements or top1 or top10)) or (settlements == 0 and volume):
         raise ValueError("inconsistent service/settlement counts")
+    # Concentration percentages are undefined without positive observed flow.
+    # Conversely, positive measured flow must have an observed service, a
+    # settlement, and a positive leading-service share. Fail closed instead
+    # of publishing a misleading concentration or residual fee estimate.
+    if volume == 0 and (top1 or top10 or (buyer_share is not None and buyer_share)):
+        raise ValueError("nonzero concentration with zero observed volume")
+    if volume > 0 and (measured == 0 or top1 == 0 or top10 == 0
+                       or (buyer_share is not None and buyer_share == 0)):
+        raise ValueError("positive volume requires measured services and positive concentration")
     outside_top10 = volume * (Decimal(100) - top10) / Decimal(100)
     cent = Decimal("0.01")
     return {
