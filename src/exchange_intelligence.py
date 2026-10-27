@@ -37,7 +37,12 @@ def aggregate(requests: Iterable[Request], minimum_count: int = 10) -> list[dict
                 or not request.currency.isascii()
                 or not request.currency.isalpha()):
             raise ValueError("invalid currency")
-        groups[(request.category.strip(), request.currency.upper())].append(request)
+        # Category labels are case-insensitive human labels, not stable IDs.
+        # Normalizing before the suppression threshold prevents whitespace/case
+        # variants from fragmenting the same self-declared demand cohort.
+        # This does NOT establish verified demand or a canonical taxonomy.
+        category = request.category.strip().casefold()
+        groups[(category, request.currency.upper())].append(request)
     result = []
     for (category, currency), rows in sorted(groups.items()):
         if len(rows) < minimum_count:
