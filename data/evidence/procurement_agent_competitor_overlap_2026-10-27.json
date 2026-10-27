@@ -1,0 +1,125 @@
+{
+  "observed_on_utc_date": "2026-10-27",
+  "evidence_type": "public_vendor_owned_pricing_capability_and_terms_not_independent_product_or_sales_verification",
+  "selection_method": "Targeted competitor check prompted by existing AgentMine Supplier Growth, agent-native procurement and aggregate intelligence hypotheses; not a representative vendor sample.",
+  "vendors": [
+    {
+      "vendor": "Tilldelat",
+      "offer": "Pro",
+      "pricing": {
+        "annual_sek_ex_vat": 9950,
+        "month_to_month_sek_ex_vat": 995,
+        "annual_equivalent_monthly_sek_ex_vat_advertised": 829
+      },
+      "api_mcp": {
+        "advertised_calls_per_day": 1000,
+        "available_with_pro": true,
+        "advertised_mcp_tools": 21
+      },
+      "advertised_capabilities": [
+        "tender_search_and_matching",
+        "source_attributed_awards",
+        "supplier_winner_tracking",
+        "contract_expiry_alerts",
+        "cancellation_and_reissue_signals",
+        "company_profile_matching",
+        "API_and_MCP_agent_access"
+      ],
+      "sources": [
+        "https://tilldelat.se/pris",
+        "https://tilldelat.se/api"
+      ],
+      "limits": "Vendor advertising only; no AgentMine trial, performance audit, subscriptions or revenue evidence."
+    },
+    {
+      "vendor": "Tilldelat",
+      "offer": "Marknadsinsikt add-on; requires Pro",
+      "pricing": {
+        "annual_sek_ex_vat": 9950,
+        "month_to_month_sek_ex_vat": 995,
+        "additional_to_pro": true
+      },
+      "advertised_capabilities": [
+        "supplier_group_award_share_and_concentration",
+        "competitor_whitespace_by_CPV_region_and_buyer_type",
+        "tender_bid_intensity_by_CPV_and_region",
+        "historical_winner_and_loser_comparisons",
+        "buyer_procurement_rhythm",
+        "incumbency_and_expiring_contracts",
+        "insights_via_API_and_MCP"
+      ],
+      "sources": [
+        "https://tilldelat.se/pris",
+        "https://tilldelat.se/api"
+      ],
+      "limits": "Whitespace from awards/competition is NOT the same as independently measured unmatched agent RFQs. Vendor claims not independently function-tested; no observed sales."
+    },
+    {
+      "vendor": "Offson",
+      "offer": "Start / Pro / one-off bid",
+      "pricing": {
+        "start_sek": 0,
+        "start_ai_analyses_per_month": 10,
+        "pro_monthly_sek_including_vat": 599,
+        "one_off_bid_sek_including_vat": 299
+      },
+      "advertised_capabilities": [
+        "tender_matching",
+        "requirements_checklist",
+        "AI_bid_document_draft",
+        "bid_quality_review",
+        "PDF_DOCX_export_and_attachments",
+        "company_profile_based_filling"
+      ],
+      "sources": [
+        "https://offson.se/pricing",
+        "https://offson.se/"
+      ],
+      "limits": "Advertised functionality/prices only; no verification of actual completeness, correctness, adoption, cost or paid conversions."
+    },
+    {
+      "vendor": "Tendello",
+      "offer": "Public TED-only search",
+      "pricing": {
+        "advertised_public_search_requires_account": false,
+        "price_for_advanced_features": "not established"
+      },
+      "advertised_capabilities": [
+        "TED_search_and_filters",
+        "CPV_and_location_filters",
+        "source_notice_navigation",
+        "open_tender_browsing"
+      ],
+      "sources": [
+        "https://tendello.se/"
+      ],
+      "limits": "TED-only import; does not claim full Swedish national coverage; no verified paying users or performance."
+    }
+  ],
+  "data_rights": {
+    "source": "https://tilldelat.se/villkor",
+    "terms_effective_date": "2026-09-08",
+    "api_mcp": "Account-specific use inside own business and systems; vendor terms prohibit republication/resale as own service.",
+    "public_registry": "Public browsing and attribution permitted; automated extraction of all or substantial parts and redistribution/resale prohibited under vendor terms.",
+    "agentmine_action": "Do not ingest bulk Tilldelat registry or use their API/MCP to build a competing data product without separate permission."
+  },
+  "overlap_assessment": {
+    "generic_agent_native_procurement_search": "high_advertised_overlap_Tilldelat",
+    "supplier_growth_monitoring_and_preflight": "high_advertised_overlap_Tilldelat_Offson",
+    "award_based_supplier_concentration_and_whitespace": "high_advertised_overlap_Tilldelat_Marknadsinsikt",
+    "opt_in_unmatched_RFQ_aggregation": "not_equivalent_to_award_based_whitespace_no_validation",
+    "independently_verified_stage_exception_resolution": "potential_differentiation_requires_proof_against_incumbents"
+  },
+  "evidence_not_established": [
+    "vendor_sales",
+    "vendor_paid_customers",
+    "vendor_retention",
+    "actual_api_success_or_latency",
+    "verified_coverage_or_error_rates",
+    "AgentMine_buyers",
+    "AgentMine_revenue",
+    "AgentMine_saved_minutes",
+    "AgentMine_willingness_to_pay"
+  ],
+  "decision": "Do not build generic supplier concentration/whitespace, generic AI bid writing, or agent-facing tender API as an unvalidated wedge. Preserve narrowly testable primary-source exception resolution or opt-in unmatched RFQ outcomes as hypotheses, contingent on real buyer/supplier paired tasks, permission and unit economics."
+}
