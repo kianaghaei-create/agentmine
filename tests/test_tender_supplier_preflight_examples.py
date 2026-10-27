@@ -64,7 +64,7 @@ class HistoricalPreflightTests(unittest.TestCase):
         for row in args[3]['observations']:
             if row['publication_number'] == '610120-2026':
                 row['official_deadline_date'] = '2026-10-08'
-        with self.assertRaisesRegex(ValueError, 'transcription mismatch'):
+        with self.assertRaisesRegex(ValueError, 'original raw date contradicts normalized original date'):
             build(*args)
 
     def test_rejects_missing_cohort_member(self):
@@ -78,7 +78,7 @@ class HistoricalPreflightTests(unittest.TestCase):
         for row in args[2]['directory_display_observations']:
             if row['publication_number'] == '600201-2026':
                 row['source_url'] = 'https://example.org/600201-2026'
-        with self.assertRaisesRegex(ValueError, 'not bound'):
+        with self.assertRaisesRegex(ValueError, 'unbound directory source'):
             build(*args)
 
     def test_rejects_false_amendment_clearance(self):
@@ -86,7 +86,7 @@ class HistoricalPreflightTests(unittest.TestCase):
         for row in args[3]['observations']:
             if row['publication_number'] == '603727-2026':
                 row['amendments_status'] = 'cleared'
-        with self.assertRaisesRegex(ValueError, 'amendment clearance'):
+        with self.assertRaisesRegex(ValueError, 'unverified amendment status must not claim clearance'):
             build(*args)
 
     def test_rejects_historical_example_used_as_current(self):
