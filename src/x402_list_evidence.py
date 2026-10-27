@@ -6,6 +6,7 @@ are not people; catalog listings are not AgentMine customers.
 import argparse
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+import hashlib
 import json
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -163,10 +164,20 @@ def main():
     source.add_argument("--fetch", action="store_true", help="Explicit free read-only API request")
     source.add_argument("--input", type=Path, help="Saved original API JSON")
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--fetched-at", help="Original UTC/offset-aware HTTP fetch completion timestamp; required when replaying --input")
     args = parser.parse_args()
+    if args.input and not args.fetched_at:
+        parser.error("--input requires --fetched-at; processing time is not the original fetch time")
+    if args.fetch and args.fetched_at:
+        parser.error("--fetched-at is only valid with --input")
     raw = fetch_raw() if args.fetch else args.input.read_text(encoding="utf-8")
-    fetched_at = datetime.now(timezone.utc).isoformat()
+    processed_at = datetime.now(timezone.utc).isoformat()
+    fetched_at = processed_at if args.fetch else args.fetched_at
     summary = summarize(json.loads(raw), fetched_at=fetched_at)
+    summary["processed_at"] = processed_at
+    summary["fetch_timestamp_basis"] = ("http_fetch_completed_this_run" if args.fetch
+                                        else "user_supplied_original_fetch_timestamp")
+    summary["raw_sha256"] = hashlib.sha256(raw.encode("utf-8")).hexdigest()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     (args.output_dir / f"x402_list_{stamp}_raw.json").write_text(raw, encoding="utf-8")
