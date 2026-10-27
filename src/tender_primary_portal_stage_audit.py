@@ -123,6 +123,16 @@ def audit(cohort, official, directory, primary):
                 # displayed date. Keep numeric portal locale ambiguous.
                 if not re.search(r"(?<!\d)\d{1,2}/\d{1,2}/\d{4}(?!\d)", row["portal_deadline_raw"]):
                     raise ValueError("public portal date token missing")
+                # A numeric portal date alone is insufficient: it must agree
+                # with the original under at least one DD/MM or MM/DD reading.
+                # This does NOT resolve the portal locale or amended legal date.
+                tokens = re.findall(r"(?<!\d)(\d{1,2})/(\d{1,2})/(\d{4})(?!\d)",
+                                    row["portal_deadline_raw"])
+                if not any(int(year) == original_date.year and
+                           (int(a), int(b)) in ((original_date.day, original_date.month),
+                                               (original_date.month, original_date.day))
+                           for a, b, year in tokens):
+                    raise ValueError("portal date conflicts with original under both numeric locales")
                 if row.get("portal_date_interpretation") != "unverified_locale":
                     raise ValueError("do not silently parse ambiguous portal date")
                 if row["portal_stage"] != original_stage:
