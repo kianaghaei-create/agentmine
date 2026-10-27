@@ -121,6 +121,14 @@ class HistoricalPreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'untrusted source URL'):
             build(*args)
 
+    def test_rejects_false_corroboration_with_unrelated_portal_date(self):
+        args = real()
+        for row in args[3]['observations']:
+            if row['publication_number'] == '603727-2026':
+                row['portal_deadline_raw'] = 'Final day for applications 11/9/2026'
+        with self.assertRaisesRegex(ValueError, 'portal date conflicts with original'):
+            build(*args)
+
     def test_rejects_future_primary_observation(self):
         args = real()
         args[3]['observed_on_utc_date'] = '2099-01-01'
