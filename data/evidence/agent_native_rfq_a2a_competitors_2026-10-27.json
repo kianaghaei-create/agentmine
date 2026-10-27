@@ -1,0 +1,80 @@
+{
+  "evidence_type": "public_vendor_owned_agent_rfqs_and_a2a_competition_not_verified_activity",
+  "observed_on_utc_date": "2026-10-27",
+  "scope": "Non-exhaustive, public-page read-only competitive check of agent-native RFQ creation, opt-in supplier workflows, agent-to-agent B2B exchange and advertised fees. Complements 2026-10-14 RFQ competitor file; not a market census.",
+  "competitors": [
+    {
+      "vendor": "Faktorist",
+      "official_sources": [
+        "https://faktorist.com/agents",
+        "https://faktorist.com/terms",
+        "https://faktorist.com/"
+      ],
+      "advertised_capabilities": [
+        "MCP/A2A supplier discovery",
+        "scoped signed buyer mandates",
+        "post-rfq",
+        "negotiate-deal",
+        "supplier-side quoting",
+        "Deal Room transaction acceptance"
+      ],
+      "published_subscription_eur_monthly": {
+        "free": 0,
+        "connect": 39,
+        "trade": 129,
+        "scale": 399
+      },
+      "fee_terms": "Terms dated 2026-09-15 say Deal Room default per-role fee is 0%; nonzero fees may be disclosed for a specific deal and require acceptance. Not a proven effective take rate.",
+      "supplier_count_quality": "Agents page/terms claim 17,668+ verified suppliers, while home page claims 11,949; neither figure independently audited and the inconsistent site figures must not be used as verified concentration, usage, or revenue.",
+      "data_rights": "Terms prohibit scraping/harvesting without written permission and systematic trade-data export for competing products.",
+      "evidence_class": "vendor_advertisement_and_terms_not_tested_product_or_paid_deals"
+    },
+    {
+      "vendor": "PROCAI",
+      "official_sources": [
+        "https://www.procai.world/pricing",
+        "https://www.procai.world/ai-procurement-agents"
+      ],
+      "advertised_capabilities": [
+        "RFQ email intake and attachment extraction",
+        "supplier selection from user's own lists",
+        "human approval or automated sending",
+        "reply tracking",
+        "quote comparisons"
+      ],
+      "published_pricing_usd_monthly": {
+        "free": 0,
+        "individual": 39,
+        "team": 119,
+        "professional": 349,
+        "enterprise_from": 799
+      },
+      "published_free_limit": "30 manually sent RFQs/month, up to 20 suppliers per RFQ; AI agent is a one-time 7-day trial with 70 requests on Free/Individual, not permanently free agent automation.",
+      "published_paid_agent_quotas": "Team 100, Professional 400 AI agent requests/month; additional Team+ packs 50 for USD 49, 150 for USD 129, 300 for USD 219.",
+      "evidence_class": "vendor_advertisement_not_verified_utilization_or_sales"
+    },
+    {
+      "vendor": "Buyer24",
+      "official_sources": [
+        "https://buyer24.ai/",
+        "https://buyer24.ai/free-quote-comparison"
+      ],
+      "advertised_capabilities": [
+        "opt-in supplier invitation through buyer referral",
+        "AI supplier sourcing and RFQ email workflow",
+        "reply normalization and quote comparison",
+        "supplier-side exposure to live RFQs"
+      ],
+      "published_price_claims": "Free to start; no commission on distributor deals; supplier joining by buyer referral is advertised as free. Full enterprise economics and actual realized fees are unknown.",
+      "published_activity_caveat": "Homepage's dynamic counters/quotes are vendor claims and not independently audited transactions, RFQs, buyers or revenue.",
+      "evidence_class": "vendor_advertisement_not_verified_live_demand"
+    }
+  ],
+  "comparison_to_agentmine": "Generic opt-in RFQ, agent RFQ drafting, supplier discovery and MCP/A2A B2B matching are already advertised; differentiated outcome or verified niche buyer pain is required. Do not assume the competitors' live functionality, verified buyers, supplier counts, or monetization from marketing pages.",
+  "strategic_gate": "Keep Phase 0. Do not launch generic RFQ marketplace or transaction-fee exchange. Continue 3 lawful direct-vs-route task outcomes OR consented paired supplier decisions with independently checked correctness/minutes/variable cost and >=3 explicit price/pilot responses. Test source-conflict exception resolution only if incumbents demonstrably fail a real task.",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_agentmine_willingness_to_pay": null,
+  "verified_agentmine_supplier_savings": null,
+  "acquisition": "Read only public individual vendor pages and terms; no account, scraping, bulk extraction, private data, payments or deployment."
+}
