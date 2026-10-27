@@ -130,6 +130,27 @@ class PrimaryPortalStageAuditTests(unittest.TestCase):
         self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 1)
         self.assertFalse(result["items"][0]["operative_deadline_verified"])
 
+    def test_portal_date_conflicting_with_original_rejected(self):
+        args = fixtures()
+        # The portal displays a date, but neither DD/MM nor MM/DD matches
+        # the official October 1 date. Do not count this as corroboration.
+        args[3]["observations"][0]["portal_deadline_raw"] = "Final day for applications 11/9/2026"
+        with self.assertRaisesRegex(ValueError, "portal date conflicts with original"):
+            audit(*args)
+
+    def test_portal_date_wrong_year_rejected(self):
+        args = fixtures()
+        args[3]["observations"][0]["portal_deadline_raw"] = "Final day for applications 10/1/2025"
+        with self.assertRaisesRegex(ValueError, "portal date conflicts with original"):
+            audit(*args)
+
+    def test_portal_day_first_matching_original_is_accepted_without_locale_inference(self):
+        args = fixtures()
+        args[3]["observations"][0]["portal_deadline_raw"] = "Final day for applications 01/10/2026"
+        result = audit(*args)
+        self.assertEqual(result["public_portal_stage_agrees_directory_no_date_count"], 1)
+        self.assertFalse(result["items"][0]["operative_deadline_verified"])
+
     def test_future_observation_rejected(self):
         args = fixtures()
         args[3]["observed_on_utc_date"] = "2099-01-01"
