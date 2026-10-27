@@ -1,0 +1,125 @@
+{
+  "dataset": "MCP Registry supply and namespace concentration, publisher-selected fields",
+  "source_url": "https://tanod.dev/data/mcp-registry-stats.json",
+  "method_url": "https://tanod.dev/learn/state-of-mcp-registry.html",
+  "source_license": "CC BY 4.0",
+  "attribution": "Tanod, State of the MCP Registry, snapshot 2026-10-27",
+  "publisher_snapshot_date": "2026-10-27",
+  "retrieved_utc_date": "2026-10-27",
+  "evidence_class": "third_party_registry_aggregate_not_independently_audited",
+  "publisher_selected_fields": {
+    "server_names": 51219,
+    "namespace_labels": 31676,
+    "remote_servers": 33933,
+    "package_only": 16683,
+    "remote_only": 31495,
+    "both_remote_and_package": 2438,
+    "neither_remote_nor_package": 603,
+    "status_active_registry_label": 50544,
+    "status_deprecated_registry_label": 675,
+    "latest_version_published_in_2026_10": 20137,
+    "liveness": null,
+    "top15_namespace_server_names": 8876,
+    "largest_15_namespace_labels": [
+      [
+        "io.github.sadri-dridi",
+        2365
+      ],
+      [
+        "io.github.pipeworx-io",
+        1905
+      ],
+      [
+        "io.github.mcp-dir",
+        1115
+      ],
+      [
+        "io.github.mrfentmen",
+        901
+      ],
+      [
+        "io.usefulapi",
+        455
+      ],
+      [
+        "io.github.Evozim",
+        375
+      ],
+      [
+        "io.github.CSOAI-ORG",
+        354
+      ],
+      [
+        "io.github.theluckystrike",
+        269
+      ],
+      [
+        "io.github.Wxt-ai",
+        231
+      ],
+      [
+        "ai.smithery",
+        213
+      ],
+      [
+        "io.github.cyanheads",
+        166
+      ],
+      [
+        "io.github.jmshinhwa",
+        155
+      ],
+      [
+        "io.github.codespar",
+        127
+      ],
+      [
+        "app.wishpool",
+        125
+      ],
+      [
+        "com.a2awire",
+        120
+      ]
+    ]
+  },
+  "comparison": {
+    "previous_repo_evidence": "data/evidence/mcp_registry_tanod_2026-10-23.json",
+    "previous_publisher_snapshot_date": "2026-10-23",
+    "server_names_absolute_delta": 2183,
+    "server_names_percent_delta_rounded": 4.45,
+    "namespace_labels_absolute_delta": 1506,
+    "namespace_labels_percent_delta_rounded": 4.99,
+    "remote_servers_absolute_delta": 1662,
+    "remote_servers_percent_delta_rounded": 5.15,
+    "top15_server_names_delta_across_different_top15_sets": 140,
+    "outside_respective_top15_server_names_delta": 2043,
+    "note": "Different largest-15 cohorts across snapshots; these are aggregate publisher index changes, not verified newly registered or live services."
+  },
+  "derived_namespace_concentration_bounds": {
+    "method": "src/mcp_namespace_bounds.py integer-balanced unknown namespace tail; cross-checked against 2026-10-23 fixture",
+    "top15_share_pct": "17.33",
+    "unreported_namespace_server_names": 42343,
+    "unreported_namespace_labels": 31661,
+    "hhi_lower_bound_exact_numerator": 12082775,
+    "hhi_lower_bound_exact_denominator": 2623385961,
+    "hhi_lower_bound_floor_8dp": "0.00460579",
+    "effective_namespace_count_upper_bound_ceiling_2dp": "217.12",
+    "actual_namespace_hhi": null,
+    "verified_supplier_business_hhi": null,
+    "interpretation": "Lower-bound HHI fell versus 2026-10-23, but this does not establish actual HHI decreased. Namespace labels are not independent supplier businesses."
+  },
+  "limitations": [
+    "Counts are from Tanod's third-party daily index of the official MCP Registry, not an independently replicated full census.",
+    "Publisher 'active' is a registry status label, NOT an online/reachable/working measurement; liveness=null.",
+    "Publisher monthly 'new_by_month' groups by latest version publish date, NOT first registration; 20,137 October entries are not proven newly created servers.",
+    "A registry entry, namespace, remote endpoint or package is not an independently verified business, active customer, installed user, MCP invocation, transaction or paying buyer.",
+    "Top-15 lower-bound HHI is not full-distribution HHI; top-15 membership can change, so the change in lower bounds does not prove true concentration changed.",
+    "No independent supplier company identities, observed usage, customer payments, AgentMine routing savings or acquisition costs are measured.",
+    "No API payments, credentials, sensitive customer data, scraping behind restrictions or public deployment."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue_usd": null,
+  "verified_agentmine_supplier_savings": null,
+  "observed_agentmine_variable_cost_usd": null
+}
