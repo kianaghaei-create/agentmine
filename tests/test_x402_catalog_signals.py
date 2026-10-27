@@ -72,6 +72,20 @@ class SignalsTests(unittest.TestCase):
     def test_naive_timestamp_rejected(self):
         f = fixture(); f['observed_at'] = '2026-10-23T17:00:00'
         with self.assertRaisesRegex(ValueError, 'timezone'): analyze(f)
+    def test_future_dated_snapshot_cannot_claim_market_observation(self):
+        for future in ('2099-01-01T00:00:00Z', '2099-01-01T02:00:00+02:00'):
+            with self.subTest(future=future):
+                f = fixture(True)
+                f['observed_at'] = future
+                with self.assertRaisesRegex(ValueError, 'future'):
+                    analyze(f)
+
+    def test_past_offset_aware_snapshot_remains_valid(self):
+        f = fixture(True)
+        f['observed_at'] = '2026-10-23T19:00:00+02:00'
+        result = analyze(f)
+        self.assertEqual(result['publisher_positive_flow_service_rows'], 1)
+
     def test_unknown_flags_counted_separately_from_false(self):
         f = fixture(True)
         f['records'][0]['payment_ready_publisher'] = None
