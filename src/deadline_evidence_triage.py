@@ -47,7 +47,7 @@ def _parse_display(value):
     raise ValueError("unsupported deadline display")
 
 
-def _url(value, kind):
+def _url(value, kind, publication_number):
     if not isinstance(value, str) or len(value) > 2048:
         raise ValueError("invalid source URL")
     parts = urlsplit(value)
@@ -56,8 +56,16 @@ def _url(value, kind):
         raise ValueError("source must be canonical HTTPS URL")
     if kind == "official_summary" and parts.hostname != "op.europa.eu":
         raise ValueError("official summary requires EU Publications Office host")
-    if kind == "original_ted_notice" and parts.hostname != "ted.europa.eu":
-        raise ValueError("original notice requires TED host")
+    if kind == "original_ted_notice":
+        if parts.hostname != "ted.europa.eu":
+            raise ValueError("original notice requires TED host")
+        # A trusted host alone is not provenance: a TED page for a different
+        # publication must not be promoted to an original for this cohort ID.
+        expected = re.escape(publication_number)
+        if (parts.query or not re.fullmatch(
+                rf"/[a-z]{{2}}/notice/(?:-/detail/)?{expected}(?:/html)?/?",
+                parts.path)):
+            raise ValueError("original TED notice URL must match publication number")
     return value
 
 
@@ -88,7 +96,7 @@ def triage(evidence):
         kind = row.get("source_kind")
         if kind not in _KINDS:
             raise ValueError("unknown source kind")
-        url = _url(row.get("source_url"), kind)
+        url = _url(row.get("source_url"), kind, evidence["publication_number"])
         if url in seen:
             raise ValueError("duplicate source URL")
         seen.add(url)
