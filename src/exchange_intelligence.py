@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from statistics import median
 from typing import Iterable
 
+from .rfq_demand_evidence import _CATEGORY_CODE
+
 
 @dataclass(frozen=True)
 class Request:
@@ -26,8 +28,9 @@ def aggregate(requests: Iterable[Request], minimum_count: int = 10) -> list[dict
     for request in requests:
         if not isinstance(request, Request):
             raise ValueError("expected Request")
-        if not isinstance(request.category, str) or not request.category.strip():
-            raise ValueError("invalid category")
+        if (not isinstance(request.category, str)
+                or not _CATEGORY_CODE.fullmatch(request.category.strip())):
+            raise ValueError("category must be a structured taxonomy code, not buyer text")
         if type(request.matched) is not bool:
             raise ValueError("matched must be boolean")
         if type(request.budget_cents) is not int or request.budget_cents < 0:
@@ -37,10 +40,10 @@ def aggregate(requests: Iterable[Request], minimum_count: int = 10) -> list[dict
                 or not request.currency.isascii()
                 or not request.currency.isalpha()):
             raise ValueError("invalid currency")
-        # Category labels are case-insensitive human labels, not stable IDs.
-        # Normalizing before the suppression threshold prevents whitespace/case
-        # variants from fragmenting the same self-declared demand cohort.
-        # This does NOT establish verified demand or a canonical taxonomy.
+        # Categories are taxonomy codes, not user-supplied labels. Use the
+        # same fail-closed public-output guard as opt-in RFQ aggregation.
+        # Canonicalize before cohort suppression; neither this nor the
+        # threshold verifies consent, buyer identity or privacy safety.
         category = request.category.strip().casefold()
         groups[(category, request.currency.upper())].append(request)
     result = []
