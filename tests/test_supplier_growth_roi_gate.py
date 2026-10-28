@@ -146,5 +146,26 @@ class SupplierGrowthROITests(unittest.TestCase):
                 self.assertEqual(result['modeled_sek_paid_offers'][0]['source_url'], url)
 
 
+    def test_oct28_temporary_free_competitor_offer_is_not_paid_price_evidence(self):
+        path = (Path(__file__).resolve().parents[1] /
+                'data/evidence/supplier_growth_competitor_refresh_2026-10-28.json')
+        if not path.exists():
+            self.skipTest('dated public vendor offer evidence not available')
+        evidence = json.loads(path.read_text(encoding='utf-8'))
+        result = run(evidence)
+        self.assertEqual([r['vendor'] for r in result['modeled_sek_paid_offers']],
+                         ['Procurdo', 'Tendium'])
+        self.assertEqual(len(result['excluded_offers']), 1)
+        excluded = result['excluded_offers'][0]
+        self.assertEqual(excluded['vendor'], 'Tenderradar')
+        self.assertEqual(excluded['price_qualifier'], 'temporary_free')
+        self.assertEqual(excluded['reason'], 'free_offer_no_positive_price_hurdle')
+        self.assertEqual(Decimal(result['modeled_sek_paid_offers'][0]
+                                 ['minimum_minutes_saved_per_decision_at_capture_share']),
+                         Decimal('28.752'))
+        self.assertIsNone(result['verified_supplier_willingness_to_pay'])
+        self.assertIsNone(result['verified_agentmine_revenue_sek'])
+
+
 if __name__ == '__main__':
     unittest.main()
