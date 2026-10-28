@@ -150,6 +150,51 @@ class HistoricalPreflightTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'invalid independent competitor source URL'):
                     build(*args)
 
+    def test_rejects_cross_notice_competitor_url_substitution(self):
+        args = real()
+        rows = {r['publication_number']: r
+                for r in args[2]['independent_competitor_observations']}
+        rows['603727-2026']['source_url'] = rows['606049-2026']['source_url']
+        with self.assertRaisesRegex(ValueError, 'competitor URL not bound to notice'):
+            build(*args)
+
+    def test_rejects_unreviewed_but_well_formed_tilldelat_detail(self):
+        args = real()
+        next(r for r in args[2]['independent_competitor_observations']
+             if r['publication_number'] == '603727-2026')['source_url'] = (
+                 'https://tilldelat.se/upphandling/plausible-but-unverified-123456')
+        with self.assertRaisesRegex(ValueError, 'competitor URL not bound to notice'):
+            build(*args)
+
+    def test_rejects_unbound_fallback_even_with_display_text(self):
+        args = real()
+        args[2]['independent_competitor_observations'] = [
+            row for row in args[2]['independent_competitor_observations']
+            if row['publication_number'] != '603727-2026'
+        ]
+        original = next(r for r in args[3]['observations']
+                        if r['publication_number'] == '603727-2026')
+        original['competitor_url'] = 'https://tilldelat.se/upphandling/eventnat-99e715'
+        original['competitor_observation'] = 'Sista ansökningsdag 9 oktober 2026'
+        with self.assertRaisesRegex(ValueError, 'competitor URL not bound to notice'):
+            build(*args)
+
+    def test_reviewed_fallback_remains_allowed(self):
+        args = real()
+        reviewed = next(r for r in args[2]['independent_competitor_observations']
+                        if r['publication_number'] == '603727-2026')
+        args[2]['independent_competitor_observations'] = [
+            row for row in args[2]['independent_competitor_observations']
+            if row['publication_number'] != '603727-2026'
+        ]
+        original = next(r for r in args[3]['observations']
+                        if r['publication_number'] == '603727-2026')
+        original['competitor_url'] = reviewed['source_url']
+        original['competitor_observation'] = 'Sista ansökningsdag 9 oktober 2026'
+        result = build(*args)
+        self.assertEqual(result['examples'][0]['competitor_observations'][0]['source_url'],
+                         reviewed['source_url'])
+
     def test_rejects_unstructured_competitor_date(self):
         for bad in ("October 9", "2026-10-09 customer@example.com", "2026-13-09", None):
             with self.subTest(date=bad):
