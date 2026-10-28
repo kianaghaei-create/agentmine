@@ -23,7 +23,7 @@ def _public_source_url(value):
         except ValueError:
             # DNS hostnames must be multi-label and not explicitly local.
             return ('.' in host and not host.endswith(
-                ('.localhost', '.local', '.internal', '.home.arpa', '.lan')))
+                ('.localhost', '.localdomain', '.local', '.internal', '.home.arpa', '.lan')))
     except ValueError:
         return False
 
