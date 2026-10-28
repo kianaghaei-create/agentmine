@@ -171,6 +171,18 @@ class HistoricalPreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'invalid independent competitor source URL'):
             build(*args)
 
+    def test_rejects_fallback_without_display_observation(self):
+        args = real()
+        args[2]['independent_competitor_observations'] = [
+            row for row in args[2]['independent_competitor_observations']
+            if row['publication_number'] != '603727-2026'
+        ]
+        next(r for r in args[3]['observations']
+             if r['publication_number'] == '603727-2026')['competitor_url'] = (
+                 "https://tilldelat.se/upphandling/valid-page")
+        with self.assertRaisesRegex(ValueError, 'invalid competitor display evidence'):
+            build(*args)
+
     def test_rejects_future_as_of(self):
         with self.assertRaisesRegex(ValueError, 'future as_of'):
             build(*real(), as_of='2099-01-01')
