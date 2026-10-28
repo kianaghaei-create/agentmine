@@ -124,5 +124,27 @@ class SupplierGrowthROITests(unittest.TestCase):
                 run(data)
 
 
+    def test_rejects_non_public_competitor_provenance(self):
+        # Synthetic URL fixtures only; no network or competitor lookup.
+        for url in ('https://localhost/priser', 'https://localhost.localdomain/priser',
+                    'https://127.0.0.1/priser', 'https://192.168.1.10/priser',
+                    'https://169.254.0.1/priser', 'https://[::1]/priser',
+                    'https://catalog.internal/priser', 'https://test.local/priser',
+                    'https://test.lan/priser', 'https://www.procurdo.com/priser?tracking=1'):
+            data = snapshot(); data['offers'][0]['url'] = url
+            with self.subTest(url=url), self.assertRaisesRegex(ValueError, 'source URL'):
+                run(data)
+
+    def test_public_ip_and_dns_provenance_still_passes_format_check(self):
+        # Public format is not evidence that any offer or page really exists.
+        for url in ('https://8.8.8.8/prices',
+                    'https://[2606:4700:4700::1111]/prices',
+                    'https://www.procurdo.com/priser'):
+            data = snapshot(); data['offers'][0]['url'] = url
+            with self.subTest(url=url):
+                result = run(data)
+                self.assertEqual(result['modeled_sek_paid_offers'][0]['source_url'], url)
+
+
 if __name__ == '__main__':
     unittest.main()
