@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import json
 from pathlib import Path
-from urllib.parse import urlsplit
+from .agentmine_cost_router import _public_source_url
 
 
 def _number(value, name, *, strictly_positive=False):
@@ -25,15 +25,10 @@ def _number(value, name, *, strictly_positive=False):
 
 
 def _source_url(url):
-    if not isinstance(url, str):
-        raise ValueError("invalid competitor source URL")
-    try:
-        parsed = urlsplit(url)
-        port = parsed.port
-    except ValueError as exc:
-        raise ValueError("invalid competitor source URL") from exc
-    if (parsed.scheme != 'https' or not parsed.hostname or parsed.username or
-            parsed.password or parsed.fragment or port not in (None, 443)):
+    # Competitor price evidence must be attributable to a public HTTPS host,
+    # not localhost, RFC1918 addresses or reserved/internal domains.
+    # This is a provenance-format check, not a live website or price audit.
+    if not _public_source_url(url):
         raise ValueError("invalid competitor source URL")
     return url
 
