@@ -1,0 +1,56 @@
+{
+  "evidence_type": "public_competitor_capability_and_publisher_reported_market_quality_not_verified_sales",
+  "observed_at_utc": "2026-10-28T21:47:33.182Z",
+  "source_generated_at_utc": "2026-10-28T21:47:33.182Z",
+  "publisher": "x402 Trust",
+  "source_urls": {
+    "public_report": "https://x402-trust.com/trust/report",
+    "structured_report": "https://x402-trust.com/trust/report.json",
+    "openapi": "https://x402-trust.com/openapi.json",
+    "terms": "https://x402-trust.com/terms"
+  },
+  "terms": "Own-use rights for public data; raw bulk republication as a competing trust directory requires written agreement (terms section 8, 2026-09-16). This file is a small attributed analytical summary, not a raw dataset.",
+  "publisher_reported_endpoint_population": {
+    "listed": 352165,
+    "active": 286000,
+    "delisted": 66165,
+    "active_reachable_pct": 37.1,
+    "reachable_payment_envelope_compliant_pct": 95.8,
+    "payto_wallets_ever_paid_pct": 43.4,
+    "payto_wallets_ever_paid_count": 5573,
+    "cumulative_probe_count": 121979871,
+    "active_mcp_native_endpoints": 353
+  },
+  "published_competitor_offers": {
+    "free_mcp_tools_advertised": 9,
+    "paid_mcp_tools_advertised": 6,
+    "individual_trust_score_usd_per_call": "0.005",
+    "endpoint_history_usd_per_call": "0.020",
+    "endpoint_alternatives_usd_per_call": "0.005",
+    "endpoint_watch_30d_usd": "0.200",
+    "trust_bulk_500_usd_per_call": "0.500"
+  },
+  "competitor_functionality": [
+    "Trust/uptime scoring and payment-envelope compliance checks",
+    "Price, payTo and endpoint history",
+    "Alternative endpoint discovery and semantic search",
+    "Endpoint change monitoring and alerts",
+    "On-chain wallet-level settlement observations"
+  ],
+  "evidence_strength": {
+    "competitor_features": "Verified as publicly advertised in OpenAPI/website, NOT independently tested or purchased",
+    "endpoint_counts_and_quality": "Publisher-reported aggregate only, NOT independently reproduced or comparable to x402 List service counts",
+    "customer_or_revenue_signal": "None; advertised paid API pricing does not establish paid conversion"
+  },
+  "strategic_readout": "Generic x402 trust scoring, endpoint monitoring and quality routing are directly contested by a public low-ticket incumbent. Do not invest in an undifferentiated x402 trust directory or monitoring clone without a demonstrable differentiated outcome, buyer evidence and lawful data rights. Preserve Phase 0 and prioritize independent supplier exception-resolution outcomes or other measurable workflows.",
+  "limitations": [
+    "Source endpoints, resources, services, hosts, pay-to wallets and distinct businesses are different denominators; do not compare 352165 endpoints directly with x402 List service counts.",
+    "Reachability and compliance reflect publisher's own probe methods/vantage and are not independently verified delivery-after-payment.",
+    "The public report and API expose multiple flow totals with different/unclear scopes; no market-wide revenue estimate is taken from them.",
+    "Pricing is publicly advertised, not an observed purchase, paid customer count or verified realized price.",
+    "No new AgentMine paying customers, revenue, observed supplier savings, cost-incurring calls or paid deployment."
+  ],
+  "agentmine_verified_paying_customers": null,
+  "agentmine_verified_revenue_usd": null,
+  "agentmine_measured_customer_value": null
+}
