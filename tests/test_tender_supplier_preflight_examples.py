@@ -125,6 +125,52 @@ class HistoricalPreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'selected IT preflight cohort'):
             build(*args)
 
+    def test_rejects_private_or_primary_competitor_source(self):
+        for url in ("https://127.0.0.1/upphandling/example",
+                    "https://localhost/upphandling/example",
+                    "https://ted.europa.eu/sv/notice/603727-2026/html",
+                    "https://upphandla.app/en/tender/603727-2026"):
+            with self.subTest(url=url):
+                args = real()
+                next(r for r in args[2]['independent_competitor_observations']
+                     if r['publication_number'] == '603727-2026')['source_url'] = url
+                with self.assertRaisesRegex(ValueError, 'invalid independent competitor source URL'):
+                    build(*args)
+
+    def test_rejects_non_tender_competitor_page_or_ambiguous_url(self):
+        for url in ("https://tilldelat.se/",
+                    "https://tilldelat.se/upphandling/",
+                    "https://tilldelat.se/upphandling/real?other=603727-2026",
+                    "https://user:pass@tilldelat.se/upphandling/real",
+                    "https://tilldelat.se:444/upphandling/real"):
+            with self.subTest(url=url):
+                args = real()
+                next(r for r in args[2]['independent_competitor_observations']
+                     if r['publication_number'] == '603727-2026')['source_url'] = url
+                with self.assertRaisesRegex(ValueError, 'invalid independent competitor source URL'):
+                    build(*args)
+
+    def test_rejects_unstructured_competitor_date(self):
+        for bad in ("October 9", "2026-10-09 customer@example.com", "2026-13-09", None):
+            with self.subTest(date=bad):
+                args = real()
+                next(r for r in args[2]['independent_competitor_observations']
+                     if r['publication_number'] == '603727-2026')['displayed_date'] = bad
+                with self.assertRaisesRegex(ValueError, 'competitor display date'):
+                    build(*args)
+
+    def test_rejects_untrusted_fallback_competitor_url(self):
+        args = real()
+        args[2]['independent_competitor_observations'] = [
+            row for row in args[2]['independent_competitor_observations']
+            if row['publication_number'] != '603727-2026'
+        ]
+        next(r for r in args[3]['observations']
+             if r['publication_number'] == '603727-2026')['competitor_url'] = (
+                 "https://127.0.0.1/upphandling/fake")
+        with self.assertRaisesRegex(ValueError, 'invalid independent competitor source URL'):
+            build(*args)
+
     def test_rejects_future_as_of(self):
         with self.assertRaisesRegex(ValueError, 'future as_of'):
             build(*real(), as_of='2099-01-01')
