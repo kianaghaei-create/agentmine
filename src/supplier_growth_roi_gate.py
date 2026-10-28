@@ -80,6 +80,11 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, decisions_per_month,
             raise ValueError("unknown price qualifier")
         if not isinstance(offer.get('billing'), str) or not offer['billing'].strip():
             raise ValueError("missing billing basis")
+        # A free-labelled offer cannot simultaneously supply a positive paid
+        # price hurdle. Reject inconsistent publisher transcriptions rather
+        # than silently promoting a free competitor tier to paid evidence.
+        if qualifier in ('temporary_beta', 'temporary_free', 'free_tier') and price != 0:
+            raise ValueError("free-qualified offer must have zero advertised price")
         base = {'vendor': vendor, 'plan': plan, 'source_url': url,
                 'advertised_price': str(price), 'currency': currency,
                 'price_qualifier': qualifier, 'billing': offer['billing']}
