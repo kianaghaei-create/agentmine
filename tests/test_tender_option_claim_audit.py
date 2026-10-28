@@ -100,5 +100,43 @@ class Tests(unittest.TestCase):
         self.assertIsNone(saved["commercial_outcomes"]["actual_supplier_minutes_saved"])
 
 
+    def test_rejects_cross_option_excerpts_that_borrow_another_option_flags(self):
+        x = fixture()
+        x['official_option_clauses'][1]['original_excerpt'] = (
+            'Option 2 may be purchased. Option 3 (frivillig) optionen omfattas inte av utvärderingen.')
+        with self.assertRaisesRegex(ValueError, 'cross-option excerpt'):
+            audit(x)
+
+    def test_rejects_unbound_pronoun_exclusion(self):
+        x = fixture()
+        x['official_option_clauses'][1]['original_excerpt'] = (
+            'Option 2 (frivillig). Optionen omfattas inte av utvärderingen.')
+        with self.assertRaisesRegex(ValueError, 'exclusion lacks source anchor'):
+            audit(x)
+
+    def test_rejects_contradictory_evaluation_statements(self):
+        x = fixture()
+        x['official_option_clauses'][1]['original_excerpt'] = (
+            'Option 2 (frivillig). Pris för Option 2 ingår i utvärderingen. '
+            'Pris för Option 2 ingår inte i utvärderingen.')
+        with self.assertRaisesRegex(ValueError, 'contradictory evaluation anchors'):
+            audit(x)
+
+    def test_rejects_unrelated_distant_voluntary_marker(self):
+        x = fixture()
+        x['official_option_clauses'][1]['original_excerpt'] = (
+            'Option 2 ' + ('description ' * 20) +
+            '(frivillig) Pris för Option 2 ingår inte i utvärderingen.')
+        with self.assertRaisesRegex(ValueError, 'voluntary flag lacks source anchor'):
+            audit(x)
+
+    def test_accepts_explicit_option_numbered_exclusion(self):
+        x = fixture()
+        x['official_option_clauses'][1]['original_excerpt'] = (
+            'Option 2 (frivillig). Option 2 omfattas inte av utvärderingen.')
+        self.assertTrue(audit(x)['directory_original_display_claim_conflict'])
+
+
+
 if __name__ == '__main__':
     unittest.main()
