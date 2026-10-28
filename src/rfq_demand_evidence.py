@@ -12,7 +12,7 @@ import re
 
 # Categories appear verbatim in published aggregates. Require a structured,
 # non-free-text taxonomy code, never a buyer's name, email, URL or RFQ text.
-_CATEGORY_CODE = re.compile(r'^(?:CPV|CAT|MCP)-[0-9]{2,8}
+_CATEGORY_CODE = re.compile(r'^(?:CPV|CAT|MCP)-[0-9]{2,8}\\Z', re.IGNORECASE)
 
 @dataclass(frozen=True)
 class RFQ:
