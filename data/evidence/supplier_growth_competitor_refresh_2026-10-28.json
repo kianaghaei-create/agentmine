@@ -1,0 +1,69 @@
+{
+  "observed_at_utc": "2026-10-28T11:46:24.931Z",
+  "evidence_type": "publicly_advertised_competitor_offers_not_verified_sales",
+  "market": "Non-exhaustive Swedish supplier-side public procurement software price/feature check",
+  "collection_method": "Read vendor-owned public pricing pages on 2026-10-28; no login, purchase, scraping of private data, or independently verified customer activity.",
+  "offers": [
+    {
+      "vendor": "Tenderradar",
+      "plan": "All features (currently free)",
+      "url": "https://tenderradar.se/priser",
+      "advertised_monthly_price": 0,
+      "currency": "SEK",
+      "price_qualifier": "temporary_free",
+      "billing": "Free now; vendor says advance notice and no automatic subscription if pricing begins",
+      "features_claimed": [
+        "tender_monitoring",
+        "bid_workflow_kanban",
+        "win_probability",
+        "buyer_profiles",
+        "competitor_price_history",
+        "market_reports",
+        "unlimited_users"
+      ],
+      "availability_note": "Vendor page explicitly says all features free just now, no card and unlimited users. No verified service quality, uptake or permanent free pricing."
+    },
+    {
+      "vendor": "Procurdo",
+      "plan": "1-3 users",
+      "url": "https://www.procurdo.com/priser",
+      "advertised_monthly_price": 599,
+      "currency": "SEK",
+      "price_qualifier": "fixed_advertised",
+      "billing": "Monthly selected; 14-day free trial; excludes VAT",
+      "features_claimed": [
+        "tender_monitoring",
+        "ai_document_summaries",
+        "market_awards",
+        "ai_search"
+      ],
+      "availability_note": "Public page shows SEK 599/month for 1-3 users. Vendor feature claims not independently tested."
+    },
+    {
+      "vendor": "Tendium",
+      "plan": "Light",
+      "url": "https://tendium.com/se/pricing",
+      "advertised_monthly_price": 1250,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "Billing basis not specified on captured public page",
+      "features_claimed": [
+        "tender_monitoring",
+        "ai_summaries",
+        "document_updates"
+      ],
+      "availability_note": "Public page says from SEK 1,250/month; not a final quote."
+    }
+  ],
+  "previous_observation": {
+    "source_file": "data/evidence/supplier_growth_competitor_pricing_2026-10-21.json",
+    "previous_observed_at_utc": "2026-10-21T07:43:22Z",
+    "previous_tenderradar_offer": "Bas",
+    "previous_advertised_monthly_price_sek": 795,
+    "change_interpretation": "The public page seen on 2026-10-28 offers all features free, unlike the 2026-10-21 recorded Bas offer at SEK 795/month. The date and reason of the website offer change are unknown. Do not infer sales, churn or a permanent price cut."
+  },
+  "verified_paying_customers": null,
+  "verified_sales_volume": null,
+  "agentmine_willingness_to_pay": null,
+  "scope_warning": "Publisher-owned pricing/feature claims, not independently verified functionality, uptake or conversion. The free offer is explicitly temporary. These three vendors are a convenience sample, not a market census. This change weakens generic paid procurement-monitoring differentiation, but does not prove demand for AgentMine."
+}
