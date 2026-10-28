@@ -167,5 +167,31 @@ class SupplierGrowthROITests(unittest.TestCase):
         self.assertIsNone(result['verified_agentmine_revenue_sek'])
 
 
+    def test_free_qualifier_cannot_be_modeled_as_positive_paid_hurdle(self):
+        # A contradictory price/qualifier must fail closed, including EUR
+        # offers which would otherwise be excluded before price modeling.
+        for qualifier in ('temporary_beta', 'temporary_free', 'free_tier'):
+            for currency in ('SEK', 'EUR'):
+                with self.subTest(qualifier=qualifier, currency=currency):
+                    data = snapshot()
+                    data['offers'][0]['price_qualifier'] = qualifier
+                    data['offers'][0]['advertised_monthly_price'] = 599
+                    data['offers'][0]['currency'] = currency
+                    with self.assertRaisesRegex(ValueError, 'free-qualified offer'):
+                        run(data)
+
+    def test_zero_price_free_qualifiers_remain_excluded(self):
+        for qualifier in ('temporary_beta', 'temporary_free', 'free_tier'):
+            with self.subTest(qualifier=qualifier):
+                data = snapshot()
+                data['offers'][0]['price_qualifier'] = qualifier
+                data['offers'][0]['advertised_monthly_price'] = 0
+                result = run(data)
+                excluded = [x for x in result['excluded_offers'] if x['vendor'] == 'Procurdo']
+                self.assertEqual(len(excluded), 1)
+                self.assertEqual(excluded[0]['reason'], 'free_offer_no_positive_price_hurdle')
+                self.assertNotIn('Procurdo', [x['vendor'] for x in result['modeled_sek_paid_offers']])
+
+
 if __name__ == '__main__':
     unittest.main()
