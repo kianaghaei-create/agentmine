@@ -154,7 +154,7 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
                            "public_display": "participation_date_displayed: " + raw_date}]
         else:
             competitor = ([{"source_url": p["competitor_url"],
-                            "public_display": p["competitor_observation"]}]
+                            "public_display": p.get("competitor_observation")}]
                           if "competitor_url" in p else [])
         if date_value >= day:
             raise ValueError("historical example date is not yet past")
