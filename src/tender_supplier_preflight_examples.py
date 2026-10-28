@@ -63,7 +63,7 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
     # validating the public portal URL, dated display text and matching stage.
     audit(cohort, official, directory, primary)
     first = cohort.get("reviewed_first_record")
-    if not isinstance(first, dict) or first.get("publication_number") != SELECTED[0]:
+    if not isinstance(first, dict) or first.get("publication_number") != "600201-2026":
         raise ValueError("missing independent first-record review")
     # Predeclared, outcome-independent choice among accessible originals;
     # no prevalence or representative-sample claim is supported.
