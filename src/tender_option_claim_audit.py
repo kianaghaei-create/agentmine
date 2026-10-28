@@ -71,20 +71,28 @@ def audit(snapshot):
             raise ValueError("original excerpt missing")
         number = option.split("-")[1]
         normalized = " ".join(excerpt.casefold().split())
-        if not re.search(r"\boption " + re.escape(number) + r"\b", normalized):
-            raise ValueError("option number not anchored in excerpt")
+        mentioned_options = re.findall(r"\boption\s+([1-9][0-9]*)\b", normalized)
+        if not mentioned_options or any(found != number for found in mentioned_options):
+            raise ValueError("cross-option excerpt is ambiguous or unanchored")
         included, voluntary = clause["included_in_evaluation"], clause["voluntary"]
         if type(included) is not bool or type(voluntary) is not bool:
             raise ValueError("official option flags must be booleans")
         # Check exact semantic anchors, not general NLP. The official text
         # can express different clauses; unsupported forms must fail closed.
-        if included:
-            if f"pris för option {number} ingår i utvärderingen" not in normalized:
-                raise ValueError("evaluation inclusion lacks source anchor")
-        elif not (f"pris för option {number} ingår inte i utvärderingen" in normalized
-                  or "optionen omfattas inte av utvärderingen" in normalized):
+        positive_anchor = f"pris för option {number} ingår i utvärderingen" in normalized
+        negative_anchor = (f"pris för option {number} ingår inte i utvärderingen" in normalized
+                           or f"option {number} omfattas inte av utvärderingen" in normalized)
+        if positive_anchor and negative_anchor:
+            raise ValueError("contradictory evaluation anchors")
+        if included and not positive_anchor:
+            raise ValueError("evaluation inclusion lacks source anchor")
+        if not included and not negative_anchor:
             raise ValueError("evaluation exclusion lacks source anchor")
-        if voluntary and "(frivillig)" not in normalized:
+        # A voluntary marker for another option, or far from this option, is
+        # insufficient evidence for this clause. Unsupported text fails closed.
+        own_voluntary_anchor = bool(re.search(
+            r"\boption\s+" + re.escape(number) + r"\b.{0,120}\(frivillig\)", normalized, re.DOTALL))
+        if voluntary and not own_voluntary_anchor:
             raise ValueError("voluntary flag lacks source anchor")
         if not voluntary and "(frivillig)" in normalized:
             raise ValueError("voluntary contradiction")
