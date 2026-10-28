@@ -11,7 +11,7 @@ from decimal import Decimal, InvalidOperation
 import json
 from pathlib import Path
 import re
-from urllib.parse import urlsplit
+from src.agentmine_cost_router import _public_source_url
 
 _SHA = re.compile(r'^[0-9a-f]{64}$')
 # Opaque, non-identifying task labels only; never echo free-form user IDs.
@@ -52,18 +52,6 @@ def _amount(value):
     return d
 
 
-def _https(value):
-    if not isinstance(value, str):
-        return False
-    try:
-        p = urlsplit(value)
-        return (p.scheme == 'https' and bool(p.hostname) and p.username is None
-                and p.password is None and p.port in (None, 443)
-                and not p.query and not p.fragment)
-    except ValueError:
-        return False
-
-
 def _validate(row):
     if not isinstance(row, dict):
         raise ValueError('observation must be an object')
@@ -76,7 +64,7 @@ def _validate(row):
         raise ValueError('invalid task_id')
     if not _SHA.fullmatch(row.get('task_spec_sha256') or ''):
         raise ValueError('invalid task fingerprint')
-    if row.get('license_allowed') is not True or not _https(row.get('evidence_url')):
+    if row.get('license_allowed') is not True or not _public_source_url(row.get('evidence_url')):
         raise ValueError('license or evidence missing')
     timestamp = _utc(row.get('observed_at'))
     total = sum((_amount(row.get(k)) for k in _COMPONENTS), Decimal(0))
@@ -116,7 +104,9 @@ def analyze(observations, *, max_gap_seconds=3600):
     quoted_total = Decimal(0)
     for task, rows in sorted(grouped.items()):
         reason = None
-        if len(rows) != 2 or {r.get('mode') for r in rows if isinstance(r, dict)} != {'direct', 'routed'}:
+        if (len(rows) != 2 or
+                any(not isinstance(r, dict) or r.get('mode') not in ('direct', 'routed') for r in rows) or
+                rows[0]['mode'] == rows[1]['mode']):
             reason = 'missing_or_duplicate_mode'
         else:
             try:
