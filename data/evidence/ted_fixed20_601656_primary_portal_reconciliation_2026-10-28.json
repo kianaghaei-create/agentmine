@@ -1,0 +1,102 @@
+{
+  "evidence_type": "predeclared_fixed20_official_original_and_public_primary_portal_reconciliation_not_legal_error_or_paid_demand",
+  "checked_on_utc_date": "2026-10-28",
+  "cohort_source": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "notice": {
+    "publication_number": "601656-2026",
+    "title": "Projektledare till nordiskt projekt energidrycker",
+    "buyer": "Livsmedelsverket",
+    "main_cpv": "72224000",
+    "additional_cpv": [
+      "79311200"
+    ],
+    "estimated_value_sek_ex_vat": 2724579,
+    "official_original_url": "https://ted.europa.eu/sv/notice/601656-2026/html",
+    "official_notice_version": "01",
+    "official_publication_date": "2026-09-01",
+    "official_sent_date": "2026-08-28",
+    "official_deadline_stage": "bid_submission",
+    "official_deadline_local": "2026-09-29T23:59:00+02:00",
+    "official_deadline_utc": "2026-09-29T21:59:00Z",
+    "official_procedure": "open",
+    "public_buyer_submission_portal_url": "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807",
+    "public_portal_observed": "Final day for submitting 9/29/2026; Public notice: This is a public call for tenders; Open procedure",
+    "public_portal_date_interpretation": "2026-09-29 (month/day/year; 29 cannot be a month)",
+    "public_portal_stage": "bid_submission",
+    "portal_date_matches_official_original_local_day": true,
+    "portal_exact_cutoff_time_verified": false,
+    "portal_additions_status": "login_required",
+    "portal_change_log_status": "login_required",
+    "directory_url": "https://upphandla.app/en/tender/601656-2026",
+    "directory_deadline_date": "2026-09-28",
+    "directory_publication_date": "2026-08-31",
+    "directory_deadline_one_day_before_official_local_and_utc_day": true,
+    "directory_publication_one_day_before_official_publication_day": true,
+    "independent_secondary_date_support": "https://tilldelat.se/upphandling/projektledare-till-nordiskt-projekt-energidrycker-1ad70c",
+    "independent_secondary_observation": "Sista anbudsdag 29 september 2026; Publicerad 1 september 2026",
+    "current_legally_operative_deadline_verified": false,
+    "amendment_history_verified": false,
+    "classification": "source_backed_historical_directory_display_difference_original_and_public_portal_agree_on_calendar_day_not_verified_current_legal_error"
+  },
+  "cumulative_coverage_reconciled": {
+    "denominator": 20,
+    "baseline_original_ids": [
+      "600201-2026"
+    ],
+    "primary_fixture_original_ids": [
+      "606049-2026",
+      "609559-2026",
+      "603727-2026",
+      "609601-2026",
+      "610120-2026"
+    ],
+    "three_original_fixture_ids": [
+      "605974-2026",
+      "612139-2026",
+      "615576-2026"
+    ],
+    "four_original_fixture_ids": [
+      "602708-2026",
+      "610810-2026",
+      "611111-2026",
+      "613716-2026"
+    ],
+    "new_original_ids": [
+      "601656-2026"
+    ],
+    "unique_official_originals_checked": 14,
+    "prior_running_count_excluding_separately_recorded_baseline": 12,
+    "previously_omitted_from_running_count": "600201-2026",
+    "unique_public_portal_stage_date_views": 3,
+    "portal_stage_date_ids": [
+      "606049-2026",
+      "603727-2026",
+      "601656-2026"
+    ],
+    "amendment_histories_verified": 0,
+    "originals_not_yet_independently_checked": [
+      "601453-2026",
+      "601730-2026",
+      "612757-2026",
+      "613749-2026",
+      "615392-2026",
+      "615414-2026"
+    ],
+    "counting_note": "12/20 in preceding running summary intentionally excluded previously checked baseline 600201. Full deduplicated union of 1 baseline + 5 + 3 + 4 + 1 is 14/20. Do not interpret 14/20 as a random sample or as operative-deadline verification."
+  },
+  "commercial_outcomes": {
+    "verified_agentmine_paying_customers": null,
+    "actual_supplier_time_saved_minutes": null,
+    "actual_routing_savings": null,
+    "explicit_price_or_pilot_responses": 0,
+    "verified_agentmine_revenue": null
+  },
+  "limitations": [
+    "Original TED notice is version 01; portal amendments and change logs require login and were not accessed.",
+    "Public portal confirms date and tender stage, not exact time or final amended operative legal cutoff.",
+    "Upphandla's date differs from both UTC and local original date, but reason for its display and its update history are unknown.",
+    "CPV 72224000 is project management consultancy, not evidence of demand for an AgentMine product or a narrow software market.",
+    "These accessible source checks are not random; no prevalence, legal liability or customer value rate can be inferred.",
+    "No outreach, payment, credential access, sensitive data or deployment."
+  ]
+}
