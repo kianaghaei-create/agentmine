@@ -1,5 +1,6 @@
 """Offline quote routing: compare licensed, verified information offers."""
 from decimal import Decimal, InvalidOperation
+from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 
@@ -9,10 +10,21 @@ def _public_source_url(value):
         return False
     try:
         parsed = urlsplit(value)
-        return (parsed.scheme == 'https' and bool(parsed.hostname)
-                and parsed.username is None and parsed.password is None
-                and parsed.port in (None, 443)
-                and not parsed.query and not parsed.fragment)
+        if (parsed.scheme != 'https' or not parsed.hostname
+                or parsed.username is not None or parsed.password is not None
+                or parsed.port not in (None, 443)
+                or parsed.query or parsed.fragment):
+            return False
+        host = parsed.hostname.rstrip('.').lower()
+        # A provenance URL must be publicly addressable. Internal hosts and
+        # private/loopback/reserved IPs are not evidence of a public offer.
+        if ('.' not in host or host.endswith(
+                ('.localhost', '.local', '.internal', '.home.arpa', '.lan'))):
+            return False
+        try:
+            return ip_address(host).is_global
+        except ValueError:
+            return True
     except ValueError:
         return False
 
