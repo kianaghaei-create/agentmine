@@ -1,0 +1,113 @@
+{
+  "evidence_type": "fixed20_public_original_vs_directory_option_evaluation_claim_not_legal_error",
+  "checked_on_utc_date": "2026-10-28",
+  "audit_input": {
+    "evidence_type": "public_original_vs_directory_option_claim",
+    "observed_on_utc_date": "2026-10-28",
+    "publication_number": "615392-2026",
+    "official_url": "https://ted.europa.eu/sv/notice/615392-2026/html",
+    "directory_url": "https://upphandla.app/en/tender/615392-2026",
+    "portal_access": "login_required",
+    "amendments_verified": false,
+    "official_option_clauses": [
+      {
+        "option_id": "OPT-1",
+        "original_excerpt": "Pris för Option 1 ingår i utvärderingen.",
+        "included_in_evaluation": true,
+        "voluntary": false
+      },
+      {
+        "option_id": "OPT-2",
+        "original_excerpt": "Option 2 ... (frivillig) Pris för Option 2 ingår inte i utvärderingen.",
+        "included_in_evaluation": false,
+        "voluntary": true
+      }
+    ],
+    "directory_claim": {
+      "summary_excerpt": "Two options are mandatory in the evaluation: handling for hourly staff and administration of receipts and reimbursements.",
+      "claimed_mandatory_in_evaluation_option_ids": [
+        "OPT-1",
+        "OPT-2"
+      ],
+      "human_mapping_not_independently_verified": true
+    }
+  },
+  "audit_result": {
+    "publication_number": "615392-2026",
+    "source_observed_on_utc_date": "2026-10-28",
+    "source_claim_type": "manually_mapped_public_directory_summary_vs_original_notice",
+    "claimed_mandatory_option_ids": [
+      "OPT-1",
+      "OPT-2"
+    ],
+    "official_evaluation_excluded_or_voluntary_option_ids": [
+      "OPT-2"
+    ],
+    "directory_original_display_claim_conflict": true,
+    "legally_operative_requirement_verified": false,
+    "amendment_history_verified": false,
+    "supplier_eligibility_or_outcome_verified": false,
+    "verified_agentmine_customers": null,
+    "verified_supplier_savings": null,
+    "warning": "The option mapping is a human transcription, not a verified automated interpretation. Original notice may have amendments; the submission portal requires login. A directory summary conflict is not a legal error, measured supplier impact or paid demand."
+  },
+  "original_notice_observations": {
+    "buyer": "Lunds kommun",
+    "title": "Systemstöd för hantering av Friskvårdsbidrag",
+    "main_cpv": "72268000",
+    "official_publication_date": "2026-09-07",
+    "original_notice_version": "01",
+    "procedure_estimated_value_sek_ex_vat": 4000000,
+    "lot_ids": [
+      "LOT-0001",
+      "LOT-0002"
+    ],
+    "lot_estimated_value_each_sek_ex_vat": 3000000,
+    "lot_values_not_additive_to_procedure_value": true,
+    "official_original_tender_deadline_utc": "2026-10-05T21:59:59Z",
+    "official_original_stage": "tender",
+    "option_1_price_in_evaluation_and_omission_may_reject_bid": true,
+    "option_2_voluntary_and_excluded_from_evaluation": true,
+    "option_3_voluntary_and_excluded_from_evaluation": true,
+    "original_option_clauses_repeated_across_two_lots": true
+  },
+  "directory_observations": {
+    "publication_date": "2026-09-06",
+    "tender_deadline_date": "2026-10-05",
+    "summary_claims_two_mandatory_evaluation_options": true,
+    "directory_full_description_itself_marks_option_2_voluntary": true,
+    "summary_vs_own_description_inconsistent": true
+  },
+  "other_public_comparators": [
+    {
+      "source_url": "https://tilldelat.se/upphandling/systemstod-for-hantering-av-friskvardsbidrag-b4c39c",
+      "date_display": "2026-10-05",
+      "publication_date": "2026-09-07"
+    },
+    {
+      "source_url": "https://tenderiva.com/sv/tender/615392-2026-sverige-tillhandahallande-av-programvara-systemstod-for-hantering-av-friskvardsbidrag",
+      "date_display": "2026-10-05T21:59:00Z",
+      "publication_date": "2026-09-07"
+    }
+  ],
+  "portal_source_url": "https://tendsign.com/doc.aspx?MeFormsNoticeId=98986",
+  "portal_result": "login_required_no_public_amendment_or_current_operational_deadline",
+  "fixed20_cumulative_primary_originals_checked": 15,
+  "fixed20_denominator": 20,
+  "fixed20_public_portal_stage_date_views": 3,
+  "fixed20_amendment_histories_cleared": 0,
+  "commercial_outcomes": {
+    "verified_agentmine_customers": null,
+    "verified_agentmine_revenue": null,
+    "actual_supplier_minutes_saved": null,
+    "explicit_price_or_pilot_responses": 0
+  },
+  "limitations": [
+    "Option ID mapping from public summary to original clauses was manually interpreted, not machine-extracted or independently adjudicated.",
+    "The summary misstates inclusion of option 2 in evaluation compared with the original notice and even the directory full description; no proof of supplier reliance or loss.",
+    "Original notice version 01, no verified amendments, logged-in tender documents or legally operative cutoff.",
+    "Two lot rows share content and have stated SEK 3m each, but the procedure value is SEK 4m; do not sum lot figures as a market total.",
+    "Selected cohort and accessible originals are not a random sample; no prevalence, commercial willingness to pay or legal liability inferred.",
+    "No accounts, payments, spending, private data, outreach or public deployment."
+  ]
+}
