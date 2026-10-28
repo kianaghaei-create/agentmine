@@ -59,8 +59,13 @@
       "directory_url": "https://upphandla.app/en/tender/609559-2026",
       "directory_display_status": "no_deadline_displayed",
       "primary_portal_stage_corroborated": false,
-      "competitor_examples_count": 0,
-      "competitor_observations": [],
+      "competitor_examples_count": 1,
+      "competitor_observations": [
+        {
+          "source_url": "https://tilldelat.se/upphandling/lan-och-wifi-389186",
+          "public_display": "participation_date_displayed: 2026-10-05"
+        }
+      ],
       "preflight_action": "VERIFY_PARTICIPATION_STAGE_AND_PORTAL_ACCESS",
       "supplier_bid_no_bid": "UNDETERMINED",
       "historical_not_live_opportunity": true,

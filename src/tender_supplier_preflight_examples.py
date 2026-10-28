@@ -109,10 +109,12 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
             raise ValueError("unsupported portal status")
         if portal_status == "public_stage_and_date_text" and p.get("portal_stage") != stage:
             raise ValueError("portal stage mismatch")
-        if number == "603727-2026":
-            matching = [c for c in incumbent_rows if c.get("publication_number") == number]
-            if len(matching) != 1 or matching[0].get("display_status") != "participation_date_displayed":
-                raise ValueError("missing competitor participation display")
+        matching = [c for c in incumbent_rows if c.get("publication_number") == number]
+        if len(matching) > 1:
+            raise ValueError("duplicate independent competitor display")
+        if matching:
+            if matching[0].get("display_status") != "participation_date_displayed":
+                raise ValueError("unsupported competitor participation display")
             competitor = [{"source_url": matching[0]["source_url"],
                            "public_display": "participation_date_displayed: " + matching[0]["displayed_date"]}]
         else:
