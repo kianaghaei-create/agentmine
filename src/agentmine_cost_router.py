@@ -18,13 +18,12 @@ def _public_source_url(value):
         host = parsed.hostname.rstrip('.').lower()
         # A provenance URL must be publicly addressable. Internal hosts and
         # private/loopback/reserved IPs are not evidence of a public offer.
-        if ('.' not in host or host.endswith(
-                ('.localhost', '.local', '.internal', '.home.arpa', '.lan'))):
-            return False
         try:
             return ip_address(host).is_global
         except ValueError:
-            return True
+            # DNS hostnames must be multi-label and not explicitly local.
+            return ('.' in host and not host.endswith(
+                ('.localhost', '.local', '.internal', '.home.arpa', '.lan')))
     except ValueError:
         return False
 
