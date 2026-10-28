@@ -145,4 +145,41 @@ class Tests(unittest.TestCase):
         self.assertEqual(result['quoted_comparable_pairs'], 0)
         self.assertEqual(result['rejected_tasks'][0]['reason'], 'invalid_observation')
 
+    def test_unhashable_mode_rejected_without_aborting_valid_tasks(self):
+        for invalid_mode in ([], {}, ['direct']):
+            with self.subTest(mode=invalid_mode):
+                rows = [observation(mode=invalid_mode),
+                        observation('routed'),
+                        observation(task_id='t2'),
+                        observation('routed', task_id='t2')]
+                result = analyze(rows)
+                self.assertEqual(result['quoted_comparable_pairs'], 1)
+                self.assertEqual(result['pairs'][0]['task_id'], 't2')
+                self.assertEqual(result['rejected_tasks'], [
+                    {'task_id': 't1', 'reason': 'missing_or_duplicate_mode'}])
+
+    def test_internal_evidence_urls_not_accepted_as_public_provenance(self):
+        for source in ('https://localhost/evidence',
+                       'https://10.0.0.1/evidence',
+                       'https://169.254.169.254/evidence',
+                       'https://[::1]/evidence',
+                       'https://host.internal/evidence'):
+            with self.subTest(source=source):
+                result = analyze([observation(evidence_url=source),
+                                  observation('routed', evidence_url=source)])
+                self.assertEqual(result['quoted_comparable_pairs'], 0)
+                self.assertEqual(result['rejected_tasks'][0]['reason'],
+                                 'invalid_observation')
+                self.assertIsNone(result['quoted_scenario_delta_usd'])
+
+    def test_public_ip_evidence_remains_comparable(self):
+        for source in ('https://8.8.8.8/evidence',
+                       'https://[2606:4700:4700::1111]/evidence'):
+            with self.subTest(source=source):
+                result = analyze([observation(evidence_url=source),
+                                  observation('routed', evidence_url=source)])
+                self.assertEqual(result['quoted_comparable_pairs'], 1)
+                self.assertIsNone(result['verified_paying_customers'])
+
+
 if __name__ == '__main__': unittest.main()
