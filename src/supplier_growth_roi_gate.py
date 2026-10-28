@@ -76,7 +76,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, decisions_per_month,
             raise ValueError("unsupported currency; no implicit FX conversion")
         price = _number(offer.get('advertised_monthly_price'), 'advertised_monthly_price')
         qualifier = offer.get('price_qualifier')
-        if qualifier not in ('from', 'fixed_advertised', 'temporary_beta', 'free_tier'):
+        if qualifier not in ('from', 'fixed_advertised', 'temporary_beta', 'temporary_free', 'free_tier'):
             raise ValueError("unknown price qualifier")
         if not isinstance(offer.get('billing'), str) or not offer['billing'].strip():
             raise ValueError("missing billing basis")
