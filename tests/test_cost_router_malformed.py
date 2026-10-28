@@ -96,7 +96,8 @@ class MalformedQuoteTests(unittest.TestCase):
                 self.assertEqual(result['status'], 'no_eligible_quote')
 
     def test_public_hostname_and_global_ip_remain_eligible(self):
-        for source in ('https://example.org/data', 'https://8.8.8.8/data'):
+        for source in ('https://example.org/data', 'https://8.8.8.8/data',
+                       'https://[2606:4700:4700::1111]/data'):
             with self.subTest(source=source):
                 result = choose([{**VALID, 'source_url': source}], **PARAMS)
                 self.assertEqual(result['selected'], 'provider-a')
