@@ -19,19 +19,19 @@ def real():
 
 
 class HistoricalPreflightTests(unittest.TestCase):
-    def test_three_actual_predeclared_examples_are_not_decisions(self):
+    def test_three_primary_it_examples_are_not_decisions(self):
         result = build(*real())
         self.assertEqual(result['example_count'], 3)
         self.assertEqual([r['publication_number'] for r in result['examples']],
-                         ['600201-2026', '603727-2026', '610120-2026'])
+                         ['603727-2026', '606049-2026', '609559-2026'])
         self.assertEqual([r['official_original_stage'] for r in result['examples']],
-                         ['tender', 'participation_request', 'participation_request'])
+                         ['participation_request', 'participation_request', 'participation_request'])
         self.assertEqual([r['primary_it_cpv_48_or_72'] for r in result['examples']],
-                         [False, True, False])
+                         [True, True, True])
         self.assertEqual([r['primary_portal_stage_corroborated'] for r in result['examples']],
-                         [False, True, False])
+                         [True, True, False])
         self.assertTrue(all(r['supplier_bid_no_bid'] == 'UNDETERMINED' for r in result['examples']))
-        self.assertEqual([r['competitor_examples_count'] for r in result['examples']], [2, 1, 1])
+        self.assertEqual([r['competitor_examples_count'] for r in result['examples']], [1, 1, 1])
         self.assertTrue(all(claim['source_url'].startswith('https://')
                             for card in result['examples'] for claim in card['competitor_observations']))
         self.assertEqual(result['actual_paired_supplier_tasks'], 0)
@@ -40,7 +40,7 @@ class HistoricalPreflightTests(unittest.TestCase):
         self.assertIsNone(result['verified_paying_customers'])
 
     def test_published_cards_are_exactly_reproducible(self):
-        published = json.loads((EVIDENCE / 'ted_three_historical_supplier_preflights_2026-10-26.json').read_text(encoding='utf-8'))
+        published = json.loads((EVIDENCE / 'ted_three_primary_it_supplier_preflights_2026-10-28.json').read_text(encoding='utf-8'))
         self.assertEqual(published, build(*real()))
 
     def test_rejects_projection_stage_mismatch(self):
@@ -62,7 +62,7 @@ class HistoricalPreflightTests(unittest.TestCase):
     def test_rejects_original_date_transcription_conflict(self):
         args = real()
         for row in args[3]['observations']:
-            if row['publication_number'] == '610120-2026':
+            if row['publication_number'] == '609559-2026':
                 row['official_deadline_date'] = '2026-10-08'
         with self.assertRaisesRegex(ValueError, 'original raw date contradicts normalized original date'):
             build(*args)
@@ -76,7 +76,7 @@ class HistoricalPreflightTests(unittest.TestCase):
     def test_rejects_directory_url_substitution(self):
         args = real()
         for row in args[2]['directory_display_observations']:
-            if row['publication_number'] == '600201-2026':
+            if row['publication_number'] == '603727-2026':
                 row['source_url'] = 'https://example.org/600201-2026'
         with self.assertRaisesRegex(ValueError, 'unbound directory source'):
             build(*args)
@@ -92,6 +92,19 @@ class HistoricalPreflightTests(unittest.TestCase):
     def test_rejects_historical_example_used_as_current(self):
         with self.assertRaisesRegex(ValueError, 'not yet past'):
             build(*real(), as_of='2026-09-15')
+
+    def test_selection_is_first_three_primary_it_originals_not_cherry_picked(self):
+        args = real()
+        original_ids = {row['publication_number'] for row in args[3]['observations']}
+        eligible = sorted(row['publication_number'] for row in args[1]['rows']
+                          if row['publication_number'] in original_ids
+                          and row['procedure_main_cpv'].startswith(('48', '72')))
+        self.assertEqual(eligible[:3], ['603727-2026', '606049-2026', '609559-2026'])
+        for row in args[1]['rows']:
+            if row['publication_number'] == '609559-2026':
+                row['procedure_main_cpv'] = '79000000'
+        with self.assertRaisesRegex(ValueError, 'selected IT preflight cohort'):
+            build(*args)
 
     def test_rejects_future_as_of(self):
         with self.assertRaisesRegex(ValueError, 'future as_of'):

@@ -1,5 +1,8 @@
 """Reproducible, historical supplier preflight examples from fixed TED evidence.
 
+Select first three already inspected original notices with primary IT CPV 48/72,
+by ascending publication number; accessible originals are not a random sample.
+
 These are *not* actual supplier bid/no-bid decisions: no supplier capabilities,
 operative amended deadlines, signed-in documents, or paid buyer responses exist.
 """
@@ -10,13 +13,13 @@ from pathlib import Path
 
 from src.tender_primary_portal_stage_audit import audit
 
-SELECTED = ("600201-2026", "603727-2026", "610120-2026")
+SELECTED = ("603727-2026", "606049-2026", "609559-2026")
 FIELD_TO_STAGE = {"deadline-receipt-tender-date-lot": "tender",
                   "deadline-receipt-request-date-lot": "participation_request"}
 ACTIONS = {
-    "600201-2026": "REVIEW_CATEGORY_AND_DATE_CONFLICT",
     "603727-2026": "REVIEW_QUALIFICATION_REQUIREMENTS",
-    "610120-2026": "REVIEW_STAGE_LABEL_AND_SECURITY_SERVICE_FIT",
+    "606049-2026": "VERIFY_PARTICIPATION_STAGE_AND_MISSING_DIRECTORY_DATE",
+    "609559-2026": "VERIFY_PARTICIPATION_STAGE_AND_PORTAL_ACCESS",
 }
 
 
@@ -34,7 +37,7 @@ def _unique(rows):
     return indexed
 
 
-def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
+def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
     try:
         day = date.fromisoformat(as_of)
     except (TypeError, ValueError) as exc:
@@ -62,6 +65,11 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
     first = cohort.get("reviewed_first_record")
     if not isinstance(first, dict) or first.get("publication_number") != SELECTED[0]:
         raise ValueError("missing independent first-record review")
+    # Predeclared, outcome-independent choice among accessible originals;
+    # no prevalence or representative-sample claim is supported.
+    eligible = sorted(n for n in originals if projected[n]["procedure_main_cpv"].startswith(("48", "72")))
+    if tuple(eligible[:3]) != SELECTED:
+        raise ValueError("selected IT preflight cohort no longer reproducible")
     cards = []
     incumbent_rows = directory.get("independent_competitor_observations", [])
     if not isinstance(incumbent_rows, list):
@@ -74,64 +82,43 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
         main_cpv = row.get("procedure_main_cpv")
         if not isinstance(main_cpv, str) or len(main_cpv) != 8 or not main_cpv.isdigit():
             raise ValueError("invalid main CPV")
+        if not main_cpv.startswith(("48", "72")):
+            raise ValueError("selected preflight must have primary IT CPV")
         d = listed[number]
         if d.get("source_url") != f"https://upphandla.app/en/tender/{number}":
             raise ValueError("directory URL not bound to notice")
         if d.get("display_status") not in {"date_displayed", "no_deadline_displayed", "page_unavailable"}:
             raise ValueError("unsupported directory status")
-        if number == SELECTED[0]:
-            if (stage != "tender" or first.get("original_notice_deadline_kind") != "receipt_of_tenders"
-                    or first.get("original_notice_main_cpv") != main_cpv
-                    or first.get("original_notice_url") != f"https://ted.europa.eu/sv/notice/{number}/html"
-                    or first.get("amendments_checked") is not False
-                    or first.get("portal_access") != "restricted_access_page"):
-                raise ValueError("first-record evidence conflict")
-            try:
-                deadline = datetime.fromisoformat(first["original_notice_observed_deadline"])
-            except (KeyError, TypeError, ValueError) as exc:
-                raise ValueError("invalid first original timestamp") from exc
-            if deadline.utcoffset() is None:
-                raise ValueError("naive original deadline")
-            date_value = deadline.date()
-            original = first["original_notice_url"]
-            portal_status = "restricted_access_page"
-            competitor = first.get("directory_claims", [])
-            if len(competitor) < 2:
-                raise ValueError("missing first-record directory comparison")
-            competitor = [{"source_url": c["source_url"],
-                           "public_display": c.get("displayed_deadline_date") or c.get("displayed_deadline")}
-                          for c in competitor]
+        p = originals.get(number)
+        if not p or p.get("official_stage") != stage:
+            raise ValueError("primary stage mismatch")
+        if p.get("official_notice_url") != f"https://ted.europa.eu/sv/notice/{number}/html":
+            raise ValueError("unbound primary notice")
+        if p.get("amendments_status") != "not_checked":
+            raise ValueError("amendment clearance unsupported")
+        try:
+            date_value = date.fromisoformat(p["official_deadline_date"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("invalid original date") from exc
+        raw = p.get("official_deadline_raw", "")
+        if f"{date_value.day:02}/{date_value.month:02}/{date_value.year}" not in raw:
+            raise ValueError("original date transcription mismatch")
+        original = p["official_notice_url"]
+        portal_status = p.get("portal_status")
+        if portal_status not in {"public_stage_and_date_text", "not_observed_tool_access"}:
+            raise ValueError("unsupported portal status")
+        if portal_status == "public_stage_and_date_text" and p.get("portal_stage") != stage:
+            raise ValueError("portal stage mismatch")
+        if number == "603727-2026":
+            matching = [c for c in incumbent_rows if c.get("publication_number") == number]
+            if len(matching) != 1 or matching[0].get("display_status") != "participation_date_displayed":
+                raise ValueError("missing competitor participation display")
+            competitor = [{"source_url": matching[0]["source_url"],
+                           "public_display": "participation_date_displayed: " + matching[0]["displayed_date"]}]
         else:
-            p = originals.get(number)
-            if not p or p.get("official_stage") != stage:
-                raise ValueError("primary stage mismatch")
-            if p.get("official_notice_url") != f"https://ted.europa.eu/sv/notice/{number}/html":
-                raise ValueError("unbound primary notice")
-            if p.get("amendments_status") != "not_checked":
-                raise ValueError("amendment clearance unsupported")
-            try:
-                date_value = date.fromisoformat(p["official_deadline_date"])
-            except (KeyError, TypeError, ValueError) as exc:
-                raise ValueError("invalid original date") from exc
-            raw = p.get("official_deadline_raw", "")
-            if f"{date_value.day:02}/{date_value.month:02}/{date_value.year}" not in raw:
-                raise ValueError("original date transcription mismatch")
-            original = p["official_notice_url"]
-            portal_status = p.get("portal_status")
-            if portal_status not in {"public_stage_and_date_text", "not_observed_tool_access"}:
-                raise ValueError("unsupported portal status")
-            if portal_status == "public_stage_and_date_text" and p.get("portal_stage") != stage:
-                raise ValueError("portal stage mismatch")
-            if number == "603727-2026":
-                matching = [c for c in incumbent_rows if c.get("publication_number") == number]
-                if len(matching) != 1 or matching[0].get("display_status") != "participation_date_displayed":
-                    raise ValueError("missing competitor participation display")
-                competitor = [{"source_url": matching[0]["source_url"],
-                               "public_display": "participation_date_displayed: " + matching[0]["displayed_date"]}]
-            else:
-                competitor = ([{"source_url": p["competitor_url"],
-                                "public_display": p["competitor_observation"]}]
-                              if "competitor_url" in p else [])
+            competitor = ([{"source_url": p["competitor_url"],
+                            "public_display": p["competitor_observation"]}]
+                          if "competitor_url" in p else [])
         if date_value >= day:
             raise ValueError("historical example date is not yet past")
         for claim in competitor:
@@ -175,7 +162,7 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-26"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence-dir", type=Path, default=Path("data/evidence"))
-    parser.add_argument("--as-of", default="2026-10-26")
+    parser.add_argument("--as-of", default="2026-10-28")
     args = parser.parse_args()
     files = ("ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
              "ted_cpv72_search_projection_summary_2026-10-26.json",

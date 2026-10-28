@@ -1,0 +1,77 @@
+{
+  "evidence_type": "historical_fixed20_source_backed_preflight_examples_not_supplier_decisions",
+  "as_of_date": "2026-10-28",
+  "example_count": 3,
+  "examples": [
+    {
+      "publication_number": "603727-2026",
+      "original_notice_url": "https://ted.europa.eu/sv/notice/603727-2026/html",
+      "official_original_stage": "participation_request",
+      "original_notice_deadline_date": "2026-10-09",
+      "main_cpv": "72212400",
+      "primary_it_cpv_48_or_72": true,
+      "directory_url": "https://upphandla.app/en/tender/603727-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "primary_portal_stage_corroborated": true,
+      "competitor_examples_count": 1,
+      "competitor_observations": [
+        {
+          "source_url": "https://tilldelat.se/upphandling/system-for-strategi-planering-och-uppfoljning-318ec3",
+          "public_display": "participation_date_displayed: 2026-10-09"
+        }
+      ],
+      "preflight_action": "REVIEW_QUALIFICATION_REQUIREMENTS",
+      "supplier_bid_no_bid": "UNDETERMINED",
+      "historical_not_live_opportunity": true,
+      "amendments_and_eligibility_unverified": true,
+      "supplier_capability_unknown": true
+    },
+    {
+      "publication_number": "606049-2026",
+      "original_notice_url": "https://ted.europa.eu/sv/notice/606049-2026/html",
+      "official_original_stage": "participation_request",
+      "original_notice_deadline_date": "2026-10-01",
+      "main_cpv": "72000000",
+      "primary_it_cpv_48_or_72": true,
+      "directory_url": "https://upphandla.app/en/tender/606049-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "primary_portal_stage_corroborated": true,
+      "competitor_examples_count": 1,
+      "competitor_observations": [
+        {
+          "source_url": "https://tilldelat.se/upphandling/eventnat-99e715",
+          "public_display": "Sista ansökningsdag 1 oktober 2026"
+        }
+      ],
+      "preflight_action": "VERIFY_PARTICIPATION_STAGE_AND_MISSING_DIRECTORY_DATE",
+      "supplier_bid_no_bid": "UNDETERMINED",
+      "historical_not_live_opportunity": true,
+      "amendments_and_eligibility_unverified": true,
+      "supplier_capability_unknown": true
+    },
+    {
+      "publication_number": "609559-2026",
+      "original_notice_url": "https://ted.europa.eu/sv/notice/609559-2026/html",
+      "official_original_stage": "participation_request",
+      "original_notice_deadline_date": "2026-10-05",
+      "main_cpv": "72000000",
+      "primary_it_cpv_48_or_72": true,
+      "directory_url": "https://upphandla.app/en/tender/609559-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "primary_portal_stage_corroborated": false,
+      "competitor_examples_count": 0,
+      "competitor_observations": [],
+      "preflight_action": "VERIFY_PARTICIPATION_STAGE_AND_PORTAL_ACCESS",
+      "supplier_bid_no_bid": "UNDETERMINED",
+      "historical_not_live_opportunity": true,
+      "amendments_and_eligibility_unverified": true,
+      "supplier_capability_unknown": true
+    }
+  ],
+  "actual_paired_supplier_tasks": 0,
+  "actual_supplier_time_saved_minutes": null,
+  "explicit_price_or_pilot_responses": 0,
+  "verified_paying_customers": null,
+  "commercial_validation": "NOT_VALIDATED",
+  "warning": "Historical notice originals, not amended operative deadlines. No supplier profile, full eligibility review, signed-in portal, incumbent product test, actual bid/no-bid decision, cost, saving or payment evidence."
+}
