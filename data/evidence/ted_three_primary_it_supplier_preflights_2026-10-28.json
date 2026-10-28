@@ -40,7 +40,7 @@
       "competitor_observations": [
         {
           "source_url": "https://tilldelat.se/upphandling/eventnat-99e715",
-          "public_display": "Sista ansökningsdag 1 oktober 2026"
+          "public_display": "participation_date_displayed: 2026-10-01"
         }
       ],
       "preflight_action": "VERIFY_PARTICIPATION_STAGE_AND_MISSING_DIRECTORY_DATE",
