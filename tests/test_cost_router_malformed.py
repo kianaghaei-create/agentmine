@@ -81,6 +81,8 @@ class MalformedQuoteTests(unittest.TestCase):
         for source in (
             'https://localhost/data',
             'https://sub.localhost/data',
+            'https://localhost.localdomain/data',
+            'https://server.localdomain/data',
             'https://127.0.0.1/data',
             'https://10.0.0.1/data',
             'https://192.168.1.1/data',
