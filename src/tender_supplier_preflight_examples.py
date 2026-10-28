@@ -10,6 +10,8 @@ import argparse
 from datetime import date, datetime, timezone
 import json
 from pathlib import Path
+import re
+from urllib.parse import urlsplit
 
 from src.tender_primary_portal_stage_audit import audit
 
@@ -35,6 +37,31 @@ def _unique(rows):
             raise ValueError("duplicate publication number")
         indexed[number] = row
     return indexed
+
+
+
+def _competitor_source(url):
+    """Allow only independently attributed, public tender detail pages.
+
+    These historical cards were manually checked against Tilldelat. A new
+    provider requires its own source evidence and explicit adapter review.
+    This validates the URL shape, not that its content or notice match.
+    """
+    if not isinstance(url, str):
+        raise ValueError("invalid independent competitor source URL")
+    try:
+        parsed = urlsplit(url)
+        valid = (parsed.scheme == "https"
+                 and parsed.hostname in {"tilldelat.se", "www.tilldelat.se"}
+                 and parsed.username is None and parsed.password is None
+                 and parsed.port in (None, 443)
+                 and not parsed.query and not parsed.fragment
+                 and re.fullmatch(r"/upphandling/[a-z0-9-]+", parsed.path) is not None)
+    except ValueError:
+        valid = False
+    if not valid:
+        raise ValueError("invalid independent competitor source URL")
+
 
 
 def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
@@ -115,8 +142,16 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
         if matching:
             if matching[0].get("display_status") != "participation_date_displayed":
                 raise ValueError("unsupported competitor participation display")
+            raw_date = matching[0].get("displayed_date")
+            if not isinstance(raw_date, str):
+                raise ValueError("invalid competitor display date")
+            try:
+                if date.fromisoformat(raw_date).isoformat() != raw_date:
+                    raise ValueError("noncanonical competitor display date")
+            except ValueError as exc:
+                raise ValueError("invalid competitor display date") from exc
             competitor = [{"source_url": matching[0]["source_url"],
-                           "public_display": "participation_date_displayed: " + matching[0]["displayed_date"]}]
+                           "public_display": "participation_date_displayed: " + raw_date}]
         else:
             competitor = ([{"source_url": p["competitor_url"],
                             "public_display": p["competitor_observation"]}]
@@ -124,9 +159,8 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
         if date_value >= day:
             raise ValueError("historical example date is not yet past")
         for claim in competitor:
-            if (not isinstance(claim.get("source_url"), str)
-                    or not claim["source_url"].startswith("https://")
-                    or not isinstance(claim.get("public_display"), str)
+            _competitor_source(claim.get("source_url"))
+            if (not isinstance(claim.get("public_display"), str)
                     or not claim["public_display"].strip()):
                 raise ValueError("invalid competitor display evidence")
         cards.append({
