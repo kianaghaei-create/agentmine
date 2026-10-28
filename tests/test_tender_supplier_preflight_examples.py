@@ -43,6 +43,25 @@ class HistoricalPreflightTests(unittest.TestCase):
         published = json.loads((EVIDENCE / 'ted_three_primary_it_supplier_preflights_2026-10-28.json').read_text(encoding='utf-8'))
         self.assertEqual(published, build(*real()))
 
+    def test_competitor_stage_displays_bind_to_same_notice(self):
+        args = real()
+        by_id = {r['publication_number']: r for r in args[2]['independent_competitor_observations']}
+        for card in build(*args)['examples']:
+            with self.subTest(notice=card['publication_number']):
+                self.assertEqual(card['competitor_examples_count'], 1)
+                self.assertEqual(card['competitor_observations'][0]['source_url'],
+                                 by_id[card['publication_number']]['source_url'])
+                self.assertIn(by_id[card['publication_number']]['displayed_date'],
+                              card['competitor_observations'][0]['public_display'])
+
+    def test_duplicate_competitor_stage_observation_is_rejected(self):
+        args = real()
+        duplicate = copy.deepcopy(next(row for row in args[2]['independent_competitor_observations']
+                                       if row['publication_number'] == '609559-2026'))
+        args[2]['independent_competitor_observations'].append(duplicate)
+        with self.assertRaisesRegex(ValueError, 'duplicate independent competitor display'):
+            build(*args)
+
     def test_rejects_projection_stage_mismatch(self):
         args = real()
         for row in args[1]['rows']:
