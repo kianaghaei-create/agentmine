@@ -27,6 +27,9 @@ def evaluate(service, *, observed_at, max_probe_age_seconds=3600):
     now = _utc(observed_at)
     if now is None:
         raise ValueError('observed_at must be timezone-aware ISO 8601')
+    # Caller-controlled future timestamps must not manufacture fresh monitoring.
+    if now > datetime.now(timezone.utc):
+        raise ValueError('observed_at cannot be in the future')
     if type(max_probe_age_seconds) is not int or not 60 <= max_probe_age_seconds <= 86400:
         raise ValueError('max_probe_age_seconds must be integer in 60..86400')
     if not isinstance(service, dict):
