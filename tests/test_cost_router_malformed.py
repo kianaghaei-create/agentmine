@@ -77,6 +77,37 @@ class MalformedQuoteTests(unittest.TestCase):
         result = choose([quote], **PARAMS)
         self.assertEqual(result['selected'], 'provider-a')
 
+    def test_non_public_source_hosts_cannot_be_quote_provenance(self):
+        for source in (
+            'https://localhost/data',
+            'https://sub.localhost/data',
+            'https://127.0.0.1/data',
+            'https://10.0.0.1/data',
+            'https://192.168.1.1/data',
+            'https://169.254.169.254/data',
+            'https://[::1]/data',
+            'https://metadata.google.internal/data',
+            'https://printer.local/data',
+            'https://server.lan/data',
+            'https://intranet/data',
+        ):
+            with self.subTest(source=source):
+                result = choose([{**VALID, 'source_url': source}], **PARAMS)
+                self.assertEqual(result['status'], 'no_eligible_quote')
+
+    def test_public_hostname_and_global_ip_remain_eligible(self):
+        for source in ('https://example.org/data', 'https://8.8.8.8/data'):
+            with self.subTest(source=source):
+                result = choose([{**VALID, 'source_url': source}], **PARAMS)
+                self.assertEqual(result['selected'], 'provider-a')
+
+    def test_private_cheaper_offer_cannot_displace_public_source(self):
+        private = {**VALID, 'provider': 'private-offer',
+                   'source_url': 'https://10.0.0.2/data',
+                   'source_usd': '0'}
+        result = choose([private, VALID], **PARAMS)
+        self.assertEqual(result['selected'], 'provider-a')
+
     def test_does_not_modify_inputs(self):
         quotes = [None, VALID.copy()]
         choose(quotes, **PARAMS)
