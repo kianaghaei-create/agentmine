@@ -24,6 +24,16 @@ ACTIONS = {
     "609559-2026": "VERIFY_PARTICIPATION_STAGE_AND_PORTAL_ACCESS",
 }
 
+# This module emits only three *historical, manually source-matched* cards.
+# A valid Tilldelat URL shape does not prove it belongs to a given TED notice:
+# pin the exact reviewed source for each notice, including fallback evidence.
+# New notices/providers require separately checked provenance, not auto-trust.
+COMPETITOR_URL_BY_NOTICE = {
+    "603727-2026": "https://tilldelat.se/upphandling/system-for-strategi-planering-och-uppfoljning-318ec3",
+    "606049-2026": "https://tilldelat.se/upphandling/eventnat-99e715",
+    "609559-2026": "https://tilldelat.se/upphandling/lan-och-wifi-389186",
+}
+
 
 def _unique(rows):
     if not isinstance(rows, list):
@@ -163,6 +173,8 @@ def build(cohort, official, directory, primary, *, as_of="2026-10-28"):
             if (not isinstance(claim.get("public_display"), str)
                     or not claim["public_display"].strip()):
                 raise ValueError("invalid competitor display evidence")
+            if claim["source_url"] != COMPETITOR_URL_BY_NOTICE[number]:
+                raise ValueError("independent competitor URL not bound to notice")
         cards.append({
             "publication_number": number,
             "original_notice_url": original,
