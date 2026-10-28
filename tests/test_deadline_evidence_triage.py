@@ -5,9 +5,11 @@ from src.deadline_evidence_triage import triage
 
 
 def row(day, *, stage='unknown', label='unknown', kind='third_party', host='example.org'):
+    url = (f'https://{host}/en/notice/-/detail/699156-2026'
+           if kind == 'original_ted_notice'
+           else f'https://{host}/notice/{day.replace(":", "-")}')
     return {'publication_number': '699156-2026', 'source_kind': kind,
-            'source_url': f'https://{host}/notice/{day.replace(":", "-")}',
-            'reported_deadline': day, 'stage_claim': stage,
+            'source_url': url, 'reported_deadline': day, 'stage_claim': stage,
             'display_label_claim': label}
 
 
@@ -78,6 +80,25 @@ class StageTests(unittest.TestCase):
             triage(bundle(r))
         r['source_url'] = 'https://ted.europa.eu/en/notice/-/detail/699156-2026'
         self.assertTrue(triage(bundle(r))['original_ted_notice_present'])
+
+    def test_ted_original_wrong_notice_id_or_path_rejected(self):
+        r = row('2026-11-06', kind='original_ted_notice', host='ted.europa.eu')
+        for bad_url in (
+                'https://ted.europa.eu/sv/notice/612139-2026/html',
+                'https://ted.europa.eu/sv/notice/612139-2026/html/699156-2026',
+                'https://ted.europa.eu/sv/notice/699156-2026/html?other=612139-2026',
+                'https://ted.europa.eu/sv/search?notice=699156-2026'):
+            with self.subTest(url=bad_url):
+                r['source_url'] = bad_url
+                with self.assertRaisesRegex(ValueError, 'must match publication number'):
+                    triage(bundle(r))
+
+    def test_ted_original_current_html_path_bound_to_notice(self):
+        r = row('2026-11-06', kind='original_ted_notice', host='ted.europa.eu')
+        r['source_url'] = 'https://ted.europa.eu/sv/notice/699156-2026/html'
+        result = triage(bundle(r))
+        self.assertTrue(result['original_ted_notice_present'])
+        self.assertFalse(result['legal_deadline_verified'])
 
     def test_no_paid_demand_or_legal_deadline_claim(self):
         result = triage(bundle(row('2026-11-06')))
