@@ -1,0 +1,69 @@
+{
+  "evidence_type": "fixed20_selected_original_vs_supplier_facing_directory_deadline_display",
+  "reviewed_on_utc_date": "2026-10-28",
+  "publication_number": "612139-2026",
+  "fixed_cohort_source": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "buyer": "Karlskrona kommun",
+  "title": "AI-tjänst för styrning av fastighetsautomation",
+  "primary_cpv": "48000000",
+  "official_original_notice_version": "01",
+  "observations": [
+    {
+      "publication_number": "612139-2026",
+      "source_kind": "original_ted_notice",
+      "source_url": "https://ted.europa.eu/sv/notice/612139-2026/html",
+      "reported_deadline": "2026-10-01T23:59:59+02:00",
+      "stage_claim": "bid_submission",
+      "display_label_claim": "bid_deadline",
+      "read_on_utc_date": "2026-10-28",
+      "quoted_field": "Tidsfrist för mottagande av anbud"
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_kind": "third_party_summary",
+      "source_url": "https://offson.se/upphandlingar/sverige-programvara-och-informationssystem-ai-tjanst-for-sty-c390cd",
+      "reported_deadline": "2026-09-30",
+      "stage_claim": "bid_submission",
+      "display_label_claim": "bid_deadline",
+      "read_on_utc_date": "2026-10-28",
+      "quoted_field": "Sista anbudsdag; page also instructs submit by 30 September"
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_kind": "third_party_summary",
+      "source_url": "https://tilldelat.se/upphandling/ai-tjanst-for-styrning-av-fastighetsautomation-afc486",
+      "reported_deadline": "2026-10-01",
+      "stage_claim": "bid_submission",
+      "display_label_claim": "bid_deadline",
+      "read_on_utc_date": "2026-10-28",
+      "quoted_field": "Sista anbudsdag"
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_kind": "official_summary",
+      "source_url": "https://op.europa.eu/sv/web/public-procurement/procurement-details/-/procurement/cffc7e10-e25d-4cf4-933f-c0c577d1ec5c",
+      "reported_deadline": "2026-10-01",
+      "stage_claim": "bid_submission",
+      "display_label_claim": "generic_deadline",
+      "read_on_utc_date": "2026-10-28",
+      "quoted_field": "Tidsfrist"
+    }
+  ],
+  "analysis": {
+    "official_original_local_deadline": "2026-10-01T23:59:59+02:00",
+    "official_original_utc_instant": "2026-10-01T21:59:59Z",
+    "offson_display_day": "2026-09-30",
+    "offson_date_matches_original_utc_or_local_day": false,
+    "confirmed_display_disagreement": true,
+    "independently_confirmed_operational_legal_deadline": false,
+    "amendments_checked": false,
+    "buyer_submission_portal_stage_deadline_checked": false,
+    "source_access_note": "All four public pages directly readable on 2026-10-28; official original is notice version 01, not an amendment history. Publications Office overview explicitly disclaims legal effect.",
+    "interpretation": "One selected historical predeclared IT notice has a supplier-facing date claim one day earlier than the original notice's local and UTC calendar day. Offson explicitly instructs submission by its displayed date. This is a public display discrepancy, not proof of a legally operative error, missed bid, supplier harm, or AgentMine differentiation. Another directory and the EU summary agree with the original calendar day.",
+    "commercial_validation": "NOT_VALIDATED",
+    "verified_paying_agentmine_customers": null,
+    "actual_supplier_time_saved_minutes": null,
+    "explicit_pilot_price_responses": 0
+  },
+  "constraints": "Public read-only sources only; no login, amendment bypass, payments, outreach, sensitive customer data, or public deployment."
+}
