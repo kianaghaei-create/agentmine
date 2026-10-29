@@ -1,0 +1,43 @@
+{
+  "evidence_type": "official_advertised_main_cpv72_procurement_scope_not_agentmine_demand",
+  "compiled_on_utc_date": "2026-10-29",
+  "publisher": "Upphandlingsmyndigheten",
+  "source_rights": "Official public statistics; cite source, date and period; derived calculations attributed to AgentMine, not publisher.",
+  "classification": "main CPV 72 IT services only; secondary CPV72 matches are excluded",
+  "annual_observations": [
+    {
+      "year": 2024,
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/tjansteupphandlingar-vanligast-2024/",
+      "source_published_on": "2026-02-05",
+      "advertised_procurements": 827,
+      "estimated_advertised_value_billion_sek": "33.74",
+      "source_table": "De tio vanligaste CPV-huvudgrupperna utifrån huvudsaklig CPV-kod, 2024"
+    },
+    {
+      "year": 2025,
+      "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/tjansteupphandlingar-vanligast-2025/",
+      "source_published_on": "2026-06-01",
+      "advertised_procurements": 853,
+      "estimated_advertised_value_billion_sek": "56.73",
+      "source_table": "De tio vanligaste CPV-huvudgrupperna utifrån huvudsaklig CPV-kod, 2025"
+    }
+  ],
+  "derived_agentmine_comparisons": {
+    "procurement_count_difference": 26,
+    "procurement_count_change_pct_rounded_2dp": "3.14",
+    "estimated_advertised_value_difference_billion_sek": "22.99",
+    "estimated_advertised_value_change_pct_rounded_2dp": "68.14",
+    "estimated_advertised_value_per_procurement_million_sek_2024_rounded_2dp": "40.80",
+    "estimated_advertised_value_per_procurement_million_sek_2025_rounded_2dp": "66.51"
+  },
+  "scope_and_interpretation": [
+    "These are official reported tender announcements and estimated full-contract/option values, not realized public spending, supplier invoices, supplier revenue or AgentMine addressable software revenue.",
+    "The 2025 increase in estimated value is much larger than the increase in notice counts. The underlying distribution, individual outliers and any data revisions have not been checked; do not infer typical contract size growth, unique buyers or supplier concentration.",
+    "Main CPV72 excludes software/system notices whose main code is CPV48 and notices with only secondary CPV72; it cannot be combined with the fixed any-CPV72 TED cohort as a shared denominator.",
+    "No independently observed supplier willingness to pay for AgentMine, paid users, saved decision time, actual variable cost or conversion is established by these annual statistics.",
+    "The sources are 2026 publications describing historical 2024 and 2025 cohorts, not new tenders observed in October 2026."
+  ],
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue_sek": null,
+  "verified_agentmine_supplier_time_savings_minutes": null
+}
