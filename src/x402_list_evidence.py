@@ -57,6 +57,10 @@ def summarize(payload, *, fetched_at):
     if not isinstance(prov, dict) or prov.get("cite_as") != SOURCE or prov.get("license") != "CC-BY-4.0":
         raise ValueError("missing official source attribution/license")
     fetched = _time(fetched_at, "fetched_at")
+    # A replayed snapshot must not claim a fetch that has not occurred yet.
+    # This applies to the library API as well as the command-line interface.
+    if fetched > datetime.now(timezone.utc):
+        raise ValueError("fetched_at cannot be in the future")
     computed = _time(data.get("computed_at"), "computed_at")
     traction = data.get("traction")
     if not isinstance(traction, dict):
