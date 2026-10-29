@@ -55,6 +55,15 @@ class ReplayProvenanceTests(unittest.TestCase):
             self.assertEqual(len(saved_summary), 1)
             self.assertEqual(json.loads(saved_summary[0].read_text()), summary)
 
+    def test_replay_rejects_future_fetch_timestamp(self):
+        with tempfile.TemporaryDirectory() as d:
+            source, _ = self.setup_input(d)
+            out = Path(d) / "out"
+            with self.assertRaisesRegex(ValueError, "fetched_at cannot be in the future"):
+                self.invoke(["--input", str(source), "--fetched-at", "2999-01-01T00:00:00Z",
+                             "--output-dir", str(out)])
+            self.assertFalse(out.exists())
+
     def test_replay_rejects_naive_fetch_timestamp(self):
         with tempfile.TemporaryDirectory() as d:
             source, _ = self.setup_input(d)
