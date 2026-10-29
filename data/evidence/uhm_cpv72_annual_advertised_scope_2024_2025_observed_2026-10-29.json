@@ -35,9 +35,30 @@
     "The 2025 increase in estimated value is much larger than the increase in notice counts. The underlying distribution, individual outliers and any data revisions have not been checked; do not infer typical contract size growth, unique buyers or supplier concentration.",
     "Main CPV72 excludes software/system notices whose main code is CPV48 and notices with only secondary CPV72; it cannot be combined with the fixed any-CPV72 TED cohort as a shared denominator.",
     "No independently observed supplier willingness to pay for AgentMine, paid users, saved decision time, actual variable cost or conversion is established by these annual statistics.",
-    "The sources are 2026 publications describing historical 2024 and 2025 cohorts, not new tenders observed in October 2026."
+    "The sources are 2026 publications describing historical 2024 and 2025 cohorts, not new tenders observed in October 2026.",
+    "Official all-CPV 2024 estimated-value baselines conflict across the 2024 and 2025 articles (SEK 931.24bn versus just over SEK 847bn). The 68.14% CPV72 figure is arithmetic across reported tables, NOT verified comparable market-value growth; reconciliation of scope, revisions and method is outstanding."
   ],
   "verified_agentmine_customers": null,
   "verified_agentmine_revenue_sek": null,
-  "verified_agentmine_supplier_time_savings_minutes": null
+  "verified_agentmine_supplier_time_savings_minutes": null,
+  "cross_year_value_comparability": {
+    "status": "UNRECONCILED_DO_NOT_INFER_MARKET_VALUE_GROWTH",
+    "observed_on_utc_date": "2026-10-29",
+    "same_year_2024_conflicting_official_reference_points": [
+      {
+        "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/tjansteupphandlingar-vanligast-2024/",
+        "source_published_on": "2026-02-05",
+        "reported_2024_all_cpv_estimated_advertised_value_billion_sek": "931.24",
+        "value_precision": "two_decimal_table"
+      },
+      {
+        "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/annonserade-upphandlingar-for-982-miljarder-kronor-2025/",
+        "source_published_on": "2026-06-01",
+        "reported_2024_all_cpv_estimated_advertised_value_billion_sek": "over 847",
+        "value_precision": "rounded_narrative_lower_bound"
+      }
+    ],
+    "interpretation": "The official 2024 annual article reports SEK 931.24bn while the official 2025 article retrospectively says just over SEK 847bn for 2024. The reason is not established. This all-CPV discrepancy does not prove the CPV72 segment figures wrong, but prevents treating the calculated 68.14% CPV72 estimated-value difference as verified growth in actual IT procurement demand or a stable comparable annual value series. Count change +26/+3.14% is a separate advertised-notice comparison. Do not claim a verified year-on-year market value growth rate without source reconciliation.",
+    "verified_year_on_year_market_value_growth": false
+  }
 }
