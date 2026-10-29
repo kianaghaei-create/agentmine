@@ -1,6 +1,7 @@
 """Offline quote routing: compare licensed, verified information offers."""
 from decimal import Decimal, InvalidOperation
 from ipaddress import ip_address
+from socket import inet_aton
 from urllib.parse import urlsplit
 
 
@@ -21,9 +22,16 @@ def _public_source_url(value):
         try:
             return ip_address(host).is_global
         except ValueError:
-            # DNS hostnames must be multi-label and not explicitly local.
-            return ('.' in host and not host.endswith(
-                ('.localhost', '.localdomain', '.local', '.internal', '.home.arpa', '.lan')))
+            # inet_aton is a local parser (no DNS/network). It catches legacy
+            # numeric IPv4 spellings such as 127.1, 0177.0.0.1 and
+            # 0x7f.0.0.1 that ip_address rejects but URL clients may resolve
+            # to loopback or private addresses.
+            try:
+                return ip_address(inet_aton(host)).is_global
+            except OSError:
+                # DNS hostnames must be multi-label and not explicitly local.
+                return ('.' in host and not host.endswith(
+                    ('.localhost', '.localdomain', '.local', '.internal', '.home.arpa', '.lan')))
     except ValueError:
         return False
 
