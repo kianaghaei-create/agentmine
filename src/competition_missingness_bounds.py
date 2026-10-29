@@ -7,6 +7,8 @@ import argparse
 from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR
 import json
 from pathlib import Path
+import re
+from urllib.parse import urlsplit
 
 
 def _pct(a, b, rounding):
@@ -28,8 +30,15 @@ def analyze(evidence):
                 or len(code) != 4 or code in seen):
             raise ValueError("invalid/duplicate CPV")
         seen.add(code)
-        if not isinstance(source, str) or not source.startswith("https://vunnet.se/kategori/"):
+        # Bind every aggregate to the same CPV category at the publisher.
+        # A generic prefix check lets a 7222 URL masquerade as evidence for 7226.
+        if not isinstance(source, str) or any(ch.isspace() or ord(ch) < 32 for ch in source):
             raise ValueError("invalid publisher source")
+        parsed = urlsplit(source)
+        if (parsed.scheme != "https" or parsed.netloc != "vunnet.se"
+                or parsed.query or parsed.fragment
+                or not re.fullmatch(rf"/kategori/{code}-[a-z0-9]+(?:-[a-z0-9]+)*", parsed.path)):
+            raise ValueError("publisher source CPV mismatch or invalid URL")
         n, total, p = (item.get(key) for key in
                        ("reported_bid_count_lots", "awarded_lots", "single_bid_lots_pct"))
         if (any(type(x) is not int for x in (n, total, p))
