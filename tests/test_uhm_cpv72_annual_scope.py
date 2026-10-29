@@ -57,5 +57,24 @@ class AnnualScopeTests(unittest.TestCase):
         self.assertIn('not new tenders', limitations)
 
 
+    def test_unreconciled_official_2024_value_baseline_blocks_growth_claim(self):
+        d = self.evidence
+        c = d['cross_year_value_comparability']
+        self.assertEqual(c['status'], 'UNRECONCILED_DO_NOT_INFER_MARKET_VALUE_GROWTH')
+        self.assertIs(c['verified_year_on_year_market_value_growth'], False)
+        refs = c['same_year_2024_conflicting_official_reference_points']
+        self.assertEqual(len(refs), 2)
+        self.assertEqual([r['source_published_on'] for r in refs],
+                         ['2026-02-05', '2026-06-01'])
+        self.assertEqual([r['reported_2024_all_cpv_estimated_advertised_value_billion_sek']
+                          for r in refs], ['931.24', 'over 847'])
+        self.assertTrue(all('upphandlingsmyndigheten.se/statistik/' in r['source_url']
+                            for r in refs))
+        self.assertEqual(d['derived_agentmine_comparisons']['estimated_advertised_value_change_pct_rounded_2dp'], '68.14')
+        self.assertIn('NOT verified comparable market-value growth',
+                      ' '.join(d['scope_and_interpretation']))
+        self.assertIn('Count change +26/+3.14%', c['interpretation'])
+
+
 if __name__ == '__main__':
     unittest.main()
