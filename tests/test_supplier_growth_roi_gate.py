@@ -135,6 +135,15 @@ class SupplierGrowthROITests(unittest.TestCase):
             with self.subTest(url=url), self.assertRaisesRegex(ValueError, 'source URL'):
                 run(data)
 
+    def test_encoded_private_authority_cannot_be_competitor_price_evidence(self):
+        for source in ('https://127.0.0.%31/priser',
+                       'https://%31%32%37.0.0.1/priser'):
+            with self.subTest(source=source):
+                data = snapshot()
+                data['offers'][0]['url'] = source
+                with self.assertRaisesRegex(ValueError, 'source URL'):
+                    run(data)
+
     def test_public_ip_and_dns_provenance_still_passes_format_check(self):
         # Public format is not evidence that any offer or page really exists.
         for url in ('https://8.8.8.8/prices',
