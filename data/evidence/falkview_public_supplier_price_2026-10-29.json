@@ -1,0 +1,37 @@
+{
+  "observation_date_utc": "2026-10-29",
+  "evidence_type": "vendor_advertised_supplier_software_starting_price_not_verified_sales",
+  "vendor": "Falkview",
+  "source_pages": [
+    {
+      "url": "https://falkview.se/sv/priser/",
+      "observed_claim": "Supplier software advertised from SEK 999 per month excluding VAT; features include tender discovery, bid/no-bid assessment, source-linked requirements, draft writing, pricing spreadsheet and competitor/contract analysis. Volume-dependent quote; buyer-side and Anbudspartner separately priced."
+    },
+    {
+      "url": "https://falkview.se/sv/leverantorer/",
+      "observed_claim": "Supplier-facing page advertises software from SEK 999 per month excluding VAT, all features, pricing dependent on tender volume and organization; demo or pilot required for individualized offer."
+    },
+    {
+      "url": "https://falkview.se/sv/",
+      "observed_claim": "Homepage asks for a tailored price; not evidence of no public starting price."
+    }
+  ],
+  "price": {
+    "starting_sek_per_month": 999,
+    "vat_included": false,
+    "exact_plan_limit": "unknown_or_volume_dependent",
+    "buyer_side_price": "quote_only",
+    "anbudspartner_price": "quote_only",
+    "actual_customer_invoice_verified": false
+  },
+  "scope": "Supplier-facing procurement software, not a validated AgentMine buyer or an observed transaction",
+  "comparison_caveats": [
+    "Do not treat starting advertised price as a completed sale, market willingness to pay, retention, or revenue.",
+    "Other cached vendor pages/search results may show different offers; this observation uses the currently accessible official pricing and supplier pages, not an authenticated checkout.",
+    "Supplier software feature set is not identical to a narrow source-exception verification service or opt-in RFQ exchange.",
+    "Do not republish vendor content verbatim or scrape authenticated services."
+  ],
+  "decision_relevance": "Correct prior quote-only competitor characterization: a public supplier-side starting price is now observable. Generic supplier bid/preflight SaaS faces a published approximately SEK 1,000/month full-workflow alternative; require measured differential outcome and consented buyer price responses before monetization.",
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null
+}
