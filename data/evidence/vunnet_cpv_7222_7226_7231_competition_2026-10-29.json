@@ -1,0 +1,81 @@
+{
+  "evidence_id": "vunnet_cpv_7222_7226_7231_competition_and_pro_2026-10-29",
+  "observed_on": "2026-10-29",
+  "source_type": "public_competitor_published_aggregates_and_offer",
+  "source_publisher": "Vunnet",
+  "source_methodology_url": "https://vunnet.se/om",
+  "upstream_sources_claimed_by_publisher": [
+    "TED award notices from November 2023",
+    "Upphandlingsmyndigheten annual statistics 2021–2025, published 2026-09-24"
+  ],
+  "population_caveat": "Publisher mixes TED and annual Swedish procurement statistics. Results are per awarded lot with reported bid count, not all notices, all bids, unique companies or primary-CPV-only procurement. No independent raw-row reconciliation was performed.",
+  "segments": [
+    {
+      "cpv_family": "7222",
+      "source_url": "https://vunnet.se/kategori/7222-systemtjanster-och-tekniska-konsulttjanster",
+      "mean_bids_per_awarded_lot": 5.2,
+      "single_bid_lots_pct": 27,
+      "reported_bid_count_lots": 787,
+      "awarded_lots": 969,
+      "decided_procurements": 841,
+      "top_listed_winner": {
+        "name": "Atea Sverige AB",
+        "win_count": 37
+      },
+      "top_winner_share_of_all_awards": null
+    },
+    {
+      "cpv_family": "7226",
+      "source_url": "https://vunnet.se/kategori/7226-programrelaterade-tjanster",
+      "mean_bids_per_awarded_lot": 2.8,
+      "single_bid_lots_pct": 39,
+      "reported_bid_count_lots": 336,
+      "awarded_lots": 416,
+      "decided_procurements": 412,
+      "top_listed_winner": {
+        "name": "Atea Sverige AB",
+        "win_count": 23
+      },
+      "top_winner_share_of_all_awards": null
+    },
+    {
+      "cpv_family": "7231",
+      "source_url": "https://vunnet.se/kategori/7231-behandling-av-data",
+      "mean_bids_per_awarded_lot": 3.6,
+      "single_bid_lots_pct": 27,
+      "reported_bid_count_lots": 85,
+      "awarded_lots": 99,
+      "decided_procurements": 103,
+      "top_listed_winner": {
+        "name": "Atea Sverige AB and Retriever Sverige AB (tied)",
+        "win_count_each": 6
+      },
+      "top_winner_share_of_all_awards": null
+    }
+  ],
+  "descriptive_comparison": {
+    "cpv7226_minus_cpv7222_single_bid_percentage_points": 12,
+    "cpv7226_minus_cpv7231_single_bid_percentage_points": 12,
+    "interpretation": "A within-publisher descriptive difference across differently composed, historical observed lots; not a causal effect, an independently verified population estimate, win probability, or a supplier-growth customer signal."
+  },
+  "competitor_offer": {
+    "source_url": "https://vunnet.se/pro?fran=kategori&ref=7226",
+    "advertised_future_price_sek_per_month_ex_vat": 795,
+    "launch_status": "NOT_LAUNCHED",
+    "funnel": "free non-binding waitlist with voluntary price-range question",
+    "advertised_features": [
+      "competitor award alerts",
+      "buyer procurement history",
+      "Excel export",
+      "free tender monitoring and category statistics"
+    ],
+    "evidence_type": "publisher marketing and prospective price test, not actual subscription sales",
+    "verified_paying_customers": null,
+    "verified_revenue_sek": null
+  },
+  "concentration_limit": "A ranked winner list is not the full denominator or a validated unique-company distribution. Do not compute supplier HHI, market shares, or concentration from these counts.",
+  "business_interpretation": "Generic tender alerts, winner/buyer statistics and paid supplier intelligence are already advertised by a competitor. CPV7226 appears worth targeted buyer discovery but the 39% single-bid figure does not prove a commercially underserved segment. Test consented supplier decision correctness, time saved and explicit willingness to pay against existing tools before pricing AgentMine.",
+  "agentmine_verified_paying_customers": 0,
+  "agentmine_verified_revenue_sek": 0,
+  "no_spend_no_payment_no_deployment": true
+}
