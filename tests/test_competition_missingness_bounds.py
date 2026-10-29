@@ -64,6 +64,36 @@ class MissingnessTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze(data)
 
+    def test_publisher_url_must_match_its_cpv_family(self):
+        data = copy.deepcopy(BASE)
+        data["segments"][1]["source_url"] = "https://vunnet.se/kategori/7222-systemtjanster"
+        with self.assertRaisesRegex(ValueError, "CPV mismatch"):
+            analyze(data)
+
+    def test_publisher_url_rejects_query_fragment_and_userinfo(self):
+        for url in (
+            "https://vunnet.se/kategori/7226-program?utm_source=other",
+            "https://vunnet.se/kategori/7226-program#other",
+            "https://vunnet.se@evil.example/kategori/7226-program",
+            "https://vunnet.se:443/kategori/7226-program",
+            "https://vunnet.se/kategori/7226-program/extra",
+        ):
+            data = copy.deepcopy(BASE)
+            data["segments"][1]["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(ValueError):
+                analyze(data)
+
+    def test_publisher_url_rejects_encoded_or_controlled_slugs(self):
+        for url in (
+            "https://vunnet.se/kategori/7226-%70rogram",
+            "https://vunnet.se/kategori/7226-program\\n",
+            "https://vunnet.se/kategori/7226-",
+        ):
+            data = copy.deepcopy(BASE)
+            data["segments"][1]["source_url"] = url
+            with self.subTest(url=url), self.assertRaises(ValueError):
+                analyze(data)
+
     def test_incompatible_rounded_rate_rejected(self):
         data = copy.deepcopy(BASE)
         data["segments"] = [{"cpv_family": "7226", "source_url": "https://vunnet.se/kategori/7226-example",
