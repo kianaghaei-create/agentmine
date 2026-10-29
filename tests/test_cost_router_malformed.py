@@ -107,6 +107,23 @@ class MalformedQuoteTests(unittest.TestCase):
                 result = choose([{**VALID, 'source_url': source}], **PARAMS)
                 self.assertEqual(result['status'], 'no_eligible_quote')
 
+    def test_encoded_authority_and_raw_controls_cannot_be_public_provenance(self):
+        # urlsplit leaves percent-encoded hostnames intact, but requests can
+        # decode them to loopback/private IPs; never accept ambiguous sources.
+        for source in ('https://127.0.0.%31/data',
+                       'https://%31%32%37.0.0.1/data',
+                       'https://192.168.%31.1/data',
+                       'https://%65xample.org/data',
+                       'https://exa\\nmple.org/data',
+                       'https://example.org\\t/data'):
+            with self.subTest(source=source):
+                result = choose([{**VALID, 'source_url': source}], **PARAMS)
+                self.assertEqual(result['status'], 'no_eligible_quote')
+
+    def test_percent_encoding_in_path_is_not_a_host_alias(self):
+        result = choose([{**VALID, 'source_url': 'https://example.org/my%20data'}], **PARAMS)
+        self.assertEqual(result['selected'], 'provider-a')
+
     def test_public_hostname_and_global_ip_remain_eligible(self):
         for source in ('https://example.org/data', 'https://8.8.8.8/data',
                        'https://[2606:4700:4700::1111]/data'):
