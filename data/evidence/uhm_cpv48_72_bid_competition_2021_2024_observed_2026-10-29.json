@@ -1,0 +1,52 @@
+{
+  "evidence_type": "official_historical_mean_bids_by_main_cpv_not_agentmine_demand",
+  "observed_on_utc_date": "2026-10-29",
+  "publisher": "Upphandlingsmyndigheten",
+  "source_url": "https://www.upphandlingsmyndigheten.se/globalassets/dokument/publikationer/rapport-om-utvecklingen-pa-upphandlingsomradet-2025.pdf",
+  "source_report": "Rapport om utvecklingen på upphandlingsområdet 2025, Rapport 2026:1",
+  "source_printed_pages": [
+    33,
+    34
+  ],
+  "source_table": "Tabell 1. Genomsnittligt antal anbud per upphandling efter CPV-huvudgrupp 2021–2024",
+  "metric": "mean_bids_per_procurement",
+  "classification": "main CPV group, not secondary-code matching",
+  "series": [
+    {
+      "main_cpv_group": "48",
+      "description": "Programvara och informationssystem",
+      "values_by_year": {
+        "2021": "2.7",
+        "2022": "2.7",
+        "2023": "2.3",
+        "2024": "2.3"
+      }
+    },
+    {
+      "main_cpv_group": "72",
+      "description": "IT-tjänster",
+      "values_by_year": {
+        "2021": "15.2",
+        "2022": "5.2",
+        "2023": "4.5",
+        "2024": "3.7"
+      }
+    }
+  ],
+  "derived_agentmine_descriptive_comparisons": {
+    "2024_cpv48_minus_cpv72_mean_bids": "-1.4",
+    "2024_cpv48_to_cpv72_mean_bids_ratio_rounded_3dp": "0.622",
+    "2023_to_2024_cpv48_mean_bids_change": "0.0",
+    "2023_to_2024_cpv72_mean_bids_change": "-0.8"
+  },
+  "limitations": [
+    "These are reported historical averages of submitted bids, not distinct bidders, supplier concentration, award probability, payment intent, AgentMine demand or realized contract value.",
+    "Publisher cautions that national framework procurements with many bids can heavily affect annual CPV means; 2021 CPV72 should not be treated as a stable baseline or causal trend.",
+    "The source table does not give per-CPV observation denominators, bid-count distributions, medians or supplier identities. A lower mean does not prove an easier win or unmet supplier demand.",
+    "The latest year in this report is 2024; it does not report 2025 CPV48/72 bid averages. Do not merge bid-average denominators with 2025 advertised-notice counts or the fixed TED-20 sample.",
+    "This is publisher-aggregated competition evidence, not independently audited tender-level bid records or an outcome of a live AgentMine product."
+  ],
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue_sek": null,
+  "verified_supplier_savings_minutes": null
+}
