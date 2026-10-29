@@ -97,6 +97,16 @@ class MalformedQuoteTests(unittest.TestCase):
                 result = choose([{**VALID, 'source_url': source}], **PARAMS)
                 self.assertEqual(result['status'], 'no_eligible_quote')
 
+    def test_legacy_numeric_loopback_and_private_aliases_are_not_public(self):
+        # inet_aton/URL clients may interpret these as private IPv4
+        # although ipaddress.ip_address rejects their noncanonical spelling.
+        for source in ('https://127.1/data', 'https://127.0.1/data',
+                       'https://0177.0.0.1/data', 'https://0x7f.0.0.1/data',
+                       'https://192.168.1/data', 'https://0300.0250.1/data'):
+            with self.subTest(source=source):
+                result = choose([{**VALID, 'source_url': source}], **PARAMS)
+                self.assertEqual(result['status'], 'no_eligible_quote')
+
     def test_public_hostname_and_global_ip_remain_eligible(self):
         for source in ('https://example.org/data', 'https://8.8.8.8/data',
                        'https://[2606:4700:4700::1111]/data'):
