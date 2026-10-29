@@ -16,6 +16,14 @@ def _public_source_url(value):
                 or parsed.port not in (None, 443)
                 or parsed.query or parsed.fragment):
             return False
+        # urlsplit leaves percent-encoded hostnames undecoded, while HTTP
+        # clients may decode them to private IPs (e.g. 127.0.0.%31).
+        # It also strips embedded tabs/newlines when parsing a URL. Reject
+        # ambiguous authority encodings and raw controls before attribution.
+        if ('%' in parsed.netloc or '\\' in parsed.netloc
+                or any(ch.isspace() or ord(ch) < 32 or ord(ch) == 127
+                       for ch in value)):
+            return False
         host = parsed.hostname.rstrip('.').lower()
         # A provenance URL must be publicly addressable. Internal hosts and
         # private/loopback/reserved IPs are not evidence of a public offer.
