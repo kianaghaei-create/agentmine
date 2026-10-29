@@ -1,0 +1,31 @@
+{
+  "evidence_type": "publisher_rolling_snapshot_comparison_not_paid_demand",
+  "source_url": "https://x402-list.com/api/v1/stats",
+  "license": "CC-BY-4.0",
+  "attribution": "Data: x402-list.com (CC BY 4.0)",
+  "observation_date_utc": "2026-10-29",
+  "baseline_repository_evidence": "data/evidence/x402_list_stats_2026-10-28T204555Z.json",
+  "latest_source_checked_at_utc": "2026-10-29T21:44:32Z",
+  "baseline": {
+    "computed_at_utc": "2026-10-28T20:45:55.940Z",
+    "activity_as_of_utc": "2026-10-28T11:42:52.410Z",
+    "listed_services": 1187,
+    "listed_endpoints": 8778,
+    "delivery_verified_services": 13,
+    "rolling_30d_flow_usd": "328371.419277"
+  },
+  "latest": {
+    "computed_at_utc": "2026-10-29T18:46:31.865Z",
+    "activity_as_of_utc": "2026-10-28T11:42:52.410Z",
+    "listed_services": 1207,
+    "listed_endpoints": 9015,
+    "delivery_verified_services": 13,
+    "rolling_30d_flow_usd": "326115.826195"
+  },
+  "limitations": [
+    "Publisher computed snapshots are not independent ledgers; both share an identical underlying traction as-of timestamp.",
+    "Rolling 30-day totals can change through window motion, backfill or recalculation; no cause verified.",
+    "Listed services and buyer addresses are not unique paying companies or AgentMine customers.",
+    "No payments, cost, sensitive data or public deployment."
+  ]
+}
