@@ -43,10 +43,21 @@
     "These are reported historical averages of submitted bids, not distinct bidders, supplier concentration, award probability, payment intent, AgentMine demand or realized contract value.",
     "Publisher cautions that national framework procurements with many bids can heavily affect annual CPV means; 2021 CPV72 should not be treated as a stable baseline or causal trend.",
     "The source table does not give per-CPV observation denominators, bid-count distributions, medians or supplier identities. A lower mean does not prove an easier win or unmet supplier demand.",
+    "Only 58% of all-CPV 2024 advertised procurements had a reported number of bids according to the publisher; CPV48/72-specific reporting coverage and missingness bias are unknown. The 2.3 versus 3.7 observed mean comparison is conditional on reported bid counts, not a demonstrated population-wide competitive difference.",
     "The latest year in this report is 2024; it does not report 2025 CPV48/72 bid averages. Do not merge bid-average denominators with 2025 advertised-notice counts or the fixed TED-20 sample.",
     "This is publisher-aggregated competition evidence, not independently audited tender-level bid records or an outcome of a live AgentMine product."
   ],
   "verified_agentmine_customers": null,
   "verified_agentmine_revenue_sek": null,
-  "verified_supplier_savings_minutes": null
+  "verified_supplier_savings_minutes": null,
+  "coverage_context": {
+    "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/46-anbud-per-upphandling-2024/",
+    "source_published_on": "2026-02-05",
+    "reference_year": 2024,
+    "all_cpv_advertised_procurements": 17575,
+    "all_cpv_procurements_with_reported_bid_counts_pct": 58,
+    "cpv48_bid_count_reporting_coverage_pct": null,
+    "cpv72_bid_count_reporting_coverage_pct": null,
+    "interpretation": "The publisher states bid counts were available for 58% of all 2024 advertised procurements, not 58% within CPV48 or CPV72. CPV-specific coverage and missingness mechanisms are unknown; do not extrapolate these conditional means to all notices, assert representative competition, or infer easier winning."
+  }
 }
