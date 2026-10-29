@@ -37,6 +37,11 @@ class X402ListEvidenceTests(unittest.TestCase):
         value["data"]["computed_at"] = "2026-10-15T00:00:00Z"
         with self.assertRaises(ValueError): self.parse(value)
 
+    def test_rejects_future_fetch_timestamp_even_if_source_is_older(self):
+        # Regression: a fabricated future replay timestamp must not imply freshness.
+        with self.assertRaisesRegex(ValueError, "fetched_at cannot be in the future"):
+            summarize(fixture(), fetched_at="2999-01-01T00:00:00Z")
+
     def test_rejects_naive_fetch_timestamp(self):
         with self.assertRaises(ValueError): summarize(fixture(), fetched_at="2026-10-14T17:39:00")
 
