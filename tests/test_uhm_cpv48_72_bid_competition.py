@@ -48,6 +48,19 @@ class HistoricalBidCompetitionTests(unittest.TestCase):
                        'denominators', '2025', 'not independently audited'):
             self.assertIn(phrase, caveats)
 
+    def test_all_market_bid_count_missingness_is_not_assumed_cpv_specific(self):
+        coverage = self.evidence['coverage_context']
+        self.assertEqual(coverage['source_published_on'], '2026-02-05')
+        self.assertEqual(coverage['reference_year'], 2024)
+        self.assertEqual(coverage['all_cpv_advertised_procurements'], 17575)
+        self.assertEqual(coverage['all_cpv_procurements_with_reported_bid_counts_pct'], 58)
+        self.assertIn('/46-anbud-per-upphandling-2024/', coverage['source_url'])
+        self.assertIsNone(coverage['cpv48_bid_count_reporting_coverage_pct'])
+        self.assertIsNone(coverage['cpv72_bid_count_reporting_coverage_pct'])
+        self.assertIn('not 58% within CPV48 or CPV72', coverage['interpretation'])
+        self.assertIn('missingness bias', ' '.join(self.evidence['limitations']))
+        self.assertIsNone(self.evidence['verified_agentmine_customers'])
+
 
 if __name__ == '__main__':
     unittest.main()
