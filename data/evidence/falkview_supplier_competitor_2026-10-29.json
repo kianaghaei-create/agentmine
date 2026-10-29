@@ -1,0 +1,35 @@
+{
+  "evidence_type": "public_competitor_offering_not_verified_sales",
+  "observed_at_utc": "2026-10-29T00:46:00Z",
+  "publisher": "Falkview",
+  "official_sources": [
+    "https://falkview.se/en/leverantorer/",
+    "https://falkview.se/en/priser/"
+  ],
+  "offerings": {
+    "supplier_enterprise": [
+      "tender matching and bid/no-bid assessment",
+      "mandatory requirements and deadlines with document/section citations",
+      "source-checked bid draft",
+      "pricing, buyer and competitor intelligence",
+      "contract expiry monitoring"
+    ],
+    "buyer_side": [
+      "document contradictions and unclear evaluation review",
+      "supplier outreach suggestions"
+    ],
+    "bid_partner": "Software plus human bid support, quoted fixed monthly amount; customer count unverified",
+    "lite_status": "coming soon"
+  },
+  "pricing": {
+    "current_public_list_price": null,
+    "pricing_basis": "individual company quote based on bid volume, users, onboarding and contract; official pricing page explicitly says no public price list",
+    "not_verified_sales": true
+  },
+  "market_implication": "Generic source-linked supplier preflight, requirement checks, bid/no-bid and market intelligence are already marketed by an end-to-end competitor. Do not claim a greenfield wedge; test independent primary-vs-directory exception resolution and measured supplier outcomes against incumbent, or pivot.",
+  "limits": [
+    "Vendor advertising is not independently verified functionality or delivery quality.",
+    "No observed paid customers, conversions, revenue, saved time or willingness to pay.",
+    "Search snippets or cached historical prices are not current official public pricing."
+  ]
+}
