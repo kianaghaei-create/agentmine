@@ -172,6 +172,20 @@ class Tests(unittest.TestCase):
                                  'invalid_observation')
                 self.assertIsNone(result['quoted_scenario_delta_usd'])
 
+    def test_legacy_numeric_private_ip_aliases_cannot_support_measured_savings(self):
+        for source in ('https://127.1/evidence',
+                       'https://0177.0.0.1/evidence',
+                       'https://0x7f.0.0.1/evidence',
+                       'https://192.168.1/evidence'):
+            with self.subTest(source=source):
+                result = analyze([observation(kind='measured', evidence_url=source),
+                                  observation('routed', kind='measured',
+                                              evidence_url=source)])
+                self.assertEqual(result['measured_comparable_pairs'], 0)
+                self.assertEqual(result['rejected_tasks'][0]['reason'],
+                                 'invalid_observation')
+                self.assertIsNone(result['caller_asserted_measured_delta_usd'])
+
     def test_public_ip_evidence_remains_comparable(self):
         for source in ('https://8.8.8.8/evidence',
                        'https://[2606:4700:4700::1111]/evidence'):
