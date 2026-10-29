@@ -1,0 +1,57 @@
+{
+  "evidence_type": "predeclared_fixed20_direct_official_TED_PDF_original_not_operative_legal_deadline",
+  "observed_on_utc_date": "2026-10-29",
+  "publication_number": "601730-2026",
+  "selection": "Already in unchanged 20-notice cohort selected before directory mismatch review; one of five previously not directly verified originals",
+  "official_source": {
+    "url": "https://ted.europa.eu/en/notice/601730-2026/pdf",
+    "access": "Directly readable official TED PDF, 4 pages, 2026-10-29; accessed via public Tendova link to the same official URL",
+    "page_1": "Official publication 601730-2026, buyer Region Stockholm - Trafiknämnden, title Omvärldsanalysverktyg, main CPV 72000000, negotiated procedure with prior publication",
+    "page_2": "Deadline for receipt of requests to participate: 20/09/2026 00:00:00 (UTC+02:00); linked submission portal e-Avrop",
+    "page_4": "Notice identifier/version 915b7b39-4bdf-497c-847d-3206f6d7573d - 01; published 01/09/2026",
+    "original_notice_directly_verified": true,
+    "original_html_directly_verified": false,
+    "stage": "participation_request",
+    "deadline_local": "2026-09-20T00:00:00+02:00",
+    "deadline_utc": "2026-09-19T22:00:00Z",
+    "main_cpv": "72000000"
+  },
+  "independent_public_display_checks": {
+    "tendova": {
+      "url": "https://tendova.eu/en/tenders/c6f8ced7-b068-4dec-b013-df3644e0a127",
+      "observed": "2026-10-29",
+      "detail_label": "Request-to-participate deadline Sep 19, 2026",
+      "header_label": "No deadline given",
+      "caveat": "19 Sep is the UTC calendar date; the site's rendering timezone is unverified"
+    },
+    "tenderpipe": {
+      "url": "https://tenderpipe.com/tender/omvarldsanalysverktyg-6feb43bc/",
+      "observed": "2026-10-29",
+      "label": "Submission deadline 20 Sep 2026",
+      "caveat": "20 Sep is the local +02 date; generic Submission label is not a verified bid-stage claim"
+    },
+    "upphandla": {
+      "url": "https://upphandla.app/en/tender/601730-2026",
+      "observed": "2026-10-29",
+      "label": "No deadline",
+      "caveat": "Public display omission versus original, not independently measured supplier harm"
+    }
+  },
+  "submission_portal": {
+    "url": "https://www.e-avrop.com/trafiknamnden/e-Upphandling/NoticeLink.aspx?id=134223",
+    "retrieval": "Redirected to NoAccess.aspx on 2026-10-29; no login attempted",
+    "public_portal_stage_date_verified": false
+  },
+  "interpretation": "Official PDF directly confirms the local-midnight participation-request timestamp and its UTC previous-day equivalent. Third-party 19/20 September calendar labels can be timezone-consistent; no legal deadline error or actual vendor conversion rule is established. Upphandla omits a deadline despite the original field, but amendment history and final operative cutoff remain unverified.",
+  "fixed_cohort_manual_originals_previously_verified": 15,
+  "fixed_cohort_manual_originals_now_verified": 16,
+  "fixed_cohort_denominator": 20,
+  "primary_submission_portal_stage_date_corroborations_unchanged": 3,
+  "amendment_histories_cleared": 0,
+  "actual_paired_supplier_tasks": 0,
+  "explicit_price_or_pilot_responses": 0,
+  "verified_agentmine_customers": null,
+  "verified_revenue": null,
+  "verified_supplier_savings": null,
+  "constraints": "No costs, credentials, customer data, access bypass, outreach, payment or public deployment; source-based research only. This is manual primary PDF verification, not a new automated fixture/audit pass."
+}
