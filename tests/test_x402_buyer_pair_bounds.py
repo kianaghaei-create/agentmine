@@ -49,6 +49,17 @@ class BuyerPairBoundsTests(unittest.TestCase):
         s = fixture(); s['source_computed_at'] = '2026-10-24T09:40:07'
         with self.assertRaises(ValueError): analyze(s)
 
+    def test_rejects_future_publisher_computation_even_with_ordered_activity(self):
+        # Previously both values could be in 2999 and still yield a positive
+        # concentration bound because only their relative order was checked.
+        for activity in ('2026-10-24T08:41:48.015Z', '2999-01-01T00:00:00Z'):
+            with self.subTest(activity=activity):
+                s = fixture()
+                s['source_computed_at'] = '2999-01-02T00:00:00Z'
+                s['traction_as_of'] = activity
+                with self.assertRaisesRegex(ValueError, 'future publisher computation'):
+                    analyze(s)
+
     def test_rejects_invalid_numeric_inputs(self):
         for value in (True, 'NaN', '-1', '101', '0'):
             s = fixture(); s['activity_30d']['top_1_service_top_buyer_share_pct'] = value
