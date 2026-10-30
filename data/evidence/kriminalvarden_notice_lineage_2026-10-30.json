@@ -1,0 +1,58 @@
+{
+  "evidence_type": "public_competitor_notice_lineage_exception_not_primary_verified",
+  "observed_date": "2026-10-30",
+  "method": "Read-only public third-party page comparison; no authenticated TED or submission portal access. One case selected opportunistically, not a representative sample.",
+  "directory_notice_pages": [
+    {
+      "notice_id": "725675-2026",
+      "url": "https://upphandla.app/en/tender/725675-2026",
+      "published": "2026-10-19",
+      "value_sek": "1800000000",
+      "deadline": "2026-11-25",
+      "buyer": "Kriminalvården",
+      "title": "Händelserapporteringssystem",
+      "cpv": [
+        "72000000",
+        "48517000",
+        "48614000",
+        "72263000",
+        "72268000"
+      ]
+    },
+    {
+      "notice_id": "729380-2026",
+      "url": "https://upphandla.app/en/tender/729380-2026",
+      "published": "2026-10-20",
+      "value_sek": "50000000",
+      "deadline": "2026-11-25",
+      "buyer": "Kriminalvården",
+      "title": "Händelserapporteringssystem",
+      "cpv": [
+        "72000000",
+        "48517000",
+        "48614000",
+        "72263000",
+        "72268000"
+      ]
+    }
+  ],
+  "lineage_claim_sources": [
+    {
+      "provider": "Tenderiva",
+      "url": "https://tenderiva.com/sv/tender/729380-2026-sverige-it-tjanster-konsultverksamhet-programvaruutveckling-internet-och-stod-handelserapporteringssystem",
+      "assertion": "correction_notice_of_725675-2026",
+      "note": "Publisher timeline calls 725675 an original contract notice and 729380 a correction notice, with one changed section."
+    },
+    {
+      "provider": "Licitera",
+      "url": "https://licitera.se/upphandling/handelserapporteringssystem-7d02885ae3",
+      "assertion": "same_procurement_both_notice_ids",
+      "note": "One procurement page links both TED notice IDs, showing 50m SEK. Licitera CC BY 4.0 attribution: Uppgifter TED/Upphandlingsmyndigheten/Clira; bearbetning Licitera."
+    }
+  ],
+  "official_primary_verified": false,
+  "primary_access_note": "Official TED original HTML inaccessible to retrieval tool; correction linkage and current legally operative value not independently verified against TED XML or submission portal.",
+  "verified_supplier_savings": null,
+  "verified_agentmine_revenue_sek": null,
+  "verified_paying_customers": null
+}
