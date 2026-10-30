@@ -70,6 +70,26 @@ class NoticeLineageExceptionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze(data)
 
+    def test_rejects_impossible_calendar_dates(self):
+        for field, value in (("deadline", "2026-02-30"),
+                             ("published", "2026-02-30"),
+                             ("published", "20261020")):
+            data = copy.deepcopy(self.data)
+            data["directory_notice_pages"][0][field] = value
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                analyze(data)
+        for observed in ("2026-02-30", "20261030"):
+            data = copy.deepcopy(self.data)
+            data["observed_date"] = observed
+            with self.subTest(observed=observed), self.assertRaises(ValueError):
+                analyze(data)
+
+    def test_rejects_publication_after_observation(self):
+        data = copy.deepcopy(self.data)
+        data["observed_date"] = "2026-10-19"
+        with self.assertRaisesRegex(ValueError, "postdates"):
+            analyze(data)
+
     def test_cross_publisher_claim_binding(self):
         data = copy.deepcopy(self.data)
         data["lineage_claim_sources"][0]["url"] = "https://tenderiva.com/sv/tender/725675-2026-other"
