@@ -30,7 +30,10 @@ def analyze(evidence):
     if evidence.get("verified_agentmine_revenue_sek") is not None or evidence.get("verified_supplier_savings") is not None:
         raise ValueError("commercial claims not supported")
     try:
-        date.fromisoformat(evidence["observed_date"])
+        observed_raw = evidence["observed_date"]
+        if not isinstance(observed_raw, str) or not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}", observed_raw):
+            raise ValueError("invalid observation date format")
+        observed = date.fromisoformat(observed_raw)
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("invalid observation date") from exc
     rows = evidence.get("directory_notice_pages")
@@ -54,13 +57,22 @@ def analyze(evidence):
                 not isinstance(cpv, list) or not cpv or
                 any(not isinstance(c, str) or not re.fullmatch(r"[0-9]{8}", c) for c in cpv)):
             raise ValueError("missing or invalid common procurement fields")
+        try:
+            date.fromisoformat(deadline)
+        except ValueError as exc:
+            raise ValueError("invalid calendar deadline") from exc
         if common is not None and shared != common:
             raise ValueError("different procurement labels, deadline or CPV scope")
         common = shared
         try:
-            published = date.fromisoformat(row["published"])
+            published_raw = row["published"]
+            if not isinstance(published_raw, str) or not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}", published_raw):
+                raise ValueError("invalid publication date format")
+            published = date.fromisoformat(published_raw)
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError("invalid publication date") from exc
+        if published > observed:
+            raise ValueError("directory publication postdates evidence observation")
         by_id[number] = (published, _money(row.get("value_sek")))
     ordered = sorted(by_id, key=lambda n: by_id[n][0])
     old_id, new_id = ordered
