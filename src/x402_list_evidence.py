@@ -70,6 +70,10 @@ def summarize(payload, *, fetched_at):
         raise ValueError("source observation timestamp is later than fetch")
     if traction_as_of > computed:
         raise ValueError("traction is newer than computed snapshot")
+    # Source-reported sync-group health and the age of the actual activity
+    # cutoff are independent. A zero-stale-groups flag does not make an
+    # older traction.as_of snapshot a fresh market-demand observation.
+    activity_cutoff_lag_hours = (computed - traction_as_of).total_seconds() / 3600
     services = _count(data.get("total_services"), "total_services")
     endpoints = _count(data.get("total_endpoints"), "total_endpoints")
     payment_ready = _count(data.get("payment_ready_count"), "payment_ready_count")
@@ -123,6 +127,8 @@ def summarize(payload, *, fetched_at):
         "fetched_at": fetched.isoformat(),
         "computed_at": computed.isoformat(),
         "traction_as_of": traction_as_of.isoformat(),
+        "publisher_activity_cutoff_lag_hours_at_computation": round(activity_cutoff_lag_hours, 2),
+        "publisher_activity_cutoff_over_24h_at_computation": activity_cutoff_lag_hours > 24,
         "data_age_minutes_at_fetch": round((fetched - traction_as_of).total_seconds() / 60, 2),
         "listed_services": services,
         "listed_endpoints": endpoints,
@@ -155,7 +161,9 @@ def summarize(payload, *, fetched_at):
         "warning": "Publisher's listed-service and measured-facilitator slice only, not whole market. "
                    "Imported top-service data and self/wash payments may distort concentration. "
                    "Top-service buyer concentration is publisher-implied, not independently verified; "
-                   "ingest freshness refers to source computation, not fetch time. "
+                   "Zero stale sync groups do not establish a recent activity cutoff; "
+                   "the 24-hour lag flag is a diagnostic, not a payment validation. "
+                   "Ingest freshness refers to source computation, not fetch time. "
                    "Addresses are not verified unique buyers. A 1% fee on 100% of residual flow "
                    "is a gross arithmetic stress case, not attainable revenue or profit. "
                    "No paying AgentMine customers, conversion or costs are inferred.",
