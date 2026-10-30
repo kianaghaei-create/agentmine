@@ -4,7 +4,7 @@ A cross-publisher correction claim is NOT independent official TED verification.
 No legal deadline, current value, market prevalence, supplier benefit or sale
 can be inferred from this diagnostic. No HTTP, payments or personal data.
 """
-from datetime import date
+from datetime import date, datetime, timezone
 from decimal import Decimal, InvalidOperation
 from urllib.parse import urlsplit
 import re
@@ -34,6 +34,8 @@ def analyze(evidence):
         if not isinstance(observed_raw, str) or not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}", observed_raw):
             raise ValueError("invalid observation date format")
         observed = date.fromisoformat(observed_raw)
+        if observed > datetime.now(timezone.utc).date():
+            raise ValueError("observation date cannot be in the future")
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("invalid observation date") from exc
     rows = evidence.get("directory_notice_pages")
