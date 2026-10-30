@@ -76,6 +76,39 @@ class CumulativeCoverageTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             summarize_cumulative(*args)
 
+    def test_portal_transcribed_date_must_match_official_local_day(self):
+        for field, value in (
+            ("public_portal_observed", "Final day for submitting 9/28/2026; Open procedure"),
+            ("public_portal_observed", "Final day for submitting 13/29/2026; Open procedure"),
+            ("public_portal_observed", "Date confirmed, but no literal portal date"),
+            ("public_portal_observed", None),
+            ("official_notice_version", "02"),
+            ("official_publication_date", "2026-09-02"),
+        ):
+            with self.subTest(field=field, value=value):
+                args = fixtures()
+                args[5]["notice"][field] = value
+                with self.assertRaises(ValueError):
+                    summarize_cumulative(*args)
+        self.assertEqual(summarize_cumulative(*fixtures())[
+            "public_primary_portal_stage_date_corroborated"], 3)
+
+    def test_portal_provenance_url_must_be_bound_to_public_kommers_view(self):
+        for url in (
+            None, "https://evil.example/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807",
+            "http://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807",
+            "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=0",
+            "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807&ProcurementId=72808",
+            "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807&token=secret",
+            "https://www.kommersannons.se/eLite/Notice/NoticeOverview.aspx?ProcurementId=72807#secret",
+            "https://www.kommersannons.se/eLite/Notice/Other.aspx?ProcurementId=72807",
+        ):
+            with self.subTest(url=url):
+                args = fixtures()
+                args[5]["notice"]["public_buyer_submission_portal_url"] = url
+                with self.assertRaises(ValueError):
+                    summarize_cumulative(*args)
+
     def test_naive_or_wrong_utc_original_rejected(self):
         args = fixtures()
         args[3]["new_notices"][0]["official_deadline_local"] = "2026-10-06T00:00:00"
