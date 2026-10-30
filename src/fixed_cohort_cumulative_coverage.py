@@ -92,14 +92,16 @@ def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pd
     if not isinstance(portal_url, str) or not isinstance(portal_text, str):
         raise ValueError("public portal provenance missing")
     parsed = urlsplit(portal_url)
+    portal_params = parse_qs(parsed.query)
     if (parsed.scheme != "https" or parsed.netloc != "www.kommersannons.se"
             or parsed.path != "/eLite/Notice/NoticeOverview.aspx"
             or parsed.fragment or
             not re.fullmatch(r"[1-9][0-9]*",
-                             parse_qs(parsed.query).get("ProcurementId", [""])[0])
-            or set(parse_qs(parsed.query)) != {"ProcurementId"}):
+                             portal_params.get("ProcurementId", [""])[0])
+            or set(portal_params) != {"ProcurementId"}
+            or len(portal_params["ProcurementId"]) != 1):
         raise ValueError("public portal source URL invalid")
-    match = re.search(r"\\bFinal day for submitting\\s+([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})\\b",
+    match = re.search(r"\bFinal day for submitting\s+([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})\b",
                       portal_text)
     if not match:
         raise ValueError("public portal date text missing")
