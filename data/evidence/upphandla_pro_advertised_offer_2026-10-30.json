@@ -1,0 +1,51 @@
+{
+  "evidence_type": "public_competitor_advertised_offer_not_verified_sales",
+  "observed_on_utc_date": "2026-10-30",
+  "vendor": "Upphandla",
+  "sources": {
+    "pro": "https://upphandla.app/pro",
+    "terms": "https://upphandla.app/villkor",
+    "homepage": "https://upphandla.app/",
+    "comparison_vendor": "https://licitera.se/priser"
+  },
+  "advertised_pro": {
+    "monthly_sek_including_vat": 795,
+    "monthly_sek_excluding_vat": 636,
+    "annual_sek_including_vat": 7950,
+    "annual_sek_excluding_vat": 6360,
+    "annual_equivalent_monthly_sek_excluding_vat": "530",
+    "trial_days": 14,
+    "trial_cta_visible": true,
+    "single_seat": true,
+    "advertised_features": [
+      "unlimited saved searches",
+      "daily email digest",
+      "deadline reminders",
+      "five verticals"
+    ],
+    "not_yet_advertised_as_available": [
+      "CSV export",
+      "team accounts"
+    ]
+  },
+  "contradictory_launch_signals": {
+    "pro_page": "start 14-day free trial CTA shown",
+    "homepage": "Pro described as coming soon in landing-page copy",
+    "terms": "terms page explicitly marked draft and under review before launch, last updated 2026-06-13",
+    "independent_checkout_tested": false,
+    "paying_subscriptions_verified": false,
+    "conclusion": "Public pricing and a trial CTA are observable, but commercial availability and actual paid adoption are not independently verified."
+  },
+  "comparison_context": {
+    "licitera_pro_advertised_monthly_sek_including_vat_first_ten": 149,
+    "licitera_pro_advertised_monthly_sek_excluding_vat_after_first_ten": 149,
+    "licitera_api_mcp": "by application and quotation, not bundled",
+    "comparison_caveat": "Different products, feature breadth, trial terms, introductory VAT basis and unverified usage. Do not infer market clearing price or paid conversion."
+  },
+  "phase0_implication": "Generic procurement discovery, saved searches, digests and deadline reminders are contested. Evaluate only independently demonstrated incremental supplier correctness/time/cost or opt-in RFQ outcomes versus incumbents.",
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_savings": null,
+  "verified_competitor_paying_customers": null,
+  "paid_actions_performed": false
+}
