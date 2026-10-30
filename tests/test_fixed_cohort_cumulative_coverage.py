@@ -109,6 +109,23 @@ class CumulativeCoverageTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     summarize_cumulative(*args)
 
+    def test_additional_originals_require_version_and_utc_integrity(self):
+        for index, field, value in (
+            (3, "official_notice_version", "02"),
+            (4, "official_notice_version", "02"),
+            (3, "official_deadline_utc", "2026-10-05T23:00:00.000Z"),
+            (4, "official_deadline_utc", "2026-09-28T22:59:00.000Z"),
+            (3, "official_deadline_utc", "2026-10-05T22:00:00+01:00"),
+            (4, "official_notice_publication_date", "2026-09-02"),
+        ):
+            with self.subTest(index=index, field=field, value=value):
+                args = fixtures()
+                rows = args[index]["new_notices"] if index == 3 else args[index]["observations"]
+                rows[0][field] = value
+                with self.assertRaises(ValueError):
+                    summarize_cumulative(*args)
+        self.assertEqual(summarize_cumulative(*fixtures())["unique_originals_inspected"], 17)
+
     def test_naive_or_wrong_utc_original_rejected(self):
         args = fixtures()
         args[3]["new_notices"][0]["official_deadline_local"] = "2026-10-06T00:00:00"
