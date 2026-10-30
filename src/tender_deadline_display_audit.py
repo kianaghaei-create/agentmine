@@ -2,7 +2,7 @@
 
 Not an operative deadline, supplier harm, prevalence or paid-demand validator.
 """
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 def audit(evidence, cohort):
     if evidence.get("evidence_type") != "fixed20_original_vs_directory_date_display":
@@ -47,13 +47,20 @@ def audit(evidence, cohort):
         if original.utcoffset() is None:
             raise ValueError("original must have timezone offset")
         difference = (displayed - original.date()).days
+        utc_date = original.astimezone(timezone.utc).date()
         compared.append({"publication_number":identifier,
                          "original_local_date":original.date().isoformat(),
+                         "original_utc_date":utc_date.isoformat(),
                          "directory_display_date":displayed.isoformat(),
-                         "directory_minus_original_days":difference})
+                         "directory_minus_original_days":difference,
+                         "directory_minus_utc_days":(displayed - utc_date).days,
+                         "utc_conversion_matches_directory":displayed == utc_date})
     return {"cohort_size":20,"attempted":len(attempts),"compared":len(compared),
             "inaccessible_ids":blocked,
             "date_disagreements":sum(x["directory_minus_original_days"] != 0 for x in compared),
+            "disagreements_not_explained_by_utc_conversion":sum(
+                x["directory_minus_original_days"] != 0 and not x["utc_conversion_matches_directory"]
+                for x in compared),
             "same_dates":sum(x["directory_minus_original_days"] == 0 for x in compared),
             "records":compared,"cohort_prevalence":None,
             "verified_operative_legal_deadline_errors":None,
