@@ -34,10 +34,10 @@ def analyze(evidence):
         if not isinstance(observed_raw, str) or not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}", observed_raw):
             raise ValueError("invalid observation date format")
         observed = date.fromisoformat(observed_raw)
-        if observed > datetime.now(timezone.utc).date():
-            raise ValueError("observation date cannot be in the future")
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError("invalid observation date") from exc
+    if observed > datetime.now(timezone.utc).date():
+        raise ValueError("observation date cannot be in the future")
     rows = evidence.get("directory_notice_pages")
     if not isinstance(rows, list) or len(rows) != 2:
         raise ValueError("exactly two directory notices required")
