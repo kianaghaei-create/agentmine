@@ -1,0 +1,63 @@
+{
+  "evidence_type": "predeclared_fixed20_direct_official_TED_PDF_original_not_operative_legal_deadline",
+  "observed_on_utc_date": "2026-10-30",
+  "publication_number": "613749-2026",
+  "selection": "Previously frozen 20-notice cohort, before this original was reviewed; no cohort reselection",
+  "official_source": {
+    "url": "https://ted.europa.eu/en/notice/613749-2026/pdf",
+    "access": "Official TED PDF directly readable through public retrieval on 2026-10-30; four pages; original HTML was not accessible",
+    "original_notice_directly_verified": true,
+    "original_html_directly_verified": false,
+    "notice_version": "01",
+    "notice_publication_date": "2026-09-07",
+    "buyer": "Myndigheten för civilt försvar",
+    "title": "Zoom for Nordics -Tjänst för digital samverkan",
+    "procedure": "open",
+    "stage": "receipt_of_tenders",
+    "deadline_local": "2026-10-06T00:00:00+02:00",
+    "deadline_utc": "2026-10-05T22:00:00Z",
+    "main_cpv": "72000000",
+    "estimated_value_sek_ex_vat": "6000000",
+    "source_page_refs": [
+      "page 1 buyer/procedure/value",
+      "page 2 lot and deadline",
+      "page 4 notice identifier/version and publication date"
+    ]
+  },
+  "public_directory_display_checks": {
+    "upphandla": {
+      "url": "https://upphandla.app/en/tender/613749-2026",
+      "observed_on_utc_date": "2026-10-30",
+      "displayed_deadline_date": "2026-10-05",
+      "displayed_publication_date": "2026-09-06",
+      "caveat": "The deadline display equals the official UTC calendar day, but differs from official local +02 calendar day; this alone is not a legal error or proof of a software defect."
+    },
+    "tenderiva": {
+      "url": "https://tenderiva.com/sv/tender/613749-2026-sverige-it-tjanster-konsultverksamhet-programvaruutveckling-internet-och-stod-zoom-for-nordics-tjanst-for-digital-samverkan",
+      "observed_on_utc_date": "2026-10-30",
+      "displayed_deadline_local": "2026-10-06T00:00:00+02:00",
+      "caveat": "Public page reproduces local timestamp; not independent verification of legal operative cutoff."
+    },
+    "licitera": {
+      "url": "https://licitera.se/upphandling/zoom-for-nordics-tjanst-for-digital-samverkan-59293ea065",
+      "observed_on_utc_date": "2026-10-30",
+      "displayed_deadline_date": "2026-10-05",
+      "caveat": "Public page labels 5 October as last bid day; its conversion/display policy is not verified."
+    }
+  },
+  "submission_portal": {
+    "url": "https://www.e-avrop.com/MCF/e-Upphandling/NoticeLink.aspx?id=134196",
+    "public_portal_stage_date_verified": false,
+    "access": "Not accessible to the public retrieval tool on 2026-10-30; no login or access bypass attempted."
+  },
+  "interpretation": "A real frozen-cohort original now directly verified. Official midnight +02 timestamp converts to 22:00 UTC on the previous day; this explains why a UTC-calendar rendering can differ by one day from local display. Do not conflate this with the previously observed 23:59 +02 cases, which stay on the same UTC calendar day. No legally operative deadline or supplier harm established.",
+  "fixed_cohort_denominator": 20,
+  "amendment_histories_cleared": 0,
+  "legally_operative_deadline_verified": false,
+  "actual_paired_supplier_tasks": 0,
+  "explicit_price_or_pilot_responses": 0,
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_supplier_savings": null,
+  "constraints": "No cost, payment, credentials, private customer data, outreach, restricted-access bypass or public deployment."
+}
