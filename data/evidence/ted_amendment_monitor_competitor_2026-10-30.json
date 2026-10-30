@@ -1,0 +1,38 @@
+{
+  "evidence_type": "public_competitor_amendment_monitor_offer_not_verified_sales",
+  "observed_on_utc_date": "2026-10-30",
+  "product": "TED Tender Amendment & Deadline Monitor",
+  "publisher": "AFK Digital",
+  "platform": "Apify Store",
+  "source_url": "https://apify.com/afkdigital/ted-tender-amendment-deadline-monitor",
+  "public_offer": {
+    "status": "published",
+    "advertised_event_type": "verified-amendment",
+    "advertised_usd_per_verified_amendment": "0.029",
+    "advertised_usd_per_1000_amendments": "29.00",
+    "custom_event_fee_on_unchanged_polls_usd": "0",
+    "claim_scope": "Publisher says it uses anonymous TED Search API v3, official predecessor links and source-backed field deltas; no independent end-to-end delivery audit by AgentMine.",
+    "billing_caveat": "Zero custom event fees on unchanged checks does not prove zero Apify compute/storage/operating cost or zero buyer charges under all circumstances."
+  },
+  "platform_visible_usage_counters": {
+    "total_users": 2,
+    "monthly_active_users": 1,
+    "rating_count": 0,
+    "bookmarks": 0,
+    "caveat": "Platform counters are publisher/platform display, not unique paying customers, retention, verified delivered events, or transaction revenue."
+  },
+  "unit_economics_examples_not_observed_sales": {
+    "100_changed_notices_gross_custom_event_usd": "2.90",
+    "1000_changed_notices_gross_custom_event_usd": "29.00",
+    "costs_and_net_margin": null,
+    "actual_billable_events": null
+  },
+  "competitive_implication": "A public event-priced TED amendment and deadline-delta monitor already advertises official-source predecessor tracking and field diffs. Generic change monitoring is not an uncontested wedge; AgentMine must validate incremental supplier decision value or opt-in buyer demand, not compete on catalog size or hypothetical event counts.",
+  "verified_competitor_paying_customers": null,
+  "verified_competitor_revenue": null,
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_agentmine_supplier_savings": null,
+  "paid_actions_performed": false,
+  "public_deployment_performed": false
+}
