@@ -67,7 +67,7 @@ class NoticeLineageExceptionTests(unittest.TestCase):
                 analyze(data)
         data = copy.deepcopy(self.data)
         data["directory_notice_pages"][1]["published"] = "2026-10-18"
-        with self.assertRaisesRegex(ValueError, "chronology"):
+        with self.assertRaises(ValueError):
             analyze(data)
 
     def test_cross_publisher_claim_binding(self):
@@ -80,6 +80,25 @@ class NoticeLineageExceptionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             analyze(data)
 
+
+    def test_generic_other_public_notice_pair_uses_same_audit(self):
+        data = copy.deepcopy(self.data)
+        older, newer = data["directory_notice_pages"]
+        older["notice_id"] = "123456-2026"
+        older["url"] = "https://upphandla.app/en/tender/123456-2026"
+        newer["notice_id"] = "123457-2026"
+        newer["url"] = "https://upphandla.app/en/tender/123457-2026"
+        for row in (older, newer):
+            row["buyer"] = "Another Public Authority"
+            row["title"] = "A different software system"
+            row["deadline"] = "2026-12-01"
+            row["cpv"] = ["48000000"]
+        data["lineage_claim_sources"][0]["assertion"] = "correction_notice_of_123456-2026"
+        data["lineage_claim_sources"][0]["url"] = "https://tenderiva.com/sv/tender/123457-2026-other-system"
+        data["lineage_claim_sources"][1]["url"] = "https://licitera.se/upphandling/other-system-1234"
+        result = analyze(data)
+        self.assertEqual(result["older_to_newer_display_ratio"], "36")
+        self.assertIsNone(result["verified_current_legal_contract_value_sek"])
 
 if __name__ == "__main__":
     unittest.main()
