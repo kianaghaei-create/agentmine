@@ -100,6 +100,30 @@ class X402ListEvidenceTests(unittest.TestCase):
         self.assertEqual(result["publisher_oldest_cursor_age_seconds_at_computation"], 580)
         self.assertIsNone(result["verified_paying_customers"])
 
+    def test_activity_cutoff_age_is_independent_of_sync_group_health(self):
+        value = fixture()
+        t = value["data"]["traction"]
+        t["measured_flow_freshness"] = {
+            "stale_sync_groups": 0, "total_sync_groups": 52,
+            "oldest_cursor_age_seconds": 799,
+        }
+        # A healthy sync-group report cannot erase a two-day-old activity
+        # cutoff. This models the publisher's Oct 30 vs Oct 28 discrepancy,
+        # not a new payment or buyer observation.
+        value["data"]["computed_at"] = "2026-10-16T16:40:47Z"
+        result = summarize(value, fetched_at="2026-10-17T17:39:00Z")
+        self.assertEqual(result["publisher_ingest_freshness_at_computation"],
+                         "NO_REPORTED_STALE_GROUPS")
+        self.assertTrue(result["publisher_activity_cutoff_over_24h_at_computation"])
+        self.assertGreater(result["publisher_activity_cutoff_lag_hours_at_computation"], 48)
+        self.assertIsNone(result["verified_paying_customers"])
+
+    def test_recent_cutoff_diagnostic_does_not_claim_verified_demand(self):
+        result = self.parse(fixture())
+        self.assertFalse(result["publisher_activity_cutoff_over_24h_at_computation"])
+        self.assertLess(result["publisher_activity_cutoff_lag_hours_at_computation"], 1)
+        self.assertIsNone(result["verified_agentmine_revenue_usd"])
+
     def test_unknown_freshness_is_not_reported_as_fresh(self):
         result = self.parse(fixture())
         self.assertEqual(result["publisher_ingest_freshness_at_computation"], "UNKNOWN")
