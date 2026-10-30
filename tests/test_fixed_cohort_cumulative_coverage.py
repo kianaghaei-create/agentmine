@@ -16,6 +16,7 @@ FILES = (
     "ted_fixed20_601656_primary_portal_reconciliation_2026-10-28.json",
     "ted_fixed20_615392_option_claim_2026-10-28.json",
     "ted_601730_primary_pdf_2026-10-29.json",
+    "ted_613749_primary_pdf_2026-10-30.json",
 )
 
 
@@ -27,10 +28,10 @@ class CumulativeCoverageTests(unittest.TestCase):
     def test_exact_repository_evidence_counts(self):
         result = summarize_cumulative(*fixtures())
         self.assertEqual(result["frozen_cohort_notices"], 20)
-        self.assertEqual(result["unique_originals_inspected"], 16)
-        self.assertEqual(result["originals_not_yet_inspected"], 4)
+        self.assertEqual(result["unique_originals_inspected"], 17)
+        self.assertEqual(result["originals_not_yet_inspected"], 3)
         self.assertEqual(result["not_yet_inspected_ids"],
-                         ["601453-2026", "612757-2026", "613749-2026", "615414-2026"])
+                         ["601453-2026", "612757-2026", "615414-2026"])
         self.assertEqual(result["public_primary_portal_stage_date_corroborated"], 3)
         self.assertEqual(result["latest_date_check_inaccessible_attempts"], 2)
         self.assertEqual(result["latest_date_check_inaccessible_but_elsewhere_verified_ids"],
@@ -48,7 +49,7 @@ class CumulativeCoverageTests(unittest.TestCase):
         # mention in the October 28 four-original file must not add a row.
         result = summarize_cumulative(*args)
         self.assertIn("602708-2026", result["unique_original_notice_ids"])
-        self.assertEqual(len(result["unique_original_notice_ids"]), 16)
+        self.assertEqual(len(result["unique_original_notice_ids"]), 17)
 
     def test_source_urls_are_notice_bound(self):
         for index, mutate in (
@@ -84,6 +85,50 @@ class CumulativeCoverageTests(unittest.TestCase):
         args[7]["official_source"]["deadline_utc"] = "2026-09-20T00:00:00Z"
         with self.assertRaises(ValueError):
             summarize_cumulative(*args)
+
+
+    def test_ninth_pdf_midnight_utc_date_and_no_new_portal(self):
+        from datetime import datetime, timezone
+        args = fixtures()
+        pdf = args[8]
+        original = pdf["official_source"]
+        local = datetime.fromisoformat(original["deadline_local"])
+        utc = local.astimezone(timezone.utc)
+        self.assertEqual(local.date().isoformat(), "2026-10-06")
+        self.assertEqual(utc.date().isoformat(), "2026-10-05")
+        self.assertEqual(utc.isoformat().replace("+00:00", "Z"),
+                         original["deadline_utc"])
+        self.assertEqual(pdf["public_directory_display_checks"]["upphandla"]
+                         ["displayed_deadline_date"], utc.date().isoformat())
+        self.assertEqual(pdf["public_directory_display_checks"]["tenderiva"]
+                         ["displayed_deadline_local"], original["deadline_local"])
+        result = summarize_cumulative(*args)
+        self.assertIn("613749-2026", result["unique_original_notice_ids"])
+        self.assertNotIn("613749-2026", result["unique_public_portal_ids"])
+        self.assertIsNone(result["legally_operative_deadlines_verified"])
+
+    def test_ninth_pdf_provenance_must_be_bound_and_consistent(self):
+        for mutate in (
+            lambda d: d["official_source"].update(
+                url="https://ted.europa.eu/en/notice/999999-2026/pdf"),
+            lambda d: d["official_source"].update(
+                deadline_utc="2026-10-06T00:00:00Z"),
+            lambda d: d["official_source"].update(notice_version="02"),
+            lambda d: d["official_source"].update(notice_publication_date="2026-09-08"),
+            lambda d: d["official_source"].update(original_notice_directly_verified=False),
+            lambda d: d.update(fixed_cohort_denominator=19),
+        ):
+            with self.subTest(mutate=mutate):
+                args = fixtures()
+                mutate(args[8])
+                with self.assertRaises(ValueError):
+                    summarize_cumulative(*args)
+
+    def test_legacy_eight_source_summary_remains_partial(self):
+        result = summarize_cumulative(*fixtures()[:8])
+        self.assertEqual(result["unique_originals_inspected"], 16)
+        self.assertEqual(result["originals_not_yet_inspected"], 4)
+
 
 
 if __name__ == "__main__":
