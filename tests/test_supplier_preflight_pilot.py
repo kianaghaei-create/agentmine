@@ -40,6 +40,30 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(result['correctness_regression_count'], 1)
         self.assertFalse(result['minimum_sample_quality_gate_met'])
 
+    def test_incorrect_or_unchecked_outcomes_suppress_price_ceiling(self):
+        for field, value in (('agent_correct', False),
+                             ('baseline_correct', False),
+                             ('primary_source_checked', False)):
+            with self.subTest(field=field):
+                data = fixture()
+                data['sample_kind'] = 'self_reported_consented'
+                data['tasks'][0][field] = value
+                result = run(data)
+                # Arithmetic remains visible for audit, but a positive
+                # monetization price cannot be justified by invalid outcomes.
+                self.assertGreater(Decimal(result['scenario_net_labor_value_sek']), 0)
+                self.assertIsNone(result['scenario_max_software_price_per_task_sek'])
+                self.assertEqual(result['scenario_price_suppressed_reason'],
+                                 'incorrect_or_source_unchecked_task_outcomes')
+                self.assertFalse(result['self_reported_positive_economic_screen_met'])
+
+    def test_valid_synthetic_math_remains_hypothetical_not_commercial(self):
+        result = run()
+        self.assertEqual(result['scenario_max_software_price_per_task_sek'], '62')
+        self.assertIsNone(result['scenario_price_suppressed_reason'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+        self.assertIsNone(result['verified_willingness_to_pay'])
+
     def test_both_methods_wrong_still_blocks_quality_gate(self):
         data = fixture(); data['tasks'][0]['baseline_correct'] = False
         data['tasks'][0]['agent_correct'] = False
