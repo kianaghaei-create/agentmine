@@ -3,6 +3,7 @@
 These scenarios are *not* revenue forecasts, market-wide ceilings, unique buyers,
 or evidence of a customer relationship. No network requests or payments occur.
 """
+from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
 
@@ -18,6 +19,19 @@ def _nonnegative(value, field):
     return number
 
 
+def _publisher_time(value, field):
+    """Validate recorded publisher UTC timestamps; never infer fetch time."""
+    if not isinstance(value, str):
+        raise ValueError(f'{field}: missing UTC timestamp')
+    try:
+        stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))
+    except ValueError as exc:
+        raise ValueError(f'{field}: invalid UTC timestamp') from exc
+    if stamp.utcoffset() is None or stamp.utcoffset().total_seconds() != 0:
+        raise ValueError(f'{field}: expected timezone-aware UTC')
+    return stamp.astimezone(timezone.utc)
+
+
 def analyze(snapshot, *, take_rate_pct=10, capture_pct=5):
     """Compute a hypothetical fee pool on the observed non-top-10 service tail.
 
@@ -26,8 +40,14 @@ def analyze(snapshot, *, take_rate_pct=10, capture_pct=5):
     """
     if not isinstance(snapshot, dict):
         raise ValueError('snapshot must be object')
-    if snapshot.get('source') != 'https://x402-list.com/api/v1/stats':
-        raise ValueError('unsupported source')
+    if (snapshot.get('source') != 'https://x402-list.com/api/v1/stats'
+            or snapshot.get('publisher') != 'x402 List'
+            or snapshot.get('license') != 'CC-BY-4.0'):
+        raise ValueError('unsupported publisher provenance or license')
+    computed = _publisher_time(snapshot.get('source_computed_at'), 'source_computed_at')
+    activity_cutoff = _publisher_time(snapshot.get('traction_as_of'), 'traction_as_of')
+    if activity_cutoff > computed or computed > datetime.now(timezone.utc):
+        raise ValueError('future or inverted publisher activity timestamps')
     activity = snapshot.get('activity_30d')
     if not isinstance(activity, dict):
         raise ValueError('missing activity_30d')
@@ -38,6 +58,11 @@ def analyze(snapshot, *, take_rate_pct=10, capture_pct=5):
     capture = _nonnegative(capture_pct, 'capture_pct')
     if top10 > 100 or top1 > top10 or take > 100 or capture > 100:
         raise ValueError('percentages must be in [0, 100] and top1 <= top10')
+    # Positive settlement flow necessarily has a positive leading-service
+    # share. Otherwise a missing/zero concentration field would be treated
+    # as 100% addressable long-tail flow and inflate the fee scenario.
+    if (total > 0 and (top1 == 0 or top10 == 0)) or (total == 0 and (top1 or top10)):
+        raise ValueError('settlement flow and concentration shares inconsistent')
     if activity.get('top_1_service_data_imported') is not True:
         raise ValueError('top-1 imported flow flag not confirmed; review assumptions')
     tail = total * (Decimal(100) - top10) / 100
