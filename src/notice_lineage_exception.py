@@ -7,12 +7,9 @@ can be inferred from this diagnostic. No HTTP, payments or personal data.
 from datetime import date
 from decimal import Decimal, InvalidOperation
 from urllib.parse import urlsplit
+import re
 
-_ID = ("725675-2026", "729380-2026")
-_LINEAGE = {
-    "Tenderiva": "correction_notice_of_725675-2026",
-    "Licitera": "same_procurement_both_notice_ids",
-}
+_NOTICE = re.compile(r"^[1-9][0-9]{0,7}-20[0-9]{2}$")
 _HOST = {"Tenderiva": "tenderiva.com", "Licitera": "licitera.se"}
 
 
@@ -40,24 +37,34 @@ def analyze(evidence):
     if not isinstance(rows, list) or len(rows) != 2:
         raise ValueError("exactly two directory notices required")
     by_id = {}
+    common = None
     for row in rows:
         if not isinstance(row, dict):
             raise ValueError("invalid directory row")
         number = row.get("notice_id")
-        if number not in _ID or number in by_id:
-            raise ValueError("unknown or duplicate notice")
+        if not isinstance(number, str) or not _NOTICE.fullmatch(number) or number in by_id:
+            raise ValueError("invalid or duplicate notice")
         if row.get("url") != f"https://upphandla.app/en/tender/{number}":
             raise ValueError("directory source not bound to notice")
-        if row.get("buyer") != "Kriminalvården" or row.get("title") != "Händelserapporteringssystem":
-            raise ValueError("different procurement labels")
-        if row.get("deadline") != "2026-11-25" or row.get("cpv") != ["72000000", "48517000", "48614000", "72263000", "72268000"]:
-            raise ValueError("different deadline or CPV scope")
+        shared = (row.get("buyer"), row.get("title"), row.get("deadline"), row.get("cpv"))
+        buyer, title, deadline, cpv = shared
+        if (not isinstance(buyer, str) or not buyer.strip() or
+                not isinstance(title, str) or not title.strip() or
+                not isinstance(deadline, str) or not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}", deadline) or
+                not isinstance(cpv, list) or not cpv or
+                any(not isinstance(c, str) or not re.fullmatch(r"[0-9]{8}", c) for c in cpv)):
+            raise ValueError("missing or invalid common procurement fields")
+        if common is not None and shared != common:
+            raise ValueError("different procurement labels, deadline or CPV scope")
+        common = shared
         try:
             published = date.fromisoformat(row["published"])
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError("invalid publication date") from exc
         by_id[number] = (published, _money(row.get("value_sek")))
-    if not by_id[_ID[0]][0] < by_id[_ID[1]][0]:
+    ordered = sorted(by_id, key=lambda n: by_id[n][0])
+    old_id, new_id = ordered
+    if by_id[old_id][0] == by_id[new_id][0]:
         raise ValueError("publication chronology inconsistent")
     claims = evidence.get("lineage_claim_sources")
     if not isinstance(claims, list) or len(claims) != 2:
@@ -67,7 +74,9 @@ def analyze(evidence):
         if not isinstance(claim, dict):
             raise ValueError("invalid lineage claim")
         publisher = claim.get("provider")
-        if publisher not in _LINEAGE or publisher in seen or claim.get("assertion") != _LINEAGE[publisher]:
+        expected = {"Tenderiva": f"correction_notice_of_{old_id}",
+                    "Licitera": "same_procurement_both_notice_ids"}
+        if publisher not in expected or publisher in seen or claim.get("assertion") != expected[publisher]:
             raise ValueError("unsupported or duplicate lineage claim")
         url = claim.get("url")
         if not isinstance(url, str):
@@ -80,12 +89,12 @@ def analyze(evidence):
                 raise ValueError("invalid lineage URL")
         except ValueError as exc:
             raise ValueError("invalid lineage URL") from exc
-        if publisher == "Tenderiva" and "729380-2026" not in parsed.path:
+        if publisher == "Tenderiva" and not parsed.path.startswith(f"/sv/tender/{new_id}-"):
             raise ValueError("Tenderiva notice mismatch")
-        if publisher == "Licitera" and parsed.path != "/upphandling/handelserapporteringssystem-7d02885ae3":
+        if publisher == "Licitera" and not re.fullmatch(r"/upphandling/[a-z0-9-]+", parsed.path):
             raise ValueError("Licitera procurement mismatch")
         seen.add(publisher)
-    old, latest = (by_id[n][1] for n in _ID)
+    old, latest = by_id[old_id][1], by_id[new_id][1]
     if latest <= 0:
         raise ValueError("newer displayed amount must be positive")
     return {
