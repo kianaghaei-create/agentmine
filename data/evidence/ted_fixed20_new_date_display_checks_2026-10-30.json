@@ -1,0 +1,84 @@
+{
+  "evidence_type": "fixed20_original_vs_directory_date_display",
+  "observed_on_utc_date": "2026-10-30",
+  "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "method": "Six previously unreviewed fixed-20 IDs attempted, four original+directory pages readable; two original TED pages inaccessible. No signed-in portals, amendment histories or random sampling.",
+  "attempts": [
+    {
+      "publication_number": "601453-2026",
+      "status": "inaccessible",
+      "reason": "TED original HTML unavailable to retrieval tool"
+    },
+    {
+      "publication_number": "601656-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-09-29T23:59:00+02:00",
+      "official_main_cpv": "72224000",
+      "directory_display_date": "2026-09-28",
+      "secondary_url": "https://tilldelat.se/upphandling/projektledare-till-nordiskt-projekt-energidrycker-1ad70c",
+      "secondary_display_date": "2026-09-29",
+      "portal_access": "restricted",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/601656-2026/html",
+      "directory_url": "https://upphandla.app/en/tender/601656-2026",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "601730-2026",
+      "status": "inaccessible",
+      "reason": "TED original HTML unavailable to retrieval tool"
+    },
+    {
+      "publication_number": "602708-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-09-28T23:59:00+02:00",
+      "official_main_cpv": "48329000",
+      "directory_display_date": "2026-09-27",
+      "secondary_url": "https://tilldelat.se/upphandling/e-arkiv-faa62b",
+      "secondary_display_date": "2026-09-28",
+      "portal_access": "restricted",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/602708-2026/html",
+      "directory_url": "https://upphandla.app/en/tender/602708-2026",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "610810-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-09T23:59:00+02:00",
+      "official_main_cpv": "48160000",
+      "directory_display_date": "2026-10-08",
+      "portal_access": "not_verified",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/610810-2026/html",
+      "directory_url": "https://upphandla.app/en/tender/610810-2026",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "611111-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-06T21:59:59+00:00",
+      "official_main_cpv": "72000000",
+      "directory_display_date": "2026-10-06",
+      "portal_access": "not_verified",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/611111-2026/html",
+      "directory_url": "https://upphandla.app/en/tender/611111-2026",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    }
+  ],
+  "interpretation": "Three of four compared display dates were one calendar day earlier than original TED notice dates; the fourth matched. All three differences had 23:59 +02:00 TED times, while the matching case had 21:59:59 +00:00. A timestamp-normalization hypothesis, not a proven cause or operative legal deadline error.",
+  "unverified": [
+    "amendment history",
+    "operative legal deadline",
+    "supplier harm/time saved",
+    "paid buyer intent",
+    "population prevalence"
+  ],
+  "verified_paying_customers": null,
+  "verified_agentmine_revenue": null
+}
