@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-10-30T00:44:27Z",
+  "evidence_type": "publicly_advertised_competitor_offers_not_verified_sales",
+  "collection_method": "Read vendor-owned public price and release-note pages; no purchase, login, feature execution, or independent customer audit.",
+  "source_urls": [
+    "https://licitera.se/priser",
+    "https://licitera.se/nytt"
+  ],
+  "offers": [
+    {
+      "vendor": "Licitera",
+      "plan": "Pro",
+      "url": "https://licitera.se/priser",
+      "advertised_monthly_price": 149,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "Monthly card auto-renewal. Vendor advertises 149 SEK/month incl VAT for first 10 paying members; later 149 SEK/month ex VAT for new members. Intro eligibility and current buyer count unverified.",
+      "features_claimed": [
+        "up_to_10_search_and_court_alerts",
+        "up_to_10_public_record_requests_per_month_after_payment",
+        "reusable_previously_released_documents",
+        "competitor_award_and_expiring_contract_view",
+        "advanced_search",
+        "up_to_200_followed_items",
+        "exports_up_to_2000_rows_per_request_20000_per_month"
+      ],
+      "availability_note": "Public Buy Pro checkout link and monthly recurring offer exist; no transaction was attempted and no active subscription or paying member independently verified."
+    }
+  ],
+  "vendor_release_notes": {
+    "release_window": "2026-10-26 through 2026-11-01",
+    "release_url": "https://licitera.se/nytt",
+    "vendor_claims": [
+      "AI summaries of procurement court judgments with explicit error disclaimer",
+      "successor procurement links with date buyer and status (marked Pro)",
+      "forwarding public-record requests to another authority (marked Pro)",
+      "follow-up until a public-record request reaches an authority (marked Pro)",
+      "similar procurement discovery"
+    ],
+    "independently_tested": false
+  },
+  "historic_comparison": {
+    "prior_snapshot": "data/evidence/supplier_growth_competitor_pricing_2026-10-21.json",
+    "prior_labeled_plan": "Bevakning beta",
+    "prior_advertised_price_sek": 0,
+    "same_plan_or_price_change": false,
+    "note": "The 2026-10-21 free beta monitoring entry and today's paid Pro plan are different offerings; do not infer a price rise or actual conversions."
+  },
+  "modeled_scenario_only": {
+    "assumed_hourly_supplier_labor_cost_sek": "600",
+    "assumed_decisions_per_month": 10,
+    "assumed_max_value_capture_pct": "25",
+    "required_minutes_saved_per_decision_to_cover_advertised_149_sek": "5.96",
+    "note": "Hypothetical gross labor-value hurdle only; 149 SEK tax basis differs by intro eligibility, no measured savings or willingness to pay."
+  },
+  "monetization_implication": "A directly competing paid Swedish procurement workflow bundle is publicly offered at a low nominal monthly price. Generic monitoring, competitor intelligence, successor discovery, court summaries and public-record request workflow are contested. Do not claim willingness to pay from a checkout button; validate incremental supplier outcome versus this incumbent before proposing Supplier Growth SaaS.",
+  "verified_paying_customers": null,
+  "verified_sales_volume": null,
+  "agentmine_willingness_to_pay": null,
+  "agentmine_revenue_sek": null,
+  "restrictions": "No spending, payment, registration, outreach, sensitive data, restricted history, or public deployment."
+}
