@@ -72,7 +72,21 @@ def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pd
             if number in seen:
                 raise ValueError("duplicate source observation")
             seen.add(number)
-            _offset_datetime(row.get(timestamp_field))
+            stamp = _offset_datetime(row.get(timestamp_field))
+            utc_stamp = _offset_datetime(row.get("official_deadline_utc"))
+            if (row.get("official_notice_version") != "01" or
+                    utc_stamp.utcoffset() != timezone.utc.utcoffset(None) or
+                    stamp.astimezone(timezone.utc) != utc_stamp):
+                raise ValueError("original version or UTC deadline inconsistent")
+            # Some older three-notice fixtures did not record publication
+            # date. When a source does record it, it must match the frozen
+            # cohort rather than silently promoting a later version.
+            recorded_date = row.get("official_notice_publication_date")
+            if recorded_date is not None:
+                frozen_date = next(item["publication_date"] for item in cohort["notice_items"]
+                                   if item["publication_number"] == number)
+                if recorded_date != frozen_date:
+                    raise ValueError("original publication date not bound to cohort")
         originals.update(seen)
 
     if portal.get("evidence_type") != (
