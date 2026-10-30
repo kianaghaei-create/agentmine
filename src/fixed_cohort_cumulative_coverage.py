@@ -4,7 +4,9 @@ Read-only provenance bookkeeping, not a deadline/legal-error audit, random
 prevalence estimate, supplier-outcome measure or demand signal. The older
 three-fixture coverage summary is deliberately a *partial* view.
 """
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+import re
+from urllib.parse import parse_qs, urlsplit
 
 from src.fixed_cohort_coverage import summarize as partial_summary, _official_url, _notice
 
@@ -81,6 +83,37 @@ def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pd
         raise ValueError("missing portal observation")
     portal_number = _bound(p.get("publication_number"), p.get("official_original_url"), ids)
     original_stamp = _offset_datetime(p.get("official_deadline_local"))
+    # Do not promote a self-declared "portal date matches" boolean into
+    # independent corroboration without a bound public portal and a
+    # parseable date in the actual transcribed portal text. This one
+    # dated evidence fixture uses Kommers' US month/day/year presentation.
+    portal_url = p.get("public_buyer_submission_portal_url")
+    portal_text = p.get("public_portal_observed")
+    if not isinstance(portal_url, str) or not isinstance(portal_text, str):
+        raise ValueError("public portal provenance missing")
+    parsed = urlsplit(portal_url)
+    if (parsed.scheme != "https" or parsed.netloc != "www.kommersannons.se"
+            or parsed.path != "/eLite/Notice/NoticeOverview.aspx"
+            or parsed.fragment or
+            not re.fullmatch(r"[1-9][0-9]*",
+                             parse_qs(parsed.query).get("ProcurementId", [""])[0])
+            or set(parse_qs(parsed.query)) != {"ProcurementId"}):
+        raise ValueError("public portal source URL invalid")
+    match = re.search(r"\\bFinal day for submitting\\s+([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})\\b",
+                      portal_text)
+    if not match:
+        raise ValueError("public portal date text missing")
+    try:
+        month, day, year = map(int, match.groups())
+        portal_day = date(year, month, day)
+    except ValueError as exc:
+        raise ValueError("public portal date invalid") from exc
+    frozen_date = next(row["publication_date"] for row in cohort["notice_items"]
+                       if row["publication_number"] == portal_number)
+    if (portal_day != original_stamp.date() or
+            p.get("official_notice_version") != "01" or
+            p.get("official_publication_date") != frozen_date):
+        raise ValueError("portal date or original provenance inconsistent")
     if (p.get("public_portal_stage") != p.get("official_deadline_stage") or
             p.get("portal_date_matches_official_original_local_day") is not True or
             not isinstance(p.get("public_portal_observed"), str) or
