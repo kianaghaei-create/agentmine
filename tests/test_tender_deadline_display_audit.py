@@ -22,6 +22,26 @@ class TenderDeadlineDisplayAuditTests(unittest.TestCase):
         self.assertIsNone(result["verified_supplier_savings"])
         self.assertIsNone(result["verified_paid_demand"])
 
+    def test_three_disagreements_not_explained_by_simple_utc_conversion(self):
+        result = audit(self.evidence, self.cohort)
+        self.assertEqual(result["disagreements_not_explained_by_utc_conversion"], 3)
+        self.assertEqual([r["original_utc_date"] for r in result["records"]],
+                         ["2026-09-29", "2026-09-28", "2026-10-09", "2026-10-06"])
+        self.assertEqual([r["utc_conversion_matches_directory"] for r in result["records"]],
+                         [False, False, False, True])
+        self.assertEqual([r["directory_minus_utc_days"] for r in result["records"]],
+                         [-1, -1, -1, 0])
+
+    def test_utc_date_crossing_midnight_can_explain_synthetic_difference(self):
+        data = copy.deepcopy(self.evidence)
+        data["attempts"][1]["official_original_datetime"] = "2026-09-29T00:30:00+02:00"
+        result = audit(data, self.cohort)
+        row = result["records"][0]
+        self.assertEqual(row["original_local_date"], "2026-09-29")
+        self.assertEqual(row["original_utc_date"], "2026-09-28")
+        self.assertTrue(row["utc_conversion_matches_directory"])
+        self.assertEqual(result["disagreements_not_explained_by_utc_conversion"], 2)
+
     def test_out_of_cohort_and_duplicate_rejected(self):
         for identifier in ("999999-2026","601656-2026"):
             data=copy.deepcopy(self.evidence)
