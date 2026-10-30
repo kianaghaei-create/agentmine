@@ -90,6 +90,12 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
                    and len(tasks) >= min_tasks and baseline_errors == 0
                    and agent_errors == 0 and unchecked == 0)
     economic_screen = sample_gate and total_minutes > 0 and net_value > 0
+    # A fast but incorrect or source-unchecked answer has no defensible
+    # labor-value price ceiling. Preserve raw arithmetic for diagnostics,
+    # but fail closed on the monetization scenario itself.
+    price_eligible = baseline_errors == 0 and agent_errors == 0 and unchecked == 0
+    scenario_price = (str(max(Decimal(0), net_value * capture /
+                              (Decimal(100) * len(tasks)))) if price_eligible else None)
     return {
         'sample_kind': snapshot['sample_kind'],
         'source_observed_at_utc': snapshot['observed_at_utc'],
@@ -107,7 +113,9 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'scenario_value_capture_pct': str(capture),
         'observed_or_declared_variable_cost_sek': str(costs),
         'scenario_net_labor_value_sek': str(net_value),
-        'scenario_max_software_price_per_task_sek': str(max(Decimal(0), net_value * capture / (Decimal(100) * len(tasks)))),
+        'scenario_max_software_price_per_task_sek': scenario_price,
+        'scenario_price_suppressed_reason': (None if price_eligible else
+                                             'incorrect_or_source_unchecked_task_outcomes'),
         'minimum_sample_quality_gate_met': sample_gate,
         'self_reported_positive_economic_screen_met': economic_screen,
         'commercial_validation_status': 'NOT_VALIDATED',
@@ -115,7 +123,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_paying_customers': None,
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
-                   'Time deltas from incorrect baselines are not comparable savings and fail the sample-quality screen. '
+                   'Time deltas from incorrect baselines are not comparable savings; incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
                    'The self-reported quality/economic screens never establish willingness to pay, independent validation or permission to deploy. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
     }
