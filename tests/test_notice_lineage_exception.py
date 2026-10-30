@@ -90,6 +90,14 @@ class NoticeLineageExceptionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "postdates"):
             analyze(data)
 
+    def test_future_dated_observation_cannot_validate_directory_lineage(self):
+        # The two directory rows may be real, but an observation cannot be
+        # claimed in a year that has not yet occurred.
+        data = copy.deepcopy(self.data)
+        data["observed_date"] = "2099-12-31"
+        with self.assertRaisesRegex(ValueError, "future"):
+            analyze(data)
+
     def test_cross_publisher_claim_binding(self):
         data = copy.deepcopy(self.data)
         data["lineage_claim_sources"][0]["url"] = "https://tenderiva.com/sv/tender/725675-2026-other"
