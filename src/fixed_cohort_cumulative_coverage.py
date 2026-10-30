@@ -44,8 +44,8 @@ def _offset_datetime(raw):
     return stamp
 
 
-def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pdf):
-    """Union eight committed evidence stages; never add overlapping counts."""
+def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pdf, pdf_new=None):
+    """Union dated evidence stages; optional ninth PDF preserves old callers."""
     base = partial_summary(cohort, primary, dates)
     ids = {row["publication_number"] for row in cohort["notice_items"]}
     if (three.get("fixed_cohort_source") != COHORT_PATH or
@@ -110,6 +110,32 @@ def summarize_cumulative(cohort, primary, dates, three, four, portal, option, pd
     if pdf_stamp.astimezone(timezone.utc).isoformat().replace("+00:00", "Z") != source.get("deadline_utc"):
         raise ValueError("PDF UTC conversion mismatch")
     originals.add(pdf_number)
+
+    # Ninth source is a newly accessible original PDF, not a portal or legal
+    # deadline confirmation. The historical eight-input call stays valid.
+    if pdf_new is not None:
+        if (not isinstance(pdf_new, dict) or
+                pdf_new.get("evidence_type") !=
+                "predeclared_fixed20_direct_official_TED_PDF_original_not_operative_legal_deadline" or
+                pdf_new.get("fixed_cohort_denominator") != len(ids)):
+            raise ValueError("wrong additional PDF cohort evidence")
+        new_source = pdf_new.get("official_source")
+        if not isinstance(new_source, dict):
+            raise ValueError("missing additional PDF source")
+        new_number = _bound(pdf_new.get("publication_number"), new_source.get("url"), ids, pdf=True)
+        if new_number == pdf_number:
+            raise ValueError("duplicate PDF original source")
+        frozen_date = next(row["publication_date"] for row in cohort["notice_items"]
+                           if row["publication_number"] == new_number)
+        if (new_source.get("original_notice_directly_verified") is not True or
+                new_source.get("notice_version") != "01" or
+                new_source.get("notice_publication_date") != frozen_date):
+            raise ValueError("additional original PDF unverified or publication mismatch")
+        new_stamp = _offset_datetime(new_source.get("deadline_local"))
+        if (new_stamp.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+                != new_source.get("deadline_utc")):
+            raise ValueError("additional PDF UTC conversion mismatch")
+        originals.add(new_number)
 
     # An original HTML retrieval may fail on a later date while an earlier
     # direct official PDF was independently inspected. Both facts can coexist.
