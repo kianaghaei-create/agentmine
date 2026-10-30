@@ -4,7 +4,7 @@ Uses publisher-reported rounded shares, not audited customer identity, organic
 spend, platform capture or revenue. No network calls or payments are made.
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation, ROUND_FLOOR, ROUND_CEILING
 import json
 from pathlib import Path
@@ -51,6 +51,10 @@ def analyze(snapshot, *, share_rounding_pp='0.05'):
     observed = _timestamp(snapshot.get('traction_as_of'), 'traction_as_of')
     if observed > computed:
         raise ValueError('observation after computation')
+    # A publisher computation dated in the future cannot support a bound
+    # on already-observed settlement flow, even if the activity time precedes it.
+    if computed > datetime.now(timezone.utc):
+        raise ValueError('future publisher computation cannot be observed evidence')
     supply, activity = snapshot.get('supply'), snapshot.get('activity_30d')
     if not isinstance(supply, dict) or not isinstance(activity, dict):
         raise ValueError('missing publisher data')
