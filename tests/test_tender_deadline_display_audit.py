@@ -32,6 +32,35 @@ class TenderDeadlineDisplayAuditTests(unittest.TestCase):
         self.assertEqual([r["directory_minus_utc_days"] for r in result["records"]],
                          [-1, -1, -1, 0])
 
+    def test_three_source_disagreements_fit_date_only_midnight_utc_not_full_timestamp(self):
+        result = audit(self.evidence, self.cohort)
+        self.assertEqual(result["disagreements_consistent_with_date_only_midnight_utc"], 3)
+        self.assertEqual([r["date_only_midnight_utc_date"] for r in result["records"]],
+                         ["2026-09-28", "2026-09-27", "2026-10-08", "2026-10-06"])
+        self.assertEqual([r["date_only_hypothesis_distinguishes_full_timestamp"]
+                          for r in result["records"]], [True, True, True, False])
+        self.assertIsNone(result["verified_operative_legal_deadline_errors"])
+        self.assertIn("NOT verified directory implementation", result["warning"])
+
+    def test_full_timestamp_utc_match_does_not_falsely_count_as_date_only_mechanism(self):
+        data = copy.deepcopy(self.evidence)
+        data["attempts"][1]["official_original_datetime"] = "2026-09-29T00:30:00+02:00"
+        result = audit(data, self.cohort)
+        row = result["records"][0]
+        self.assertTrue(row["utc_conversion_matches_directory"])
+        self.assertTrue(row["date_only_midnight_utc_matches_directory"])
+        self.assertFalse(row["date_only_hypothesis_distinguishes_full_timestamp"])
+        self.assertEqual(result["disagreements_consistent_with_date_only_midnight_utc"], 2)
+
+    def test_date_only_hypothesis_not_assumed_for_unrelated_disagreement(self):
+        data = copy.deepcopy(self.evidence)
+        data["attempts"][1]["directory_display_date"] = "2026-09-27"
+        result = audit(data, self.cohort)
+        row = result["records"][0]
+        self.assertFalse(row["date_only_midnight_utc_matches_directory"])
+        self.assertFalse(row["date_only_hypothesis_distinguishes_full_timestamp"])
+        self.assertEqual(result["disagreements_consistent_with_date_only_midnight_utc"], 2)
+
     def test_utc_date_crossing_midnight_can_explain_synthetic_difference(self):
         data = copy.deepcopy(self.evidence)
         data["attempts"][1]["official_original_datetime"] = "2026-09-29T00:30:00+02:00"
