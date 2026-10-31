@@ -62,6 +62,22 @@ class X402ListEvidenceTests(unittest.TestCase):
             value["data"]["traction"]["top_10_services_share_pct"] = b
             with self.subTest(a=a, b=b), self.assertRaises(ValueError): self.parse(value)
 
+    def test_rejects_impossible_top10_share_before_fee_sensitivity(self):
+        value = fixture()
+        value["data"]["traction"]["top_1_service_share_pct"] = 8
+        value["data"]["traction"]["top_10_services_share_pct"] = 95
+        with self.assertRaisesRegex(ValueError, "ten times top 1"):
+            self.parse(value)
+
+    def test_valid_equal_ten_service_boundary_has_no_residual_fee_pool(self):
+        value = fixture()
+        value["data"]["traction"]["top_1_service_share_pct"] = 10
+        value["data"]["traction"]["top_10_services_share_pct"] = 100
+        result = self.parse(value)
+        self.assertEqual(result["flow_outside_top10_usd_30d"], "0.00")
+        self.assertEqual(result["hypothetical_1pct_fee_on_all_outside_top10_usd_30d"], "0.00")
+        self.assertIsNone(result["verified_agentmine_revenue_usd"])
+
     def test_rejects_nan_and_boolean_volume(self):
         for invalid in ("NaN", True, -1):
             value = fixture()
