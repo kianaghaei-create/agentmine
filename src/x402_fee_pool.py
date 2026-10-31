@@ -58,6 +58,11 @@ def analyze(snapshot, *, take_rate_pct=10, capture_pct=5):
     capture = _nonnegative(capture_pct, 'capture_pct')
     if top10 > 100 or top1 > top10 or take > 100 or capture > 100:
         raise ValueError('percentages must be in [0, 100] and top1 <= top10')
+    # The largest service must contribute at least one tenth of the top-ten
+    # total: no set of at most ten services can exceed 10 * its maximum.
+    # Otherwise fabricated concentration can distort the hypothetical tail.
+    if top10 > top1 * 10:
+        raise ValueError('top-ten share inconsistent with largest service share')
     # Positive settlement flow necessarily has a positive leading-service
     # share. Otherwise a missing/zero concentration field would be treated
     # as 100% addressable long-tail flow and inflate the fee scenario.
