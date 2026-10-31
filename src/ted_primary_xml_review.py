@@ -17,6 +17,32 @@ from xml.etree import ElementTree as ET
 _ID = re.compile(r"^[1-9][0-9]{0,7}-20[0-9]{2}$")
 _XML_LIMIT = 4_000_000
 _ALLOWED_HOSTS = {"ted.europa.eu", "api.ted.europa.eu"}
+_EFAC_PUBLICATION = "{http://data.europa.eu/p27/eforms-ubl-extension-aggregate-components/1}Publication"
+_EFBC_PUBLICATION_ID = "{http://data.europa.eu/p27/eforms-ubl-extension-basic-components/1}NoticePublicationID"
+_PUBLISHED_ID = re.compile(r"^[0-9]{1,8}-20[0-9]{2}$")
+
+
+def _publication_id(root, requested):
+    """Bind TED's OPP-010 publication ID when present, allowing zero padding.
+
+    OPP-010 is optional in the eForms XML schema. Missing metadata is
+    explicitly unbound, not a verified identity. A conflicting or ambiguous
+    publication ID must never be accepted as the requested original.
+    """
+    values = [child.text.strip() if child.text else ""
+              for pub in root.iter(_EFAC_PUBLICATION)
+              for child in pub.findall(_EFBC_PUBLICATION_ID)
+              if child.attrib.get("schemeName") == "ojs-notice-id"]
+    if not values:
+        return None
+    if (len(values) != 1 or not _PUBLISHED_ID.fullmatch(values[0])
+            or int(values[0].split("-")[0]) == 0):
+        raise ValueError("invalid or ambiguous TED publication metadata")
+    number, year = values[0].split("-")
+    expected_number, expected_year = requested.split("-")
+    if int(number) != int(expected_number) or year != expected_year:
+        raise ValueError("TED publication ID mismatch")
+    return values[0]
 
 
 def _local(tag):
@@ -80,6 +106,7 @@ def parse_notice(xml_bytes, publication_number):
     namespace = root.tag.partition("}")[0].lstrip("{") if "}" in root.tag else None
     if not root.tag.startswith("{urn:oasis:names:specification:ubl:schema:xsd:") or _local(root.tag) not in {"ContractNotice", "ContractAwardNotice", "PriorInformationNotice", "Notice"}:
         raise ValueError("unsupported TED notice XML schema")
+    published_id = _publication_id(root, publication_number)
     # Root-level procedure CPV must not absorb nested lot-level project CPVs.
     procedure = []
     for node in root:
@@ -96,6 +123,8 @@ def parse_notice(xml_bytes, publication_number):
     # Capture ID/version with their XML field names, not guessed semantics.
     return {
         "publication_number": publication_number,
+        "xml_publication_id": published_id,
+        "xml_publication_identity_bound": published_id is not None,
         "source_url": f"https://ted.europa.eu/en/notice/{publication_number}/xml",
         "xml_sha256": hashlib.sha256(xml_bytes).hexdigest(),
         "xml_root": _local(root.tag),
@@ -138,6 +167,7 @@ def fetch_xml(publication_number, *, opener=None):
             raise ValueError("response is not XML") from exc
         if not root.tag.startswith("{urn:oasis:names:specification:ubl:schema:xsd:") or _local(root.tag) not in {"ContractNotice", "ContractAwardNotice", "PriorInformationNotice", "Notice"}:
             raise ValueError("unsupported TED notice XML schema")
+        _publication_id(root, publication_number)
         return data
 
 
@@ -159,7 +189,9 @@ def review_cohort(cohort, *, fetcher=fetch_xml, observed_at=None, pause_seconds=
         if i and pause_seconds:
             time.sleep(pause_seconds)
         try:
-            results.append({"status": "original_xml_parsed", **parse_notice(fetcher(notice_id), notice_id)})
+            parsed = parse_notice(fetcher(notice_id), notice_id)
+            results.append({"status": ("original_xml_parsed" if parsed["xml_publication_identity_bound"]
+                                       else "original_xml_parsed_identity_unbound"), **parsed})
         except Exception as exc:
             # Keep the denominator; never silently discard blocked or invalid notices.
             results.append({"publication_number": notice_id,
@@ -172,16 +204,19 @@ def review_cohort(cohort, *, fetcher=fetch_xml, observed_at=None, pause_seconds=
                             "submission_portal_verified": False,
                             "legal_deadline_verified": False})
     parsed = sum(row["original_notice_xml_parsed"] for row in results)
+    bound = sum(row.get("xml_publication_identity_bound") is True for row in results)
     return {"evidence_type": "predeclared_TED_original_XML_metadata_not_legal_deadlines_or_market_demand",
             "observed_at": observed_at, "cohort_source": cohort.get("source_url"),
             "cohort_selection_rule": cohort.get("selection_rule"),
             "cohort_notice_count": 20, "original_xml_parsed_count": parsed,
+            "original_xml_publication_identity_bound_count": bound,
+            "original_xml_parsed_identity_unbound_count": parsed-bound,
             "original_xml_unavailable_count": 20-parsed,
             "submission_portals_verified": 0, "amendments_verified": 0,
             "verified_supplier_savings": None, "verified_agentmine_customers": None,
             "verified_agentmine_revenue": None,
             "items": results,
-            "warning": "Original notice XML snapshots are not current operative deadlines; no portal/amendment validation, no buyer demand or paid usage."}
+            "warning": "Parsed XML without matching OPP-010 metadata is not bound to the requested publication number. Original notice XML snapshots are not current operative deadlines; no portal/amendment validation, no buyer demand or paid usage."}
 
 
 def main(argv=None):
