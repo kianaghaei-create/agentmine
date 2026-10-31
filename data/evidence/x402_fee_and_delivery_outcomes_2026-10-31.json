@@ -1,0 +1,100 @@
+{
+  "observed_date_utc": "2026-10-31",
+  "evidence_type": "public_source_payment_fee_and_delivery_observations_not_agentmine_sales",
+  "sources": [
+    {
+      "source": "Bitquery Research",
+      "url": "https://bitquery.io/investigations/x402-ai-agent-payments-audit",
+      "source_measurement_date": "2026-09-05",
+      "measured_period": "2026-08",
+      "cohort": "Base merchant-checkout escrow with on-chain fee terms; NOT agent API exchange volume",
+      "evidence_basis": "publisher chain-indexed and decoded payment-instruction analysis, not independently replayed by AgentMine",
+      "observed_fee_tiers": [
+        {
+          "payments": 164928,
+          "settled_value_usd": "5296811",
+          "fee_rate_pct": "1.00",
+          "merchant_count": 26
+        },
+        {
+          "payments": 2571,
+          "settled_value_usd": "506155",
+          "fee_rate_pct": "1.25",
+          "merchant_count": 47
+        }
+      ],
+      "publisher_reported_total_processor_fees_usd": "59295",
+      "arithmetic_recomputed_unrounded_fees_usd": "59295.0475",
+      "merchant_count_note": "26 and 47 are per-tier counts; unique merchants cannot be determined by addition.",
+      "escrow_outcomes": {
+        "authorized": 168506,
+        "captured": 168413,
+        "voided": 109,
+        "refunded": 70
+      },
+      "fee_evidence_scope": "Processor gross fees on a merchant checkout product, not AgentMine, not evidence that a generic x402 Agent Exchange can capture these fees or operate profitably.",
+      "caveats": "Bitquery's own research; chain/payment classifications and processor attribution are analytical inferences. Not independently audited by AgentMine. Refunded/voided/captured counts are source-reported and should not be assumed disjoint or summable without lifecycle definitions."
+    },
+    {
+      "source": "Kilawatt Cloud",
+      "url": "https://dev.to/kilawattcloud/four-suppliers-real-usdc-no-accounts-the-full-results-of-our-x402-gpu-test-3j8b",
+      "supplementary_vendor_report": "https://kilawattcloud.dev/super-intelligence",
+      "experiment_date": "2026-10-02",
+      "published_date": "2026-10-06",
+      "cohort": "Four vendor-operated x402 GPU placement attempts across three upstream providers; small non-identical jobs, not independent paying customers.",
+      "attempts": [
+        {
+          "supplier": "Lambda",
+          "configuration": "8x A100",
+          "paid_usd": "3.40",
+          "delivered": true,
+          "time_to_ready_seconds": 314
+        },
+        {
+          "supplier": "Hyperstack",
+          "configuration": "2x A100 PCIe",
+          "paid_usd": "0.58",
+          "delivered": true,
+          "time_to_ready_seconds": 375
+        },
+        {
+          "supplier": "RunPod",
+          "configuration": "8x A40",
+          "paid_usd": "0.60",
+          "delivered": false,
+          "time_to_ready_seconds": null,
+          "refund_kind": "platform_account_credit_not_wallet_usdc"
+        },
+        {
+          "supplier": "RunPod",
+          "configuration": "4x A40 retry",
+          "paid_usd": "0.30",
+          "delivered": true,
+          "time_to_ready_seconds": 13
+        }
+      ],
+      "reported_total_paid_usd": "4.88",
+      "delivered_attempts": 3,
+      "failed_attempts": 1,
+      "caveats": "Vendor-operated test, not independently confirmed provider fulfillment or production buyer retention. Different GPU configurations; no representative delivery rate or marketplace conversion can be inferred. Failed paid request was credited to platform account, not refunded as USDC to wallet."
+    },
+    {
+      "source": "x402 Trust",
+      "url": "https://x402-trust.com/trust/report",
+      "observed_date_utc": "2026-10-31",
+      "advertised_capability": "Pre-payment endpoint probing, payment-envelope validation, reliability scoring and agent tools (nine free, six paid per call advertised).",
+      "explicitly_unverified": "Delivery after payment (publisher explicitly says it does not verify delivery-after-payment).",
+      "implication": "Generic pre-payment reliability scoring already has an incumbent; paid-but-undelivered outcome/recovery is a testable separate workflow problem, not a proven unoccupied market."
+    }
+  ],
+  "cross_source_inference": {
+    "new_market_signal": "A publisher-reported nonzero, on-chain fee-taking merchant checkout exists, and a separate vendor-operated x402 paid GPU test reported one paid-but-undelivered attempt. These are distinct products and cannot be added into a single demand estimate.",
+    "candidate_wedge": "Post-payment delivery/recovery evidence and exception resolution, only if a lawful no-spend or opt-in paid pilot demonstrates incremental outcome versus existing vendors.",
+    "decision": "Do not pivot or launch on this evidence alone. Preserve Phase 0 gates; investigate buyer need and unit economics for post-payment fulfillment before any new feature.",
+    "verified_agentmine_paying_customers": null,
+    "verified_agentmine_revenue_usd": null,
+    "independently_verified_agentmine_delivery_savings": null,
+    "actual_agentmine_payment_costs": null,
+    "verified_willingness_to_pay": null
+  }
+}
