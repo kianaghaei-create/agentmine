@@ -67,5 +67,26 @@ class ExchangeIntelligenceTests(unittest.TestCase):
         self.assertTrue(0 <= result["fill_rate"] <= 1)
 
 
+    def test_unmatched_flags_do_not_claim_closed_lost_demand(self):
+        # Synthetic caller flags cannot prove an RFQ expired without a match.
+        rows = [Request("CPV-72", False, 100), Request("CPV-72", False, 200)]
+        cohort = aggregate(rows, minimum_count=2)[0]
+        self.assertEqual(cohort["unmatched"], 2)  # compatibility alias
+        self.assertEqual(cohort["not_matched_at_observation"], 2)
+        self.assertEqual(cohort["provisional_match_flag_rate"], 0)
+        self.assertEqual(cohort["request_outcome_maturity"], "unknown_open_or_closed")
+        self.assertIsNone(cohort["confirmed_lost_demand_count"])
+        self.assertFalse(cohort["provenance_verified"])
+
+    def test_matched_flags_remain_provisional_even_at_full_match_rate(self):
+        rows = [Request("CPV-72", True, 100), Request("CPV-72", True, 200)]
+        cohort = aggregate(rows, minimum_count=2)[0]
+        self.assertEqual(cohort["fill_rate"], 1.0)  # legacy alias
+        self.assertEqual(cohort["provisional_match_flag_rate"], 1.0)
+        self.assertEqual(cohort["not_matched_at_observation"], 0)
+        self.assertIsNone(cohort["confirmed_lost_demand_count"])
+        self.assertEqual(cohort["signal_type"], "unverified_submitted_requests")
+
+
 if __name__ == "__main__":
     unittest.main()
