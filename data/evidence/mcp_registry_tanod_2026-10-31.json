@@ -1,0 +1,123 @@
+{
+  "dataset": "MCP Registry publisher supply and namespace concentration, 2026-10-31",
+  "source_url": "https://tanod.dev/data/mcp-registry-stats.json",
+  "method_url": "https://tanod.dev/learn/state-of-mcp-registry.html",
+  "source_license": "CC BY 4.0",
+  "attribution": "Tanod, State of the MCP Registry, snapshot 2026-10-31",
+  "publisher_snapshot_date": "2026-10-31",
+  "retrieved_utc_date": "2026-10-31",
+  "evidence_class": "third_party_registry_aggregate_not_independently_audited",
+  "publisher_selected_fields": {
+    "server_names": 53892,
+    "namespace_labels": 33423,
+    "remote_servers": 35929,
+    "package_only": 17303,
+    "remote_only": 31601,
+    "both_remote_and_package": 4328,
+    "neither_remote_nor_package": 660,
+    "status_active_registry_label": 53184,
+    "status_deprecated_registry_label": 708,
+    "latest_version_published_in_2026_10": 23821,
+    "liveness": null,
+    "top15_namespace_server_names": 9180,
+    "largest_15_namespace_labels": [
+      [
+        "io.github.sadri-dridi",
+        2366
+      ],
+      [
+        "io.github.pipeworx-io",
+        1914
+      ],
+      [
+        "io.github.mcp-dir",
+        1115
+      ],
+      [
+        "io.github.mrfentmen",
+        1078
+      ],
+      [
+        "io.usefulapi",
+        535
+      ],
+      [
+        "io.github.Evozim",
+        375
+      ],
+      [
+        "io.github.CSOAI-ORG",
+        354
+      ],
+      [
+        "io.github.theluckystrike",
+        279
+      ],
+      [
+        "io.github.Wxt-ai",
+        231
+      ],
+      [
+        "ai.smithery",
+        213
+      ],
+      [
+        "io.github.cyanheads",
+        166
+      ],
+      [
+        "io.github.jmshinhwa",
+        155
+      ],
+      [
+        "io.github.CYAN-ECLIPSE-TECHNOLOGIES-LLC",
+        143
+      ],
+      [
+        "com.textforagents",
+        129
+      ],
+      [
+        "io.github.codespar",
+        127
+      ]
+    ]
+  },
+  "comparison": {
+    "previous_repo_evidence": "data/evidence/mcp_registry_tanod_2026-10-27.json",
+    "previous_publisher_snapshot_date": "2026-10-27",
+    "server_names_absolute_delta": 2673,
+    "server_names_percent_delta_rounded": 5.22,
+    "namespace_labels_absolute_delta": 1747,
+    "namespace_labels_percent_delta_rounded": 5.52,
+    "remote_servers_absolute_delta": 1996,
+    "remote_servers_percent_delta_rounded": 5.88,
+    "top15_server_names_delta_across_different_top15_sets": 304,
+    "note": "Daily index changes across four days, not independently verified new active services or buyers; top-15 membership may change."
+  },
+  "derived_namespace_concentration_bounds": {
+    "method": "src/mcp_namespace_bounds.py; integer-balanced unknown namespace tail",
+    "top15_share_pct": "17.03",
+    "unreported_namespace_server_names": 44712,
+    "unreported_namespace_labels": 33408,
+    "hhi_lower_bound_exact_numerator": 12567518,
+    "hhi_lower_bound_exact_denominator": 2904347664,
+    "hhi_lower_bound_floor_8dp": "0.00432713",
+    "effective_namespace_count_upper_bound_ceiling_2dp": "231.10",
+    "actual_namespace_hhi": null,
+    "verified_supplier_business_hhi": null
+  },
+  "limitations": [
+    "Tanod publishes an aggregate of the official MCP Registry, not an independently replicated full census.",
+    "Registry status active is a publisher label, not verified service reachability; liveness=null.",
+    "October 23,821 is a count of entries by latest version publication month, not proven first-time server registrations.",
+    "Namespaces and entries are not verified distinct companies, active users, requests, buyers, settlements or paid demand.",
+    "HHI is a conditional lower bound over namespace labels; changes in this bound do not establish a change in actual concentration.",
+    "No measured AgentMine customer acquisition, delivery, supplier savings, variable costs, revenue or willingness to pay.",
+    "No payment, credentials, private data or public deployment."
+  ],
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue_usd": null,
+  "verified_agentmine_supplier_savings": null,
+  "observed_agentmine_variable_cost_usd": null
+}
