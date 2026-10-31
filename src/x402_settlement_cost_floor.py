@@ -44,19 +44,35 @@ def analyze(*, monthly_settlements, ticket_usd, take_rate_pct,
     variable = fee + Decimal(monthly_settlements) * fulfill
     contribution = gross - variable - overhead
     take_fraction = take / 100
-    min_ticket = ((variable / monthly_settlements) / take_fraction
-                  if monthly_settlements and take_fraction else None)
+    # Distinguish variable-only break-even from a ticket that also pays the
+    # modeled monthly overhead. The former alone can mislead fee viability
+    # decisions for small settlement volumes.
+    if monthly_settlements:
+        if take_fraction:
+            min_ticket = variable / (Decimal(monthly_settlements) * take_fraction)
+            min_all_cost_ticket = ((variable + overhead) /
+                                   (Decimal(monthly_settlements) * take_fraction))
+        else:
+            # A zero-fee exchange can break even only when its modeled costs
+            # are zero; no ticket size can recover positive costs at 0% take.
+            min_ticket = Decimal(0) if variable == 0 else None
+            min_all_cost_ticket = Decimal(0) if variable + overhead == 0 else None
+    else:
+        min_ticket = None
+        min_all_cost_ticket = None
     return {
         'monthly_settlements_input': monthly_settlements,
         'facilitator_charged_settlements': paid,
         'gross_platform_fees_usd': str(gross),
         'modeled_facilitator_cost_usd': str(fee),
         'modeled_variable_cost_usd': str(variable),
+        'modeled_monthly_overhead_usd': str(overhead),
         'modeled_monthly_contribution_before_unmodeled_costs_usd': str(contribution),
         'minimum_ticket_to_cover_modeled_variable_costs_usd': str(min_ticket) if min_ticket is not None else None,
+        'minimum_ticket_to_cover_all_modeled_costs_usd': str(min_all_cost_ticket) if min_all_cost_ticket is not None else None,
         'verified_agentmine_transactions': None,
         'verified_agentmine_paying_customers': None,
         'verified_agentmine_costs_usd': None,
         'fee_source': 'https://www.coinbase.com/en-it/developer-platform/discover/launches/x402facilitator-polygon',
-        'warning': 'Hypothetical platform-borne facilitator cost only. The first 1000 free and $0.001 thereafter are a published Coinbase offer; check eligibility, current terms and per-account aggregation. No buyer, payment, data licensing, gas, FX, KYC, taxes, support or acquisition costs verified.',
+        'warning': 'Hypothetical platform-borne facilitator cost only. The first 1000 free and $0.001 thereafter are a published Coinbase offer; check eligibility, current terms and per-account aggregation. Variable-only break-even excludes monthly overhead; all-modeled-cost break-even includes it. No buyer, payment, data licensing, gas, FX, KYC, taxes, support or acquisition costs verified.',
     }
