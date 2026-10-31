@@ -1,0 +1,61 @@
+{
+  "evidence_type": "public_competitor_reported_sales_mix_not_verified_customer_demand",
+  "checked_date_utc": "2026-10-31",
+  "publisher": "nohumans.directory",
+  "source_stats": "https://nohumans.directory/v1/stats",
+  "source_methodology": "https://nohumans.directory/methodology",
+  "source_license": "CC BY 4.0 with attribution; no licensed historical records copied",
+  "comparison_to_previous_repo_snapshot": "data/evidence/nohumans_x402_paid_outcomes_and_sales_2026-10-31.json",
+  "underlying_latest_operator_purchase_utc": "2026-10-30T09:33:54Z",
+  "publisher_reported_cumulative_sales": {
+    "supplier_submission_and_verification": {
+      "purchases": 53,
+      "usd": "28.25"
+    },
+    "buyer_demand_intelligence": {
+      "purchases": 7,
+      "usd": "3.50"
+    },
+    "buyer_verdict_and_history": {
+      "purchases": 2,
+      "usd": "0.01"
+    },
+    "total": {
+      "purchases": 62,
+      "usd": "31.76"
+    },
+    "supplier_side_usd_share_pct": "88.9484",
+    "last_24h_reported_purchases_all_categories": 0,
+    "since_prior_snapshot_cumulative_count_change": 0,
+    "since_prior_snapshot_cumulative_usd_change": "0.00"
+  },
+  "publisher_operator_purchase_latest_per_endpoint": {
+    "attempted": 6478,
+    "payment_required": 6397,
+    "not_applicable": 81,
+    "delivered": 3995,
+    "delivered_plain_label": 3807,
+    "delivered_correction_labels": 188,
+    "delivery_rate_conditional_on_payment_required": "0.6245114897608254",
+    "outcome_counts_sum_to_attempted": true
+  },
+  "methodology_correction_not_a_current_activity_rate": {
+    "dated": "2026-10-29",
+    "audited_client_failure_records": 155,
+    "timeout_settled": 40,
+    "empty_body_without_tx_hash_settled": 3,
+    "reported_combined_settled_usdc": "0.218",
+    "interpretation": "paid with no accepted response; actual delivery status may be unknown, not a measured population failure rate",
+    "source": "https://nohumans.directory/methodology"
+  },
+  "provenance_limits": [
+    "All revenue figures are vendor self-reported, not independently replayed on chain.",
+    "Sales are cumulative, not monthly; no verified distinct buyer identities or retention.",
+    "Supplier-side fees are not agent-buyer demand.",
+    "Operator purchase attempts are not independent customer purchases.",
+    "Non-delivery HTTP labels do not imply on-chain settlement.",
+    "The 2026-10-29 correction audit is historical and must not be merged into latest-per-endpoint outcome counts.",
+    "No AgentMine customers, revenue, cost or measured savings evidenced."
+  ],
+  "implication": "Current published paid evidence is predominantly supplier-funded and tiny; do not build a generic post-payment verifier or infer buyer demand. Seek consented independently verifiable task outcomes and willingness-to-pay."
+}
