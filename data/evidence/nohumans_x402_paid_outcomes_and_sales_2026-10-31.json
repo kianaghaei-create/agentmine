@@ -1,0 +1,78 @@
+{
+  "evidence_type": "competitor_publisher_reported_market_activity_not_agentmine_sales",
+  "checked_date_utc": "2026-10-31",
+  "source_stats": "https://nohumans.directory/v1/stats",
+  "source_methodology": "https://nohumans.directory/methodology",
+  "source_integration": "https://nohumans.directory/integrate",
+  "source_data_license": "https://nohumans.directory/data",
+  "source_refund_competitor": "https://www.x402-agent-pay.com/refund-policy",
+  "publisher": "nohumans.directory",
+  "provenance": "public vendor self-report; API JSON read without credentials; not independently replayed on chain",
+  "paid_verification_latest_attempt_utc": "2026-10-30T09:33:54Z",
+  "supply": {
+    "active_probed_listings": 10854,
+    "distinct_hosts": 2757,
+    "scope": "operator's own indexed active endpoints; not unique suppliers, customers or whole x402 market"
+  },
+  "paid_verification": {
+    "attempted_latest_per_endpoint": 6478,
+    "payment_required": 6397,
+    "not_applicable": 81,
+    "delivered": 3995,
+    "delivery_rate_conditional_on_payment_required": 0.6245114897608254,
+    "scope": "operator scout purchase outcome; includes its own client errors, parameter refusals and unproven settlement; not a percentage of lost money"
+  },
+  "operator_reported_sales_usd": {
+    "verdict": {
+      "count": 2,
+      "usd": "0.01"
+    },
+    "purchase_history": {
+      "count": 0,
+      "usd": "0"
+    },
+    "demand_clusters": {
+      "count": 6,
+      "usd": "1.50"
+    },
+    "demand_report": {
+      "count": 1,
+      "usd": "2.00"
+    },
+    "listing_submission_fees": {
+      "count": 49,
+      "usd": "12.25"
+    },
+    "seller_paid_verification": {
+      "count": 4,
+      "usd": "16.00"
+    },
+    "sum_of_reported_category_totals_usd": "31.76",
+    "scope": "cumulative reported settled product purchases, operator claims to exclude own wallets; not independently validated, no timeframe-aligned monthly revenue, unique buyers or profit"
+  },
+  "historical_failure_audit": {
+    "audit_date_utc": "2026-10-07",
+    "cohort": "651 unsuccessful endpoint responses after signed payment authorization attached",
+    "settlement_found": 127,
+    "settlement_not_found": 515,
+    "unresolved": 9,
+    "warning": "127/651 is a conditional audited failure cohort, not a representative failure rate or proof of unrecovered losses; non-settled responses must not be called paid failures"
+  },
+  "competitive_overlap": [
+    "free pre-spend endpoint/MCP checks",
+    "paid per-call verdicts",
+    "paid delivery probes and signed payer reports",
+    "paid demand clusters/reports",
+    "supplier-paid verification and listing submission fees",
+    "separately licensed probe/purchase/payment-history data"
+  ],
+  "licensing": {
+    "free_current_catalog": "CC BY 4.0 with attribution",
+    "paid_history": "separately licensed; resale and republication of history as dataset or API excluded",
+    "rights_to_resell_history": false
+  },
+  "decision": "Do not treat post-payment delivery verification or paid demand intelligence as unoccupied. First demonstrate differentiated, independently verifiable outcome/recovery value and real buyer WTP; do not copy licensed history.",
+  "agentmine_verified_paying_customers": null,
+  "agentmine_verified_revenue_usd": null,
+  "agentmine_observed_customer_savings": null
+}
