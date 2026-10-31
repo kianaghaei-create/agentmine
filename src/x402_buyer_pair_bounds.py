@@ -68,6 +68,11 @@ def analyze(snapshot, *, share_rounding_pp='0.05'):
     rounding = _decimal(share_rounding_pp, 'share_rounding_pp')
     if not (0 < top1 <= top10 <= 100 and 0 < buyer <= 100 and 0 <= rounding <= Decimal('0.5')):
         raise ValueError('inconsistent shares')
+    # Top-ten concentration cannot exceed ten times the largest service's
+    # share. Without this constraint, impossible publisher input could be
+    # reported as a meaningful buyer-address concentration bound.
+    if top10 > top1 * 10:
+        raise ValueError('top-ten share inconsistent with largest service share')
     if volume == 0:
         raise ValueError('shares undefined on zero flow')
     if type(activity.get('top_1_service_data_imported')) is not bool:
