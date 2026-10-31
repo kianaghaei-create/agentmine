@@ -25,7 +25,9 @@ class RFQ:
     currency: str
     created_at: str
     provenance_ref: str
-    source_kind: str = "self_declared_opt_in"  # or synthetic_test
+    # Mandatory: a missing label must not silently turn synthetic fixtures
+    # into purported opt-in demand.
+    source_kind: str  # self_declared_opt_in or synthetic_test
 
 
 def _validate(row):
@@ -119,14 +121,21 @@ def aggregate_opt_in_rfqs(rows, minimum_requests=10, minimum_buyer_tokens=5,
             "distinct_unverified_buyer_tokens": unique,
             "largest_buyer_token_request_share": round(dominant, 4),
             "matched": matched,
-            "unmatched": n - matched,
-            "fill_rate": round(matched / n, 4),
+            # A false matched flag does not establish that the request was
+            # closed, lost, or a monetizable unfilled opportunity.
+            "unmatched": n - matched,  # legacy alias; provisional only
+            "not_matched_at_observation": n - matched,
+            "fill_rate": round(matched / n, 4),  # provisional legacy alias
+            "provisional_match_flag_rate": round(matched / n, 4),
+            "confirmed_lost_demand_count": None,
+            "request_outcome_maturity": "unknown_open_or_closed",
             "median_stated_budget_cents": median(r.budget_cents for r in group),
             "signal_type": source_kind,
             "verified_buyer_count": None,
             "verified_revenue_cents": None,
             "warning": "Opt-in and buyer tokens are self-declared; neither is independently verified. "
                        "No paying-customer, revenue or population inference is supported. "
+                       "Unmatched flags are not verified lost demand: request closure and final outcomes are unknown. "
                        "Suppression is not a privacy guarantee.",
         })
     return result
