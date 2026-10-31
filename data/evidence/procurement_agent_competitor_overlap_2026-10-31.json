@@ -1,0 +1,131 @@
+{
+  "observed_date_utc": "2026-10-31",
+  "evidence_type": "vendor_published_competitor_offers_not_verified_usage_or_sales",
+  "scope": "Non-exhaustive Swedish supplier-side procurement software; targeted to AgentMine Agent Exchange, Supplier Growth and outcome-fee hypotheses",
+  "collection_method": "Read the vendors' own public feature and pricing pages on 2026-10-31. Record only explicitly advertised features, prices and conditions. No login, paid calls or functional tests.",
+  "offers": [
+    {
+      "vendor": "Tilldelat",
+      "product": "Tilldelat Pro and Marknadsinsikt add-on",
+      "source_urls": [
+        "https://tilldelat.se/pris",
+        "https://tilldelat.se/pro"
+      ],
+      "advertised_prices": [
+        {
+          "plan": "Pro Sweden annual",
+          "amount": 9950,
+          "currency": "SEK",
+          "billing": "per year",
+          "vat": "excluded"
+        },
+        {
+          "plan": "Pro Sweden monthly",
+          "amount": 995,
+          "currency": "SEK",
+          "billing": "per month no commitment",
+          "vat": "excluded"
+        },
+        {
+          "plan": "Marknadsinsikt add-on annual",
+          "amount": 9950,
+          "currency": "SEK",
+          "billing": "per year; requires Pro, Pro Norden or Pro Europa",
+          "vat": "excluded"
+        },
+        {
+          "plan": "Marknadsinsikt add-on monthly",
+          "amount": 995,
+          "currency": "SEK",
+          "billing": "per month; requires eligible Pro plan",
+          "vat": "excluded"
+        }
+      ],
+      "advertised_capabilities": [
+        "tender alerts same publication morning",
+        "API and MCP integration for own AI",
+        "1000 API/MCP calls per day on Pro",
+        "buyer and supplier award analytics",
+        "market concentration and whitespace by category",
+        "contract expiry and reissue signals"
+      ],
+      "agentmine_overlap": [
+        "Supplier Growth SaaS market intelligence",
+        "agent-native procurement data API/MCP",
+        "early tender and competitor signals"
+      ],
+      "notes": "At advertised annual rates, Pro Sweden plus Marknadsinsikt is SEK 19,900/year ex VAT; this is a sum of two published plan prices, not observed spend or customer willingness to pay."
+    },
+    {
+      "vendor": "Tendra",
+      "product": "Bevakning, Anbud and Anbudsavdelning",
+      "source_urls": [
+        "https://www.tendra.dev/",
+        "https://www.tendra.dev/priser/"
+      ],
+      "advertised_prices": [
+        {
+          "plan": "Bevakning",
+          "amount": 2500,
+          "currency": "SEK",
+          "billing": "from per month, invoiced annually",
+          "vat": "excluded"
+        },
+        {
+          "plan": "Anbud",
+          "amount": 4000,
+          "currency": "SEK",
+          "billing": "from per month, invoiced annually",
+          "vat": "excluded"
+        },
+        {
+          "plan": "Anbudsavdelning",
+          "amount": 2.5,
+          "currency": "PERCENT_OF_WON_CONTRACT_VALUE",
+          "billing": "vendor says invoice only after winning; contract details unverified",
+          "vat": "not specified for percent fee"
+        }
+      ],
+      "advertised_capabilities": [
+        "connect Claude to procurement data and supplier evidence",
+        "source-linked requirement and gap analysis",
+        "drafts from supplier documents with citation checks",
+        "done-for-you bid preparation for success fee"
+      ],
+      "agentmine_overlap": [
+        "agent-native bid workflows",
+        "outcome-based supplier monetization",
+        "source-linked qualification and drafting"
+      ],
+      "notes": "Vendor website quotes a named customer's 40-to-4-hour anecdote; not independently timed or a generalizable measured saving. The 2.5% fee is a vendor offer, not verified payments."
+    },
+    {
+      "vendor": "Procura",
+      "product": "Supplier eligibility qualification",
+      "source_urls": [
+        "https://useprocura.com/jamfor"
+      ],
+      "advertised_prices": [],
+      "price_status": "Vendor says price to be set before launch; no public paid price on reviewed page.",
+      "advertised_capabilities": [
+        "checks supplier certificates, financial metrics and references against mandatory tender criteria",
+        "rule-based hard disqualification with supporting evidence",
+        "historical award prices with publication-coverage context"
+      ],
+      "agentmine_overlap": [
+        "bid/no-bid preflight and qualification against evidence",
+        "historical procurement intelligence"
+      ],
+      "notes": "Vendor assertions only; actual product quality, customer count, pricing and usage were not tested."
+    }
+  ],
+  "inference": {
+    "verified_competitor_offers_count": 3,
+    "verified_agentmine_paying_customers": null,
+    "verified_competitor_paying_customers": null,
+    "verified_competitor_sales": null,
+    "verified_agentmine_willingness_to_pay": null,
+    "decision_implication": "Agent-native tender access, source-linked qualification, award concentration/whitespace analytics and outcome-based supplier fees are already advertised by multiple vendors. Do not treat these generic features or prices as unserved demand; validate a narrowly differentiated, independently measured exception-resolution outcome before monetization.",
+    "caveat": "Convenience sample of vendor-owned pages; offers and prices can change, are not independent product tests, and do not prove any vendor has paying customers or that AgentMine can sell."
+  }
+}
