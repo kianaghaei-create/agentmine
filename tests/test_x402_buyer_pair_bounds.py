@@ -71,6 +71,23 @@ class BuyerPairBoundsTests(unittest.TestCase):
         s = fixture(); s['activity_30d']['listed_service_deduplicated_settlements_usd'] = '0'
         with self.assertRaises(ValueError): analyze(s)
 
+    def test_impossible_top_ten_share_cannot_support_buyer_bound(self):
+        # Ten services with at most 8% each cannot hold 95% of flow.
+        s = fixture()
+        s['activity_30d']['top_1_service_volume_share_pct'] = '8'
+        s['activity_30d']['top_10_services_volume_share_pct'] = '95'
+        with self.assertRaisesRegex(ValueError, 'top-ten share inconsistent'):
+            analyze(s)
+
+    def test_exact_top_ten_leader_boundary_is_valid(self):
+        # A 9.5% largest service permits ten equal 9.5% services.
+        s = fixture()
+        s['activity_30d']['top_1_service_volume_share_pct'] = '9.5'
+        s['activity_30d']['top_10_services_volume_share_pct'] = '95'
+        result = analyze(s)
+        self.assertGreater(Decimal(result['minimum_one_address_service_pair_share_pct']), 0)
+        self.assertIsNone(result['verified_unique_paying_buyers'])
+
     def test_requires_explicit_import_status(self):
         for flag in (None, 'true', 1):
             s = fixture(); s['activity_30d']['top_1_service_data_imported'] = flag
