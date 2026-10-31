@@ -59,6 +59,24 @@ class FeePoolIntegrityTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     analyze(evidence)
 
+    def test_rejects_impossible_top_ten_share_for_largest_service(self):
+        # Ten services each <= 8% cannot jointly account for 95% of flow.
+        for top1, top10 in ((8, 95), (1, 100), ('9.49', '95')):
+            with self.subTest(top1=top1, top10=top10):
+                evidence = snapshot()
+                evidence['activity_30d']['top_1_service_volume_share_pct'] = top1
+                evidence['activity_30d']['top_10_services_volume_share_pct'] = top10
+                with self.assertRaisesRegex(ValueError, 'top-ten share inconsistent'):
+                    analyze(evidence)
+
+    def test_accepts_top_ten_equal_to_ten_times_largest_service(self):
+        evidence = snapshot()
+        evidence['activity_30d']['top_1_service_volume_share_pct'] = '9.5'
+        evidence['activity_30d']['top_10_services_volume_share_pct'] = '95'
+        result = analyze(evidence)
+        self.assertEqual(result['top10_share_pct'], '95')
+        self.assertIsNone(result['verified_agentmine_revenue_usd'])
+
     def test_rejects_zero_flow_with_positive_concentration(self):
         evidence = snapshot()
         evidence["activity_30d"]["listed_service_deduplicated_settlements_usd"] = 0
