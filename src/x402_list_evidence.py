@@ -88,11 +88,6 @@ def summarize(payload, *, fetched_at):
     top10 = _nonnegative_number(traction.get("top_10_services_share_pct"), "top10", Decimal(100))
     if top1 > top10:
         raise ValueError("top 1 share exceeds top 10")
-    # The ten largest services cannot collectively exceed ten times the
-    # largest service's share. Reject impossible publisher transcriptions
-    # before computing the hypothetical residual fee pool.
-    if top10 > top1 * 10:
-        raise ValueError("top 10 share exceeds ten times top 1 share")
     # Publisher concentration is not a count of independent paying people.
     buyer_raw = traction.get("top_1_service_top_buyer_share_pct")
     buyer_share = (_nonnegative_number(buyer_raw, "top1 buyer share", Decimal(100))
@@ -123,6 +118,11 @@ def summarize(payload, *, fetched_at):
     if volume > 0 and (measured == 0 or top1 == 0 or top10 == 0
                        or (buyer_share is not None and buyer_share == 0)):
         raise ValueError("positive volume requires measured services and positive concentration")
+    # The ten largest services cannot collectively exceed ten times the
+    # largest service's share. Reject impossible publisher transcriptions
+    # before computing the hypothetical residual fee pool.
+    if top10 > top1 * 10:
+        raise ValueError("top 10 share exceeds ten times top 1 share")
     outside_top10 = volume * (Decimal(100) - top10) / Decimal(100)
     cent = Decimal("0.01")
     return {
