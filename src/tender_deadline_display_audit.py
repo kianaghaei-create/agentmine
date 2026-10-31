@@ -48,13 +48,25 @@ def audit(evidence, cohort):
             raise ValueError("original must have timezone offset")
         difference = (displayed - original.date()).days
         utc_date = original.astimezone(timezone.utc).date()
+        # Falsifiable display hypothesis: a consumer may incorrectly parse
+        # the eForms date alone as local midnight and convert *that* to UTC,
+        # ignoring the separately stored time. This is not proof of how any
+        # third-party directory actually implements date handling.
+        midnight_utc_date = original.replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ).astimezone(timezone.utc).date()
+        date_only_match = displayed == midnight_utc_date
         compared.append({"publication_number":identifier,
                          "original_local_date":original.date().isoformat(),
                          "original_utc_date":utc_date.isoformat(),
+                         "date_only_midnight_utc_date":midnight_utc_date.isoformat(),
                          "directory_display_date":displayed.isoformat(),
                          "directory_minus_original_days":difference,
                          "directory_minus_utc_days":(displayed - utc_date).days,
-                         "utc_conversion_matches_directory":displayed == utc_date})
+                         "utc_conversion_matches_directory":displayed == utc_date,
+                         "date_only_midnight_utc_matches_directory":date_only_match,
+                         "date_only_hypothesis_distinguishes_full_timestamp":(
+                             difference != 0 and date_only_match and displayed != utc_date)})
     return {"cohort_size":20,"attempted":len(attempts),"compared":len(compared),
             "inaccessible_ids":blocked,
             "date_disagreements":sum(x["directory_minus_original_days"] != 0 for x in compared),
@@ -62,7 +74,9 @@ def audit(evidence, cohort):
                 x["directory_minus_original_days"] != 0 and not x["utc_conversion_matches_directory"]
                 for x in compared),
             "same_dates":sum(x["directory_minus_original_days"] == 0 for x in compared),
+            "disagreements_consistent_with_date_only_midnight_utc":sum(
+                x["date_only_hypothesis_distinguishes_full_timestamp"] for x in compared),
             "records":compared,"cohort_prevalence":None,
             "verified_operative_legal_deadline_errors":None,
             "verified_supplier_savings":None,"verified_paid_demand":None,
-            "warning":"Original notice vs directory display only; no amendment/portal clearance, market prevalence or buyer outcome."}
+            "warning":"Date-only midnight UTC conversion is a testable explanation, NOT verified directory implementation or legal error. Original notice vs directory display only; no amendment/portal clearance, market prevalence or buyer outcome."}
