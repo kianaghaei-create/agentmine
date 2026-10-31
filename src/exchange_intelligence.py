@@ -56,10 +56,18 @@ def aggregate(requests: Iterable[Request], minimum_count: int = 10) -> list[dict
             "currency": currency,
             "requests": len(rows),
             "matched": matched,
+            # Legacy aliases describe caller-submitted flags, not final
+            # fulfilled/lost outcomes. Without closure evidence, an unmatched
+            # request may still be open or later matched.
             "unmatched": len(rows) - matched,
+            "not_matched_at_observation": len(rows) - matched,
             "fill_rate": round(matched / len(rows), 4),
+            "provisional_match_flag_rate": round(matched / len(rows), 4),
+            "confirmed_lost_demand_count": None,
+            "request_outcome_maturity": "unknown_open_or_closed",
             "median_budget_cents": median(row.budget_cents for row in rows),
             "signal_type": "unverified_submitted_requests",
             "provenance_verified": False,
+            "warning": "Caller-submitted match flags are unverified and do not establish closed, lost or paid demand.",
         })
     return result
