@@ -64,5 +64,34 @@ class RFQCategoryPrivacyTests(unittest.TestCase):
             minimum_buyer_tokens=5, max_buyer_share=0.2), [])
 
 
+    def test_source_kind_must_be_explicit_not_default_to_real_demand(self):
+        # Omitting the provenance label must fail at construction, rather
+        # than promoting a synthetic fixture into a self-declared opt-in row.
+        fields = dict(
+            request_id="req1", buyer_token="buyer1", consent=True,
+            category="CPV-72", matched=False, budget_cents=10000,
+            currency="SEK", created_at="2026-10-25T10:00:00Z",
+            provenance_ref="synthetic_fixture",
+        )
+        with self.assertRaisesRegex(TypeError, "source_kind"):
+            RFQ(**fields)
+
+    def test_unmatched_flags_are_not_verified_lost_demand(self):
+        # Even 10 consent-flagged, unmatched rows cannot establish lost
+        # requests without closure and independent outcome evidence.
+        rows = [row(i, source_kind="self_declared_opt_in") for i in range(10)]
+        result = aggregate_opt_in_rfqs(
+            rows, minimum_requests=10, minimum_buyer_tokens=5,
+            max_buyer_share=0.2)
+        self.assertEqual(len(result), 1)
+        cohort = result[0]
+        self.assertEqual(cohort["not_matched_at_observation"], 10)
+        self.assertEqual(cohort["unmatched"], 10)  # legacy field
+        self.assertEqual(cohort["provisional_match_flag_rate"], 0)
+        self.assertEqual(cohort["request_outcome_maturity"], "unknown_open_or_closed")
+        self.assertIsNone(cohort["confirmed_lost_demand_count"])
+        self.assertIsNone(cohort["verified_buyer_count"])
+
+
 if __name__ == "__main__":
     unittest.main()
