@@ -59,9 +59,15 @@ def parse(text):
         raise ValueError("weekly snapshot dates must be unique and increasing")
     as_of = dates[-1]
     updated_dt = datetime.fromisoformat(updated.group(1).replace("Z", "+00:00"))
-    if updated_dt.tzinfo is None:
+    if updated_dt.tzinfo is None or updated_dt.utcoffset() is None:
         raise ValueError("source timestamp must include timezone")
-    lag_days = (updated_dt.date() - as_of).days
+    # The weekly series is dated in UTC. An offset-aware publisher update
+    # can have a different local calendar date from its UTC observation day.
+    # Normalize before comparing dates, and reject impossible future updates.
+    updated_utc = updated_dt.astimezone(timezone.utc)
+    if updated_utc > datetime.now(timezone.utc):
+        raise ValueError("source timestamp cannot be in the future")
+    lag_days = (updated_utc.date() - as_of).days
     if lag_days < 0:
         raise ValueError("headline snapshot is dated after source update")
     result = {
