@@ -87,5 +87,34 @@ class EformsDeadlineTests(unittest.TestCase):
             parse_deadlines('<ContractNotice>')
 
 
+    def test_duplicate_enddate_rejected_even_if_first_value_valid(self):
+        xml = fixture().replace(
+            '</cbc:EndDate>',
+            '</cbc:EndDate><cbc:EndDate>2026-09-30+02:00</cbc:EndDate>', 1)
+        with self.assertRaisesRegex(ValueError, 'ambiguous or missing EndDate'):
+            parse_deadlines(xml)
+
+    def test_duplicate_endtime_rejected_even_if_first_value_valid(self):
+        xml = fixture().replace(
+            '</cbc:EndTime>',
+            '</cbc:EndTime><cbc:EndTime>12:00:00+02:00</cbc:EndTime>', 1)
+        with self.assertRaisesRegex(ValueError, 'ambiguous or missing EndTime'):
+            parse_deadlines(xml)
+
+    def test_duplicate_tendering_process_rejected_even_when_second_empty(self):
+        xml = fixture().replace(
+            '</cac:ProcurementProjectLot>',
+            '<cac:TenderingProcess></cac:TenderingProcess></cac:ProcurementProjectLot>', 1)
+        with self.assertRaisesRegex(ValueError, 'duplicate TenderingProcess'):
+            parse_deadlines(xml)
+
+    def test_empty_first_process_does_not_hide_second_deadline(self):
+        xml = fixture().replace(
+            '<cac:TenderingProcess>',
+            '<cac:TenderingProcess></cac:TenderingProcess><cac:TenderingProcess>', 1)
+        with self.assertRaisesRegex(ValueError, 'duplicate TenderingProcess'):
+            parse_deadlines(xml)
+
+
 if __name__ == '__main__':
     unittest.main()
