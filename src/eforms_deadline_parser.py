@@ -37,6 +37,14 @@ def _combine(date_text, time_text):
     return stamp
 
 
+def _single_field(period, name):
+    """Reject missing or repeated scalar fields instead of choosing the first."""
+    elements = period.findall(CBC + name)
+    if len(elements) != 1:
+        raise ValueError(f'ambiguous or missing {name} in eForms period')
+    return elements[0].text
+
+
 def parse_deadlines(xml_text):
     """Parse lot-level tender/application deadlines from a saved eForms XML.
 
@@ -58,9 +66,12 @@ def parse_deadlines(xml_text):
         if not identifier or not identifier.strip():
             raise ValueError('lot ID missing')
         identifier = identifier.strip()
-        process = lot.find(CAC + 'TenderingProcess')
-        if process is None:
+        processes = lot.findall(CAC + 'TenderingProcess')
+        if len(processes) > 1:
+            raise ValueError('ambiguous duplicate TenderingProcess for lot')
+        if not processes:
             continue
+        process = processes[0]
         for element, stage in STAGES.items():
             periods = process.findall(CAC + element)
             if not periods:
@@ -72,7 +83,7 @@ def parse_deadlines(xml_text):
             if key in seen:
                 raise ValueError('duplicate lot/stage deadline')
             seen.add(key)
-            stamp = _combine(period.findtext(CBC + 'EndDate'), period.findtext(CBC + 'EndTime'))
+            stamp = _combine(_single_field(period, 'EndDate'), _single_field(period, 'EndTime'))
             utc = stamp.astimezone(timezone.utc)
             midnight_utc = stamp.replace(hour=0, minute=0, second=0, microsecond=0).astimezone(timezone.utc)
             records.append({
