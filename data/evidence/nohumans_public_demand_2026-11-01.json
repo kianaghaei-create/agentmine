@@ -1,0 +1,39 @@
+{
+  "evidence_type": "publisher_reported_directory_search_interest_not_verified_buyer_demand",
+  "source_url": "https://api.nohumans.directory/v1/demand",
+  "source_page_url": "https://nohumans.directory/state/demand",
+  "publisher": "nohumans.directory",
+  "observed_at_utc": "2026-11-01T13:09:57Z",
+  "window_starts_at_iso": "2026-09-25T13:09:57Z",
+  "window_ends_at_iso": "2026-10-25T13:09:57Z",
+  "window_days": 30,
+  "delay_hours": 168,
+  "total_queries": 27512,
+  "distinct_client_ips": 3102,
+  "supply_check": {
+    "terms": 981,
+    "checked": 980,
+    "search_returned_nothing": 1,
+    "not_checked_yet": 0,
+    "terms_our_search_found_nothing_for": ["loop2canarya74506330f06"]
+  },
+  "separately_classified_search_patterns": {
+    "named_listing_lookups": "Excluded from top_needs by publisher; likely checking known listings, not unmet demand.",
+    "scripted_rotation": "Excluded from top_needs by publisher; distinct IPs may be a single rotating caller.",
+    "self_monitoring_searches": "Seller searches must not be counted as independent buyer demand."
+  },
+  "example_recurring_interest_from_publisher_page_near_same_time": [
+    {"query": "real-time stock quotes sub-second latency", "distinct_days": 7, "client_ips": 16, "searches": 41},
+    {"query": "funding rates data feed", "distinct_days": 5, "client_ips": 7, "searches": 76},
+    {"query": "x402 endpoint reliability uptime data", "distinct_days": 4, "client_ips": 9, "searches": 66},
+    {"query": "check an x402 endpoint before paying it", "distinct_days": 4, "client_ips": 12, "searches": 76}
+  ],
+  "limitations": [
+    "Selected public fields and separately read HTML term examples; not a raw immutable API response. Hourly source updates can shift counts.",
+    "Publisher's catalogue search returning any listing does not demonstrate relevant, functional or affordable supply.",
+    "The single no-result query resembles a canary label, but its origin and buyer authenticity are unverified; do not label it a proven synthetic test.",
+    "Distinct client IPs are not distinct people, businesses or paying buyers; queries may include repeated, automated or seller activity.",
+    "No AgentMine sales, customers, customer savings, opt-in RFQ demand or demonstrated willingness to pay are evidenced."
+  ],
+  "decision": "Do not monetize generic Lost Demand Intelligence from raw search counts or no-result flags. Explore source-backed recurring topics only after independently checking actual supplier fit and obtaining consented buyer value/payment evidence."
+}
