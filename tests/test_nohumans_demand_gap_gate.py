@@ -57,6 +57,25 @@ class DemandGapGateTests(unittest.TestCase):
         row['distinct_client_ips'] = True
         with self.assertRaises(ValueError): analyze(row)
 
+    def test_distinct_terms_cannot_exceed_reported_searches(self):
+        row = copy.deepcopy(SAMPLE)
+        row['total_queries'] = 980
+        row['distinct_client_ips'] = 10
+        # 981 published distinct terms require at least 981 search events.
+        with self.assertRaises(ValueError): analyze(row)
+
+    def test_zero_activity_zero_terms_is_valid(self):
+        row = copy.deepcopy(SAMPLE)
+        row['total_queries'] = 0
+        row['distinct_client_ips'] = 0
+        row['supply_check'] = {
+            'terms': 0, 'checked': 0, 'search_returned_nothing': 0,
+            'not_checked_yet': 0, 'terms_our_search_found_nothing_for': [],
+        }
+        result = analyze(row)
+        self.assertEqual(result['publisher_reported_terms'], 0)
+        self.assertIsNone(result['verified_paying_customers'])
+
     def test_does_not_assume_unmatched_means_paid(self):
         row = copy.deepcopy(SAMPLE)
         row['supply_check'] = {'terms': 2, 'checked': 0, 'search_returned_nothing': 2,
