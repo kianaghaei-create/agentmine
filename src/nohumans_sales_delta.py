@@ -5,6 +5,7 @@ endpoint. Operator-funded delivery probes are deliberately out of scope.
 This offline check does not independently verify settlement or margin.
 """
 from datetime import date
+import re
 from decimal import Decimal, InvalidOperation
 
 SOURCE = 'https://nohumans.directory/v1/stats'
@@ -16,7 +17,7 @@ SUPPLIER = frozenset(('submission_fee_sales', 'verify_now_sales'))
 
 
 def _date(value):
-    if not isinstance(value, str) or len(value) != 10:
+    if not isinstance(value, str) or not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', value):
         raise ValueError('observation date must be ISO calendar date')
     try:
         return date.fromisoformat(value)
@@ -57,8 +58,11 @@ def _snapshot(obj):
         row = rows[category]
         if not isinstance(row, dict) or set(row) != {'purchases', 'usd'}:
             raise ValueError(f'incomplete category {category}')
-        parsed[category] = (_nonnegative_count(row['purchases'], category),
-                            _usd(row['usd'], category))
+        count = _nonnegative_count(row['purchases'], category)
+        usd = _usd(row['usd'], category)
+        if count == 0 and usd != 0:
+            raise ValueError(f'{category} cannot report positive sales USD with zero purchases')
+        parsed[category] = (count, usd)
     total_count = sum(c for c, _ in parsed.values())
     total_usd = sum((v for _, v in parsed.values()), Decimal(0))
     if (total_count != _nonnegative_count(obj['reported_total_purchases'], 'total purchases')
