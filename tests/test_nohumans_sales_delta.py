@@ -1,5 +1,6 @@
 """Offline arithmetic and provenance tests; synthetic mutation cases."""
 import copy
+from decimal import Decimal
 import json
 from pathlib import Path
 import unittest
@@ -22,6 +23,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(r['publisher_reported_supplier_share_of_new_usd_pct'], '100')
         self.assertIsNone(r['verified_distinct_customers'])
         self.assertIsNone(r['verified_profit_or_unit_margin_usd'])
+
+    def test_previous_sales_match_existing_committed_aggregate(self):
+        prior_path = Path(__file__).resolve().parents[1] / 'data/evidence/nohumans_operator_probe_2026-11-01T104003Z.json'
+        prior = json.loads(prior_path.read_text(encoding='utf-8'))
+        expected = prior['publisher_reported_monetized_sales']
+        before = self.data['previous']
+        self.assertEqual(before['reported_total_purchases'], expected['cumulative_purchases'])
+        self.assertEqual(before['reported_total_usd'], expected['cumulative_usd'])
+        self.assertEqual(before['reported_last_24h_purchases'], expected['last_24h_purchases'])
+        for group, keys in (
+            ('supplier_funded_submission_and_verification', ('submission_fee_sales','verify_now_sales')),
+            ('buyer_demand_intelligence', ('demand_sales','demand_report_sales')),
+            ('buyer_verdict_and_history', ('verdict_sales','purchase_history_sales')),
+        ):
+            self.assertEqual(sum(before['sales'][k]['purchases'] for k in keys),
+                             expected[group]['purchases'])
+            self.assertEqual(sum((Decimal(before['sales'][k]['usd']) for k in keys), Decimal(0)),
+                             Decimal(expected[group]['usd']))
 
     def test_wrong_source_and_provenance_rejected(self):
         for field, value in [('source_url','https://example.org'),
