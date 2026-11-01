@@ -97,6 +97,8 @@ def analyze(evidence):
         usd_diff = curr[key][1] - prev[key][1]
         if count_diff < 0 or usd_diff < 0:
             raise ValueError('cumulative publisher counters decreased; cannot interpret as new sales')
+        if count_diff == 0 and usd_diff > 0:
+            raise ValueError(f'{key} USD increased without new purchases; cannot attribute to sales')
         delta[key] = {'publisher_reported_additional_purchases': count_diff,
                       'publisher_reported_additional_usd': str(usd_diff)}
     supplier_count = sum(delta[k]['publisher_reported_additional_purchases'] for k in SUPPLIER)
