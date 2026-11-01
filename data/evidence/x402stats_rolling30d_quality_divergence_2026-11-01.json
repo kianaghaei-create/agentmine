@@ -1,0 +1,46 @@
+{
+  "evidence_kind": "publisher_reported_weekly_x402_wallet_flow_not_verified_customer_revenue",
+  "source_url": "https://x402stats.io/llms-full.txt",
+  "source_updated_at_utc": "2026-11-01T12:17:07.974Z",
+  "source_license": "CC BY 4.0",
+  "attribution": "x402stats — State of x402, x402stats.io",
+  "recorded_on_utc_date": "2026-11-01",
+  "observation_kind": "last_two_append_only_weekly_rows; overlapping rolling_30_day_snapshots_not_independent_weeks",
+  "earlier_weekly_snapshot": {
+    "date": "2026-10-19",
+    "reported_volume_usd": "1226015.486376337",
+    "organic_volume_usd": "710273.3020830004",
+    "organic_seller_wallets": 92
+  },
+  "later_weekly_snapshot": {
+    "date": "2026-10-26",
+    "reported_volume_usd": "1551544.402830101",
+    "organic_volume_usd": "663730.216978",
+    "organic_seller_wallets": 93
+  },
+  "computed": {
+    "raw_volume_change_pct": 26.5518,
+    "organic_volume_change_pct": -6.5528,
+    "earlier_organic_share_pct": 57.9335,
+    "later_organic_share_pct": 42.7787,
+    "organic_share_change_percentage_points": -15.1548
+  },
+  "later_weekly_headline": {
+    "seller_wallets_with_any_revenue": 13650,
+    "organic_seller_wallets": 93,
+    "organic_seller_wallets_share_of_any_revenue_wallets_pct": 0.6813,
+    "top_ten_wallets_share_of_raw_volume_pct": 85,
+    "facilitator_fluxa_raw_volume_share_pct": 54.7,
+    "facilitator_fluxa_organic_sellers": 3,
+    "facilitator_fluxa_sellers_any_revenue": 3402
+  },
+  "interpretation": "Raw 30d volume grew while heuristic-filtered organic 30d volume fell between successive weekly snapshots. This is a deterioration in the publisher's volume-quality ratio, not proof of falling genuine customer spend or a trend in independent weekly revenue.",
+  "limitations": [
+    "The weekly rows each describe overlapping rolling 30-day windows; the changes are not weekly sales growth rates.",
+    "The publisher's organic classification is heuristic and may change; not independently audited.",
+    "Wallets are not unique businesses, verified customers, or AgentMine users.",
+    "Facilitator shares are non-exclusive and should not be summed as market shares.",
+    "No AgentMine revenue, conversion, customer savings or willingness-to-pay evidence."
+  ],
+  "decision": "Retain Phase 0; do not prioritize transaction-fee Agent Exchange on gross x402 flow. Seek consented, independently observed workflow value and repeat payment before monetization."
+}
