@@ -76,10 +76,12 @@ def parse_deadlines(xml_text):
     seen = set()
     seen_lots = set()
     for lot in root.iter(CAC + 'ProcurementProjectLot'):
-        identifier = lot.findtext(CBC + 'ID')
-        if not identifier or not identifier.strip():
-            raise ValueError('lot ID missing')
-        identifier = identifier.strip()
+        # Do not silently choose the first ID from malformed lot XML.
+        # Conflicting or repeated identifiers make source attribution ambiguous.
+        lot_ids = lot.findall(CBC + 'ID')
+        if len(lot_ids) != 1 or not lot_ids[0].text or not lot_ids[0].text.strip():
+            raise ValueError('ambiguous or missing lot ID')
+        identifier = lot_ids[0].text.strip()
         if identifier in seen_lots:
             raise ValueError('duplicate lot ID in eForms XML')
         seen_lots.add(identifier)
