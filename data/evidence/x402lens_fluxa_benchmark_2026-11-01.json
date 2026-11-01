@@ -1,0 +1,12 @@
+{
+  "evidence_type": "publisher_labelled_benchmark_flow_not_verified_commerce",
+  "publisher": "x402 Lens",
+  "facilitator_source_url": "https://x402lens.com/facilitators/fluxa",
+  "benchmark_service_source_url": "https://x402lens.com/services/fluxa-benchmark-traffic-fluxapay-xyz",
+  "observed_at_utc": "2026-11-01T09:45:18Z",
+  "window": "rolling_30d",
+  "benchmark_service_label": "FluxA benchmark traffic",
+  "facilitator_volume_usd_rounded": "847700",
+  "benchmark_service_volume_usd_rounded": "749500",
+  "rounding_quantum_usd": "100"
+}
