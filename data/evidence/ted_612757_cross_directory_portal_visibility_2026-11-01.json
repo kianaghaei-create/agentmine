@@ -1,0 +1,66 @@
+{
+  "evidence_type": "public_cross_directory_display_observations_not_primary_deadline_validation",
+  "observed_date_utc": "2026-11-01",
+  "ted_notice_id": "612757-2026",
+  "buyer": "Region Gotland",
+  "subject": "System för planering av skolskjuts",
+  "original_primary_ted_independently_read": false,
+  "primary_submission_portal_independently_read": false,
+  "official_amendment_chain_checked": false,
+  "portal_correspondence_verified": false,
+  "observations": [
+    {
+      "publisher": "Upphandla",
+      "url": "https://upphandla.app/en/tender/612757-2026",
+      "role": "third_party_directory",
+      "display": "No deadline",
+      "stage": "not specified as participation deadline",
+      "source_precision": "no date or time"
+    },
+    {
+      "publisher": "Mercell",
+      "url": "https://www.mercell.com/da-dk/udbud/290386743/system-for-planering-av-skolskjuts-udbud.aspx",
+      "role": "third_party_public_procurement_listing",
+      "display": "05-10-2026 23:59 (GMT+02:00)",
+      "stage": "Tidsfrist; negotiated procedure, application/tender distinction not independently established",
+      "source_precision": "offset-aware local date and minute"
+    },
+    {
+      "publisher": "Tender Impulse",
+      "url": "https://tenderimpulse.com/government-tenders/sweden/system-f-r-planering-av-skolskjuts-14694410",
+      "role": "third_party_directory",
+      "display": "05 Oct 2026",
+      "stage": "Tender Deadline (unqualified)",
+      "source_precision": "date only"
+    },
+    {
+      "publisher": "e-Avrop",
+      "url": "https://www.e-avrop.com/gotland/e-Upphandling/NoticeLink.aspx?id=130585",
+      "role": "buyer_linked_submission_portal_access_attempt",
+      "display": "Redirected to NoAccess.aspx; login/access required",
+      "stage": "unknown",
+      "source_precision": "not available"
+    }
+  ],
+  "provenance_context": {
+    "licitera_public_link": "https://licitera.se/upphandling/system-for-planering-av-skolskjuts-cbc2bfe1c3",
+    "licitera_links_to_eavrop": true,
+    "github_issue_comment": "https://github.com/kianaghaei-create/agentmine/issues/2",
+    "unverified_issue_comment_original_xml_claim": "2026-10-05+02:00 and 00:00:00+02:00, participation request period; not independently retrieved or accepted as primary evidence"
+  },
+  "confirmed_observation": "Upphandla shows no deadline while two public third-party listings display 5 October; Mercell displays a 23:59 +02 time. This is a cross-directory visibility/precision disagreement only.",
+  "unresolved": [
+    "Whether the two displays refer to the same stage and notice version",
+    "Whether an amendment or portal update changed the time",
+    "Whether Mercell's deadline is the legally operative participation cutoff",
+    "Whether the unverified GitHub issue comment XML quote is accurate"
+  ],
+  "verified_legal_deadline_error": null,
+  "verified_supplier_harm": null,
+  "verified_buyer_demand": null,
+  "verified_agentmine_revenue": null,
+  "phase0_original_coverage_increment": 0,
+  "phase0_public_portal_corroboration_increment": 0,
+  "next_validation": "Read original TED eForms XML and amendment chain through authorized public access; compare buyer e-Avrop portal only if publicly accessible or permission granted; then test consented supplier decision/time/cost outcome against incumbent display.",
+  "guardrails": "No access-control bypass, login, payment, outreach, sensitive data, or deployment."
+}
