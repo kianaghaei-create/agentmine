@@ -152,6 +152,28 @@ class EformsDeadlineTests(unittest.TestCase):
             parse_deadlines(xml)
 
 
+    def test_duplicate_lot_id_fields_with_conflicting_values_rejected(self):
+        xml = fixture().replace(
+            '<cbc:ID>LOT-0001</cbc:ID>',
+            '<cbc:ID>LOT-0001</cbc:ID><cbc:ID>LOT-0002</cbc:ID>', 1)
+        with self.assertRaisesRegex(ValueError, 'ambiguous or missing lot ID'):
+            parse_deadlines(xml)
+
+    def test_duplicate_lot_id_fields_with_identical_values_rejected(self):
+        xml = fixture().replace(
+            '<cbc:ID>LOT-0001</cbc:ID>',
+            '<cbc:ID>LOT-0001</cbc:ID><cbc:ID>LOT-0001</cbc:ID>', 1)
+        with self.assertRaisesRegex(ValueError, 'ambiguous or missing lot ID'):
+            parse_deadlines(xml)
+
+    def test_missing_first_lot_id_cannot_hide_second_id(self):
+        xml = fixture().replace(
+            '<cbc:ID>LOT-0001</cbc:ID>',
+            '<cbc:ID></cbc:ID><cbc:ID>LOT-0001</cbc:ID>', 1)
+        with self.assertRaisesRegex(ValueError, 'ambiguous or missing lot ID'):
+            parse_deadlines(xml)
+
+
 
 if __name__ == '__main__':
     unittest.main()
