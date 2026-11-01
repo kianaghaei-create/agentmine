@@ -24,8 +24,21 @@ def _combine(date_text, time_text):
     date_match, time_match = DATE.fullmatch(date_text), TIME.fullmatch(time_text)
     if not date_match or not time_match:
         raise ValueError('invalid offset-aware EndDate or EndTime')
-    date_offset = '+00:00' if date_match[2] == 'Z' else date_match[2]
-    time_offset = '+00:00' if time_match[2] == 'Z' else time_match[2]
+    # XSD timezone lexical space is -14:00..+14:00, with 14:00
+    # permitted only at minute 00. Python datetime accepts +15:00 and
+    # +14:01, so validating with fromisoformat alone is insufficient.
+    def xsd_offset(value):
+        if value == 'Z':
+            return '+00:00'
+        hours, minutes = map(int, value[1:].split(':'))
+        if hours > 14 or minutes > 59 or (hours == 14 and minutes != 0):
+            raise ValueError('invalid XSD timezone offset')
+        if hours == 0 and minutes == 0:
+            return '+00:00'  # -00:00, +00:00 and Z are equivalent.
+        return value
+
+    date_offset = xsd_offset(date_match[2])
+    time_offset = xsd_offset(time_match[2])
     if date_offset != time_offset:
         raise ValueError('EndDate and EndTime UTC offsets differ')
     try:
@@ -61,11 +74,15 @@ def parse_deadlines(xml_text):
         raise ValueError('invalid XML') from exc
     records = []
     seen = set()
+    seen_lots = set()
     for lot in root.iter(CAC + 'ProcurementProjectLot'):
         identifier = lot.findtext(CBC + 'ID')
         if not identifier or not identifier.strip():
             raise ValueError('lot ID missing')
         identifier = identifier.strip()
+        if identifier in seen_lots:
+            raise ValueError('duplicate lot ID in eForms XML')
+        seen_lots.add(identifier)
         processes = lot.findall(CAC + 'TenderingProcess')
         if len(processes) > 1:
             raise ValueError('ambiguous duplicate TenderingProcess for lot')
