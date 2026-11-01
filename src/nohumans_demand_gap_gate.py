@@ -63,7 +63,9 @@ def analyze(snapshot):
         raise ValueError('unmatched term labels do not reconcile')
     queries = _count(snapshot.get('total_queries'), 'total_queries')
     ips = _count(snapshot.get('distinct_client_ips'), 'distinct_client_ips')
-    if queries < ips or (total > 0 and queries == 0):
+    # Every distinct published search term must have at least one query.
+    # This does not imply that any query was a purchase or a unique buyer.
+    if queries < ips or queries < total:
         raise ValueError('invalid search activity counts')
     return {
         'source_url': SOURCE,
