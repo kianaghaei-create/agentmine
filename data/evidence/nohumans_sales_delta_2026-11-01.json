@@ -1,0 +1,71 @@
+{
+  "evidence_type": "same_publisher_cumulative_sales_delta_not_independent_customer_validation",
+  "source_url": "https://nohumans.directory/v1/stats",
+  "methodology_url": "https://nohumans.directory/methodology",
+  "source_license": "CC BY 4.0; attribution: nohumans.directory",
+  "previous_repo_evidence_path": "data/evidence/nohumans_operator_probe_2026-11-01T104003Z.json",
+  "previous": {
+    "observed_on_utc_date": "2026-11-01",
+    "sales": {
+      "verdict_sales": {
+        "purchases": 2,
+        "usd": "0.01"
+      },
+      "purchase_history_sales": {
+        "purchases": 0,
+        "usd": "0"
+      },
+      "demand_sales": {
+        "purchases": 6,
+        "usd": "1.50"
+      },
+      "demand_report_sales": {
+        "purchases": 1,
+        "usd": "2.00"
+      },
+      "submission_fee_sales": {
+        "purchases": 49,
+        "usd": "12.25"
+      },
+      "verify_now_sales": {
+        "purchases": 4,
+        "usd": "16.00"
+      }
+    },
+    "reported_total_purchases": 62,
+    "reported_total_usd": "31.76",
+    "reported_last_24h_purchases": 0
+  },
+  "current": {
+    "observed_on_utc_date": "2026-11-01",
+    "sales": {
+      "verdict_sales": {
+        "purchases": 2,
+        "usd": "0.01"
+      },
+      "purchase_history_sales": {
+        "purchases": 0,
+        "usd": "0"
+      },
+      "demand_sales": {
+        "purchases": 6,
+        "usd": "1.50"
+      },
+      "demand_report_sales": {
+        "purchases": 1,
+        "usd": "2.00"
+      },
+      "submission_fee_sales": {
+        "purchases": 67,
+        "usd": "16.75"
+      },
+      "verify_now_sales": {
+        "purchases": 4,
+        "usd": "16.00"
+      }
+    },
+    "reported_total_purchases": 80,
+    "reported_total_usd": "36.26",
+    "reported_last_24h_purchases": 18
+  }
+}
