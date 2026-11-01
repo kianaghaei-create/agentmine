@@ -116,5 +116,42 @@ class EformsDeadlineTests(unittest.TestCase):
             parse_deadlines(xml)
 
 
+    def test_xsd_timezone_range_rejected_not_just_python_datetime_range(self):
+        # datetime.fromisoformat accepts these, but XSD date/time forbids them.
+        for offset in ('+15:00', '-15:00', '+14:01', '-14:01', '+02:60'):
+            with self.subTest(offset=offset), self.assertRaisesRegex(ValueError, 'invalid XSD timezone'):
+                parse_deadlines(fixture('2026-10-05' + offset, '23:59:00' + offset))
+
+    def test_xsd_timezone_boundary_and_negative_zero(self):
+        for offset in ('+14:00', '-14:00'):
+            with self.subTest(offset=offset):
+                self.assertEqual(parse_deadlines(fixture('2026-10-05' + offset,
+                                                         '23:59:00' + offset))
+                                 ['parsed_lot_stage_deadlines'], 1)
+        self.assertEqual(parse_deadlines(fixture('2026-10-05Z', '23:59:00-00:00'))
+                         ['records'][0]['deadline_utc'], '2026-10-05T23:59:00Z')
+
+    def test_duplicate_lot_id_with_different_stages_rejected(self):
+        first = fixture(lot='LOT-0001').replace('</ContractNotice>', '')
+        second = (fixture(lot='LOT-0001', period='ParticipationRequestReceptionPeriod')
+                  .split('<cac:ProcurementProjectLot>')[1].split('</ContractNotice>')[0])
+        xml = first + '<cac:ProcurementProjectLot>' + second + '</ContractNotice>'
+        with self.assertRaisesRegex(ValueError, 'duplicate lot ID'):
+            parse_deadlines(xml)
+
+    def test_duplicate_lot_id_with_empty_first_process_rejected(self):
+        first = fixture(lot='LOT-0001').replace(
+            '<cac:TenderingProcess><cac:TenderSubmissionDeadlinePeriod>'
+            '<cbc:EndDate>2026-09-29+02:00</cbc:EndDate>'
+            '<cbc:EndTime>23:59:00+02:00</cbc:EndTime>'
+            '</cac:TenderSubmissionDeadlinePeriod></cac:TenderingProcess>', '')
+        second = (fixture(lot='LOT-0001')
+                  .split('<cac:ProcurementProjectLot>')[1].split('</ContractNotice>')[0])
+        xml = first.replace('</ContractNotice>', '') + '<cac:ProcurementProjectLot>' + second + '</ContractNotice>'
+        with self.assertRaisesRegex(ValueError, 'duplicate lot ID'):
+            parse_deadlines(xml)
+
+
+
 if __name__ == '__main__':
     unittest.main()
