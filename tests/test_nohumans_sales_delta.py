@@ -89,4 +89,17 @@ class Tests(unittest.TestCase):
         self.assertIsNone(r['publisher_reported_supplier_share_of_new_usd_pct'])
         self.assertEqual(r['publisher_reported_additional_purchases'],0)
 
+
+    def test_iso_week_date_not_misread_as_calendar_observation(self):
+        # datetime.date.fromisoformat accepts ISO week dates like 2026-W44-7.
+        self.data['current']['observed_on_utc_date'] = '2026-W44-7'
+        with self.assertRaisesRegex(ValueError, 'ISO calendar date'):
+            analyze(self.data)
+
+    def test_positive_sales_usd_without_purchases_rejected(self):
+        self.data['current']['sales']['purchase_history_sales']['usd'] = '0.25'
+        self.data['current']['reported_total_usd'] = '36.51'
+        with self.assertRaisesRegex(ValueError, 'zero purchases'):
+            analyze(self.data)
+
 if __name__=='__main__':unittest.main()
