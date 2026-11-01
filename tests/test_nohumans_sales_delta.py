@@ -102,4 +102,18 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'zero purchases'):
             analyze(self.data)
 
+    def test_usd_growth_with_no_new_purchases_in_existing_category_rejected(self):
+        # Publisher corrections/repricing must not be labeled additional paid sales.
+        self.data['current']['sales']['demand_sales']['usd'] = '1.75'
+        self.data['current']['reported_total_usd'] = '36.51'
+        with self.assertRaisesRegex(ValueError, 'without new purchases'):
+            analyze(self.data)
+
+    def test_usd_growth_with_no_new_purchases_in_entire_snapshot_rejected(self):
+        self.data['current'] = copy.deepcopy(self.data['previous'])
+        self.data['current']['sales']['submission_fee_sales']['usd'] = '12.50'
+        self.data['current']['reported_total_usd'] = '32.01'
+        with self.assertRaisesRegex(ValueError, 'without new purchases'):
+            analyze(self.data)
+
 if __name__=='__main__':unittest.main()
