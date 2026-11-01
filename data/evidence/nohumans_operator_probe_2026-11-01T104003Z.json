@@ -1,0 +1,63 @@
+{
+  "evidence_type": "public_competitor_latest_endpoint_operator_probe_and_reported_sales_observation",
+  "checked_date_utc": "2026-11-01",
+  "publisher": "nohumans.directory",
+  "source_url": "https://nohumans.directory/v1/stats",
+  "methodology_url": "https://nohumans.directory/methodology",
+  "reuse_note": "Public current stats attributed to nohumans.directory (CC BY 4.0 per publisher terms); selected fields only, not a raw immutable response or licensed history.",
+  "source_underlying_latest_operator_attempt_at_utc": "2026-11-01T10:40:03Z",
+  "latest_per_endpoint_operator_paid_verification": {
+    "attempted": 7737,
+    "payment_required": 7655,
+    "not_applicable": 82,
+    "delivered": 5037,
+    "delivered_plain_label": 4849,
+    "delivered_corrected_chain_verified_labels": 188,
+    "publisher_reported_delivery_rate_given_payment_required": 0.6580013063357283
+  },
+  "comparison_previous_published_snapshot": "data/evidence/nohumans_sales_mix_and_outcome_reconciliation_2026-10-31.json",
+  "previous_snapshot_underlying_attempt_at_utc": "2026-10-30T09:33:54Z",
+  "previous_latest_per_endpoint_operator_paid_verification": {
+    "attempted": 6478,
+    "payment_required": 6397,
+    "not_applicable": 81,
+    "delivered": 3995
+  },
+  "differences_between_changing_latest_per_endpoint_cohorts": {
+    "attempted": 1259,
+    "payment_required": 1258,
+    "not_applicable": 1,
+    "delivered": 1042
+  },
+  "interpretation_of_differences": "The two snapshots have different underlying latest-per-endpoint cohorts. These count differences are NOT 1259 independent new paying customers, 1042 newly successful paid deliveries, a causal improvement, or a longitudinal conversion rate.",
+  "publisher_reported_monetized_sales": {
+    "cumulative_purchases": 62,
+    "cumulative_usd": "31.76",
+    "last_24h_purchases": 0,
+    "supplier_funded_submission_and_verification": {
+      "purchases": 53,
+      "usd": "28.25"
+    },
+    "buyer_demand_intelligence": {
+      "purchases": 7,
+      "usd": "3.50"
+    },
+    "buyer_verdict_and_history": {
+      "purchases": 2,
+      "usd": "0.01"
+    },
+    "change_vs_2026_10_31_published_snapshot": {
+      "purchases": 0,
+      "usd": "0.00"
+    }
+  },
+  "limitations": [
+    "Paid verification attempts are operator-funded probes, not purchases by independent customers.",
+    "Payment-required outcomes include cases where settlement is not established; failure to deliver an accepted response is not a settled-loss rate.",
+    "The operator's delivered labels include retrospective chain-verified corrections, not independent proof of useful content quality.",
+    "Cumulative merchant sales are vendor-reported and not independently replayed on chain; no distinct customer, repeat buyer or margin evidence.",
+    "The snapshots are selected source fields, not raw API response archives; different latest-per-endpoint cohorts prohibit a same-sample performance-change claim.",
+    "No verified AgentMine customers, revenues, supplier time savings, paid willingness-to-pay or real delivery economics."
+  ],
+  "decision": "No new buyer-side conversion evidence despite more operator-probed endpoints. Keep generic post-payment verification/exchange fee hypothesis unpromoted; prioritize independently observed buyer task value and explicit opt-in WTP."
+}
