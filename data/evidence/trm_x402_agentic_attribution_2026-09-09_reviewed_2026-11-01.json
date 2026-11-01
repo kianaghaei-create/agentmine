@@ -1,0 +1,65 @@
+{
+  "evidence_type": "independent_third_party_heuristic_agentic_payment_attribution_not_buyer_validation",
+  "source": {
+    "publisher": "TRM Labs",
+    "title": "Who's Actually Paying? Measuring AI Agent Payments Onchain",
+    "url": "https://www.trmlabs.com/trm-tech-blog/whos-actually-paying-measuring-ai-agent-payments-onchain",
+    "published_date": "2026-09-09",
+    "reviewed_date": "2026-11-01",
+    "license": "not_verified; selected numeric facts and original-source link only"
+  },
+  "scope": {
+    "protocol": "x402",
+    "networks": [
+      "Base",
+      "Solana",
+      "Polygon"
+    ],
+    "start": "2025-05",
+    "end": "not precisely stated in cited text; publication 2026-09-09",
+    "measurement": "settlements through known x402 facilitators, not all agent payments"
+  },
+  "publisher_reported": {
+    "raw_settlement_value_usd_approx": "52700000",
+    "raw_settlement_transactions_approx": 198900000,
+    "screened_likely_commerce_usd_approx": "25620000",
+    "agent_like_share_of_screened_commerce_pct_model_low": "0.6",
+    "agent_like_share_of_screened_commerce_pct_model_high": "7.5",
+    "agent_like_monthly_volume_usd_approx_low": "5000",
+    "agent_like_monthly_volume_usd_approx_high": "11000"
+  },
+  "publisher_method": {
+    "screens": [
+      "exclude self-payments",
+      "exclude bulk flows concentrated in one or two payers",
+      "exclude sellers with fewer than ten distinct buyers"
+    ],
+    "permissive_model": "facilitator-broadcast payments, sub-dollar average and variable prices",
+    "strict_model": "also sustained across months and either ERC-8004 registration or payments to more than one seller"
+  },
+  "arithmetic_from_rounded_publisher_figures": {
+    "screened_share_of_raw_pct_approx": "48.6",
+    "excluded_share_of_raw_pct_approx": "51.4",
+    "agent_like_total_screened_usd_model_low_approx": "153720",
+    "agent_like_total_screened_usd_model_high_approx": "1921500",
+    "agent_like_share_of_raw_pct_model_low_approx": "0.3",
+    "agent_like_share_of_raw_pct_model_high_approx": "3.6"
+  },
+  "caveats": [
+    "The low/high figures are heuristic model classifications, NOT statistical confidence limits, verified autonomous agents or verified distinct buyers.",
+    "The raw and screened totals are rounded research estimates; derived figures are conditional arithmetic, not independently audited settlements.",
+    "Monthly agent-like USD 5k–11k is the researcher's separate rough description, not a monthly rate inferred from cumulative totals.",
+    "TRM's thresholds may exclude genuine single-purpose agents or include scripted automation; on-chain agency cannot be proven from settlement alone.",
+    "Not comparable as a common cohort to x402stats, x402 List, x402 Lens or nohumans.directory rolling windows.",
+    "No AgentMine paying customers, revenue, realized fee capture, buyer willingness to pay, variable costs or procurement supplier savings are established."
+  ],
+  "implications": {
+    "generic_transaction_fee_exchange": "Do not estimate an addressable AgentMine fee pool from gross x402 protocol flow; verify recurring independently paying buyers and controllable routing.",
+    "supplier_growth_saas": "Not validated by on-chain protocol totals.",
+    "lost_demand_intelligence": "Searches and wallet activity still do not prove unmet paid needs.",
+    "opt_in_rfq": "Needs consented request/fulfillment outcomes and unit economics before monetization."
+  },
+  "verified_agentmine_paying_customers": null,
+  "verified_agentmine_revenue_usd": null,
+  "verified_agentmine_supplier_savings": null
+}
