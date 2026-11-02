@@ -329,9 +329,28 @@ class PilotTests(unittest.TestCase):
              'response_kind': 'accepted_paid_pilot', 'quoted_monthly_price_sek': '100'}
             for i in range(1, 5)]
         result = run(data)
-        self.assertEqual(result['explicit_price_or_pilot_response_count'], 4)
+        self.assertEqual(result['synthetic_fixture_price_response_count'], 4)
+        self.assertEqual(result['price_response_count'], 0)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
+        self.assertEqual(result['self_reported_paid_pilot_yes_count'], 0)
+        self.assertEqual(result['self_reported_paid_pilot_no_count'], 0)
         self.assertFalse(result['three_explicit_responses_screen_met'])
         self.assertIsNone(result['verified_paying_customers'])
+
+    def test_synthetic_refusals_and_nonresponses_are_not_supplier_evidence(self):
+        data = fixture()
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': True,
+             'response_kind': 'declined_paid_pilot', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R002', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+        ]
+        result = run(data)
+        self.assertEqual(result['synthetic_fixture_price_response_count'], 2)
+        self.assertEqual(result['price_response_count'], 0)
+        self.assertEqual(result['self_reported_paid_pilot_no_count'], 0)
+        self.assertEqual(result['self_reported_no_response_count'], 0)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
 
     def test_no_response_and_undecided_do_not_pass_explicit_gate(self):
         data = fixture()
@@ -465,11 +484,14 @@ class PilotTests(unittest.TestCase):
 
     def test_declined_paid_pilot_can_retain_real_offer_price(self):
         data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
         data['price_responses'] = [
             {'response_id': 'R001', 'consent_recorded': True,
              'response_kind': 'declined_paid_pilot',
              'quoted_monthly_price_sek': '599'}]
-        self.assertEqual(run(data)['self_reported_paid_pilot_no_count'], 1)
+        result = run(data)
+        self.assertEqual(result['self_reported_paid_pilot_no_count'], 1)
+        self.assertEqual(result['synthetic_fixture_price_response_count'], 0)
 
     def test_declined_bad_prices_and_accepted_without_price_rejected(self):
         for price in ('0', '-1', 'NaN', 'Infinity', True, 0.5, {}):
