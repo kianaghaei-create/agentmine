@@ -12,15 +12,16 @@ Last reviewed: 2026-11-01
 - Make assumptions explicit; measure and kill weak ideas quickly.
 - Automation is an enabler, not a guarantee of passive income. Monitor operations and support costs.
 
-## Current thesis
-Agents and their builders need fresh, reliable, machine-readable data. Some may pay per call via x402 or conventional subscriptions. The initial experiment is a market radar that inventories data APIs and tests for real, recurring demand. This thesis is provisional.
+## Current thesis (active 2026-11-02)
+**Profit-first, Phase 0:** test whether independent, source-backed procurement exception resolution saves supplier time or avoids incorrect stage/deadline decisions versus incumbents. Agent Exchange, x402 routing, Supplier Growth SaaS, opt-in RFQ and Lost Demand Intelligence remain unvalidated alternatives, not commitments. Prioritize measurable outcomes, rights, acquisition costs and real willingness to pay over catalogue growth.
 
-## Current state
-- Repo initialized with README, ROADMAP, RESEARCH_BACKLOG, read-only x402 collector and initial unit tests.
-- Issue #1 tracks collector and demand research.
-- **No verified live dataset, paying customers, revenue or product-market fit yet.**
-- Coinbase discovery may require authentication. Do not invent metrics or mistake catalog listings for actual paying demand.
-- Repository was public at last check; never commit secrets or sensitive customer data.
+## Current state (verified 2026-11-02)
+- Read-only collectors, evidence auditors, offline Intelligence, routing/quote policy, supplier preflight pilot evaluation and many regression tests exist. **Do not duplicate** `intelligence.py` or `src/exchange_intelligence.py`.
+- Issue #1 covers x402 supply discovery; Issue #2 covers the predeclared tender/supplier commercial gate: https://github.com/kianaghaei-create/agentmine/issues/2 .
+- Fixed 20-notice TED cohort: **17/20** independently inspected official originals, **3/20** publicly corroborated submission-portal stage/date views, **0** amendment histories fully cleared; no verified legal deadline errors.
+- **0** verified AgentMine paying customers, revenue, consented paired supplier outcomes, actual saved minutes/variable costs, explicit price/pilot responses or product-market fit. Public market and competitor metrics are not AgentMine sales.
+- Latest *documented* exact-tree CI: **993/993** passed on 2026-11-02; subsequent four TED evidence regressions committed but exact-tree CI unverified at weekly review. https://github.com/kianaghaei-create/agentmine/actions/runs/41402314650 .
+- Repository is publicly accessible; never commit credentials, sensitive customer data, unlicensed datasets or raw search labels. No spending, payments or public deployment approved.
 
 ## Decision log
 | Date | Decision | Rationale | Revisit when |
@@ -1660,3 +1661,11 @@ Agents and their builders need fresh, reliable, machine-readable data. Some may 
 - Published and read back the fail-closed coverage reconciliation in code commit `c0c3382b2aa6749271a0ace14bf777c4369e973f` and four regression tests in `tests/test_ted_notice_evidence.py` commit `d5daaa24a3012246f6e31b2478bf6e26548a3751`. Seven isolated equivalent validation checks passed locally, including valid full/partial and false full/partial/invalid-total cases. **Exact committed-tree CI is NOT verified**: the available GitHub commit-status endpoint returned no statuses and the workflow-run lookup only exposes PR-triggered runs. Do not add four to the prior 993 CI count without inspecting an actual job log.
 - Read-only 2026-11-02 publisher checks: `https://nohumans.directory/v1/stats` still self-reports **100 cumulative product purchases / USD 41.26**, with buyer-funded categories unchanged; `https://x402-list.com/api/v1/stats` computes 1,200 listed services but measured settlement `as_of` remains 2026-10-28T11:42:52Z. These are publisher figures, not AgentMine customers, verified organic demand or new period revenue. No repetitive market-data snapshot committed.
 - **Phase 0 unchanged:** 17/20 independently inspected TED originals and 3/20 portal corroborations; no cleared amendments, opt-in paired supplier tasks, measured time/cost savings, explicit price/pilot responses, verified paying AgentMine customers or revenue. Next: verify exact-tree CI if accessible, then prioritize real consented supplier outcome validation over further catalog or blocked TED retrieval. No spending, payment, outreach, sensitive customer data, access bypass or public deployment.
+
+## Weekly review — 2026-11-02 (commercial checkpoint)
+- Read NORTH_STAR, PROJECT_MEMORY, ROADMAP, CURRENT_EXPERIMENT, DECISION_LOG, REVIEW_CHECKLIST and Issues #1/#2. The detailed weekly evidence, cost assumptions, sources and next falsifiable gate are in `CURRENT_EXPERIMENT.md` section **Weekly commercial gate — 2026-11-02**; avoid duplicating rolling publisher data as new revenue.
+- 2026-11-02 read-only x402 List source https://x402-list.com/api/v1/stats : 1,200 listed services, 13 delivery-verified, $326,934.95 measured listed-service rolling 30d settlement, 95.4% top-ten concentration; settlement as-of **2026-10-28**, NOT November 2. Directory entries and addresses do not establish paying customers. A hypothetical 5% share of the 4.6% tail at 5% fee is ~$37.60 gross/rolling month before costs, NOT a forecast or total market estimate.
+- 2026-11-02 read-only competitor https://nohumans.directory/v1/stats : publisher self-reports 100 cumulative purchases / $41.26, of which 91 / $37.75 are supplier-funded listing/verification and 9 / $3.51 buyer-side verdict/demand products. No independently verified buyers, profitability or AgentMine revenue. The source also reports operator-funded probes, which must not be counted as independent demand.
+- Official supplier friction survey https://www.upphandlingsmyndigheten.se/statistik/nationella-upphandlingsenkaten/nationella-upphandlingsenkaten-riktad-mot-leverantorer/en-mangfald-av-leverantorer-och-en-valfungerande-konkurrens-2025/ : 1,912/20,000 responses with oversampling of prior bidders; confirms reported friction, NOT willingness to pay for this product.
+- No new customer/outcome evidence this week: TED fixed 17/20 official originals and 3/20 public portals; 0 cleared amendment histories, opt-in paired tasks, actual saved minutes, variable costs, explicit price responses, AgentMine paying customers or revenue. Exact-tree CI latest independently documented 993/993; four new TED tests committed after that and their CI remains unverified.
+- **Continue narrow Phase 0**, freeze generic catalogue/marketplace feature growth; next commercial gate is at least five consented paired supplier tasks and three explicit price/pilot responses, with source correctness and actual time/variable cost versus incumbents. No unsolicited outreach or private data collection without permission. Candidate pivot: B2B procurement source-correction feed sold to incumbents per independently resolved discrepancy, subject to rights/liability and WTP validation. No spending, payment or public deployment.
