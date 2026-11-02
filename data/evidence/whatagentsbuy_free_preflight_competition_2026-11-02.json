@@ -1,0 +1,67 @@
+{
+  "evidence_type": "public_competitor_capability_and_freshness_observation_not_buyer_demand",
+  "observed_on_utc_date": "2026-11-02",
+  "publisher": "What Agents Buy",
+  "sources": [
+    {
+      "url": "https://whatagentsbuy.com/preflight",
+      "kind": "public_html",
+      "reported_sellers": 3532,
+      "verdicts": {
+        "CLEAR": 2361,
+        "HOLD": 130,
+        "ABORT": 61,
+        "UNRATED": 980
+      },
+      "reported_verified_CLEAR": 571,
+      "as_of_utc": null,
+      "as_of_note": "No explicit timestamp for these page totals; do not assume current-day coverage or directly subtract from a dated API feed."
+    },
+    {
+      "url": "https://whatagentsbuy.com/api/preflight.json",
+      "kind": "publisher_json",
+      "generated_at_utc": "2026-10-20T14:14:19.867160+00:00",
+      "reported_sellers": 3265,
+      "verdicts": {
+        "green": 2196,
+        "yellow": 114,
+        "red": 57,
+        "gray": 898
+      },
+      "as_of_note": "API generation timestamp from retrieved public response, not a current market observation."
+    },
+    {
+      "url": "https://whatagentsbuy.com/api",
+      "kind": "public_documentation",
+      "published_capabilities": [
+        "free no-key JSON preflight verdicts",
+        "free remote MCP check_before_paying(url)",
+        "free remote MCP find_api(task)",
+        "receipt and grade feeds",
+        "seller ranking by reported revenue and organic demand"
+      ],
+      "cost_claim": "Operator advertises no key, signup, or payment for public API/MCP; no independent availability or cost audit."
+    },
+    {
+      "url": "https://whatagentsbuy.com/grading",
+      "kind": "published_methodology",
+      "as_of_note": "Methodology page explicitly dates its reported counts to 2026-10-23.",
+      "published_method": "Free live paywall/price/payTo probes; separate settled receipt-backed delivery and independent accuracy checks; wallet-breadth/spread/repeat heuristic for demand."
+    }
+  ],
+  "checks": {
+    "html_verdict_total_reconciles": true,
+    "api_verdict_total_reconciles": true,
+    "html_verified_CLEAR_share_pct": "24.1847",
+    "html_CLEAR_without_claimed_verified_receipt": 1790,
+    "api_generation_older_than_observation_days_at_least": 12
+  },
+  "commercial_interpretation": "Generic x402 discovery, pre-payment quality checks, receipt-backed delivery evidence, buyer-concentration rankings and free MCP routing are already advertised by a direct competitor. Treat a generic paid preflight/quality API as crowded, not an uncontested wedge. Test narrow independently validated task outcome and actual buyer willingness to pay before product build or monetization.",
+  "limitations": [
+    "Vendor-reported features and counts, not independently tested live API/MCP behavior or audited receipts.",
+    "HTML and JSON counters have different or missing as-of times; do not infer growth from their difference.",
+    "Verified CLEAR means operator's claimed settled receipt evidence, not verified AgentMine paying customers, repeat business or profit.",
+    "No competitor subscription revenue or AgentMine demand demonstrated.",
+    "No paid requests, outreach or customer data used."
+  ]
+}
