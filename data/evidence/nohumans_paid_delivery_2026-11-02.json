@@ -1,0 +1,49 @@
+{
+  "evidence_type": "public_competitor_paid_delivery_snapshot",
+  "retrieval_date_utc": "2026-11-02",
+  "source_url": "https://nohumans.directory/v1/stats",
+  "methodology_url": "https://nohumans.directory/methodology",
+  "source_last_paid_attempt_utc": "2026-11-02T08:32:44Z",
+  "license": "CC BY 4.0",
+  "attribution": "nohumans.directory",
+  "publisher_reported": {
+    "active_listings": 10875,
+    "hosts": 2747,
+    "paid_verification_attempted": 7757,
+    "payment_required": 7675,
+    "not_applicable": 82,
+    "paid_delivered": 5056,
+    "payment_required_delivery_rate": 0.6587622149837133,
+    "paid_required_not_delivered_under_probe_conditions": 2619,
+    "selected_outcome_counts": {
+      "delivered": 4868,
+      "paid_but_status_402": 527,
+      "rejected_400_blind_request": 395,
+      "paid_but_status_404": 164,
+      "declared_params_unmet": 150,
+      "stale_data": 126,
+      "pre_flight_status_404": 117,
+      "price_drift": 100
+    },
+    "competitor_commercial_claims": {
+      "cumulative_purchases": 100,
+      "cumulative_usd": 41.26,
+      "buyer_side_purchases": 9,
+      "buyer_side_usd": 3.51,
+      "supplier_side_purchases": 91,
+      "supplier_side_usd": 37.75,
+      "buyer_side_last_24h_purchases": 0
+    }
+  },
+  "interpretation": {
+    "denominator": "Publisher's latest per-endpoint paid-verification attempt; 7,675 asked for payment, 82 not applicable; not a random sample of all agent APIs.",
+    "meaning": "About 65.9% delivered under this competitor's paid probe and client conditions. Non-delivery includes endpoint issues, missing parameters, probe/client limitations and settlement ambiguity; it is not a verified seller failure rate or customer-loss estimate.",
+    "commercial_boundary": "These are competitor-operated purchases and publisher claims, not independent buyers, AgentMine customers, revenue, observed supplier task savings or willingness to pay.",
+    "competitive_implication": "A competing directory already publishes real paid-delivery checks, on-chain receipts and a pre-spend verification interface. Generic endpoint quality scoring/routing is not an uncontested AgentMine wedge.",
+    "caveats": [
+      "The last paid attempt timestamp predates retrieval; avoid asserting current live delivery.",
+      "Publisher methodology reports corrections to settlement and timeout labels; do not treat all non-delivered attempts as settled payments or vendor fault.",
+      "No AgentMine paid API calls, customer contact, deployment, credentials or private data were used."
+    ]
+  }
+}
