@@ -133,7 +133,13 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         baseline_errors += int(not row['baseline_correct'])
         agent_errors += int(not row['agent_correct'])
         unchecked += int(not row['primary_source_checked'])
-    responses = _price_response_counts(snapshot.get("price_responses", []))
+    # Synthetic response fixtures are useful for testing arithmetic, but must
+    # never appear in fields labeled self-reported supplier responses.
+    raw_responses = _price_response_counts(snapshot.get("price_responses", []))
+    real_sample = snapshot['sample_kind'] == 'self_reported_consented'
+    responses = (raw_responses if real_sample else
+                 {kind: 0 for kind in raw_responses})
+    synthetic_response_count = (0 if real_sample else sum(raw_responses.values()))
     explicit_responses = sum(responses[k] for k in (
         "accepted_paid_pilot", "declined_paid_pilot", "free_pilot_only"))
     total_minutes = sum(deltas, Decimal(0))
@@ -160,6 +166,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     return {
         'sample_kind': snapshot['sample_kind'],
         'price_response_count': sum(responses.values()),
+        'synthetic_fixture_price_response_count': synthetic_response_count,
         'explicit_price_or_pilot_response_count': explicit_responses,
         'self_reported_paid_pilot_yes_count': responses["accepted_paid_pilot"],
         'self_reported_paid_pilot_no_count': responses["declined_paid_pilot"],
