@@ -190,6 +190,21 @@ def review_cohort(cohort, *, fetcher=fetch_xml, observed_at=None, pause_seconds=
             time.sleep(pause_seconds)
         try:
             parsed = parse_notice(fetcher(notice_id), notice_id)
+            # A valid eForms XML payload can still be a later notice version.
+            # Do not count v02+ or missing VersionID as an inspected *original*.
+            # Preserve a digest and explicit uncertainty rather than silently
+            # treating the response as an original notice in the fixed cohort.
+            if parsed["xml_version_id"] != "01":
+                results.append({"publication_number": notice_id,
+                                "source_url": parsed["source_url"],
+                                "status": "xml_parsed_original_version_unconfirmed",
+                                "xml_version_id": parsed["xml_version_id"],
+                                "xml_sha256": parsed["xml_sha256"],
+                                "original_notice_xml_parsed": False,
+                                "amendments_checked": False,
+                                "submission_portal_verified": False,
+                                "legal_deadline_verified": False})
+                continue
             results.append({"status": ("original_xml_parsed" if parsed["xml_publication_identity_bound"]
                                        else "original_xml_parsed_identity_unbound"), **parsed})
         except Exception as exc:
