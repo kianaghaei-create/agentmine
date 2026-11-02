@@ -1,6 +1,6 @@
 # AgentMine — Project memory (source of truth)
 
-Last reviewed: 2026-11-01
+Last reviewed: 2026-11-02
 
 ## North star
 **Build a profitable, scalable, low-touch business that can earn money in the background.** DaaS / x402 / agent APIs are hypotheses, **not** the goal. Pivot freely when evidence supports a better opportunity. Prefer recurring revenue, high gross margin, repeatable distribution, low operating overhead, legal data access, and a defensible advantage.
@@ -30,12 +30,12 @@ Last reviewed: 2026-11-01
 | 2026-10-08 | Allow pivots beyond DaaS/x402 | Profitability and defensibility are the true goals | Every weekly review |
 | 2026-10-08 | GitHub is durable project memory | Preserve continuity across chats and agents | Every meaningful change |
 
-## Next actions
-1. Confirm authorized x402 discovery access and test collector against real responses.
-2. Expand evidence sources: MCP registries, API marketplaces, GitHub usage and buyer pain.
-3. Identify and rank three monetizable niches, with evidence strength and data licensing.
-4. Interview prospective buyers; test willingness to pay and acquisition channels.
-5. Consider unconventional adjacent opportunities (data quality guarantees, change alerts, workflow outcomes, intelligence about agent spend) only with validated economics.
+## Next actions (current 2026-11-02)
+1. Use the existing offline `src/supplier_preflight_pilot.py` to prepare a consent-only paired supplier task protocol with no identities/private tender text in GitHub.
+2. Obtain (only with lawful consent/authorization) at least five real baseline-vs-AgentMine supplier outcomes, independent source correctness, minutes and actual variable cost; collect at least three explicit pilot/price responses. Record zero/no-response outcomes.
+3. Reconcile any further TED originals, portal stages and amendments only through accessible authorized primary sources; the frozen 20-notice denominator must not change or be cherry-picked.
+4. Revisit pricing, acquisition, data rights and potential B2B source-correction/exception-resolution pivot after actual outcome evidence. Do not spend, launch or solicit customer data without approval.
+5. Verify exact committed-tree CI for the newest TED coverage tests when accessible; never substitute synthetic regression counts for buyer validation.
 
 ## Update protocol
 - Read PROJECT_MEMORY.md, NORTH_STAR.md, ROADMAP.md, CURRENT_EXPERIMENT.md and latest issue before acting.
