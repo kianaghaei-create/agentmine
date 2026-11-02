@@ -134,6 +134,14 @@ def summarize(snapshot):
     ids = [_notice_id(row) for row in rows]
     if len(ids) != len(set(ids)):
         raise ValueError("duplicate notice in snapshot")
+    # A saved/edited snapshot must not claim complete query coverage when
+    # its reported total disagrees with the number of unique notices.
+    # bool is an int in Python, so check its exact type.
+    reported_total = snapshot.get("reported_total_notices")
+    if (type(reported_total) is not int or reported_total < 0
+            or reported_total < len(rows)
+            or snapshot["complete"] != (reported_total == len(rows))):
+        raise ValueError("inconsistent TED reported total and coverage")
     labels = [_label(row.get("buyer-name")) for row in rows]
     counts = Counter(v.casefold() for v in labels if v)
     known, n = sum(counts.values()), len(rows)
