@@ -85,5 +85,36 @@ class DemandGapGateTests(unittest.TestCase):
         self.assertIsNone(result['verified_distinct_buyers'])
 
 
+    def test_untrusted_search_terms_are_not_echoed_in_aggregate(self):
+        # Synthetic labels only. A public search log can contain private text;
+        # counts may be analyzed, but raw search strings must not be published.
+        import json
+        row = copy.deepcopy(SAMPLE)
+        labels = ['alice@example.invalid', 'https://example.invalid/?token=synthetic-secret']
+        row['supply_check'] = {
+            'terms': 2, 'checked': 0, 'search_returned_nothing': 2,
+            'not_checked_yet': 0, 'terms_our_search_found_nothing_for': labels,
+        }
+        result = analyze(row)
+        serialized = json.dumps(result)
+        for label in labels:
+            self.assertNotIn(label, serialized)
+        self.assertIsNone(result['no_result_query_labels'])
+        self.assertTrue(result['no_result_query_labels_suppressed'])
+        self.assertEqual(result['publisher_reported_no_result_query_labels_count'], 2)
+        self.assertEqual(result['publisher_directory_returned_no_listings_for_terms'], 2)
+
+    def test_zero_search_labels_remain_suppressed_not_an_empty_public_list(self):
+        row = copy.deepcopy(SAMPLE)
+        row['supply_check'] = {
+            'terms': 0, 'checked': 0, 'search_returned_nothing': 0,
+            'not_checked_yet': 0, 'terms_our_search_found_nothing_for': [],
+        }
+        result = analyze(row)
+        self.assertIsNone(result['no_result_query_labels'])
+        self.assertTrue(result['no_result_query_labels_suppressed'])
+        self.assertEqual(result['publisher_reported_no_result_query_labels_count'], 0)
+
+
 if __name__ == '__main__':
     unittest.main()
