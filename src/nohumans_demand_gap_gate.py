@@ -77,13 +77,19 @@ def analyze(snapshot):
         'publisher_directory_returned_listings_for_terms': found,
         'publisher_directory_returned_no_listings_for_terms': no_result,
         'publisher_directory_not_checked_terms': pending,
-        'no_result_query_labels': names,
+        # Publisher search labels are arbitrary user text and can contain
+        # personal data, tokens or private URLs. Never echo them in a report
+        # intended for aggregate Lost Demand Intelligence. Preserve only the
+        # validated count; opt-in, reviewed taxonomy is a separate workflow.
+        'no_result_query_labels': None,
+        'no_result_query_labels_suppressed': True,
+        'publisher_reported_no_result_query_labels_count': no_result,
         'independently_verified_unserved_buyer_needs': None,
         'verified_distinct_buyers': None,
         'verified_paying_customers': None,
         'agentmine_revenue_usd': None,
         'warning': ('Publisher directory search results are not proof of adequate supply or lack of demand. '
-                    'A no-result query is not proof of genuine unmet need. Search counts and client IPs '
+                    'A no-result query is not proof of genuine unmet need. Raw query labels are suppressed because they may contain sensitive text. Search counts and client IPs '
                     'are not unique buyers or purchases; scripted rotation, named listing lookups and '
                     'seller self-monitoring need separate treatment. Never price Lost Demand Intelligence '
                     'from this count alone.'),
