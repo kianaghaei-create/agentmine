@@ -6,8 +6,10 @@ is not a validated buyer need. IP addresses are not unique buyers.
 No network calls or payments are made.
 """
 from datetime import datetime, timedelta, timezone
+import re
 
 SOURCE = 'https://api.nohumans.directory/v1/demand'
+_UTC_TIMESTAMP = re.compile(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]{1,6})?Z\Z')
 
 
 def _count(value, label):
@@ -17,8 +19,8 @@ def _count(value, label):
 
 
 def _utc(value, label):
-    if not isinstance(value, str) or not value.endswith('Z'):
-        raise ValueError(f'{label} must be a UTC Z timestamp')
+    if not isinstance(value, str) or not _UTC_TIMESTAMP.fullmatch(value):
+        raise ValueError(f'{label} must be a canonical UTC calendar timestamp')
     try:
         stamp = datetime.fromisoformat(value[:-1] + '+00:00')
     except ValueError as exc:
