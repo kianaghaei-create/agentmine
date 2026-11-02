@@ -52,5 +52,21 @@ class NovemberSecondPublisherEvidenceTests(unittest.TestCase):
             analyze(changed)
 
 
+    def test_future_publisher_update_is_rejected(self):
+        changed = copy.deepcopy(self.evidence)
+        changed["source_updated_at"] = "2999-01-01T00:00:00Z"
+        with self.assertRaisesRegex(ValueError, "future"):
+            analyze(changed)
+
+    def test_weekly_lag_uses_utc_not_local_offset_date(self):
+        changed = copy.deepcopy(self.evidence)
+        changed["weekly_records"][0]["date"] = "2026-10-19"
+        changed["weekly_records"][1]["date"] = "2026-10-26"
+        # Oct 27 local time is still Oct 26 in UTC.
+        changed["source_updated_at"] = "2026-10-27T00:30:00+02:00"
+        result = analyze(changed)
+        self.assertEqual(result["headline_lag_days_at_source_update"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()
