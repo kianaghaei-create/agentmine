@@ -225,5 +225,99 @@ class PilotTests(unittest.TestCase):
         self.assertFalse(result['minimum_sample_quality_gate_met'])
 
 
+    def test_optional_price_responses_preserve_old_pilot_input(self):
+        result = run()
+        self.assertEqual(result['price_response_count'], 0)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
+        self.assertIsNone(result['verified_distinct_respondents'])
+
+    def test_three_explicit_responses_are_only_self_reported_screen(self):
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': True,
+             'response_kind': 'accepted_paid_pilot', 'quoted_monthly_price_sek': '599'},
+            {'response_id': 'R002', 'consent_recorded': True,
+             'response_kind': 'declined_paid_pilot', 'quoted_monthly_price_sek': '599'},
+            {'response_id': 'R003', 'consent_recorded': True,
+             'response_kind': 'free_pilot_only', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R004', 'consent_recorded': True,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R005', 'consent_recorded': True,
+             'response_kind': 'undecided', 'quoted_monthly_price_sek': None},
+        ]
+        result = run(data)
+        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 3)
+        self.assertEqual(result['self_reported_paid_pilot_yes_count'], 1)
+        self.assertEqual(result['self_reported_paid_pilot_no_count'], 1)
+        self.assertEqual(result['self_reported_free_pilot_only_count'], 1)
+        self.assertEqual(result['self_reported_no_response_count'], 1)
+        self.assertEqual(result['self_reported_undecided_count'], 1)
+        self.assertTrue(result['three_explicit_responses_screen_met'])
+        self.assertIsNone(result['verified_willingness_to_pay'])
+        self.assertIsNone(result['verified_distinct_respondents'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_synthetic_price_responses_never_pass_response_screen(self):
+        data = fixture()
+        data['price_responses'] = [
+            {'response_id': f'R{i:03}', 'consent_recorded': True,
+             'response_kind': 'accepted_paid_pilot', 'quoted_monthly_price_sek': '100'}
+            for i in range(1, 5)]
+        result = run(data)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 4)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
+        self.assertIsNone(result['verified_paying_customers'])
+
+    def test_no_response_and_undecided_do_not_pass_explicit_gate(self):
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': f'R{i:03}', 'consent_recorded': True,
+             'response_kind': 'no_response' if i % 2 else 'undecided',
+             'quoted_monthly_price_sek': None}
+            for i in range(1, 8)]
+        result = run(data)
+        self.assertEqual(result['price_response_count'], 7)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
+
+    def test_price_response_rejects_identity_duplicates_missing_consent_and_bad_price(self):
+        base = {'response_id': 'R001', 'consent_recorded': True,
+                'response_kind': 'accepted_paid_pilot', 'quoted_monthly_price_sek': '599'}
+        cases = [
+            [dict(base, response_id='supplier@example.com')],
+            [dict(base, consent_recorded=False)],
+            [dict(base, quoted_monthly_price_sek='0')],
+            [dict(base, quoted_monthly_price_sek=True)],
+            [dict(base, quoted_monthly_price_sek=float('nan'))],
+            [dict(base, response_kind=['accepted_paid_pilot'])],
+            [dict(base, response_kind='free_pilot_only')],
+            [dict(base, customer_name='private')],
+            [dict(base), dict(base)],
+        ]
+        for rows in cases:
+            with self.subTest(rows=repr(rows)):
+                data = fixture()
+                data['price_responses'] = rows
+                with self.assertRaises(ValueError):
+                    run(data)
+
+    def test_price_response_requires_bounded_list_and_strict_top_level(self):
+        for value in (None, 'not-a-list', [{}] * 1001):
+            data = fixture()
+            data['price_responses'] = value
+            with self.subTest(value_type=type(value).__name__), self.assertRaises(ValueError):
+                run(data)
+        data = fixture()
+        data['customer_email'] = 'secret@example.com'
+        with self.assertRaises(ValueError):
+            run(data)
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
