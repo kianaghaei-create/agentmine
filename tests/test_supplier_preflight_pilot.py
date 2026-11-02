@@ -113,6 +113,27 @@ class PilotTests(unittest.TestCase):
             with self.subTest(stamp=stamp), self.assertRaisesRegex(ValueError, 'timestamp'):
                 run(data)
 
+    def test_pilot_timestamp_requires_utc_not_local_offset_or_loose_iso(self):
+        for stamp in ('2026-10-24T18:00:00+02:00',
+                      '2026-10-24 18:00:00Z',
+                      '2026-10-24T18:00Z',
+                      '2026-02-30T18:00:00Z',
+                      None):
+            with self.subTest(stamp=stamp):
+                data = fixture()
+                data['observed_at_utc'] = stamp
+                with self.assertRaisesRegex(ValueError, 'timestamp'):
+                    run(data)
+
+    def test_canonical_utc_pilot_timestamps_accepted(self):
+        for stamp in ('2026-10-24T18:00:00Z',
+                      '2026-10-24T18:00:00+00:00',
+                      '2026-10-24T18:00:00.123456Z'):
+            with self.subTest(stamp=stamp):
+                data = fixture()
+                data['observed_at_utc'] = stamp
+                self.assertEqual(run(data)['source_observed_at_utc'], stamp)
+
     def test_boolean_integrity_and_nonopaque_ids(self):
         data = fixture(); data['tasks'][0]['agent_correct'] = 1
         with self.assertRaisesRegex(ValueError, 'boolean'):
