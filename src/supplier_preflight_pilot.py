@@ -50,11 +50,17 @@ def _price_response_counts(rows):
                 or identifier in seen):
             raise ValueError("response IDs must be unique opaque R-prefixed numbers")
         seen.add(identifier)
-        if row["consent_recorded"] is not True:
-            raise ValueError("consent required for response evidence")
         kind = row["response_kind"]
         if not isinstance(kind, str) or kind not in counts:
             raise ValueError("unknown price response kind")
+        consent = row["consent_recorded"]
+        if type(consent) is not bool:
+            raise ValueError("consent_recorded must be boolean")
+        # Nonrespondents cannot consent to storing a reply. Keep their opaque
+        # invitation outcomes in the denominator without inventing consent.
+        # Every actual reply still requires explicit consent.
+        if kind != "no_response" and not consent:
+            raise ValueError("consent required for response evidence")
         price = row["quoted_monthly_price_sek"]
         if kind in _PAID_RESPONSES:
             _decimal(price, "quoted_monthly_price_sek", positive=True)
