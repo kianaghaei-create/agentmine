@@ -27,9 +27,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Reconcile only free September 2026 public cohorts (aggregate-only)
-        run: python3 -m src.ted_licitera_id_reconcile --cross-month --cross-cpv --output ted-licitera-aggregate.json
-      - name: Upload aggregate counts only (no source IDs, names or raw rows)
+      - name: Reconcile only while September 2026 is the free previous-month cohort
+        run: |
+          # Do not attempt to fetch the historical cohort after its free window.
+          # A skipped run is NOT a successful source reconciliation.
+          if [ "$(date -u +%Y-%m)" != "2026-10" ]; then
+            echo "SKIPPED: September 2026 is not the free previous-month cohort; no sources fetched."
+            exit 0
+          fi
+          python3 -m src.ted_licitera_id_reconcile --cross-month --cross-cpv --output ted-licitera-aggregate.json
+      - name: Upload aggregate counts only when reconciliation produced evidence
+        if: ${{ hashFiles('ted-licitera-aggregate.json') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: ted-licitera-cpv7231-aggregate
