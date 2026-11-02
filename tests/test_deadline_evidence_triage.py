@@ -329,5 +329,61 @@ class StageTests(unittest.TestCase):
         self.assertFalse(result['legal_deadline_verified'])
 
 
+    def test_missing_deadline_requires_explicit_structured_absence(self):
+        missing = row('2026-10-05', host='upphandla.app')
+        missing['reported_deadline'] = None
+        with self.assertRaisesRegex(ValueError, 'shown deadline'):
+            triage(bundle(missing))
+        missing['deadline_display_state'] = 'not_shown'
+        result = triage(bundle(missing))
+        self.assertEqual(result['date_display_missing_count'], 1)
+        self.assertEqual(result['distinct_display_calendar_dates'], [])
+        self.assertEqual(result['stage_aware_triage_status'],
+                         'no_date_displayed_requires_primary_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+    def test_missing_vs_shown_queues_primary_review_without_invented_date(self):
+        missing = row('2026-10-05', host='upphandla.app')
+        missing['reported_deadline'] = None
+        missing['deadline_display_state'] = 'not_shown'
+        dated = row('2026-10-05T23:59:00+02:00',
+                    host='www.mercell.com', stage='unknown')
+        result = triage(bundle(missing, dated))
+        self.assertEqual(result['date_display_missing_count'], 1)
+        self.assertTrue(result['date_display_missing_vs_shown'])
+        self.assertFalse(result['calendar_label_disagreement'])
+        self.assertEqual(result['distinct_display_calendar_dates'], ['2026-10-05'])
+        self.assertEqual(result['stage_aware_triage_status'],
+                         'date_display_missing_from_some_sources_needs_primary_review')
+        self.assertEqual(result['triage_status'], 'manual_primary_source_review')
+        self.assertIsNone(result['authoritative_deadline'])
+
+    def test_missing_state_cannot_hide_an_actual_date_or_bad_free_text(self):
+        present = row('2026-10-05', host='upphandla.app')
+        present['deadline_display_state'] = 'not_shown'
+        with self.assertRaisesRegex(ValueError, 'explicit null'):
+            triage(bundle(present))
+        present['reported_deadline'] = 'No deadline'
+        present['deadline_display_state'] = 'shown'
+        with self.assertRaisesRegex(ValueError, 'unsupported deadline display'):
+            triage(bundle(present))
+        present.pop('reported_deadline')
+        with self.assertRaisesRegex(ValueError, 'shown deadline'):
+            triage(bundle(present))
+
+    def test_missing_display_does_not_hide_conflicting_shown_dates(self):
+        missing = row('2026-10-05', host='upphandla.app')
+        missing.update(reported_deadline=None, deadline_display_state='not_shown')
+        a = row('2026-10-05', stage='participation_request', host='example.org')
+        b = row('2026-10-06', stage='participation_request', host='other.example.org')
+        result = triage(bundle(missing, a, b))
+        self.assertEqual(result['date_display_missing_count'], 1)
+        self.assertEqual(result['same_stage_display_conflict_stages'], ['participation_request'])
+        self.assertEqual(result['stage_aware_triage_status'],
+                         'same_stage_display_conflict_needs_primary_review')
+        self.assertFalse(result['legal_deadline_verified'])
+
+
 if __name__ == '__main__':
     unittest.main()
