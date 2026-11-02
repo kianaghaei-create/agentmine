@@ -142,6 +142,26 @@ def summarize(snapshot):
             or reported_total < len(rows)
             or snapshot["complete"] != (reported_total == len(rows))):
         raise ValueError("inconsistent TED reported total and coverage")
+    # Saved snapshots are editable JSON. A coverage-consistent file is not
+    # evidence from TED unless its source, query mode and observation time
+    # remain bound to the collector's declared provenance.
+    if (snapshot.get("source_url") != ENDPOINT
+            or snapshot.get("evidence_type") != "public_tender_notices_not_agent_payments"
+            or snapshot.get("scope") != "ALL"
+            or snapshot.get("pagination_mode") != "ITERATION"
+            or not isinstance(snapshot.get("query"), str)
+            or not snapshot["query"].strip()):
+        raise ValueError("invalid TED snapshot provenance")
+    observed = snapshot.get("observed_at")
+    if not isinstance(observed, str):
+        raise ValueError("invalid TED observation timestamp")
+    try:
+        stamp = datetime.fromisoformat(observed.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("invalid TED observation timestamp") from exc
+    if (stamp.tzinfo is None or stamp.utcoffset() is None
+            or stamp > datetime.now(timezone.utc)):
+        raise ValueError("invalid TED observation timestamp")
     labels = [_label(row.get("buyer-name")) for row in rows]
     counts = Counter(v.casefold() for v in labels if v)
     known, n = sum(counts.values()), len(rows)
