@@ -79,6 +79,24 @@ class PilotTests(unittest.TestCase):
     def test_small_sample_not_sufficient(self):
         self.assertFalse(run(fixture(4))['minimum_sample_quality_gate_met'])
 
+    def test_cannot_lower_predeclared_five_task_pilot_gate(self):
+        data = fixture(1)
+        data['sample_kind'] = 'self_reported_consented'
+        # Before the guard, one favorable task could pass both pilot screens
+        # when a caller supplied --min-tasks 1.
+        for threshold in (1, 2, 4):
+            with self.subTest(threshold=threshold), self.assertRaisesRegex(
+                    ValueError, '>= 5'):
+                run(data, min_tasks=threshold)
+        self.assertFalse(run(data, min_tasks=5)['minimum_sample_quality_gate_met'])
+        self.assertFalse(run(data, min_tasks=5)['self_reported_positive_economic_screen_met'])
+
+    def test_higher_predeclared_threshold_still_applies(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        self.assertTrue(run(data, min_tasks=5)['minimum_sample_quality_gate_met'])
+        self.assertFalse(run(data, min_tasks=6)['minimum_sample_quality_gate_met'])
+
     def test_slower_and_negative_value_are_not_hidden(self):
         data = fixture(1); data['tasks'][0]['agent_minutes'] = '80'
         result = run(data)
