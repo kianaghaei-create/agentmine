@@ -14,6 +14,11 @@ from statistics import median
 _TASK = re.compile(r"^T[0-9]{3,8}$")
 _UTC_STAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|\+00:00)$")
 _ALLOWED_TOP = {"evidence_type", "sample_kind", "observed_at_utc", "tasks"}
+_ALLOWED_TOP_WITH_RESPONSES = _ALLOWED_TOP | {"price_responses"}
+_ALLOWED_RESPONSE = {"response_id", "consent_recorded", "response_kind", "quoted_monthly_price_sek"}
+_RESPONSE_ID = re.compile(r"^R[0-9]{3,8}$")
+_PAID_RESPONSES = {"accepted_paid_pilot", "declined_paid_pilot"}
+_OTHER_RESPONSES = {"free_pilot_only", "undecided", "no_response"}
 _ALLOWED_TASK = {"task_id", "consent_recorded", "baseline_minutes", "agent_minutes",
                  "baseline_correct", "agent_correct", "primary_source_checked",
                  "incremental_variable_cost_sek"}
@@ -31,9 +36,37 @@ def _decimal(value, name, *, positive=False):
     return result
 
 
+def _price_response_counts(rows):
+    """Summarize anonymized, self-declared replies; not unique verified buyers."""
+    if not isinstance(rows, list) or len(rows) > 1000:
+        raise ValueError("price_responses must be a bounded list")
+    counts = {kind: 0 for kind in sorted(_PAID_RESPONSES | _OTHER_RESPONSES)}
+    seen = set()
+    for row in rows:
+        if not isinstance(row, dict) or set(row) != _ALLOWED_RESPONSE:
+            raise ValueError("unexpected price response fields; no identities allowed")
+        identifier = row["response_id"]
+        if (not isinstance(identifier, str) or not _RESPONSE_ID.fullmatch(identifier)
+                or identifier in seen):
+            raise ValueError("response IDs must be unique opaque R-prefixed numbers")
+        seen.add(identifier)
+        if row["consent_recorded"] is not True:
+            raise ValueError("consent required for response evidence")
+        kind = row["response_kind"]
+        if kind not in counts:
+            raise ValueError("unknown price response kind")
+        price = row["quoted_monthly_price_sek"]
+        if kind in _PAID_RESPONSES:
+            _decimal(price, "quoted_monthly_price_sek", positive=True)
+        elif price is not None:
+            raise ValueError("non-paid response must not assert a quoted price")
+        counts[kind] += 1
+    return counts
+
+
 def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tasks=5):
     """Compute paired descriptive economics without inferring WTP or retention."""
-    if not isinstance(snapshot, dict) or set(snapshot) != _ALLOWED_TOP:
+    if not isinstance(snapshot, dict) or set(snapshot) not in (_ALLOWED_TOP, _ALLOWED_TOP_WITH_RESPONSES):
         raise ValueError("unexpected or missing top-level fields; do not submit personal data")
     if snapshot['evidence_type'] != 'paired_supplier_preflight_pilot':
         raise ValueError("unsupported evidence type")
@@ -86,6 +119,9 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         baseline_errors += int(not row['baseline_correct'])
         agent_errors += int(not row['agent_correct'])
         unchecked += int(not row['primary_source_checked'])
+    responses = _price_response_counts(snapshot.get("price_responses", []))
+    explicit_responses = sum(responses[k] for k in (
+        "accepted_paid_pilot", "declined_paid_pilot", "free_pilot_only"))
     total_minutes = sum(deltas, Decimal(0))
     net_value = total_minutes * hourly / Decimal(60) - costs
     # Synthetic arithmetic fixtures must never pass an evidence-based pilot gate.
@@ -102,6 +138,17 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
                               (Decimal(100) * len(tasks)))) if price_eligible else None)
     return {
         'sample_kind': snapshot['sample_kind'],
+        'price_response_count': sum(responses.values()),
+        'explicit_price_or_pilot_response_count': explicit_responses,
+        'self_reported_paid_pilot_yes_count': responses["accepted_paid_pilot"],
+        'self_reported_paid_pilot_no_count': responses["declined_paid_pilot"],
+        'self_reported_free_pilot_only_count': responses["free_pilot_only"],
+        'self_reported_undecided_count': responses["undecided"],
+        'self_reported_no_response_count': responses["no_response"],
+        'three_explicit_responses_screen_met': (
+            snapshot['sample_kind'] == 'self_reported_consented'
+            and explicit_responses >= 3),
+        'verified_distinct_respondents': None,
         'source_observed_at_utc': snapshot['observed_at_utc'],
         'paired_task_count': len(tasks),
         'total_incremental_minutes_saved': str(total_minutes),
@@ -128,7 +175,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
                    'Time deltas from incorrect baselines are not comparable savings; incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
-                   'The self-reported quality/economic screens never establish willingness to pay, independent validation or permission to deploy. '
+                   'The self-reported quality/economic/price-response screens never establish verified distinct buyers, willingness to pay, independent validation or permission to deploy. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
     }
 
