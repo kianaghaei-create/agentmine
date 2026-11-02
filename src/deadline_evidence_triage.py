@@ -90,6 +90,7 @@ def triage(evidence):
     primary_stage_dates = defaultdict(set)
     unverified_explicit_stage_claims = []
     parsed = []
+    missing_display_source_urls = []
     for row in rows:
         if not isinstance(row, dict) or row.get("publication_number") != evidence["publication_number"]:
             raise ValueError("inconsistent notice observation")
@@ -100,11 +101,25 @@ def triage(evidence):
         if url in seen:
             raise ValueError("duplicate source URL")
         seen.add(url)
-        fmt, day, instant = _parse_display(row.get("reported_deadline"))
         stage = row.get("stage_claim", "unknown")
         label = row.get("display_label_claim", "unknown")
         if stage not in _STAGES or label not in _LABELS:
             raise ValueError("unknown procurement stage or deadline label")
+        # Missing display is not evidence that no legal deadline exists.
+        # Require an explicit structured state: do not infer absence from
+        # malformed text, omitted fields or a null from an API failure.
+        state = row.get("deadline_display_state", "shown")
+        if state not in ("shown", "not_shown"):
+            raise ValueError("invalid deadline display state")
+        if state == "not_shown":
+            if "reported_deadline" not in row or row["reported_deadline"] is not None:
+                raise ValueError("not_shown requires explicit null reported_deadline")
+            missing_display_source_urls.append(url)
+            kinds.add(kind)
+            continue
+        if row.get("reported_deadline") is None:
+            raise ValueError("shown deadline requires a date or timestamp")
+        fmt, day, instant = _parse_display(row["reported_deadline"])
         if stage == "unknown":
             unknown_stage_dates.add(day)
             if instant is not None:
@@ -200,13 +215,19 @@ def triage(evidence):
         stage_status = "different_stages_not_directly_comparable"
     elif stage_label_reviews:
         stage_status = "stage_label_requires_review"
+    elif missing_display_source_urls:
+        stage_status = ("date_display_missing_from_some_sources_needs_primary_review"
+                        if labels else "no_date_displayed_requires_primary_review")
     else:
         stage_status = "stage_consistent_displays_unverified"
     needs_review = bool(same_stage or mixed_precision or unknown_stage_time_discrepancy or stage_label_reviews or
-                        (disagreement and not timezone_equivalent))
+                        (disagreement and not timezone_equivalent) or missing_display_source_urls)
     return {
         "publication_number": evidence["publication_number"],
         "observation_count": len(rows),
+        "date_display_missing_source_urls": sorted(missing_display_source_urls),
+        "date_display_missing_count": len(missing_display_source_urls),
+        "date_display_missing_vs_shown": bool(missing_display_source_urls and labels),
         "distinct_display_calendar_dates": sorted(labels),
         "display_formats": sorted(formats),
         "source_kinds": sorted(kinds),
@@ -225,7 +246,8 @@ def triage(evidence):
         "legal_deadline_verified": False,
         "authoritative_deadline": None,
         "verified_agentmine_customers": None,
-        "warning": "Source displays are not verified legal deadlines. Date-only labels and offset timestamps "
+        "warning": "A missing directory date is not proof that no legal deadline exists. "
+                   "Source displays are not verified legal deadlines. Date-only labels and offset timestamps "
                    "are not interchangeable; different procurement stages are not comparable. "
                    "Review original TED notice, amendments and live submission portal before supplier alerts. "
                    "This does not establish paying customer demand.",
