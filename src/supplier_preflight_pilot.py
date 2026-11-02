@@ -62,8 +62,14 @@ def _price_response_counts(rows):
         if kind != "no_response" and not consent:
             raise ValueError("consent required for response evidence")
         price = row["quoted_monthly_price_sek"]
-        if kind in _PAID_RESPONSES:
+        if kind == "accepted_paid_pilot":
+            # An acceptance needs an explicit positive price; never infer WTP.
             _decimal(price, "quoted_monthly_price_sek", positive=True)
+        elif kind == "declined_paid_pilot":
+            # A refusal may be unconditional, without a quoted offer.
+            # Requiring a made-up price would systematically omit negatives.
+            if price is not None:
+                _decimal(price, "quoted_monthly_price_sek", positive=True)
         elif price is not None:
             raise ValueError("non-paid response must not assert a quoted price")
         counts[kind] += 1
