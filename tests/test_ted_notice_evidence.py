@@ -145,6 +145,39 @@ class TedNoticeEvidenceTests(unittest.TestCase):
             summarize({'notices': [row('same'), row('same')],
                        'complete': True, 'unique_notices_collected': 2})
 
+    def test_summary_rejects_false_complete_coverage(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026'), row('2-2026')],
+            "totalNoticeCount": 2})
+        snapshot["reported_total_notices"] = 3
+        with self.assertRaisesRegex(ValueError, "reported total"):
+            summarize(snapshot)
+
+    def test_summary_rejects_false_partial_coverage(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 2,
+            "iterationNextToken": "next"}, max_pages=1)
+        snapshot["reported_total_notices"] = 1
+        with self.assertRaisesRegex(ValueError, "reported total"):
+            summarize(snapshot)
+
+    def test_summary_rejects_missing_boolean_and_understated_totals(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 1})
+        for total in (None, True, -1, 0, "1"):
+            with self.subTest(total=total):
+                changed = dict(snapshot, reported_total_notices=total)
+                with self.assertRaisesRegex(ValueError, "reported total"):
+                    summarize(changed)
+
+    def test_summary_accepts_genuine_partial_coverage(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 2,
+            "iterationNextToken": "next"}, max_pages=1)
+        result = summarize(snapshot)
+        self.assertFalse(result["complete_for_query"])
+        self.assertEqual(result["notice_count"], 1)
+
     def test_rejects_unaware_observation_timestamp(self):
         with self.assertRaisesRegex(ValueError, 'timezone'):
             collect('PD>=20261001', lambda _: {}, observed_at='2026-10-12T10:00:00')
