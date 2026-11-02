@@ -381,5 +381,71 @@ class PilotTests(unittest.TestCase):
 
 
 
+    def test_unconsented_nonresponses_remain_in_invitation_denominator(self):
+        # Silence cannot supply consent. It must not be dropped from the
+        # denominator or counted as explicit pilot/price willingness.
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': True,
+             'response_kind': 'accepted_paid_pilot', 'quoted_monthly_price_sek': '599'},
+            {'response_id': 'R002', 'consent_recorded': True,
+             'response_kind': 'declined_paid_pilot', 'quoted_monthly_price_sek': '599'},
+            {'response_id': 'R003', 'consent_recorded': True,
+             'response_kind': 'free_pilot_only', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R004', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R005', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+        ]
+        result = run(data)
+        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 3)
+        self.assertEqual(result['self_reported_no_response_count'], 2)
+        self.assertTrue(result['three_explicit_responses_screen_met'])
+        self.assertIsNone(result['verified_distinct_respondents'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_unconsented_silence_alone_never_passes_response_screen(self):
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': f'R{i:03}', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None}
+            for i in range(1, 6)]
+        result = run(data)
+        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
+
+    def test_nonresponse_exception_cannot_launder_unconsented_replies(self):
+        for kind, price in (
+                ('accepted_paid_pilot', '599'),
+                ('declined_paid_pilot', '599'),
+                ('free_pilot_only', None),
+                ('undecided', None)):
+            with self.subTest(kind=kind):
+                data = fixture()
+                data['price_responses'] = [
+                    {'response_id': 'R001', 'consent_recorded': False,
+                     'response_kind': kind, 'quoted_monthly_price_sek': price}]
+                with self.assertRaisesRegex(ValueError, 'consent'):
+                    run(data)
+        for consent in (None, 0, 'false'):
+            with self.subTest(consent=consent):
+                data = fixture()
+                data['price_responses'] = [
+                    {'response_id': 'R001', 'consent_recorded': consent,
+                     'response_kind': 'no_response', 'quoted_monthly_price_sek': None}]
+                with self.assertRaisesRegex(ValueError, 'boolean'):
+                    run(data)
+        data = fixture()
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': '599'}]
+        with self.assertRaisesRegex(ValueError, 'non-paid response'):
+            run(data)
+
+
 if __name__ == '__main__':
     unittest.main()
