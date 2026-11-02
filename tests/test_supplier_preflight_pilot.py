@@ -447,5 +447,48 @@ class PilotTests(unittest.TestCase):
             run(data)
 
 
+    def test_declined_paid_pilot_without_offer_price_is_retained(self):
+        # A refusal is genuine negative evidence even when no price was offered.
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': f'R{i:03}', 'consent_recorded': True,
+             'response_kind': 'declined_paid_pilot',
+             'quoted_monthly_price_sek': None} for i in range(1, 4)]
+        result = run(data)
+        self.assertEqual(result['self_reported_paid_pilot_no_count'], 3)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 3)
+        self.assertTrue(result['three_explicit_responses_screen_met'])
+        self.assertEqual(result['self_reported_paid_pilot_yes_count'], 0)
+        self.assertIsNone(result['verified_willingness_to_pay'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_declined_paid_pilot_can_retain_real_offer_price(self):
+        data = fixture()
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': True,
+             'response_kind': 'declined_paid_pilot',
+             'quoted_monthly_price_sek': '599'}]
+        self.assertEqual(run(data)['self_reported_paid_pilot_no_count'], 1)
+
+    def test_declined_bad_prices_and_accepted_without_price_rejected(self):
+        for price in ('0', '-1', 'NaN', 'Infinity', True, 0.5, {}):
+            with self.subTest(price=repr(price)):
+                data = fixture()
+                data['price_responses'] = [
+                    {'response_id': 'R001', 'consent_recorded': True,
+                     'response_kind': 'declined_paid_pilot',
+                     'quoted_monthly_price_sek': price}]
+                with self.assertRaises(ValueError):
+                    run(data)
+        data = fixture()
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': True,
+             'response_kind': 'accepted_paid_pilot',
+             'quoted_monthly_price_sek': None}]
+        with self.assertRaises(ValueError):
+            run(data)
+
+
 if __name__ == '__main__':
     unittest.main()
