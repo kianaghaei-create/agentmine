@@ -85,8 +85,10 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     capture = _decimal(value_capture_pct, 'value_capture_pct', positive=True)
     if capture > 100:
         raise ValueError("value_capture_pct exceeds 100")
-    if type(min_tasks) is not int or min_tasks < 1:
-        raise ValueError("min_tasks must be a positive integer")
+    # The predeclared commercial pilot requires at least five genuine paired
+    # tasks. CLI callers must not lower that floor to make a small sample pass.
+    if type(min_tasks) is not int or min_tasks < 5:
+        raise ValueError("min_tasks must be an integer >= 5 for the pilot gate")
     tasks = snapshot['tasks']
     if not isinstance(tasks, list) or not 1 <= len(tasks) <= 1000:
         raise ValueError("tasks must be a nonempty bounded list")
