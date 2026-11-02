@@ -21,7 +21,9 @@ def xml_for(number=None, *, second=None):
                 f'{value}</efbc:NoticePublicationID></efac:Publication>'
             )
     return (
-        f'<ContractNotice xmlns="{ROOT}" xmlns:efac="{EFAC}" xmlns:efbc="{EFBC}">'
+        f'<ContractNotice xmlns="{ROOT}" xmlns:efac="{EFAC}" xmlns:efbc="{EFBC}" '
+        'xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">'
+        '<cbc:VersionID>01</cbc:VersionID>'
         + ''.join(publications) + '</ContractNotice>'
     ).encode('utf-8')
 
