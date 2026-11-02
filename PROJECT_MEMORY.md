@@ -20,7 +20,7 @@ Last reviewed: 2026-11-02
 - Issue #1 covers x402 supply discovery; Issue #2 covers the predeclared tender/supplier commercial gate: https://github.com/kianaghaei-create/agentmine/issues/2 .
 - Fixed 20-notice TED cohort: **17/20** independently inspected official originals, **3/20** publicly corroborated submission-portal stage/date views, **0** amendment histories fully cleared; no verified legal deadline errors.
 - **0** verified AgentMine paying customers, revenue, consented paired supplier outcomes, actual saved minutes/variable costs, explicit price/pilot responses or product-market fit. Public market and competitor metrics are not AgentMine sales.
-- Latest independently verified exact-code/test-tree CI: **1026/1026** passed on 2026-11-02 at test commit `7f89b729cecffcebfa58e1f5e258f8bbc894200e` (three nonresponse/consent regressions): https://github.com/kianaghaei-create/agentmine/actions/runs/41512437654 . This is engineering validation, not buyer evidence.
+- Latest independently verified exact-code/test-tree CI: **1029/1029** passed on 2026-11-02 at test commit `3e3f1c2e69051a38b8d04448fa185ab5e106c243` (three paid-pilot refusal-price regressions): https://github.com/kianaghaei-create/agentmine/actions/runs/41521287723 . This is engineering validation, not buyer evidence.
 - Repository is publicly accessible; never commit credentials, sensitive customer data, unlicensed datasets or raw search labels. No spending, payments or public deployment approved.
 
 ## Decision log
