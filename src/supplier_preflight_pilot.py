@@ -53,7 +53,7 @@ def _price_response_counts(rows):
         if row["consent_recorded"] is not True:
             raise ValueError("consent required for response evidence")
         kind = row["response_kind"]
-        if kind not in counts:
+        if not isinstance(kind, str) or kind not in counts:
             raise ValueError("unknown price response kind")
         price = row["quoted_monthly_price_sek"]
         if kind in _PAID_RESPONSES:
