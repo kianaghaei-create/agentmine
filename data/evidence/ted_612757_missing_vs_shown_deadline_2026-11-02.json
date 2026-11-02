@@ -1,0 +1,39 @@
+{
+  "evidence_type": "third_party_deadline_display_disagreement_not_primary_legal_deadline",
+  "observed_at_utc": "2026-11-02T14:00:31Z",
+  "publication_number": "612757-2026",
+  "buyer_public_name": "Region Gotland",
+  "procurement_title": "System för planering av skolskjuts",
+  "frozen_cohort": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "observations": [
+    {
+      "publication_number": "612757-2026",
+      "source_kind": "third_party_summary",
+      "source_url": "https://upphandla.app/en/tender/612757-2026",
+      "deadline_display_state": "not_shown",
+      "reported_deadline": null,
+      "stage_claim": "unknown",
+      "display_label_claim": "generic_deadline",
+      "publisher_display_excerpt": "No deadline",
+      "retrieval_note": "Public directory page displays 'No deadline' for submission deadline."
+    },
+    {
+      "publication_number": "612757-2026",
+      "source_kind": "third_party",
+      "source_url": "https://www.mercell.com/de-de/tender/290386743/system-for-planering-av-skolskjuts-tender.aspx",
+      "deadline_display_state": "shown",
+      "reported_deadline": "2026-10-05T23:59:00+02:00",
+      "stage_claim": "unknown",
+      "display_label_claim": "generic_deadline",
+      "publisher_display_excerpt": "Closing date 05.10.2026 23:59 (GMT+02:00)",
+      "retrieval_note": "Public directory page labels closing date; whether participation or bid stage is unverified."
+    }
+  ],
+  "primary_source_review": {
+    "ted_original_status": "not_accessible_in_this_run",
+    "submission_portal_status": "access_denied",
+    "amendment_history_cleared": false,
+    "legal_deadline_verified": false
+  },
+  "notes": "Two public directory displays for one predeclared notice differ in date visibility. A missing date does not establish that the notice had no deadline. The Mercell 'closing date' stage is unverified; original TED, amendments and buyer submission portal were not independently reviewed. Do not count this as an additional original/portal corroboration, legal deadline error, customer harm or paying demand."
+}
