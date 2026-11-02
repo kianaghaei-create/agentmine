@@ -178,6 +178,33 @@ class TedNoticeEvidenceTests(unittest.TestCase):
         self.assertFalse(result["complete_for_query"])
         self.assertEqual(result["notice_count"], 1)
 
+    def test_summary_rejects_unbound_source_and_evidence_labels(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 1})
+        for field, value in (('source_url', 'https://unrelated.example/notices'),
+                             ('evidence_type', 'verified_agent_payments'),
+                             ('scope', 'LATEST'),
+                             ('pagination_mode', 'PAGE'),
+                             ('query', ' ')):
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(ValueError, 'provenance'):
+                    summarize(dict(snapshot, **{field: value}))
+
+    def test_summary_rejects_missing_naive_invalid_and_future_observation(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 1})
+        for value in (None, 'not-a-date', '2026-10-01T12:00:00',
+                      '2999-01-01T00:00:00Z'):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, 'observation timestamp'):
+                    summarize(dict(snapshot, observed_at=value))
+
+    def test_summary_accepts_valid_timezone_aware_source_snapshot(self):
+        snapshot = collect('PD>=20261001', lambda _: {
+            "notices": [row('1-2026')], "totalNoticeCount": 1},
+            observed_at='2026-10-12T14:00:00+02:00')
+        self.assertTrue(summarize(snapshot)['complete_for_query'])
+
     def test_rejects_unaware_observation_timestamp(self):
         with self.assertRaisesRegex(ValueError, 'timezone'):
             collect('PD>=20261001', lambda _: {}, observed_at='2026-10-12T10:00:00')
