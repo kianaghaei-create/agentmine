@@ -182,6 +182,50 @@ class PilotTests(unittest.TestCase):
         self.assertFalse(result['self_reported_positive_economic_screen_met'])
         self.assertLess(Decimal(result['scenario_net_labor_value_sek']), 0)
 
+    def test_single_large_win_does_not_mask_majority_slower(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        for row in data['tasks']:
+            row['baseline_minutes'] = '10'
+            row['agent_minutes'] = '20'
+        data['tasks'][0]['baseline_minutes'] = '220'
+        data['tasks'][0]['agent_minutes'] = '20'
+        result = run(data)
+        self.assertGreater(Decimal(result['total_incremental_minutes_saved']), 0)
+        self.assertGreater(Decimal(result['scenario_net_labor_value_sek']), 0)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertEqual(result['faster_task_count'], 1)
+        self.assertEqual(result['slower_task_count'], 4)
+        self.assertFalse(result['majority_of_tasks_faster_screen_met'])
+        self.assertTrue(result['aggregate_positive_but_majority_not_faster'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+
+    def test_even_split_with_positive_aggregate_fails_conservative_screen(self):
+        data = fixture(6)
+        data['sample_kind'] = 'self_reported_consented'
+        for row in data['tasks'][3:]:
+            row['agent_minutes'] = '50'
+        result = run(data)
+        self.assertGreater(Decimal(result['scenario_net_labor_value_sek']), 0)
+        self.assertEqual(result['faster_task_count'], 3)
+        self.assertEqual(result['slower_task_count'], 3)
+        self.assertFalse(result['majority_of_tasks_faster_screen_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+
+    def test_majority_faster_with_positive_net_value_passes_only_self_reported_screen(self):
+        data = fixture(5)
+        data['sample_kind'] = 'self_reported_consented'
+        for row in data['tasks'][3:]:
+            row['agent_minutes'] = '50'
+        result = run(data)
+        self.assertEqual(result['faster_task_count'], 3)
+        self.assertEqual(result['slower_task_count'], 2)
+        self.assertTrue(result['majority_of_tasks_faster_screen_met'])
+        self.assertTrue(result['self_reported_positive_economic_screen_met'])
+        self.assertFalse(result['aggregate_positive_but_majority_not_faster'])
+        self.assertIsNone(result['verified_willingness_to_pay'])
+
     def test_consented_correct_but_high_cost_fails_economic_screen(self):
         data = fixture(5)
         data['sample_kind'] = 'self_reported_consented'
