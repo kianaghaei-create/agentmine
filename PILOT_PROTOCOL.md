@@ -51,7 +51,7 @@ The hourly rate and capture percentage are **scenario inputs**, not customer pri
 
 ## Price/pilot responses (separate from task economics)
 
-After the task, request an **explicit** answer to a concrete proposed pilot/price (e.g. yes, no, conditional, or no response), and the proposed terms. Obtain **at least three explicit responses** from real prospective buyers; record refusals and nonresponses in the denominator. Do not equate a hypothetical labor-value ceiling, an x402 wallet, a directory listing, or an interviewer's positive comment with willingness to pay. Do not take payment or initiate a paid pilot without owner approval.
+Only after owner-authorized contact, request an **explicit** answer to a concrete proposed pilot/price (e.g. yes, no, conditional, or no response), and the proposed terms. Obtain **at least three explicit responses** from real prospective buyers; record refusals and nonresponses in the invitation denominator. For an invited person who never replies, use an opaque `R...` ID with `response_kind="no_response"`, `consent_recorded=false` and `quoted_monthly_price_sek=null`; **never invent consent for silence**. An actual reply (including a decline or undecided reply) still requires `consent_recorded=true` to enter this anonymized evaluator. Keep the invitation/contact roster private and approved, not in this public repository. Nonresponse is not evidence of demand. Do not equate a hypothetical labor-value ceiling, an x402 wallet, a directory listing, or an interviewer's positive comment with willingness to pay. Do not take payment or initiate a paid pilot without owner approval.
 
 ## Predeclared decision rule
 
