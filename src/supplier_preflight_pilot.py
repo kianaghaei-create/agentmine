@@ -129,7 +129,14 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     sample_gate = (snapshot['sample_kind'] == 'self_reported_consented'
                    and len(tasks) >= min_tasks and baseline_errors == 0
                    and agent_errors == 0 and unchecked == 0)
-    economic_screen = sample_gate and total_minutes > 0 and net_value > 0
+    # A single unusually large win must not mask a pilot where most tasks
+    # became slower. Keep aggregate economics visible, but use a conservative
+    # majority-of-pairs condition for the positive self-reported screen.
+    faster_count = sum(delta > 0 for delta in deltas)
+    slower_count = sum(delta < 0 for delta in deltas)
+    majority_faster = faster_count * 2 > len(tasks)
+    aggregate_positive = sample_gate and total_minutes > 0 and net_value > 0
+    economic_screen = aggregate_positive and majority_faster
     # A fast but incorrect or source-unchecked answer has no defensible
     # labor-value price ceiling. Preserve raw arithmetic for diagnostics,
     # but fail closed on the monetization scenario itself.
@@ -154,8 +161,10 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'total_incremental_minutes_saved': str(total_minutes),
         'mean_incremental_minutes_saved': str(total_minutes / len(tasks)),
         'median_incremental_minutes_saved': str(median(deltas)),
-        'faster_task_count': sum(delta > 0 for delta in deltas),
-        'slower_task_count': sum(delta < 0 for delta in deltas),
+        'faster_task_count': faster_count,
+        'slower_task_count': slower_count,
+        'majority_of_tasks_faster_screen_met': majority_faster,
+        'aggregate_positive_but_majority_not_faster': aggregate_positive and not majority_faster,
         'correctness_regression_count': correctness_regressions,
         'baseline_error_count': baseline_errors,
         'agent_error_count': agent_errors,
@@ -176,6 +185,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
                    'Time deltas from incorrect baselines are not comparable savings; incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
                    'The self-reported quality/economic/price-response screens never establish verified distinct buyers, willingness to pay, independent validation or permission to deploy. '
+                   'The positive economic screen additionally requires a strict majority of paired tasks to be faster; an aggregate win driven by one outlier is insufficient. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
     }
 
