@@ -12,6 +12,7 @@ import re
 from statistics import median
 
 _TASK = re.compile(r"^T[0-9]{3,8}$")
+_UTC_STAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|\+00:00)$")
 _ALLOWED_TOP = {"evidence_type", "sample_kind", "observed_at_utc", "tasks"}
 _ALLOWED_TASK = {"task_id", "consent_recorded", "baseline_minutes", "agent_minutes",
                  "baseline_correct", "agent_correct", "primary_source_checked",
@@ -38,12 +39,15 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         raise ValueError("unsupported evidence type")
     if snapshot['sample_kind'] not in ('synthetic', 'self_reported_consented'):
         raise ValueError("unknown sample kind")
+    observed = snapshot['observed_at_utc']
+    if not isinstance(observed, str) or not _UTC_STAMP.fullmatch(observed):
+        raise ValueError("timestamp must use canonical UTC ISO-8601")
     try:
-        stamp = datetime.fromisoformat(snapshot['observed_at_utc'].replace('Z', '+00:00'))
-    except (AttributeError, ValueError) as exc:
+        stamp = datetime.fromisoformat(observed.replace('Z', '+00:00'))
+    except ValueError as exc:
         raise ValueError("invalid timestamp") from exc
-    if stamp.utcoffset() is None or stamp > datetime.now(timezone.utc):
-        raise ValueError("timestamp must be offset-aware and not future-dated")
+    if stamp > datetime.now(timezone.utc):
+        raise ValueError("timestamp must not be future-dated")
     hourly = _decimal(hourly_labor_cost_sek, 'hourly_labor_cost_sek', positive=True)
     capture = _decimal(value_capture_pct, 'value_capture_pct', positive=True)
     if capture > 100:
