@@ -116,5 +116,28 @@ class DemandGapGateTests(unittest.TestCase):
         self.assertEqual(result['publisher_reported_no_result_query_labels_count'], 0)
 
 
+    def test_noncanonical_week_date_or_space_separator_rejected(self):
+        for field in ('observed_at_utc', 'window_starts_at_iso', 'window_ends_at_iso'):
+            for stamp in ('2026-W44-7T13:09:57Z', '2026-11-01 13:09:57Z'):
+                with self.subTest(field=field, stamp=stamp):
+                    row = copy.deepcopy(SAMPLE)
+                    row[field] = stamp
+                    with self.assertRaisesRegex(ValueError, 'canonical UTC calendar timestamp'):
+                        analyze(row)
+
+    def test_more_than_microsecond_precision_rejected(self):
+        row = copy.deepcopy(SAMPLE)
+        row['observed_at_utc'] = '2026-11-01T13:09:57.1234567Z'
+        with self.assertRaisesRegex(ValueError, 'canonical UTC calendar timestamp'):
+            analyze(row)
+
+    def test_canonical_fractional_timestamps_are_valid(self):
+        row = copy.deepcopy(SAMPLE)
+        for field in ('observed_at_utc', 'window_starts_at_iso', 'window_ends_at_iso'):
+            row[field] = row[field].replace('57Z', '57.123456Z')
+        result = analyze(row)
+        self.assertEqual(result['publisher_reported_terms'], 981)
+
+
 if __name__ == '__main__':
     unittest.main()
