@@ -6,7 +6,7 @@ organic classification is heuristic and seller wallets are not businesses.
 Offline only: no HTTP requests, payments, or customer records.
 """
 import argparse
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 import json
 from pathlib import Path
@@ -68,7 +68,13 @@ def analyze(evidence):
     prior, latest = _row(rows[0]), _row(rows[1])
     if (latest[0] - prior[0]).days != 7:
         raise ValueError('weekly observations must be seven days apart')
-    lag = (updated.date() - latest[0]).days
+    # Weekly observations use UTC calendar dates, not the publisher's
+    # optional local-offset calendar day. A future-dated source update
+    # must not be accepted as already observed market evidence.
+    updated_utc = updated.astimezone(timezone.utc)
+    if updated_utc > datetime.now(timezone.utc):
+        raise ValueError('publisher update cannot be in the future')
+    lag = (updated_utc.date() - latest[0]).days
     if lag < 0:
         raise ValueError('publisher update precedes latest weekly observation')
     prev_raw, prev_org, prev_sellers = prior[1:]
