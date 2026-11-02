@@ -99,4 +99,32 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"unsupported TED notice XML schema"):
             fetch_xml("600201-2026",opener=Opener())
 
+    def test_later_xml_version_is_not_counted_as_original(self):
+        later = XML.replace(b'<cbc:VersionID>01</cbc:VersionID>',
+                            b'<cbc:VersionID>02</cbc:VersionID>')
+        result = review_cohort(cohort(), fetcher=lambda _: later)
+        self.assertEqual(result["original_xml_parsed_count"], 0)
+        self.assertEqual(result["original_xml_unavailable_count"], 20)
+        self.assertEqual(result["original_xml_publication_identity_bound_count"], 0)
+        self.assertEqual(result["items"][0]["status"],
+                         "xml_parsed_original_version_unconfirmed")
+        self.assertEqual(result["items"][0]["xml_version_id"], "02")
+        self.assertFalse(result["items"][0]["original_notice_xml_parsed"])
+        self.assertEqual(len(result["items"][0]["xml_sha256"]), 64)
+
+    def test_missing_xml_version_is_not_counted_as_original(self):
+        missing = XML.replace(b'<cbc:VersionID>01</cbc:VersionID>', b'')
+        result = review_cohort(cohort(), fetcher=lambda _: missing)
+        self.assertEqual(result["original_xml_parsed_count"], 0)
+        self.assertEqual(result["items"][0]["status"],
+                         "xml_parsed_original_version_unconfirmed")
+        self.assertIsNone(result["items"][0]["xml_version_id"])
+
+    def test_original_xml_version_remains_eligible_but_identity_unbound(self):
+        result = review_cohort(cohort(), fetcher=lambda _: XML)
+        self.assertEqual(result["original_xml_parsed_count"], 20)
+        self.assertEqual(result["original_xml_parsed_identity_unbound_count"], 20)
+        self.assertEqual(result["original_xml_publication_identity_bound_count"], 0)
+
+
 if __name__=="__main__":unittest.main()
