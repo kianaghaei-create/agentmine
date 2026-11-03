@@ -59,6 +59,8 @@ def _price_response_counts(rows):
         # Nonrespondents cannot consent to storing a reply. Keep their opaque
         # invitation outcomes in the denominator without inventing consent.
         # Every actual reply still requires explicit consent.
+        if kind == "no_response" and consent:
+            raise ValueError("no_response cannot claim consent that silence did not provide")
         if kind != "no_response" and not consent:
             raise ValueError("consent required for response evidence")
         price = row["quoted_monthly_price_sek"]

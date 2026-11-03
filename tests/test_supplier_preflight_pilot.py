@@ -304,7 +304,7 @@ class PilotTests(unittest.TestCase):
              'response_kind': 'declined_paid_pilot', 'quoted_monthly_price_sek': '599'},
             {'response_id': 'R003', 'consent_recorded': True,
              'response_kind': 'free_pilot_only', 'quoted_monthly_price_sek': None},
-            {'response_id': 'R004', 'consent_recorded': True,
+            {'response_id': 'R004', 'consent_recorded': False,
              'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
             {'response_id': 'R005', 'consent_recorded': True,
              'response_kind': 'undecided', 'quoted_monthly_price_sek': None},
@@ -356,7 +356,7 @@ class PilotTests(unittest.TestCase):
         data = fixture()
         data['sample_kind'] = 'self_reported_consented'
         data['price_responses'] = [
-            {'response_id': f'R{i:03}', 'consent_recorded': True,
+            {'response_id': f'R{i:03}', 'consent_recorded': not bool(i % 2),
              'response_kind': 'no_response' if i % 2 else 'undecided',
              'quoted_monthly_price_sek': None}
             for i in range(1, 8)]
@@ -436,6 +436,20 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(result['price_response_count'], 5)
         self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
         self.assertFalse(result['three_explicit_responses_screen_met'])
+
+    def test_silent_nonrespondent_cannot_be_recorded_as_consented(self):
+        # A nonresponse may remain in the invitation denominator, but it
+        # cannot be represented as a consented reply in either sample kind.
+        for sample_kind in ('synthetic', 'self_reported_consented'):
+            with self.subTest(sample_kind=sample_kind):
+                data = fixture()
+                data['sample_kind'] = sample_kind
+                data['price_responses'] = [
+                    {'response_id': 'R001', 'consent_recorded': True,
+                     'response_kind': 'no_response',
+                     'quoted_monthly_price_sek': None}]
+                with self.assertRaisesRegex(ValueError, 'no_response cannot claim consent'):
+                    run(data)
 
     def test_nonresponse_exception_cannot_launder_unconsented_replies(self):
         for kind, price in (
