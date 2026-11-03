@@ -111,6 +111,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     costs = Decimal(0)
     correctness_regressions = 0
     baseline_errors = 0
+    corrected_baseline_errors = 0
     agent_errors = 0
     unchecked = 0
     for row in tasks:
@@ -133,6 +134,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         deltas.append(baseline - agent)
         correctness_regressions += int(row['baseline_correct'] and not row['agent_correct'])
         baseline_errors += int(not row['baseline_correct'])
+        corrected_baseline_errors += int(not row['baseline_correct'] and row['agent_correct'])
         agent_errors += int(not row['agent_correct'])
         unchecked += int(not row['primary_source_checked'])
     # Synthetic response fixtures are useful for testing arithmetic, but must
@@ -149,7 +151,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     # Synthetic arithmetic fixtures must never pass an evidence-based pilot gate.
     # Self-reported consent and correctness are still NOT independently verified.
     sample_gate = (snapshot['sample_kind'] == 'self_reported_consented'
-                   and len(tasks) >= min_tasks and baseline_errors == 0
+                   and len(tasks) >= min_tasks
                    and agent_errors == 0 and unchecked == 0)
     # A single unusually large win must not mask a pilot where most tasks
     # became slower. Keep aggregate economics visible, but use a conservative
@@ -158,7 +160,9 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     slower_count = sum(delta < 0 for delta in deltas)
     majority_faster = faster_count * 2 > len(tasks)
     aggregate_positive = sample_gate and total_minutes > 0 and net_value > 0
-    economic_screen = aggregate_positive and majority_faster
+    # A corrected wrong baseline is valuable evidence, but its time delta is
+    # not an apples-to-apples labor saving. Do not monetize it as such.
+    economic_screen = aggregate_positive and majority_faster and baseline_errors == 0
     # A fast but incorrect or source-unchecked answer has no defensible
     # labor-value price ceiling. Preserve raw arithmetic for diagnostics,
     # but fail closed on the monetization scenario itself.
@@ -193,6 +197,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'aggregate_positive_but_majority_not_faster': aggregate_positive and not majority_faster,
         'correctness_regression_count': correctness_regressions,
         'baseline_error_count': baseline_errors,
+        'baseline_error_corrected_count': corrected_baseline_errors,
         'agent_error_count': agent_errors,
         'primary_source_unchecked_count': unchecked,
         'scenario_hourly_labor_cost_sek': str(hourly),
@@ -209,7 +214,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_paying_customers': None,
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
-                   'Time deltas from incorrect baselines are not comparable savings; incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
+                   'Time deltas from incorrect baselines are not comparable savings; corrected baseline errors count toward the task quality screen but never the positive labor-economics screen. Incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
                    'The self-reported quality/economic/price-response screens never establish verified distinct buyers, willingness to pay, independent validation or permission to deploy. '
                    'The positive economic screen additionally requires a strict majority of paired tasks to be faster; an aggregate win driven by one outlier is insufficient. '
                    'Do not extrapolate without representative repeated tasks and independently checked outcomes.',
