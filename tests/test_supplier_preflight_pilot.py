@@ -64,6 +64,22 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
         self.assertIsNone(result['verified_willingness_to_pay'])
 
+    def test_corrected_baseline_error_is_quality_evidence_not_labor_savings(self):
+        # Source-backed correction is the wedge: a wrong incumbent and correct
+        # AgentMine result should not fail the task-quality screen. However,
+        # time versus an incorrect answer cannot justify a software price.
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['tasks'][0]['baseline_correct'] = False
+        result = run(data)
+        self.assertEqual(result['baseline_error_count'], 1)
+        self.assertEqual(result['baseline_error_corrected_count'], 1)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertIsNone(result['scenario_max_software_price_per_task_sek'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
+        self.assertIsNone(result['verified_willingness_to_pay'])
+
     def test_both_methods_wrong_still_blocks_quality_gate(self):
         data = fixture(); data['tasks'][0]['baseline_correct'] = False
         data['tasks'][0]['agent_correct'] = False
