@@ -289,7 +289,7 @@ class PilotTests(unittest.TestCase):
 
 
 
-    def test_incorrect_baseline_cannot_pass_quality_or_economic_screen(self):
+    def test_corrected_incorrect_baseline_passes_quality_but_not_economics(self):
         data = fixture(5)
         data['sample_kind'] = 'self_reported_consented'
         data['tasks'][0]['baseline_correct'] = False
@@ -299,18 +299,22 @@ class PilotTests(unittest.TestCase):
         self.assertEqual(result['baseline_error_count'], 1)
         self.assertEqual(result['agent_error_count'], 0)
         self.assertEqual(result['correctness_regression_count'], 0)
-        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertEqual(result['baseline_error_corrected_count'], 1)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
         self.assertFalse(result['self_reported_positive_economic_screen_met'])
+        self.assertIsNone(result['scenario_max_software_price_per_task_sek'])
         self.assertIsNone(result['verified_willingness_to_pay'])
 
-    def test_correct_baselines_required_across_entire_pilot_sample(self):
+    def test_corrected_baseline_errors_retained_across_entire_pilot_sample(self):
         data = fixture(6)
         data['sample_kind'] = 'self_reported_consented'
         data['tasks'][-1]['baseline_correct'] = False
         result = run(data, min_tasks=5)
         self.assertEqual(result['paired_task_count'], 6)
         self.assertEqual(result['baseline_error_count'], 1)
-        self.assertFalse(result['minimum_sample_quality_gate_met'])
+        self.assertEqual(result['baseline_error_corrected_count'], 1)
+        self.assertTrue(result['minimum_sample_quality_gate_met'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
 
 
     def test_optional_price_responses_preserve_old_pilot_input(self):
