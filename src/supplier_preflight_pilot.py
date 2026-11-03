@@ -167,7 +167,10 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
                               (Decimal(100) * len(tasks)))) if price_eligible else None)
     return {
         'sample_kind': snapshot['sample_kind'],
-        'price_response_count': sum(responses.values()),
+        # Invitation outcomes include silence; actual replies do not.
+        # Keep both denominators to avoid inflating observed response rates.
+        'invitation_outcome_count': sum(responses.values()),
+        'price_response_count': sum(responses.values()) - responses["no_response"],
         'synthetic_fixture_price_response_count': synthetic_response_count,
         'explicit_price_or_pilot_response_count': explicit_responses,
         'self_reported_paid_pilot_yes_count': responses["accepted_paid_pilot"],
