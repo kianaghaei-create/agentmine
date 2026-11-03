@@ -310,7 +310,8 @@ class PilotTests(unittest.TestCase):
              'response_kind': 'undecided', 'quoted_monthly_price_sek': None},
         ]
         result = run(data)
-        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['price_response_count'], 4)
+        self.assertEqual(result['invitation_outcome_count'], 5)
         self.assertEqual(result['explicit_price_or_pilot_response_count'], 3)
         self.assertEqual(result['self_reported_paid_pilot_yes_count'], 1)
         self.assertEqual(result['self_reported_paid_pilot_no_count'], 1)
@@ -361,7 +362,8 @@ class PilotTests(unittest.TestCase):
              'quoted_monthly_price_sek': None}
             for i in range(1, 8)]
         result = run(data)
-        self.assertEqual(result['price_response_count'], 7)
+        self.assertEqual(result['price_response_count'], 3)
+        self.assertEqual(result['invitation_outcome_count'], 7)
         self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
         self.assertFalse(result['three_explicit_responses_screen_met'])
 
@@ -418,7 +420,8 @@ class PilotTests(unittest.TestCase):
              'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
         ]
         result = run(data)
-        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['price_response_count'], 3)
+        self.assertEqual(result['invitation_outcome_count'], 5)
         self.assertEqual(result['explicit_price_or_pilot_response_count'], 3)
         self.assertEqual(result['self_reported_no_response_count'], 2)
         self.assertTrue(result['three_explicit_responses_screen_met'])
@@ -433,9 +436,29 @@ class PilotTests(unittest.TestCase):
              'response_kind': 'no_response', 'quoted_monthly_price_sek': None}
             for i in range(1, 6)]
         result = run(data)
-        self.assertEqual(result['price_response_count'], 5)
+        self.assertEqual(result['price_response_count'], 0)
+        self.assertEqual(result['invitation_outcome_count'], 5)
         self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
         self.assertFalse(result['three_explicit_responses_screen_met'])
+
+    def test_invitation_denominator_separates_silence_from_actual_replies(self):
+        data = fixture()
+        data['sample_kind'] = 'self_reported_consented'
+        data['price_responses'] = [
+            {'response_id': 'R001', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R002', 'consent_recorded': True,
+             'response_kind': 'undecided', 'quoted_monthly_price_sek': None},
+            {'response_id': 'R003', 'consent_recorded': False,
+             'response_kind': 'no_response', 'quoted_monthly_price_sek': None},
+        ]
+        result = run(data)
+        self.assertEqual(result['invitation_outcome_count'], 3)
+        self.assertEqual(result['price_response_count'], 1)
+        self.assertEqual(result['self_reported_no_response_count'], 2)
+        self.assertEqual(result['explicit_price_or_pilot_response_count'], 0)
+        self.assertFalse(result['three_explicit_responses_screen_met'])
+        self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
 
     def test_silent_nonrespondent_cannot_be_recorded_as_consented(self):
         # A nonresponse may remain in the invitation denominator, but it
