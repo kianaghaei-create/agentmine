@@ -79,6 +79,16 @@ class PilotTests(unittest.TestCase):
         self.assertIsNone(result['scenario_max_software_price_per_task_sek'])
         self.assertEqual(result['commercial_validation_status'], 'NOT_VALIDATED')
         self.assertIsNone(result['verified_willingness_to_pay'])
+        # An incorrect baseline with one large time delta and four slower
+        # tasks must not be called aggregate-positive labor economics either.
+        for row in data['tasks'][1:]:
+            row['agent_minutes'] = '46'
+        data['tasks'][0]['agent_minutes'] = '0'
+        result = run(data)
+        self.assertGreater(Decimal(result['scenario_net_labor_value_sek']), 0)
+        self.assertFalse(result['majority_of_tasks_faster_screen_met'])
+        self.assertFalse(result['aggregate_positive_but_majority_not_faster'])
+        self.assertFalse(result['self_reported_positive_economic_screen_met'])
 
     def test_both_methods_wrong_still_blocks_quality_gate(self):
         data = fixture(); data['tasks'][0]['baseline_correct'] = False
