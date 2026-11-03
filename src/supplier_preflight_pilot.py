@@ -159,10 +159,11 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     faster_count = sum(delta > 0 for delta in deltas)
     slower_count = sum(delta < 0 for delta in deltas)
     majority_faster = faster_count * 2 > len(tasks)
-    aggregate_positive = sample_gate and total_minutes > 0 and net_value > 0
+    aggregate_positive = (sample_gate and baseline_errors == 0
+                          and total_minutes > 0 and net_value > 0)
     # A corrected wrong baseline is valuable evidence, but its time delta is
     # not an apples-to-apples labor saving. Do not monetize it as such.
-    economic_screen = aggregate_positive and majority_faster and baseline_errors == 0
+    economic_screen = aggregate_positive and majority_faster
     # A fast but incorrect or source-unchecked answer has no defensible
     # labor-value price ceiling. Preserve raw arithmetic for diagnostics,
     # but fail closed on the monetization scenario itself.
