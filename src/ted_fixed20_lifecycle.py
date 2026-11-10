@@ -106,6 +106,12 @@ def review(cohort, *, fetch_page=post_json):
             if procedure not in groups:
                 raise ValueError("lifecycle notice not bound to queried procedure")
             groups[procedure].append(row)
+    # A complete search result is not enough if the same frozen publication
+    # disappeared or changed between the two query snapshots.
+    lifecycle_by_id = {row["publication-number"]: row for rows in groups.values() for row in rows}
+    bound_ids = [number for number, procedure in mapping.items() if procedure]
+    if any(lifecycle_by_id.get(number) != originals[number] for number in bound_ids):
+        raise ValueError("frozen notice missing or changed between TED queries")
     histories = []
     for procedure, rows in groups.items():
         original_ids = sorted(number for number, value in mapping.items() if value == procedure)
@@ -125,6 +131,11 @@ def review(cohort, *, fetch_page=post_json):
             "frozen_ids_with_metadata": len(originals), "missing_frozen_ids": sorted(set(ids)-set(originals)),
             "frozen_ids_without_procedure": sorted(number for number in ids if not mapping.get(number)),
             "distinct_procedure_ids": len(procedures), "procedure_histories": histories,
+            "frozen_rows_identical_across_queries": len(bound_ids),
+            "frozen_change_reference_ids": sorted(number for number, row in originals.items()
+                                                   if row.get("change-notice-version-identifier")),
+            "frozen_nonfirst_version_ids": sorted(number for number, row in originals.items()
+                if str(row.get("notice-version", "")).isdigit() and int(row["notice-version"]) > 1),
             "procedures_with_result_metadata": sum(bool(h["result_notice_ids"]) for h in histories),
             "procedures_with_change_reference_metadata": sum(bool(h["change_reference_notice_ids"]) for h in histories),
             "new_original_xml_pdf_reviews": 0, "new_portal_checks": 0, "amendment_histories_cleared": 0,

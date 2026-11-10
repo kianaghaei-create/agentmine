@@ -1,0 +1,138 @@
+{
+  "evidence_type": "official_TED_search_metadata_frozen20_lifecycle_not_original_or_legal_clearance",
+  "observed_at": "2026-11-10T16:49:21.074404+00:00",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "provenance": {
+    "commit": "dff86c6be002ee2d5675530f5c551cb0a126b583",
+    "workflow_run": "https://github.com/kianaghaei-create/agentmine/actions/runs/42858440409",
+    "workflow_job": "https://github.com/kianaghaei-create/agentmine/actions/runs/42858440409/job/129977734390",
+    "artifact_id": 13783906888,
+    "artifact_zip_sha256": "5fe5bf99a0eb19c5315e021dd6043a3db80af6ace4eeceabea8f0edfc446345a",
+    "artifact_json_sha256": "ba595ced33e723122624870c40fee8c7802d141cac074348ebc90a7fec65582f",
+    "artifact_readback_verified": true,
+    "exact_tree_ci": "https://github.com/kianaghaei-create/agentmine/actions/runs/42858440267/job/129977733596",
+    "ci_passed_tests": 1082
+  },
+  "queries": [
+    {
+      "query": "publication-number IN (600201-2026 601453-2026 601656-2026 601730-2026 602708-2026 603727-2026 605974-2026 606049-2026 609559-2026 609601-2026 610120-2026 610810-2026 611111-2026 612139-2026 612757-2026 613716-2026 613749-2026 615392-2026 615414-2026 615576-2026)",
+      "observed_at": "2026-11-10T16:49:17.974447+00:00",
+      "reported_total_notices": 20,
+      "pages_fetched": 1,
+      "complete_for_query": true,
+      "only_latest_versions": false
+    },
+    {
+      "query": "procedure-identifier IN (1e3b439e-dfbc-420a-bcb4-1e75b06fc11c 1e42451b-957d-4331-b6e2-de4cf0b3ec68 2b3ed268-91f4-4464-b025-2fee80044f17 392699e0-8c15-47ab-97f0-54eab6c4d010 3f5e3435-ff54-478d-b840-b0616f2dc38b 53da505c-1426-4f55-9323-067e3d548cc7 5e0f45f5-81ba-4ad4-afa9-771ca77a6e1b 6b10a6ec-fd5e-4629-b212-826c14b123f3 6df73e17-0cfc-44c4-87d8-5c83f0136d29 6ed38960-ea56-4305-a3f1-668d1b1f13f2 8ed8a7d2-ee71-40ce-9267-6475a5e43c95 93dd47eb-8036-40dd-b3a0-287e1818f0c5 aa26492d-d532-4c5d-8705-ed0f716c8043 b469917a-af9b-45af-992d-a226951587df b5cc9d60-5185-4d2d-8252-c68ccc6b8b56 ba03174a-dfe0-4dd2-8812-34d3e4a2df2f bc6a8376-2ee5-4e30-9b7f-73674227bc15 bf3de29a-db8d-4a08-9fc1-5964c8135f18 cffc7e10-e25d-4cf4-933f-c0c577d1ec5c ee3ebf19-4c56-483e-a2c0-a21c9664d35d)",
+      "observed_at": "2026-11-10T16:49:19.025009+00:00",
+      "reported_total_notices": 24,
+      "pages_fetched": 1,
+      "complete_for_query": true,
+      "only_latest_versions": false
+    }
+  ],
+  "projection": [
+    "publication-number",
+    "publication-date",
+    "notice-type",
+    "notice-title",
+    "buyer-name",
+    "buyer-country",
+    "classification-cpv",
+    "procedure-identifier",
+    "notice-identifier",
+    "notice-version",
+    "form-type",
+    "change-notice-version-identifier",
+    "deadline-receipt-tender-date-lot",
+    "deadline-receipt-tender-time-lot",
+    "deadline-receipt-request-date-lot",
+    "deadline-receipt-request-time-lot",
+    "estimated-value-proc",
+    "estimated-value-cur-proc",
+    "framework-value-notice",
+    "framework-value-cur-notice",
+    "framework-approximate-value-notice",
+    "framework-approximate-value-cur-notice",
+    "result-value-notice",
+    "result-value-cur-notice",
+    "framework-estimated-value",
+    "framework-estimated-value-cur",
+    "result-lot-identifier",
+    "winner-selection-status",
+    "received-submissions-type-code",
+    "received-submissions-type-val"
+  ],
+  "compact_rows_note": "All 24 unique procedure-query rows, sorted by publication number; four multilingual/catalogue label fields omitted. All 20 exact-ID rows were identical to their procedure-query counterparts in the downloaded artifact. Raw projected field names and values retained; no lot-array joins.",
+  "summary": {
+    "frozen_notice_ids": 20,
+    "frozen_ids_with_metadata": 20,
+    "distinct_procedure_ids": 20,
+    "procedure_query_notices": 24,
+    "frozen_rows_identical_across_queries": 20,
+    "tender_deadline_metadata_rows": 12,
+    "participation_deadline_metadata_rows": 8,
+    "procedures_with_result_metadata": 3,
+    "procedures_with_change_reference_metadata": 1,
+    "frozen_version_2_ids": [
+      "609559-2026"
+    ],
+    "directly_inspected_official_notice_documents_previous": 17,
+    "new_direct_xml_pdf_inspections": 0,
+    "public_portal_checks_previous": 3,
+    "amendment_histories_cleared": 0,
+    "verified_legal_deadline_errors": null,
+    "verified_supplier_payments": null,
+    "verified_agentmine_revenue": null
+  },
+  "interpretation": [
+    "601453-2026 is a competition notice with explicit change reference to 417627-2026 (notice UUID f8381887-5b8c-4f29-8943-4c380faba9b2 version 01). Both rows have notice-version 1; version 1 alone is not proof of first publication. TED Search metadata moves the tender date/time from 2026-08-31 21:59:59Z to 2026-09-02 21:59:59Z (+48 hours). This is a source metadata change, not full legal amendment clearance or operative portal verification.",
+    "609559-2026 is notice-version 2 in the API. It was previously directly inspected as an official HTML notice. Historical 17/20 means inspected official publication documents, not 17 first versions. Do not alter frozen cohort membership or promote metadata to XML/PDF inspection.",
+    "612757-2026 and 615414-2026 expose participation request deadlines (not tender deadlines); all three formerly missing document IDs have independently retrieved official Search metadata, corroborating the dates in the 2026-10-31 external issue comment without verifying its XML bytes.",
+    "Three result notices: 729884-2026 (Riksbank bank/financial data) clos-nw, 3 tenders; 742670-2026 (Zoom for Nordics) selec-w, 1 tender, framework maximum SEK 6m and approximate/re-estimated SEK 4m, no result-value-notice; 779072-2026 (Livsmedelsverket energy-drink project manager) selec-w, 1 tender, result-value-notice SEK 2,724,579. Result metadata and values are not paid cash or evidence of AgentMine demand. The other 17 procedures lack returned result metadata in this query, not necessarily no result.",
+    "Zoom public directory displays disagree in semantics: Tilldelat labels SEK 6m as awarded value, Vunnet shows SEK 4m, Licitera/Adjudera omit contract amount. Official fields explain distinct ceiling vs approximate value; no realized spend or generic directory error prevalence inferred."
+  ],
+  "source_definitions": [
+    "https://docs.ted.europa.eu/ODS/latest/reuse/field-list.html",
+    "https://docs.ted.europa.eu/eforms/latest/reference/business-terms/index.html",
+    "https://docs.ted.europa.eu/eforms/latest/reference/code-lists/winner-selection-status.html"
+  ],
+  "public_directory_crosschecks": [
+    "https://tilldelat.se/tilldelning/zoom-for-nordics-tjanst-for-digital-samverkan-8ea41a",
+    "https://vunnet.se/upphandling/754983-2026",
+    "https://licitera.se/upphandling/zoom-for-nordics-tjanst-for-digital-samverkan-e52ce627d5",
+    "https://adjudera.com/en/award/742670-2026-res-0001"
+  ],
+  "limitations": [
+    "Official Search API projection, not XML/PDF or legally operative portal evidence. No complete amendment chains or legal deadline errors established.",
+    "No paid AgentMine customers, supplier outcome, WTP, savings, variable cost or realized supplier spend established.",
+    "No market prevalence inference from the fixed, nonrandom 20-notice cohort; no cross-lot array joins."
+  ],
+  "rows": [
+    {"publication-number":"417627-2026","publication-date":"2026-06-18+02:00","notice-type":"cn-standard","procedure-identifier":"93dd47eb-8036-40dd-b3a0-287e1818f0c5","notice-identifier":"f8381887-5b8c-4f29-8943-4c380faba9b2","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-08-31Z"],"deadline-receipt-tender-time-lot":["21:59:59Z"],"estimated-value-proc":"60000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"600201-2026","publication-date":"2026-09-01+02:00","notice-type":"cn-standard","procedure-identifier":"53da505c-1426-4f55-9323-067e3d548cc7","notice-identifier":"eac5932e-6034-49c5-9e9b-eda01140fb74","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-09-29+02:00","2026-09-29+02:00","2026-09-29+02:00","2026-09-29+02:00","2026-09-29+02:00"],"deadline-receipt-tender-time-lot":["23:59:00+02:00","23:59:00+02:00","23:59:00+02:00","23:59:00+02:00","23:59:00+02:00"],"estimated-value-proc":"22000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"601453-2026","publication-date":"2026-09-01+02:00","notice-type":"cn-standard","procedure-identifier":"93dd47eb-8036-40dd-b3a0-287e1818f0c5","notice-identifier":"c552d1ec-d98a-47d1-82b3-94c4a1594ea2","notice-version":1,"form-type":"competition","change-notice-version-identifier":"f8381887-5b8c-4f29-8943-4c380faba9b2-01","deadline-receipt-tender-date-lot":["2026-09-02Z"],"deadline-receipt-tender-time-lot":["21:59:59Z"],"estimated-value-proc":"60000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"601656-2026","publication-date":"2026-09-01+02:00","notice-type":"cn-standard","procedure-identifier":"bf3de29a-db8d-4a08-9fc1-5964c8135f18","notice-identifier":"a51cdb70-0f8b-4baf-aaf4-ba1428c7bebc","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-09-29+02:00"],"deadline-receipt-tender-time-lot":["23:59:00+02:00"],"estimated-value-proc":"2724579","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"601730-2026","publication-date":"2026-09-01+02:00","notice-type":"cn-standard","procedure-identifier":"392699e0-8c15-47ab-97f0-54eab6c4d010","notice-identifier":"915b7b39-4bdf-497c-847d-3206f6d7573d","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-09-20+02:00"],"deadline-receipt-request-time-lot":["00:00:00+02:00"],"estimated-value-proc":"5000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"602708-2026","publication-date":"2026-09-01+02:00","notice-type":"cn-standard","procedure-identifier":"6ed38960-ea56-4305-a3f1-668d1b1f13f2","notice-identifier":"ed51537d-f935-43c2-b609-aaa1d6220a9a","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-09-28+02:00"],"deadline-receipt-tender-time-lot":["23:59:00+02:00"],"estimated-value-proc":"5000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"603727-2026","publication-date":"2026-09-02+02:00","notice-type":"cn-standard","procedure-identifier":"b469917a-af9b-45af-992d-a226951587df","notice-identifier":"3f800bff-041e-4853-b4e0-ab5f342b8bdf","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-09+02:00"],"deadline-receipt-request-time-lot":["23:59:00+02:00"],"estimated-value-proc":"2000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"605974-2026","publication-date":"2026-09-02+02:00","notice-type":"cn-standard","procedure-identifier":"6df73e17-0cfc-44c4-87d8-5c83f0136d29","notice-identifier":"a5c4f333-6b52-49a0-babb-6b1392c16d40","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-06+02:00"],"deadline-receipt-tender-time-lot":["00:00:00+02:00"],"estimated-value-proc":"1000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"606049-2026","publication-date":"2026-09-03+02:00","notice-type":"cn-standard","procedure-identifier":"ee3ebf19-4c56-483e-a2c0-a21c9664d35d","notice-identifier":"a4b2f143-3fd6-42a4-b76d-d0308cb74967","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-01+02:00"],"deadline-receipt-request-time-lot":["23:59:00+02:00"],"estimated-value-proc":"3000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"609559-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"2b3ed268-91f4-4464-b025-2fee80044f17","notice-identifier":"a2a3e086-7106-4b4d-bfe0-99ca7c798126","notice-version":2,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-05+02:00"],"deadline-receipt-request-time-lot":["23:59:59+02:00"],"estimated-value-proc":"40000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"609601-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"bc6a8376-2ee5-4e30-9b7f-73674227bc15","notice-identifier":"0c2baf1e-5971-44c6-abd2-4fcd0ea00b0b","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-05+02:00"],"deadline-receipt-request-time-lot":["00:00:00+02:00"],"estimated-value-proc":"9000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"610120-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"3f5e3435-ff54-478d-b840-b0616f2dc38b","notice-identifier":"5bf9cc1e-7878-4b2f-9abd-a4ebf01047e9","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-07Z"],"deadline-receipt-request-time-lot":["21:59:59Z"],"estimated-value-proc":"11000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"610810-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"aa26492d-d532-4c5d-8705-ed0f716c8043","notice-identifier":"2dbe189a-0794-4235-ba23-be0c28a59520","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-09+02:00"],"deadline-receipt-tender-time-lot":["23:59:00+02:00"],"estimated-value-proc":"2300000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"611111-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"5e0f45f5-81ba-4ad4-afa9-771ca77a6e1b","notice-identifier":"7113d7a2-0970-4bb0-96da-0d3c2f445ee7","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-06Z"],"deadline-receipt-tender-time-lot":["21:59:59Z"],"estimated-value-proc":"2500000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"612139-2026","publication-date":"2026-09-04+02:00","notice-type":"cn-standard","procedure-identifier":"cffc7e10-e25d-4cf4-933f-c0c577d1ec5c","notice-identifier":"a2a8254c-57a9-4895-be0e-66c1f461749d","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-01+02:00"],"deadline-receipt-tender-time-lot":["23:59:59+02:00"],"estimated-value-proc":"3000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"612757-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"8ed8a7d2-ee71-40ce-9267-6475a5e43c95","notice-identifier":"54607277-aebc-404d-a620-2e8211043505","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-10-05+02:00"],"deadline-receipt-request-time-lot":["00:00:00+02:00"],"estimated-value-proc":"7000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"613716-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"b5cc9d60-5185-4d2d-8252-c68ccc6b8b56","notice-identifier":"e2a1b043-f73b-4db7-96a8-9b8ab9a7eb78","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-04Z"],"deadline-receipt-tender-time-lot":["21:59:59Z"],"estimated-value-proc":"3000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"613749-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"ba03174a-dfe0-4dd2-8812-34d3e4a2df2f","notice-identifier":"c4b55d23-80f6-490f-8acf-d916ce72a3ba","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-06+02:00"],"deadline-receipt-tender-time-lot":["00:00:00+02:00"],"estimated-value-proc":"6000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"615392-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"1e42451b-957d-4331-b6e2-de4cf0b3ec68","notice-identifier":"de4f9f93-3852-45ee-a8e3-196f5539a5ae","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-05Z","2026-10-05Z"],"deadline-receipt-tender-time-lot":["21:59:59Z","21:59:59Z"],"estimated-value-proc":"4000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"615414-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"1e3b439e-dfbc-420a-bcb4-1e75b06fc11c","notice-identifier":"a2a84f9b-9a96-4630-96a1-ba8f3f8eb5ae","notice-version":1,"form-type":"competition","deadline-receipt-request-date-lot":["2026-09-28+02:00"],"deadline-receipt-request-time-lot":["23:59:59+02:00"],"estimated-value-proc":"5000000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"615576-2026","publication-date":"2026-09-07+02:00","notice-type":"cn-standard","procedure-identifier":"6b10a6ec-fd5e-4629-b212-826c14b123f3","notice-identifier":"39f28d63-3f10-4b8a-938b-9decfb40c36e","notice-version":1,"form-type":"competition","deadline-receipt-tender-date-lot":["2026-10-07+02:00"],"deadline-receipt-tender-time-lot":["00:00:00+02:00"],"estimated-value-proc":"2700000","estimated-value-cur-proc":"SEK"},
+    {"publication-number":"729884-2026","publication-date":"2026-10-21+02:00","notice-type":"can-standard","procedure-identifier":"b5cc9d60-5185-4d2d-8252-c68ccc6b8b56","notice-identifier":"6b008009-e502-411a-b0fc-30d8486bde8c","notice-version":1,"form-type":"result","estimated-value-proc":"3000000","estimated-value-cur-proc":"SEK","result-lot-identifier":["LOT-0000"],"winner-selection-status":["clos-nw"],"received-submissions-type-code":["tenders"],"received-submissions-type-val":["3"]},
+    {"publication-number":"742670-2026","publication-date":"2026-10-27+01:00","notice-type":"can-standard","procedure-identifier":"ba03174a-dfe0-4dd2-8812-34d3e4a2df2f","notice-identifier":"252680eb-8ce5-445a-8c6b-9eef24763090","notice-version":1,"form-type":"result","estimated-value-proc":"6000000","estimated-value-cur-proc":"SEK","framework-value-notice":"6000000","framework-value-cur-notice":"SEK","framework-approximate-value-notice":"4000000","framework-approximate-value-cur-notice":"SEK","framework-estimated-value":["4000000"],"framework-estimated-value-cur":["SEK"],"result-lot-identifier":["LOT-0001"],"winner-selection-status":["selec-w"],"received-submissions-type-code":["tenders"],"received-submissions-type-val":["1"]},
+    {"publication-number":"779072-2026","publication-date":"2026-11-09+01:00","notice-type":"can-standard","procedure-identifier":"bf3de29a-db8d-4a08-9fc1-5964c8135f18","notice-identifier":"89cb1914-5764-402e-9914-6007ddb159b9","notice-version":1,"form-type":"result","estimated-value-proc":"2724579","estimated-value-cur-proc":"SEK","result-value-notice":"2724579","result-value-cur-notice":"SEK","result-lot-identifier":["LOT-0001"],"winner-selection-status":["selec-w"],"received-submissions-type-code":["tenders"],"received-submissions-type-val":["1"]}
+  ]
+}

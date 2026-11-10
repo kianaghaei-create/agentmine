@@ -23,6 +23,8 @@ class Tests(unittest.TestCase):
     def test_all_versions_and_lifecycle(self):
         calls = []
         originals = [row(n) for n in IDS]
+        originals[0]["notice-version"] = 2
+        originals[1]["change-notice-version-identifier"] = "previous-01"
         award = row("742670-2026", **{"form-type": "result", "framework-value-notice": 6000000,
                                       "framework-approximate-value-notice": 4000000,
                                       "received-submissions-type-code": ["tenders"],
@@ -37,6 +39,9 @@ class Tests(unittest.TestCase):
         self.assertEqual(calls[0]["fields"], PROJECTION)
         self.assertEqual(result["frozen_ids_with_metadata"], 20)
         self.assertEqual(result["distinct_procedure_ids"], 1)
+        self.assertEqual(result["frozen_rows_identical_across_queries"], 20)
+        self.assertEqual(result["frozen_nonfirst_version_ids"], [IDS[0]])
+        self.assertEqual(result["frozen_change_reference_ids"], [IDS[1]])
         self.assertEqual(result["procedures_with_result_metadata"], 1)
         self.assertEqual(result["procedures_with_change_reference_metadata"], 1)
         self.assertEqual(result["new_original_xml_pdf_reviews"], 0)
@@ -78,6 +83,16 @@ class Tests(unittest.TestCase):
         result = review(cohort(), fetch_page=lambda _: next(calls))
         self.assertEqual(result["original_id_query"]["notices"][0]["publication-number"], IDS[0])
         self.assertNotIn("winner-email", result["original_id_query"]["notices"][0])
+
+    def test_frozen_notice_missing_from_lifecycle_rejected(self):
+        calls = iter([response([row(IDS[0])]), response([])])
+        with self.assertRaisesRegex(ValueError, "missing or changed"):
+            review(cohort(), fetch_page=lambda _: next(calls))
+
+    def test_frozen_notice_changed_between_queries_rejected(self):
+        calls = iter([response([row(IDS[0])]), response([row(IDS[0], **{"notice-version": 2})])])
+        with self.assertRaisesRegex(ValueError, "missing or changed"):
+            review(cohort(), fetch_page=lambda _: next(calls))
 
     def test_cohort_denominator_cannot_change(self):
         bad = cohort(); bad["notice_items"].pop()
