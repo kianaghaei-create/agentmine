@@ -1,0 +1,41 @@
+{
+  "evidence_type": "official_first_publication_database_counts",
+  "observed_on": "2026-11-10",
+  "source_published_on": "2026-06-01",
+  "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2025/drygt-18-000-upphandlingar-annonserades-2025/",
+  "scope": "Swedish advertised procurements subject to publication requirements, counted by database of first publication; excludes direct procurement, negotiated procedures without prior publication and LOV. Not all notices, lots, contracts, spend or supplier customers.",
+  "database_names": {"MT": "Mercell Annonsdatabas", "SE": "e-Avrop", "KA": "KommersAnnons.se", "AC": "Clira Annonsdatabas", "KP": "Konstpool", "CTM": "CTM"},
+  "annual_counts": {
+    "2021": {"MT": 11890, "SE": 3542, "KA": 2960, "AC": 0, "KP": 19, "CTM": 10, "total": 18421},
+    "2022": {"MT": 10950, "SE": 3155, "KA": 3070, "AC": 0, "KP": 14, "CTM": 3, "total": 17192},
+    "2023": {"MT": 10924, "SE": 3430, "KA": 2666, "AC": 0, "KP": 2, "CTM": 0, "total": 17022},
+    "2024": {"MT": 11505, "SE": 3685, "KA": 2242, "AC": 124, "KP": 5, "CTM": 0, "total": 17561},
+    "2025": {"MT": 10048, "SE": 4182, "KA": 3092, "AC": 689, "KP": 4, "CTM": 0, "total": 18015}
+  },
+  "earlier_2024_release": {"total": 17575, "source_url": "https://www.upphandlingsmyndigheten.se/statistik/upphandlingsstatistik/statistik-om-annonserade-upphandlingar-2024/17-575-upphandlingar-annonserades-2024/"},
+  "current_registry": {
+    "source_url": "https://www.konkurrensverket.se/upphandling/registrerade-annonsdatabaser/annonsdatabasregistret/",
+    "observed_on": "2026-11-10",
+    "registered_ids": ["MT", "SE", "KA", "AC", "KP"],
+    "operator_names": {"MT": "Mercell Sverige AB", "SE": "Antirio AB", "KA": "Antirio System AB", "AC": "Clira AB", "KP": "Konstpool AB"}
+  },
+  "current_commercial_grouping": {
+    "source_url": "https://info.e-avrop.com/om-e-avrop/",
+    "observed_on": "2026-11-10",
+    "groups": {"Mercell": ["MT"], "Antirio": ["SE", "KA"], "Clira": ["AC"], "Konstpool": ["KP"]},
+    "scope": "Current disclosed group/product relationship applied to 2025 first-publication counts; not a legal market definition or verified historical ownership series. CTM has zero 2025 count and is not currently registered."
+  },
+  "registration_fees": {
+    "source_url": "https://www.konkurrensverket.se/upphandling/registrerade-annonsdatabaser/ansokan/avgifter/",
+    "currency": "SEK", "application_fee": 27000, "annual_fee_per_database": 30500,
+    "application_effective_from": "2025-01-01", "annual_effective_from": "2024-01-01",
+    "scope": "Statutory registration fees only, annual fee charged for full calendar year even if registered midyear; not AgentMine costs or a requirement for an independent downstream analytics service."
+  },
+  "regulatory_case": {
+    "source_url": "https://www.konkurrensverket.se/globalassets/dokument/upphandling/tillsynsbeslut/24-0880.pdf",
+    "decision_date": "2026-03-03", "case_number": "880/2024", "outcome": "closed_after_remediation",
+    "summary": "Following a complaint about access to award notice content, the authority investigated Mercell, requested changes in November 2025 and checked the remediated database after February 2026. It concluded individuals could search published notices without charge and access complete published award notices. The case was closed; no continuing infringement or universal data quality finding is established.",
+    "legal_scope": "Section 7 of Ordinance 2020:332 requires registered databases to enable free search for natural persons. The decision concerns the registered database, not a general right to bulk scraping, redistribution or all premium analytics."
+  },
+  "limitations": ["Publication counts are not revenue, market share by spend, distinct supplier customers, data access coverage, API rights, or willingness to pay.", "Use the same June 2026 release for year-over-year comparisons; the earlier 2024 release differs by 14 procurements, with cause not established here.", "No AgentMine paying customers, revenue, supplier outcomes, variable costs or licensing clearance are established."]
+}
