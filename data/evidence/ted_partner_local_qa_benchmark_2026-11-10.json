@@ -1,0 +1,42 @@
+{
+  "evidence_type": "engineering_benchmark_real_official_reference_synthetic_partner_fixture_not_customer_or_cost_evidence",
+  "observed_at_utc": "2026-11-10T22:54:25.889003+00:00",
+  "official_reference_source": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+  "reference_count": 20,
+  "synthetic_mutation_count": 7,
+  "synthetic_demo_status_counts": {
+    "exact_match": 13,
+    "context_only": 3,
+    "review": 4,
+    "unknown": 0
+  },
+  "benchmark": {
+    "iterations": 200,
+    "row_comparisons": 4000,
+    "elapsed_seconds": 0.028888,
+    "scope": "in-memory comparison only; excludes ingestion, network, support and money",
+    "environment": "GitHub Actions ubuntu-latest public repository CI runner",
+    "new_source_requests": 0,
+    "actual_variable_cost_sek": null
+  },
+  "initial_ci": {
+    "commit": "47211ac99b9801d39e6ff87dde080d57c85c13f5",
+    "tests_run": 1142,
+    "failures": 1,
+    "adapter_tests_passed": 11,
+    "failed_test": "tests.test_eforms_deadline_parser.EformsDeadlineTests.test_bad_calendar_and_hour_rejected",
+    "failure": "24:00:00 was accepted by runtime despite existing fail-closed contract",
+    "log": "https://github.com/kianaghaei-create/agentmine/actions/runs/42918532570/job/130187125703"
+  },
+  "verified_ci": {
+    "commit": "f93a6b06f4e916aa06f028d476246bf9677b3ff1",
+    "tests_run": 1144,
+    "tests_passed": 1144,
+    "adapter_tests_passed": 12,
+    "log": "https://github.com/kianaghaei-create/agentmine/actions/runs/42918756555/job/130187894954"
+  },
+  "verified_supplier_outcomes": null,
+  "verified_agentmine_revenue": null,
+  "verified_legal_errors": null,
+  "warning": "Synthetic partner projection on historical official metadata; no real partner input, market demand, customer savings, operative deadline, SLA or monetary cost inferred."
+}
