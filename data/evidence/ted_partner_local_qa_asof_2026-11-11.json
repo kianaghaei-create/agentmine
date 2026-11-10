@@ -1,0 +1,59 @@
+{
+  "evidence_type": "historical_official_reference_as_of_regression_not_real_partner_or_legal_evidence",
+  "observed_on": "2026-11-11",
+  "source_snapshot": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+  "official_reference_observed_at_utc": "2026-11-10T16:49:21.074404+00:00",
+  "source_notice_links": [
+    "https://ted.europa.eu/en/notice/417627-2026/html",
+    "https://ted.europa.eu/en/notice/601453-2026/html"
+  ],
+  "prior_publication_day_utc": {
+    "start": "2026-06-17T22:00:00Z",
+    "end_exclusive": "2026-06-18T22:00:00Z"
+  },
+  "change_publication_day_utc": {
+    "start": "2026-08-31T22:00:00Z",
+    "end_exclusive": "2026-09-01T22:00:00Z"
+  },
+  "prior_deadline_utc": "2026-08-31T21:59:59Z",
+  "new_deadline_utc": "2026-09-02T21:59:59Z",
+  "synthetic_regression_cases": [
+    {
+      "observed_at_utc": "2026-08-31T21:59:59Z",
+      "scope": "procedure_snapshot",
+      "input_publication_number": "417627-2026",
+      "input_deadline_utc": "2026-08-31T21:59:59Z",
+      "old_behavior": "review_linked_prior_deadline_compatible",
+      "new_behavior": "exact_match_prior_published_reference"
+    },
+    {
+      "observed_at_utc": "2026-09-01T12:00:00Z",
+      "scope": "procedure_snapshot",
+      "input_publication_number": "417627-2026",
+      "input_deadline_utc": "2026-08-31T21:59:59Z",
+      "new_behavior": "unknown_change_publication_time"
+    },
+    {
+      "observed_at_utc": "2026-09-01T22:00:00Z",
+      "scope": "procedure_snapshot",
+      "input_publication_number": "417627-2026",
+      "input_deadline_utc": "2026-08-31T21:59:59Z",
+      "new_behavior": "review_linked_prior_deadline_compatible"
+    },
+    {
+      "observed_at_utc": "2026-11-11T00:00:00Z",
+      "scope": "procedure_snapshot",
+      "input_publication_number": "601453-2026",
+      "input_deadline_utc": "2026-09-02T21:59:59Z",
+      "new_behavior": "unknown_procedure_snapshot_after_reference_observation"
+    }
+  ],
+  "verified_ci": {
+    "commit": "a72b92e85f3900385d6694d2af7d027295b4cab1",
+    "tests_run": 1150,
+    "tests_passed": 1150,
+    "new_regression_tests": 6,
+    "job_url": "https://github.com/kianaghaei-create/agentmine/actions/runs/42926664089/job/130214751254"
+  },
+  "warning": "Controlled observations against real historical source metadata, not actual partner observations. Publication day is not exact publication time, portal update or legal effect. Historical version matches are not current procedure guarantees. No new source retrieval, customer outcome, savings, price response, revenue or actual delivery cost."
+}

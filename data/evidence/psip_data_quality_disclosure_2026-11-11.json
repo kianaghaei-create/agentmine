@@ -1,0 +1,136 @@
+{
+  "evidence_type": "publisher_self_disclosed_quality_operations_and_selected_primary_public_spend_rows_not_customer_demand",
+  "observed_on": "2026-11-11",
+  "sources": [
+    {
+      "url": "https://psip.co.uk/coverage",
+      "source_generated_on": "2026-11-10",
+      "source_kind": "vendor_public_coverage_and_methodology",
+      "section": "Supplier spending data coverage"
+    },
+    {
+      "url": "https://psip.co.uk/",
+      "source_generated_on": "2026-11-10",
+      "source_kind": "vendor_public_product_page"
+    },
+    {
+      "url": "https://psip.co.uk/pricing",
+      "source_kind": "vendor_advertised_offer",
+      "observed_on": "2026-11-11"
+    },
+    {
+      "url": "https://www.gov.uk/csv-preview/6a1ffb3559fb7a60f827f6d9/DHSC-spending-over-25000-november-2025-revised.csv",
+      "source_kind": "official_payer_report_csv_preview",
+      "report_month": "2025-11",
+      "revised_on": "2026-06-03",
+      "publisher": "UK Department of Health and Social Care"
+    }
+  ],
+  "publisher": "PSIP (trading name of BN Solutions Limited)",
+  "vendor_reported_coverage": {
+    "generated_on": "2026-11-10",
+    "public_bodies_total": 219,
+    "public_bodies_excluded_under_review": 58,
+    "public_bodies_included": 161,
+    "included_bodies_up_to_date_on_own_schedule": 80,
+    "included_bodies_not_reported_up_to_date": 81,
+    "excluded_share_pct": 26.48401826484018,
+    "up_to_date_share_of_included_pct": 49.68944099378882,
+    "reported_procurement_spend_gbp_rounded": 921000000000,
+    "reported_transaction_count_rounded": 37300000,
+    "excluded_funding_transfers_gbp_rounded": 236000000000,
+    "classification_restatement_on": "2026-08-25",
+    "reason_for_exclusions": "Publisher reports loading errors in published spending files and withholds affected bodies from headline spend and transaction totals.",
+    "scope": "Publisher's own coverage and classification, not independently audited market-wide counts, payment completeness, or customer demand. Older cached 2026-11-02 snapshot has different denominators; not combined."
+  },
+  "vendor_reported_product": {
+    "as_of": "2026-11-10",
+    "award_records": 232564,
+    "frameworks": 2402,
+    "expiry_records_2027": 15931,
+    "expiry_value_headline_status": "withheld_under_review",
+    "classification": "Publisher reports classifying award values and excluding unknown values from totals.",
+    "advertised_monthly_gbp_ex_vat": {
+      "essential": 199,
+      "growth": 599,
+      "professional": 1199
+    },
+    "commercial_status": "Advertised prices and features only; no verified subscriber counts, paid conversion, revenue or external QA purchasing."
+  },
+  "selected_official_payer_rows": {
+    "selection": "Two explicitly labeled grant-in-aid rows and five differently classified expense lines sharing one transaction number, selected for semantics illustration; not a representative sample or full monthly report.",
+    "currency": "GBP",
+    "rows": [
+      {
+        "date": "2025-11-03",
+        "recipient": "NHS England",
+        "transaction_number": "PF00028204",
+        "expense_type": "Grant in Aid Funding (Cash) - ENDPBs",
+        "amount_gbp": "3310578000.00",
+        "classification": "explicit_funding_transfer"
+      },
+      {
+        "date": "2025-11-03",
+        "recipient": "NHS England",
+        "transaction_number": "PF00028205",
+        "expense_type": "Grant in Aid Funding (Cash) - ENDPBs",
+        "amount_gbp": "12407019000.00",
+        "classification": "explicit_funding_transfer"
+      },
+      {
+        "date": "2025-11-07",
+        "recipient": "Department for Work and Pensions",
+        "transaction_number": "DWP_2340",
+        "expense_type": "Electricity",
+        "amount_gbp": "225292.45",
+        "classification": "reported_operating_expense_line"
+      },
+      {
+        "date": "2025-11-07",
+        "recipient": "Department for Work and Pensions",
+        "transaction_number": "DWP_2340",
+        "expense_type": "Rates",
+        "amount_gbp": "246631.44",
+        "classification": "reported_operating_expense_line"
+      },
+      {
+        "date": "2025-11-07",
+        "recipient": "Department for Work and Pensions",
+        "transaction_number": "DWP_2340",
+        "expense_type": "Rent of Land & Buildings (non-PFI operating lease)",
+        "amount_gbp": "1341299.37",
+        "classification": "reported_operating_expense_line"
+      },
+      {
+        "date": "2025-11-07",
+        "recipient": "Department for Work and Pensions",
+        "transaction_number": "DWP_2340",
+        "expense_type": "Security: contract",
+        "amount_gbp": "91973.65",
+        "classification": "reported_operating_expense_line"
+      },
+      {
+        "date": "2025-11-07",
+        "recipient": "Department for Work and Pensions",
+        "transaction_number": "DWP_2340",
+        "expense_type": "Service charge - Property related",
+        "amount_gbp": "404812.29",
+        "classification": "reported_operating_expense_line"
+      }
+    ],
+    "exact_selected_arithmetic": {
+      "two_funding_rows_gbp": "15717597000.00",
+      "five_dwp_lines_gbp": "2310009.20",
+      "first_line_only_gbp": "225292.45",
+      "loss_if_first_row_only_dedup_gbp": "2084716.75",
+      "dwp_distinct_transaction_numbers": 1,
+      "dwp_distinct_expense_lines": 5
+    },
+    "interpretation": "Official payer-reported funding transfers are not supplier purchases. Public-body recipient alone does not identify a grant; the DWP lines are reported operating expense categories. A transaction number can identify multiple accounting lines, so first-row-only deduplication would discard reported amounts. This is not a legal procurement classification, bank reconciliation, full report total, or independent verification of PSIP's aggregate figures."
+  },
+  "commercial_implication": "Concrete evidence of recurring data classification, source freshness and ingestion-quality work at a commercial procurement-intelligence provider. Independent QA may be a useful B2B hypothesis, but the provider already has internal validation and no external purchasing intent is evidenced. Do not build a broad UK spend platform or infer a market size from these figures.",
+  "verified_agentmine_customers": null,
+  "verified_agentmine_revenue": null,
+  "verified_external_qa_purchase_intent": null,
+  "actual_variable_cost_sek": null
+}
