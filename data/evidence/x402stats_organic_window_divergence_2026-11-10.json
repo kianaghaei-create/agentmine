@@ -1,0 +1,37 @@
+{
+  "evidence_type": "third_party_x402stats_overlapping_rolling_30d_wallet_flow_not_agentmine_demand",
+  "reviewed_on_utc_date": "2026-11-10",
+  "source_url": "https://x402stats.io/llms-full.txt",
+  "methodology_url": "https://x402stats.io/methodology",
+  "methodology": "2026-07-01.v1",
+  "license": "CC BY 4.0",
+  "attribution": "x402stats — State of x402, x402stats.io",
+  "source_updated_at": "2026-11-10T07:36:32.830Z",
+  "weekly_records": [
+    {
+      "date": "2026-11-02",
+      "reported_volume_usd": "1465400.949271039",
+      "organic_volume_usd": "583735.6298560002",
+      "organic_seller_wallets": 94
+    },
+    {
+      "date": "2026-11-09",
+      "reported_volume_usd": "1681940.606432016",
+      "organic_volume_usd": "754201.3660490001",
+      "organic_seller_wallets": 97
+    }
+  ],
+  "latest_headline_context": {
+    "reported_seller_wallets_with_any_revenue": 13498,
+    "publisher_heuristic_organic_seller_wallets": 97,
+    "median_seller_revenue_usd": "0.04",
+    "top_ten_wallets_share_of_reported_volume_pct": 87
+  },
+  "limitations": [
+    "The two observations are overlapping rolling 30-day publisher estimates, not new weekly sales.",
+    "Organic is a publisher-defined threshold heuristic, not audited business revenue or unique customers.",
+    "Wallets and transaction counts do not identify distinct paying people or businesses.",
+    "No AgentMine buyers, revenue, acquisition cost, supplier savings, or verified willingness to pay follows from this evidence.",
+    "Do not equate this x402stats source with x402 List's differently covered and deduplicated service flow."
+  ]
+}
