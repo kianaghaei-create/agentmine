@@ -1,0 +1,213 @@
+{
+  "evidence_type": "fixed20_original_vs_directory_date_display",
+  "observed_on_utc_date": "2026-11-10",
+  "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "method": "Retrospective deduplicated reanalysis of all 11 date-displaying Upphandla records in the frozen 20-notice cohort using previously independently inspected TED original timestamps and the fixed 2026-10-26 directory observations. No new live source retrieval. Compare notice-local date, full timestamp UTC date, and counterfactual date-only midnight UTC date. Portal/amendment verification flags refer to this comparison, not historical portal-stage observations.",
+  "attempts": [
+    {
+      "publication_number": "600201-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-09-29T23:59:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/600201-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+      "directory_display_date": "2026-09-28",
+      "directory_url": "https://upphandla.app/en/tender/600201-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "601656-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-09-29T23:59:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/601656-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_601656_primary_portal_reconciliation_2026-10-28.json",
+      "directory_display_date": "2026-09-28",
+      "directory_url": "https://upphandla.app/en/tender/601656-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "602708-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-09-28T23:59:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/602708-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_four_original_directory_crosschecks_2026-10-28.json",
+      "directory_display_date": "2026-09-27",
+      "directory_url": "https://upphandla.app/en/tender/602708-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "605974-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-06T00:00:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/605974-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_three_original_deadline_checks_2026-10-28.json",
+      "directory_display_date": "2026-10-05",
+      "directory_url": "https://upphandla.app/en/tender/605974-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "610810-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-09T23:59:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/610810-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_four_original_directory_crosschecks_2026-10-28.json",
+      "directory_display_date": "2026-10-08",
+      "directory_url": "https://upphandla.app/en/tender/610810-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "611111-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-06T21:59:59+00:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/611111-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_four_original_directory_crosschecks_2026-10-28.json",
+      "directory_display_date": "2026-10-06",
+      "directory_url": "https://upphandla.app/en/tender/611111-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "612139-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-01T23:59:59+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/612139-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_three_original_deadline_checks_2026-10-28.json",
+      "directory_display_date": "2026-09-30",
+      "directory_url": "https://upphandla.app/en/tender/612139-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "613716-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-04T21:59:59+00:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/613716-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_four_original_directory_crosschecks_2026-10-28.json",
+      "directory_display_date": "2026-10-04",
+      "directory_url": "https://upphandla.app/en/tender/613716-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "613749-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-06T00:00:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/en/notice/613749-2026/pdf",
+      "official_original_evidence_path": "data/evidence/ted_613749_primary_pdf_2026-10-30.json",
+      "directory_display_date": "2026-10-05",
+      "directory_url": "https://upphandla.app/en/tender/613749-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "615392-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-05T21:59:59Z",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/615392-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_615392_option_claim_2026-10-28.json",
+      "directory_display_date": "2026-10-05",
+      "directory_url": "https://upphandla.app/en/tender/615392-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    },
+    {
+      "publication_number": "615576-2026",
+      "status": "observed",
+      "official_original_datetime": "2026-10-07T00:00:00+02:00",
+      "official_notice_url": "https://ted.europa.eu/sv/notice/615576-2026/html",
+      "official_original_evidence_path": "data/evidence/ted_fixed20_three_original_deadline_checks_2026-10-28.json",
+      "directory_display_date": "2026-10-06",
+      "directory_url": "https://upphandla.app/en/tender/615576-2026",
+      "directory_evidence_path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "official_stage": "tender",
+      "portal_verified": false,
+      "amendments_verified": false
+    }
+  ],
+  "not_compared": [
+    {
+      "publication_number": "601453-2026",
+      "directory_display_status": "page_unavailable",
+      "original_previously_inspected": false,
+      "reason": "directory unavailable"
+    },
+    {
+      "publication_number": "601730-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "603727-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "606049-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "609559-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "609601-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "610120-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": true,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "612757-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": false,
+      "reason": "no comparable directory calendar date"
+    },
+    {
+      "publication_number": "615414-2026",
+      "directory_display_status": "no_deadline_displayed",
+      "original_previously_inspected": false,
+      "reason": "no comparable directory calendar date"
+    }
+  ],
+  "limitations": [
+    "Historical directory observations may be cached and non-synchronous with original inspection; no current operative cutoff or directory implementation established.",
+    "The original timestamps are previously source-inspected records, not new primary-source retrieval. No change to 17/20 original coverage or 3/20 public portal coverage.",
+    "Nine cohort records lack a comparable directory date; the 11 date-displaying records are not a representative market sample.",
+    "No supplier harm, customer savings, paying demand, revenue, or legal error established."
+  ]
+}

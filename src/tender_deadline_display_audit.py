@@ -35,7 +35,10 @@ def audit(evidence, cohort):
             raise ValueError("primary portal and amendments not verified")
         if row.get("official_stage") != "tender":
             raise ValueError("unsupported original stage")
-        if row.get("official_notice_url") != f"https://ted.europa.eu/sv/notice/{identifier}/html":
+        if row.get("official_notice_url") not in {
+            f"https://ted.europa.eu/sv/notice/{identifier}/html",
+            f"https://ted.europa.eu/en/notice/{identifier}/pdf",
+        }:
             raise ValueError("incorrect official URL")
         if row.get("directory_url") != f"https://upphandla.app/en/tender/{identifier}":
             raise ValueError("incorrect directory URL")
