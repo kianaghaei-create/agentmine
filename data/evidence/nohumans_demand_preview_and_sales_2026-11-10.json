@@ -1,0 +1,80 @@
+{
+  "evidence_type": "public_publisher_preview_and_cumulative_sales_not_independent_buyer_validation",
+  "attribution": "nohumans.directory (https://nohumans.directory), selected public aggregate fields, CC BY 4.0",
+  "methodology_url": "https://nohumans.directory/methodology",
+  "preview": {
+    "source_url": "https://api.nohumans.directory/v1/demand",
+    "observed_at_utc": "2026-11-10T11:49:36Z",
+    "window_starts_at_iso": "2026-10-10T13:09:56Z",
+    "window_ends_at_iso": "2026-11-09T13:09:56Z",
+    "window_days": 30,
+    "delay_hours": 0,
+    "total_queries": 47491,
+    "distinct_client_ips": 1968,
+    "terms_in_window": 677,
+    "free_preview": {"since": "2026-11-08", "terms_published": 25, "terms_in_window": 677},
+    "supply_check": {
+      "scope": "terms, checked, search_returned_nothing and not_checked_yet count every term in the window; terms_our_search_found_nothing_for lists published terms only",
+      "terms": 677, "checked": 677, "search_returned_nothing": 0, "not_checked_yet": 0,
+      "published_no_result_labels_count": 0
+    },
+    "report_preview": {
+      "generated_at_iso": "2026-11-09T13:04:15Z", "window_days": 30,
+      "searches": 7283, "needs": 107, "gaps": 6, "unproven": 22,
+      "opportunities": 28, "served": 79, "not_checked": 0,
+      "gap_searches": 21, "opportunity_searches": 106
+    }
+  },
+  "public_report_page": {
+    "source_url": "https://nohumans.directory/state/demand",
+    "report_generated_at_utc": "2026-11-10T10:04:00Z",
+    "searches": 7258, "needs": 107, "served": 99, "gaps": 5,
+    "unproven": 3, "open_needs": 8, "open_need_searches": 62,
+    "note": "Separate later report-page observation; not the same snapshot as the API preview. No change or causal trend inferred."
+  },
+  "pricing_change": {
+    "effective_date": "2026-11-08",
+    "source_url": "https://nohumans.directory/methodology#demand-free-1108",
+    "demand_clusters_previous_usd": "0.25", "demand_report_previous_usd": "2.00",
+    "both_current_usd": "5.00", "free_terms_cap": 25,
+    "note": "Both paid routes now serve the same grouped needs. The free feed previously exposed all terms with a week delay; now it exposes a limited preview. Historical purchases retain their original prices."
+  },
+  "sales_delta": {
+    "evidence_type": "same_publisher_cumulative_sales_delta_not_independent_customer_validation",
+    "source_url": "https://nohumans.directory/v1/stats",
+    "methodology_url": "https://nohumans.directory/methodology",
+    "source_license": "CC BY 4.0; attribution: nohumans.directory",
+    "previous_repo_evidence_path": "data/evidence/nohumans_operator_probe_2026-11-01T104003Z.json",
+    "previous": {
+      "observed_on_utc_date": "2026-11-01",
+      "sales": {
+        "verdict_sales": {"purchases": 2, "usd": "0.01"},
+        "purchase_history_sales": {"purchases": 0, "usd": "0"},
+        "demand_sales": {"purchases": 6, "usd": "1.50"},
+        "demand_report_sales": {"purchases": 1, "usd": "2.00"},
+        "submission_fee_sales": {"purchases": 49, "usd": "12.25"},
+        "verify_now_sales": {"purchases": 4, "usd": "16.00"}
+      },
+      "reported_total_purchases": 62, "reported_total_usd": "31.76", "reported_last_24h_purchases": 0
+    },
+    "current": {
+      "observed_on_utc_date": "2026-11-10",
+      "sales": {
+        "verdict_sales": {"purchases": 2, "usd": "0.01"},
+        "purchase_history_sales": {"purchases": 0, "usd": "0"},
+        "demand_sales": {"purchases": 6, "usd": "1.50"},
+        "demand_report_sales": {"purchases": 1, "usd": "2.00"},
+        "submission_fee_sales": {"purchases": 141, "usd": "35.25"},
+        "verify_now_sales": {"purchases": 4, "usd": "16.00"}
+      },
+      "reported_total_purchases": 154, "reported_total_usd": "54.76", "reported_last_24h_purchases": 32
+    }
+  },
+  "limitations": [
+    "Selected public aggregates only; no raw query labels, identities, paid report contents or licensed historical dataset acquired.",
+    "Publisher counts are not independently replayed settlements or distinct customers. Supplier-paid submissions are not buyer demand and may include operator-funded verification costs.",
+    "No causal effect of the price change can be inferred from two cumulative snapshots. No new buyer-side purchase is reported in the interval, including no reported purchase at the new price.",
+    "The API preview and public report page have different generation timestamps and different report populations. Do not merge their counts or treat raw search terms as grouped needs.",
+    "No AgentMine buyer outcomes, prices accepted, savings, revenue or margin verified."
+  ]
+}
