@@ -1,0 +1,138 @@
+{
+  "evidence_type": "derived_fixed20_cross_provider_source_quality_review_not_legal_or_customer_outcome",
+  "derived_on": "2026-11-10",
+  "method": "Reconcile existing source audits by exact frozen publication ID and procedure; independently recomputed in connector-side JS, verified by exact-tree Python integration tests. No new retrieval. Historical observations are not synchronized.",
+  "source_artifacts": [
+    {
+      "path": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+      "blob_sha": "260fae7eba80c3f149067c4f41fb7eadc3e8f91f"
+    },
+    {
+      "path": "data/evidence/ted_fixed20_upphandla_stage_visibility_2026-10-26.json",
+      "blob_sha": "57e22b17885385e55d3cff8f0099c936c3466b33"
+    },
+    {
+      "path": "data/evidence/ted_fixed20_initask_stage_visibility_2026-11-10.json",
+      "blob_sha": "29c18ccba8a65fab1cf32d2dc5aaba06fb6a4b47"
+    },
+    {
+      "path": "data/evidence/ted_fixed20_all_displayed_date_hypothesis_2026-11-10.json",
+      "blob_sha": "ff38ea17eceae29de6ec99868ce7dc003020af37"
+    },
+    {
+      "path": "data/evidence/ted_vaxjo_linked_deadline_display_2026-11-10.json",
+      "blob_sha": "45003c1f7b4c21b0cd0214d343d995b6ed8503c8"
+    },
+    {
+      "path": "data/evidence/ted_cpv72_search_projection_summary_2026-10-26.json",
+      "blob_sha": "538b576e7162ef38a5225b100f038920d1f0a76b"
+    },
+    {
+      "path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+      "blob_sha": "422ef81f80bf37819fe9ea17062f439bb5a66415"
+    },
+    {
+      "path": "data/evidence/ted_fixed20_lifecycle_chronology_2026-11-10.json",
+      "blob_sha": "ab4f74bff013ae94631e677f136201d98a624cd8"
+    }
+  ],
+  "code_commit": "9f2e89750fbd3350811375080db5dbbfd618bb17",
+  "ci_job": "https://github.com/kianaghaei-create/agentmine/actions/runs/42898351337/job/130117360086",
+  "counts": {
+    "frozen": 20,
+    "both_rendered": 14,
+    "both_omit": 5,
+    "upphandla_omit_initask_unknown": 3,
+    "paired_date_labels": 9,
+    "paired_same_calendar_label": 3,
+    "paired_different_utc_stockholm_compatible": 2,
+    "paired_different_upphandla_neither_utc_nor_stockholm": 4,
+    "upphandla_neither_utc_nor_stockholm_all_displayed": 5,
+    "upphandla_utc_only_compatible_all_displayed": 3,
+    "initask_utc_only_offsetless_clock": 3,
+    "previously_inspected_original_instants_reconciled": 11,
+    "selected_tilldelat_matches": 4,
+    "selected_tilldelat_matches_where_both_omit": 3,
+    "historical_review_notice_count": 17
+  },
+  "notice_ids": {
+    "both_omit": [
+      "603727-2026",
+      "609559-2026",
+      "609601-2026",
+      "610120-2026",
+      "615414-2026"
+    ],
+    "upphandla_omit_initask_unknown": [
+      "601730-2026",
+      "606049-2026",
+      "612757-2026"
+    ],
+    "paired_same_calendar_label": [
+      "611111-2026",
+      "613716-2026",
+      "615392-2026"
+    ],
+    "paired_different_utc_stockholm_compatible": [
+      "613749-2026",
+      "615576-2026"
+    ],
+    "paired_different_upphandla_neither_utc_nor_stockholm": [
+      "601656-2026",
+      "602708-2026",
+      "610810-2026",
+      "612139-2026"
+    ],
+    "upphandla_neither_utc_nor_stockholm_all_displayed": [
+      "600201-2026",
+      "601656-2026",
+      "602708-2026",
+      "610810-2026",
+      "612139-2026"
+    ],
+    "upphandla_utc_only_compatible_all_displayed": [
+      "605974-2026",
+      "613749-2026",
+      "615576-2026"
+    ],
+    "initask_utc_only_offsetless_clock": [
+      "611111-2026",
+      "613716-2026",
+      "615392-2026"
+    ],
+    "selected_tilldelat_matches": [
+      "603727-2026",
+      "606049-2026",
+      "609559-2026",
+      "615414-2026"
+    ],
+    "historical_review": [
+      "600201-2026",
+      "601453-2026",
+      "601656-2026",
+      "601730-2026",
+      "602708-2026",
+      "603727-2026",
+      "606049-2026",
+      "609559-2026",
+      "609601-2026",
+      "610120-2026",
+      "610810-2026",
+      "611111-2026",
+      "612139-2026",
+      "612757-2026",
+      "613716-2026",
+      "615392-2026",
+      "615414-2026"
+    ]
+  },
+  "limitations": [
+    "Fixed 20 historical cohort; no market prevalence, current alert or operative deadline inference.",
+    "A date-only difference compatible with UTC/Stockholm is not a proven error. The four paired differences outside both calendar dates are display discrepancies relative to metadata, not legal errors.",
+    "Selected Tilldelat counterexamples are not a full-cohort provider ranking.",
+    "No new primary document or portal inspection, supplier outcome, savings, cost, willingness to pay or revenue."
+  ],
+  "verified_legal_deadline_errors": null,
+  "verified_supplier_outcomes": null,
+  "verified_agentmine_revenue": null
+}
