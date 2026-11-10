@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 
 from src.ted_lifecycle_chronology import (
     COHORT_PATH, SNAPSHOT_PATH, audit, _publication_id, _uuid, _version,
+    _publication_day, _iso,
 )
 
 SOURCE_URL = "https://api.ted.europa.eu/v3/notices/search"
@@ -77,6 +78,13 @@ def build(snapshot, cohort):
             for key in ("stage", "prior_deadline_utc", "new_deadline_utc",
                         "deadline_change_seconds"):
                 item[key] = c[key]
+            # Preserve the earlier publication interval as well as the
+            # changed deadline, so historical comparisons cannot use a
+            # change before its official publication day.
+            prior = source_rows[c["prior_publication_number"]]
+            start, end = _publication_day(prior["publication-date"])
+            item["prior_publication_day_start_utc"] = _iso(start)
+            item["prior_publication_day_end_exclusive_utc"] = _iso(end)
         changes.append(item)
     return {
         "evidence_type": "historical_official_only_TED_reference_not_legal_or_customer_outcome",

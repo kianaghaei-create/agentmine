@@ -60,6 +60,91 @@ class PartnerLocalQATests(unittest.TestCase):
         self.assertEqual(b["reference_publication_number"], "601453-2026")
         self.assertEqual(report["distinct_frozen_references_covered"], 1)
 
+    def at(self, observed, rows):
+        batch = copy.deepcopy(self.batch)
+        batch["observed_at_utc"] = observed
+        batch["rows"] = rows
+        return compare(batch, self.reference)
+
+    def test_prior_procedure_before_change_does_not_use_future_deadline(self):
+        row = self.row("417627-2026", scope="procedure_snapshot",
+                       deadline="2026-08-31T21:59:59Z")
+        report = self.at("2026-08-31T21:59:59Z", [row])
+        item = report["items"][0]
+        self.assertEqual(item["status"], "exact_match")
+        self.assertEqual(item["reference_publication_number"], "417627-2026")
+        self.assertEqual(item["reference_basis"], "linked_prior_before_change_publication_day")
+        self.assertEqual(report["status_counts"]["review"], 0)
+        self.assertEqual(report["distinct_frozen_references_covered"], 0)
+
+    def test_change_publication_day_is_unknown_not_stale(self):
+        row = self.row("417627-2026", scope="procedure_snapshot",
+                       deadline="2026-08-31T21:59:59Z")
+        for stamp in ("2026-08-31T22:00:00Z", "2026-09-01T12:00:00Z",
+                      "2026-09-01T21:59:59Z"):
+            with self.subTest(stamp=stamp):
+                item = self.at(stamp, [row])["items"][0]
+                self.assertEqual(item["status"], "unknown")
+                self.assertEqual(item["code"], "change_publication_time_unknown")
+                self.assertIsNone(item["reference_deadline_utc"])
+        item = self.at("2026-09-01T22:00:00Z", [row])["items"][0]
+        self.assertEqual(item["code"], "linked_prior_deadline_compatible")
+        self.assertEqual(item["reference_publication_number"], "601453-2026")
+
+    def test_notice_version_before_and_during_publication_day_unknown(self):
+        row = self.row("601453-2026", deadline="2026-09-02T21:59:59Z")
+        for stamp, code in (
+                ("2026-08-31T21:59:59Z", "observation_before_notice_publication_day"),
+                ("2026-08-31T22:00:00Z", "notice_publication_time_unknown"),
+                ("2026-09-01T21:59:59Z", "notice_publication_time_unknown")):
+            with self.subTest(stamp=stamp):
+                report = self.at(stamp, [row])
+                self.assertEqual(report["items"][0]["code"], code)
+                self.assertEqual(report["status_counts"]["unknown"], 1)
+                self.assertEqual(report["distinct_frozen_references_covered"], 0)
+                self.assertIsNone(report["items"][0]["reference_deadline_utc"])
+        self.assertEqual(self.at("2026-09-01T22:00:00Z", [row])["items"][0]["status"],
+                         "exact_match")
+
+    def test_prior_notice_publication_day_is_also_bounded(self):
+        row = self.row("417627-2026", scope="procedure_snapshot",
+                       deadline="2026-08-31T21:59:59Z")
+        for stamp, code in (
+                ("2026-06-17T21:59:59Z", "observation_before_notice_publication_day"),
+                ("2026-06-17T22:00:00Z", "notice_publication_time_unknown")):
+            with self.subTest(stamp=stamp):
+                self.assertEqual(self.at(stamp, [row])["items"][0]["code"], code)
+        self.assertEqual(self.at("2026-06-18T22:00:00Z", [row])["items"][0]["status"],
+                         "exact_match")
+
+    def test_newer_procedure_snapshot_not_judged_current_from_old_reference(self):
+        rows = [self.row("601453-2026", scope="procedure_snapshot",
+                         deadline="2026-09-02T21:59:59Z"),
+                self.row("601453-2026", deadline="2026-09-02T21:59:59Z")]
+        report = self.at("2026-11-11T00:00:00Z", rows)
+        self.assertEqual(report["items"][0]["code"],
+                         "procedure_snapshot_after_reference_observation")
+        self.assertEqual(report["items"][0]["status"], "unknown")
+        self.assertIsNone(report["items"][0]["reference_deadline_utc"])
+        self.assertEqual(report["items"][1]["status"], "exact_match")
+
+    def test_invalid_or_future_publication_interval_fails_closed(self):
+        for field, value in (
+                ("publication_day_end_exclusive_utc", "2026-09-01T21:00:00Z"),
+                ("publication_day_end_exclusive_utc", "2026-11-12T00:00:00Z")):
+            reference = copy.deepcopy(self.reference)
+            row = next(r for r in reference["records"]
+                       if r["publication_number"] == "601453-2026")
+            row[field] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                compare(self.batch, reference)
+        reference = copy.deepcopy(self.reference)
+        change = reference["linked_change_metadata"][0]
+        change["prior_publication_day_start_utc"] = "2026-09-01T22:00:00Z"
+        change["prior_publication_day_end_exclusive_utc"] = "2026-09-02T22:00:00Z"
+        with self.assertRaises(ValueError):
+            compare(self.batch, reference)
+
     def test_offset_aware_equal_instant_and_wrong_offset(self):
         rows = [self.row("601453-2026", deadline="2026-09-02T23:59:59+02:00"),
                 self.row("601453-2026", scope="procedure_snapshot",

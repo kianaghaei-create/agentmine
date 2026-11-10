@@ -65,6 +65,8 @@ class OfficialReferenceFeedTests(unittest.TestCase):
         self.assertEqual(changes[0]["prior_publication_number"], "417627-2026")
         self.assertEqual(changes[0]["deadline_change_seconds"], 172800)
         self.assertEqual(changes[0]["status"], "linked_uniform_same_stage_metadata")
+        self.assertEqual(changes[0]["prior_publication_day_start_utc"], "2026-06-17T22:00:00Z")
+        self.assertEqual(changes[0]["prior_publication_day_end_exclusive_utc"], "2026-06-18T22:00:00Z")
 
     def test_no_legal_or_commercial_promotion(self):
         self.assertEqual(self.report["new_source_requests"], 0)

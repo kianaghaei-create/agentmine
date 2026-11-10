@@ -6,7 +6,7 @@ A match is against published Search metadata, never a legal or live cutoff.
 """
 import argparse
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 import re
@@ -86,13 +86,20 @@ def _compare_deadline(kind, value, expected):
     return "exact_match", "exact_published_instant"
 
 
+def _publication_interval(start, end, source_observed):
+    start, end = _parse_utc(start), _parse_utc(end)
+    if end - start != timedelta(days=1) or end > source_observed:
+        raise ValueError("invalid or incomplete historical publication interval")
+    return start, end
+
+
 def _reference_index(reference):
     if (reference.get("evidence_type") != REFERENCE_TYPE
             or reference.get("fixed_notice_count") != 20
             or len(reference.get("records", [])) != 20):
         raise ValueError("official frozen reference required")
     source = reference["source"]
-    _parse_utc(source["source_observed_at_utc"])
+    source_observed = _parse_utc(source["source_observed_at_utc"])
     index = {}
     for row in reference["records"]:
         number = _publication_id(row["publication_number"])
@@ -100,7 +107,10 @@ def _reference_index(reference):
                 or row["operative_deadline_verified"] is not False):
             raise ValueError("invalid official reference record")
         instant = _parse_utc(row["published_deadline_utc"])
-        index[number] = (row["published_stage"], instant, number)
+        start, end = _publication_interval(row["publication_day_start_utc"],
+                                           row["publication_day_end_exclusive_utc"],
+                                           source_observed)
+        index[number] = (row["published_stage"], instant, start, end)
     frozen = set(index)
     prior_to_change, change_to_prior = {}, {}
     for change in reference["linked_change_metadata"]:
@@ -111,14 +121,47 @@ def _reference_index(reference):
         old = _parse_utc(change["prior_deadline_utc"])
         new = _parse_utc(change["new_deadline_utc"])
         stage = change["stage"]
+        start, end = _publication_interval(change["prior_publication_day_start_utc"],
+                                           change["prior_publication_day_end_exclusive_utc"],
+                                           source_observed)
         if (prior in index or latest not in frozen or latest in change_to_prior
                 or index[latest][:2] != (stage, new)
+                or end > index[latest][2]
                 or (new - old).total_seconds() != change["deadline_change_seconds"]):
             raise ValueError("unresolved or inconsistent linked reference")
-        index[prior] = (stage, old, prior)
+        index[prior] = (stage, old, start, end)
         prior_to_change[prior] = latest
         change_to_prior[latest] = prior
-    return index, frozen, prior_to_change, change_to_prior
+    return index, frozen, prior_to_change, change_to_prior, source_observed
+
+
+def _as_of_target(number, scope, observed, source_observed, index, prior_to_change):
+    """Select only a publication-day-compatible historical reference.
+
+    The exact time within a publication day is unknown. Procedure snapshots
+    after the reference observation cannot be judged as current from this
+    frozen source. Notice-version comparisons remain historical, not live.
+    """
+    if number not in index:
+        return None, "outside_reference"
+    start, end = index[number][2:]
+    if observed < start:
+        return None, "observation_before_notice_publication_day"
+    if observed < end:
+        return None, "notice_publication_time_unknown"
+    if scope == "notice_version":
+        return number, None
+    if observed > source_observed:
+        return None, "procedure_snapshot_after_reference_observation"
+    latest = prior_to_change.get(number)
+    if latest:
+        change_start, change_end = index[latest][2:]
+        if observed < change_start:
+            return number, None
+        if observed < change_end:
+            return None, "change_publication_time_unknown"
+        return latest, None
+    return number, None
 
 
 def compare(batch, reference):
@@ -130,11 +173,11 @@ def compare(batch, reference):
         raise ValueError("explicit sample kind required")
     if batch["permission_confirmed"] is not (kind == "authorized_partner_local"):
         raise ValueError("authorized local input requires explicit permission; demo is synthetic")
-    _parse_utc(batch["observed_at_utc"])
+    observed = _parse_utc(batch["observed_at_utc"])
     rows = batch["rows"]
     if not isinstance(rows, list) or not 1 <= len(rows) <= MAX_ROWS:
         raise ValueError("input must contain 1 to 1000 rows")
-    index, frozen, prior_to_change, change_to_prior = _reference_index(reference)
+    index, frozen, prior_to_change, change_to_prior, source_observed = _reference_index(reference)
     seen, covered, results = set(), set(), []
     for row in rows:
         if not isinstance(row, dict) or set(row) != ROW_KEYS:
@@ -149,23 +192,28 @@ def compare(batch, reference):
             raise ValueError("duplicate publication/scope row")
         seen.add((number, scope))
         precision, value = _parse_deadline(row["deadline"])
-        target = prior_to_change.get(number, number) if scope == "procedure_snapshot" else number
+        target, unknown_code = _as_of_target(number, scope, observed, source_observed,
+                                             index, prior_to_change)
         item = {"publication_number": number, "scope": scope,
                 "reference_publication_number": None, "reference_stage": None,
                 "reference_deadline_utc": None, "reference_notice_link": None,
                 "reference_basis": None, "status": "unknown", "code": "outside_reference"}
-        if target not in index:
+        if target is None:
+            item["code"] = unknown_code
             results.append(item)
             continue
-        expected_stage, expected, _ = index[target]
+        expected_stage, expected, _, _ = index[target]
         if target in frozen:
             covered.add(target)
         linked = scope == "procedure_snapshot" and target in change_to_prior
+        prior_as_of = scope == "procedure_snapshot" and target in prior_to_change
         item.update({"reference_publication_number": target,
                      "reference_stage": expected_stage,
                      "reference_deadline_utc": expected.isoformat().replace("+00:00", "Z"),
                      "reference_notice_link": "https://ted.europa.eu/en/notice/" + target + "/html",
-                     "reference_basis": "linked_change_snapshot" if linked else "published_notice_version"})
+                     "reference_basis": ("linked_change_snapshot" if linked else
+                                         "linked_prior_before_change_publication_day" if prior_as_of else
+                                         "published_notice_version")})
         if stage is None:
             status, code = "review", "stage_missing"
         elif stage != expected_stage:
@@ -201,8 +249,11 @@ def compare(batch, reference):
         "verified_agentmine_revenue": None,
         "actual_variable_cost_sek": None,
         "warning": ("Historical official Search metadata only. Scope is explicit; "
-                    "a linked change is not a complete amendment history. Date/minute/"
-                    "offsetless compatibility is not an exact instant. Unknown or unobserved "
+                    "a linked change is not a complete amendment history. Publication-day "
+                    "timing is bounded, not exact; pre-publication and ambiguous same-day "
+                    "comparisons remain unknown. Procedure snapshots after the reference "
+                    "observation remain unknown. Date/minute/offsetless compatibility is "
+                    "not an exact instant. Unknown or unobserved "
                     "rows are not errors. Permission is self-declared, not independently "
                     "verified. Synthetic rows are not customer evidence. No live alert, "
                     "legal cutoff, customer savings, WTP or delivery-cost claim."),
