@@ -49,7 +49,10 @@ class EformsDeadlineTests(unittest.TestCase):
 
     def test_bad_calendar_and_hour_rejected(self):
         for date, time in [('2026-02-30+01:00', '12:00:00+01:00'),
-                           ('2026-10-05+02:00', '24:00:00+02:00')]:
+                           ('2026-10-05+02:00', '24:00:00+02:00'),
+                           ('2026-10-05+02:00', '24:00:00.000+02:00'),
+                           ('2026-10-05+02:00', '23:60:00+02:00'),
+                           ('2026-10-05+02:00', '23:59:60+02:00')]:
             with self.subTest(date=date, time=time), self.assertRaises(ValueError):
                 parse_deadlines(fixture(date, time))
 

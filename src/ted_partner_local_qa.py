@@ -13,7 +13,7 @@ import re
 from time import perf_counter
 from zoneinfo import ZoneInfo
 
-from src.ted_lifecycle_chronology import _publication_id
+from src.ted_lifecycle_chronology import _publication_id, _valid_offset
 from src.ted_official_reference_feed import from_root
 
 REFERENCE_TYPE = "historical_official_only_TED_reference_not_legal_or_customer_outcome"
@@ -29,9 +29,17 @@ MAX_ROWS = 1000
 MAX_INPUT_BYTES = 1_000_000
 
 
+def _validate_clock(value, has_seconds):
+    # Reject day rollover and overflow independently of Python's parser.
+    if (int(value[11:13]) > 23 or int(value[14:16]) > 59
+            or (has_seconds and int(value[17:19]) > 59)):
+        raise ValueError("clock outside 00:00..23:59:59")
+
+
 def _parse_utc(value):
     if not isinstance(value, str) or not UTC_STAMP.fullmatch(value):
         raise ValueError("observation/source timestamp must be explicit UTC")
+    _validate_clock(value, True)
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
@@ -45,6 +53,9 @@ def _parse_deadline(value):
     match = CLOCK.fullmatch(value)
     if not match:
         raise ValueError("deadline must be ISO date, minute or second precision")
+    _validate_clock(value, bool(match["seconds"]))
+    if match["offset"] and not _valid_offset(match["offset"]):
+        raise ValueError("deadline offset outside supported timezone range")
     instant = datetime.fromisoformat(value.replace("Z", "+00:00"))
     precision = "second" if match["seconds"] else "minute"
     return ("aware_" if match["offset"] else "naive_") + precision, instant

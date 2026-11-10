@@ -66,6 +66,21 @@ class Tests(unittest.TestCase):
         r["deadline-receipt-request-date-lot"] = ["2026-09-29+02:00"]
         self.assertEqual(_uniform_deadline(r)[2], "missing_or_multiple_stages")
 
+    def test_clock_rollover_and_offset_overflow_fail_closed(self):
+        for date, time, status in (
+                ("2026-09-29+02:00", "24:00:00+02:00", "invalid_deadline"),
+                ("2026-09-29+02:00", "23:60:00+02:00", "invalid_deadline"),
+                ("2026-09-29+02:60", "23:59:00+02:60", "invalid_or_conflicting_offsets"),
+                ("2026-09-29+14:01", "23:59:00+14:01", "invalid_or_conflicting_offsets")):
+            with self.subTest(date=date, time=time):
+                r = row(IDS[0], P, NEW, **{
+                    "deadline-receipt-tender-date-lot": [date],
+                    "deadline-receipt-tender-time-lot": [time]})
+                self.assertEqual(_uniform_deadline(r)[2], status)
+                self.assertIsNone(_uniform_deadline(r)[1])
+        with self.assertRaises(ValueError):
+            _publication_day("2026-09-29+02:60")
+
     def test_day_interval_not_exact_publication_time(self):
         start, end = _publication_day("2026-09-01+02:00")
         self.assertEqual(_relation(start, start, end), "within_publication_day")

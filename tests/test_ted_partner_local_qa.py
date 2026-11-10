@@ -109,6 +109,17 @@ class PartnerLocalQATests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.report([row, row])
 
+    def test_clock_rollover_and_offset_overflow_rejected(self):
+        for value in ("2026-09-02T24:00Z", "2026-09-02T24:00:00+02:00",
+                      "2026-09-02T23:60Z", "2026-09-02T23:59:60Z",
+                      "2026-09-02T23:59+02:60", "2026-09-02T23:59+14:01"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.report([self.row("601453-2026", deadline=value)])
+        batch = copy.deepcopy(self.batch)
+        batch["observed_at_utc"] = "2026-11-10T24:00:00Z"
+        with self.assertRaises(ValueError):
+            compare(batch, self.reference)
+
     def test_linked_reference_conflict_fails_closed(self):
         reference = copy.deepcopy(self.reference)
         reference["linked_change_metadata"][0]["deadline_change_seconds"] = 1

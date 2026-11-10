@@ -41,6 +41,11 @@ def _combine(date_text, time_text):
     time_offset = xsd_offset(time_match[2])
     if date_offset != time_offset:
         raise ValueError('EndDate and EndTime UTC offsets differ')
+    # Preserve the fail-closed 00:00..23:59:59 policy across Python
+    # versions. Some runtimes normalize 24:00 into the following day.
+    hour, minute, second = map(int, time_match[1][:8].split(':'))
+    if hour > 23 or minute > 59 or second > 59:
+        raise ValueError('invalid eForms deadline date/time')
     try:
         stamp = datetime.fromisoformat(f'{date_match[1]}T{time_match[1]}{time_offset}')
     except ValueError as exc:

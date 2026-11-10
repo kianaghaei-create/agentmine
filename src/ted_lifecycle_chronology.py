@@ -50,6 +50,13 @@ def _version(value):
     return f"{int(value):02d}"
 
 
+def _valid_offset(value):
+    if value == "Z":
+        return True
+    hours, minutes = map(int, value[1:].split(":"))
+    return hours <= 14 and minutes <= 59 and (hours < 14 or minutes == 0)
+
+
 def _offset(value):
     return "+00:00" if value == "Z" else value
 
@@ -64,8 +71,8 @@ def _seconds(value):
 
 def _publication_day(value):
     match = DATE.fullmatch(value) if isinstance(value, str) else None
-    if not match:
-        raise ValueError("publication date lacks explicit offset")
+    if not match or not _valid_offset(match[2]):
+        raise ValueError("publication date lacks valid explicit offset")
     start = datetime.fromisoformat(match[1] + "T00:00:00" + _offset(match[2]))
     return start, start + timedelta(days=1)
 
@@ -84,8 +91,12 @@ def _uniform_deadline(row):
     if len(set(dates)) != 1 or len(set(times)) != 1:
         return stage, None, "nonuniform_projection"
     dm, tm = DATE.fullmatch(dates[0]), TIME.fullmatch(times[0])
-    if not dm or not tm or _offset(dm[2]) != _offset(tm[2]):
+    if (not dm or not tm or not _valid_offset(dm[2]) or not _valid_offset(tm[2])
+            or _offset(dm[2]) != _offset(tm[2])):
         return stage, None, "invalid_or_conflicting_offsets"
+    hour, minute, second = map(int, tm[1].split(":"))
+    if hour > 23 or minute > 59 or second > 59:
+        return stage, None, "invalid_deadline"
     try:
         instant = datetime.fromisoformat(dm[1] + "T" + tm[1] + _offset(tm[2]))
     except ValueError:
