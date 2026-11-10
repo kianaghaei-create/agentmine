@@ -1,5 +1,11 @@
 # Current experiment — data-first agent exchange wedge
-Status: Phase 0, no validated paid demand. Weekly review updated 2026-11-02.
+Status: Phase 0, no validated paid demand. Latest verified evidence updated 2026-11-10.
+
+## Latest verified lifecycle evidence — 2026-11-10
+- Official TED Search API all-version queries: **20/20 frozen IDs, 20 procedure IDs, 24 related notices**, 12 tender-stage and 8 participation-stage deadline metadata rows; 20/20 identical across exact-ID and procedure queries. One linked deadline change (601453 → prior 417627, +48h) and three result notices (729884 closed/no winner with 3 tenders; 742670 and 779072 winner selected with 1 tender each). 609559 is version 2; 601453 has version 1 but explicitly references an earlier notice. Historical 17/20 means directly inspected official publication documents, not all first versions. No full legal amendment clearance or portal cutoff established.
+- Zoom for Nordics official result metadata distinguishes SEK 6m framework maximum from SEK 4m approximate/re-estimated value; BT-161 notice value absent. Public directories display different semantics. This is a concrete source-quality/lifecycle/value-normalization example, not realized spend or proven WTP.
+- Evidence: `data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json`. Live read-only collection and downloaded artifact verified: https://github.com/kianaghaei-create/agentmine/actions/runs/42858440409/job/129977734390 . Exact-code CI **1084/1084** passed: https://github.com/kianaghaei-create/agentmine/actions/runs/42859708993/job/129982211353 . New collector `src/ted_fixed20_lifecycle.py` fails closed on incomplete/mismatched queries and does not join parallel lot arrays.
+- Commercial gate unchanged: 0/5 consented paired supplier outcomes, 0/3 explicit price/pilot responses, no verified AgentMine customer/revenue, actual savings or variable cost. Use these real lifecycle examples in the existing paired pilot; no generic catalogue build, spending, outreach, sensitive data or deployment.
 
 ## Goal
 Rank near-term Agent Exchange opportunities using observable supply, transaction, price, buyer diversity, licensing and implementation effort. Do not block research on interviews. Interviews are optional follow-up, not phase gate.
