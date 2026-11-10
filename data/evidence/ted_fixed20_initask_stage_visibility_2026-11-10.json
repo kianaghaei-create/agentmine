@@ -1,0 +1,197 @@
+{
+  "evidence_type": "fixed20_initask_public_stage_visibility_not_legal_deadline",
+  "observed_on": "2026-11-10",
+  "source_snapshot": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+  "source_observed_at": "2026-11-10T16:49:21.074404+00:00",
+  "cohort_path": "data/evidence/ted_cpv72_predeclared_cohort_2026-09_observed_2026-10-26.json",
+  "selection_rule": "Attempt all 20 previously frozen TED publication IDs at their public Initask notice URL, with no reselection. Use only the main notice's rendered deadline and lot table, not related-notice cards. A tool-access failure is unknown, not absence.",
+  "source_publisher": "Initask EU Tenders",
+  "rows": [
+    {
+      "publication_number": "600201-2026",
+      "source_url": "https://eutenders.initask.com/notice/600201-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "601453-2026",
+      "source_url": "https://eutenders.initask.com/notice/601453-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "601656-2026",
+      "source_url": "https://eutenders.initask.com/notice/601656-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-09-29T23:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "601730-2026",
+      "source_url": "https://eutenders.initask.com/notice/601730-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "602708-2026",
+      "source_url": "https://eutenders.initask.com/notice/602708-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-09-28T23:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "603727-2026",
+      "source_url": "https://eutenders.initask.com/notice/603727-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": true
+    },
+    {
+      "publication_number": "605974-2026",
+      "source_url": "https://eutenders.initask.com/notice/605974-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "606049-2026",
+      "source_url": "https://eutenders.initask.com/notice/606049-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "609559-2026",
+      "source_url": "https://eutenders.initask.com/notice/609559-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": true
+    },
+    {
+      "publication_number": "609601-2026",
+      "source_url": "https://eutenders.initask.com/notice/609601-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": true
+    },
+    {
+      "publication_number": "610120-2026",
+      "source_url": "https://eutenders.initask.com/notice/610120-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": true
+    },
+    {
+      "publication_number": "610810-2026",
+      "source_url": "https://eutenders.initask.com/notice/610810-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-09T23:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "611111-2026",
+      "source_url": "https://eutenders.initask.com/notice/611111-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-06T21:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "612139-2026",
+      "source_url": "https://eutenders.initask.com/notice/612139-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-01T23:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "612757-2026",
+      "source_url": "https://eutenders.initask.com/notice/612757-2026",
+      "retrieval_status": "page_unavailable",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": null
+    },
+    {
+      "publication_number": "613716-2026",
+      "source_url": "https://eutenders.initask.com/notice/613716-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-04T21:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "613749-2026",
+      "source_url": "https://eutenders.initask.com/notice/613749-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-06T00:00",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "615392-2026",
+      "source_url": "https://eutenders.initask.com/notice/615392-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-05T21:59",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    },
+    {
+      "publication_number": "615414-2026",
+      "source_url": "https://eutenders.initask.com/notice/615414-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": null,
+      "displayed_minute": null,
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": true
+    },
+    {
+      "publication_number": "615576-2026",
+      "source_url": "https://eutenders.initask.com/notice/615576-2026",
+      "retrieval_status": "rendered",
+      "displayed_stage": "tender",
+      "displayed_minute": "2026-10-07T00:00",
+      "displayed_offset": null,
+      "lot_deadline_cells_empty": false
+    }
+  ],
+  "limitations": [
+    "Rendered public page observations; cache freshness varies. Six inaccessible pages are retained in the denominator, not classified as absent.",
+    "The official comparator is the independently retrieved TED Search projection, not newly inspected original XML/PDF or a legally operative portal deadline.",
+    "Displayed clock values have minute precision and no visible timezone; matching the source clock is not proof of matching an instant. No inference about underlying implementation, market prevalence, supplier harm, buyer demand or AgentMine revenue.",
+    "No raw personal contact details, private documents or page copies stored. No access bypass, payment or outreach."
+  ]
+}
