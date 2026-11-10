@@ -1,0 +1,76 @@
+{
+  "evidence_type": "selected_uk_public_buyer_financial_records",
+  "observed_on": "2026-11-10",
+  "currency": "GBP",
+  "scope": "Selected primary-source Tussell records, not a census or a complete payment history. Public-sector buyers, not private supplier-side subscriptions.",
+  "records": [
+    {
+      "kind": "reported_payment",
+      "buyer": "Greater Manchester Combined Authority",
+      "supplier": "Tussell Limited",
+      "record_id": "31191786",
+      "event_date": "2025-03-28",
+      "amount_pence": 300000,
+      "amount_basis": "published_net_amount",
+      "purpose": "Subscriptions",
+      "source_url": "https://www.greatermanchester-ca.gov.uk/media/vfmnok5q/1-pdf-spend-over-500.pdf",
+      "source_locator": "2024-25 Q4 payments over GBP 500; transaction 31191786"
+    },
+    {
+      "kind": "reported_payment",
+      "buyer": "Greater Manchester Combined Authority",
+      "supplier": "Tussell Limited",
+      "record_id": "31219130",
+      "event_date": "2026-03-06",
+      "amount_pence": 300000,
+      "amount_basis": "published_net_amount",
+      "purpose": "Subscriptions",
+      "source_url": "https://www.greatermanchester-ca.gov.uk/media/dzkpu0al/q4-25-26-spend-over-500.pdf",
+      "source_locator": "2025-26 Q4 payments over GBP 500; transaction 31219130"
+    },
+    {
+      "kind": "purchase_order",
+      "buyer": "Greater Manchester Combined Authority",
+      "supplier": "Tussell Limited",
+      "record_id": "5135778",
+      "event_date": "2025-02-28",
+      "amount_pence": 600000,
+      "amount_basis": "published_order_value",
+      "purpose": "Subscriptions",
+      "source_url": "https://www.greatermanchester-ca.gov.uk/media/xnnb3pku/4-pdf-q4-24-25-pos-over-5k.pdf",
+      "source_locator": "2024-25 Q4 purchase orders over GBP 5000; order 5135778"
+    },
+    {
+      "kind": "contract_document",
+      "buyer": "Crown Commercial Service",
+      "supplier": "Tussell Limited",
+      "record_id": "CCSO24A07",
+      "event_date": "2024-04-01",
+      "amount_pence": 1200000,
+      "amount_basis": "contract_value_excluding_vat",
+      "purpose": "Tender tracking service, contract and spend data, web access and exports",
+      "source_url": "https://www.contractsfinder.service.gov.uk/Notice/Attachment/a39aed4b-d9f6-4cd3-877a-101dfeb5f8bd",
+      "source_locator": "G-Cloud 13 call-off order form, pp. 2, 4-9; event_date is contract start; ends 2025-03-31"
+    },
+    {
+      "kind": "signed_contract_notice",
+      "buyer": "Department for Business & Trade",
+      "supplier": "Tussell Limited",
+      "record_id": "2025/S 000-081403",
+      "event_date": "2025-11-20",
+      "amount_pence": 2280000,
+      "amount_basis": "contract_value_excluding_vat",
+      "purpose": "Research on procurement in industrial strategy sectors and locations",
+      "source_url": "https://www.find-tender.service.gov.uk/Notice/081403-2025/PDF",
+      "source_locator": "UK7 contract details, pp. 1-2; signed 2025-11-20; ends 2026-11-16; OCID ocds-h6vhtk-05f299"
+    }
+  ],
+  "limitations": [
+    "GMCA finance transparency page identifies these spend reports as payments over GBP 500. Net amounts are reported by the payer, not independently reconciled to bank settlement or supplier revenue. The two selected dates are not a complete payment history, renewal proof or an annual subscription price.",
+    "The GBP 6000 purchase order could overlap the payment rows; no invoice/order join was established. Never add it to spend.",
+    "The CCS order form states a 12-month GBP 12000 contract, not actual paid cash. It requires daily accurate data, 98% availability target, new accounts within 24 hours (95% target), responses within two working days (95% target), onboarding/training and GBP 1m professional indemnity cover. The document does not establish realized margin or performance.",
+    "DBT's GBP 22800 signed research contract is a separate contract value, not a paid invoice, subscription or AgentMine sale. Its published end date is not a new tender date.",
+    "No complete supplier concentration, market size, private supplier WTP, AgentMine customer, savings, cost or revenue inference. No personal data or raw third-party datasets retained."
+  ],
+  "source_index": "https://www.greatermanchester-ca.gov.uk/who-we-are/accounts-transparency-and-governance/transparency-reports-finance/"
+}
