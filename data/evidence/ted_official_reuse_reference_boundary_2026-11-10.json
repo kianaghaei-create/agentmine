@@ -1,0 +1,56 @@
+{
+  "evidence_type": "publisher_policy_review_and_official_only_historical_reference_not_legal_clearance",
+  "reviewed_on": "2026-11-10",
+  "sources": [
+    {
+      "url": "https://ted.europa.eu/en/legal-notice",
+      "scope": "TED/SIMAP copyright notice and disclaimer",
+      "finding": "Published OJ S procurement notices are reusable for commercial and noncommercial purposes unless otherwise noted. Editorial content is CC BY 4.0; SIMAP system metadata is CC0 1.0. These categories are distinct. Third-party rights, identifiable individuals and protected marks may require separate clearance. The disclaimer limits reliance and identifies electronically signed OJ S notices as authentic."
+    },
+    {
+      "url": "https://eur-lex.europa.eu/eli/dec/2011/833/oj/eng/pdf",
+      "scope": "Commission Decision 2011/833/EU, Articles 4 and 6",
+      "finding": "General reuse for commercial and noncommercial purposes without charge, subject to specified conditions and exceptions; source acknowledgement, preservation of meaning and non-liability may apply."
+    },
+    {
+      "url": "https://docs.ted.europa.eu/api/latest/search.html",
+      "scope": "Official Search API documentation",
+      "finding": "Published notice search is unauthenticated and explicitly intended for commercial added-value services as well as other reusers."
+    }
+  ],
+  "source_snapshot": {
+    "path": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+    "blob_sha": "260fae7eba80c3f149067c4f41fb7eadc3e8f91f",
+    "observed_at_utc": "2026-11-10T16:49:21.074404+00:00"
+  },
+  "implementation": {
+    "module": "src/ted_official_reference_feed.py",
+    "command": "python -m src.ted_official_reference_feed",
+    "commit": "bc3da571dffbe69d3a9a0934b2b4a5e1fd1e30f9",
+    "ci_job": "https://github.com/kianaghaei-create/agentmine/actions/runs/42908744262/job/130153491087",
+    "exact_tree_tests_passed": 1131,
+    "new_integration_tests_passed": 9
+  },
+  "measured_output": {
+    "fixed_notices": 20,
+    "related_publications": 24,
+    "tender_stage": 12,
+    "participation_stage": 8,
+    "linked_same_stage_change": 1,
+    "third_party_observations_in_output": 0,
+    "new_source_requests": 0,
+    "operative_deadline_verifications": 0,
+    "amendment_histories_cleared": 0
+  },
+  "commercial_interpretation": "A partner-side comparison against a minimal official reference can avoid redistributing competitor page content. This narrows the source-rights dependency, not a proof of record-specific clearance, buyer demand, source completeness, service cost or permission to deploy.",
+  "verified_supplier_outcomes": null,
+  "verified_agentmine_revenue": null,
+  "actual_operating_cost": null,
+  "limitations": [
+    "Historical fixed cohort; not live monitoring or a full Swedish procurement census.",
+    "Official Search projections are not authenticated signed notices, legal deadlines or complete amendment histories.",
+    "Do not treat all Search fields as CC0 system metadata or reuse third-party portals under TED terms.",
+    "No raw contact fields, buyer labels, titles or competitor observations are exported. Personal-data and record-specific rights remain separate.",
+    "No paid API calls, outreach, sensitive customer data or public deployment."
+  ]
+}
