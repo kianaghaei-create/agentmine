@@ -1,0 +1,45 @@
+{
+  "evidence_type": "historical_audited_financials_and_reported_kpis",
+  "issuer": "Mercell Holding ASA",
+  "source_url": "https://get.mercell.com/hubfs/Mercell-Annual-report-2021.pdf",
+  "published_on": "2022-03-25",
+  "observed_on": "2026-11-10",
+  "financial_year": 2021,
+  "financial_unit": "NOK_thousands",
+  "kpi_arr_unit": "NOK_millions",
+  "source_locators": {
+    "financials": "Consolidated financial statements, notes 2.1 and 2.2; pre-award supplier segment and geographical markets",
+    "group_cash_flow": "Consolidated statement of cash flows, 2021 column; consolidated income statement",
+    "kpis": "Key figures and board report, 2021 and 2020 year-end columns",
+    "audit": "Independent auditor's report, opinion on consolidated IFRS financial statements"
+  },
+  "supplier_segment": {
+    "revenue": 351043,
+    "saas_license_revenue": 341225,
+    "other_service_revenue": 9818,
+    "personnel_expense": 138456,
+    "other_expense": 96847,
+    "operating_expense": 235303,
+    "ebitda": 115740,
+    "sweden_revenue": 164947
+  },
+  "group": {
+    "revenue": 706296,
+    "ebitda": 105005,
+    "ebit": -83672,
+    "operating_cash_flow": 89140,
+    "software_and_intangible_development_cash_outflow": 165019,
+    "property_plant_equipment_cash_outflow": 1745
+  },
+  "reported_year_end_kpis": {
+    "2020": {"supplier_arr": 327, "supplier_customers": 26588},
+    "2021": {"supplier_arr": 381, "supplier_customers": 25636}
+  },
+  "limitations": [
+    "Historical 2021 financial statements, not current market size, current pricing or 2026 performance.",
+    "Recognized revenue is not a bank settlement ledger; customer counts and ARR are management KPIs, not individual audited payments.",
+    "Segment EBITDA excludes depreciation/amortization and group-level items; group cash flows cannot be allocated to the supplier segment from this source.",
+    "ARR divided by year-end supplier count is a rounded aggregate proxy, not a list price, cohort retention or individual customer revenue. Acquisitions and mix changes prevent causal inference.",
+    "No AgentMine customers, revenue, delivery cost, willingness to pay or market share inferred."
+  ]
+}
