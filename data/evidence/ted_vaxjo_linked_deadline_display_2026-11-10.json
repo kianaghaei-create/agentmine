@@ -1,0 +1,98 @@
+{
+  "evidence_type": "selected_public_linked_notice_deadline_displays",
+  "retrieved_on": "2026-11-10",
+  "chronology_path": "data/evidence/ted_fixed20_lifecycle_chronology_2026-11-10.json",
+  "source_observed_at": "2026-11-10T16:49:21.074404+00:00",
+  "procedure_identifier": "93dd47eb-8036-40dd-b3a0-287e1818f0c5",
+  "selection": "One already identified linked change in the frozen TED20; selected public comparison pages, not a representative provider or notice sample. Dates transcribed from rendered public views; cache freshness varies.",
+  "pages": [
+    {
+      "provider": "OpenProcurements",
+      "url": "https://se.openprocurements.com/tender/mobiltelefoner-med-tillhorande-tjanster/",
+      "scope": "procedure",
+      "notice_ids": ["417627-2026", "601453-2026"],
+      "access": "rendered_public_page",
+      "headline_date": "2026-08-31",
+      "detail_dates": {"417627-2026": "2026-08-31", "601453-2026": "2026-09-02"},
+      "lineage_reference": "f8381887-5b8c-4f29-8943-4c380faba9b2-01",
+      "note": "Top-level tender deadline is 31 August; the same page's second notice shows 2 September 21:59:59 and the exact prior notice-version reference. Rendered crawl labeled last month."
+    },
+    {
+      "provider": "Licitera",
+      "url": "https://licitera.se/upphandling/mobiltelefoner-med-tillhorande-tjanster-ae7cb81ee5",
+      "scope": "procedure",
+      "notice_ids": ["417627-2026", "601453-2026"],
+      "access": "rendered_public_page",
+      "headline_date": "2026-09-02",
+      "detail_dates": {},
+      "note": "Procedure detail shows 2 September and both TED IDs. Source list dates the second notice 31 August; that is not treated as the official publication day. Rendered crawl labeled today."
+    },
+    {
+      "provider": "Evergabe",
+      "url": "https://www.evergabe.com/sl/ponudbe/mobiltelefoner-med-tillhorande-tjanster-2298422/",
+      "scope": "notice",
+      "notice_ids": ["417627-2026"],
+      "access": "rendered_public_page",
+      "headline_date": "2026-08-31",
+      "detail_dates": {"417627-2026": "2026-08-31"},
+      "note": "Historical original publication number and procedure UUID are explicit. Deadline agrees with the original notice metadata; not counted as a procedure-level error."
+    },
+    {
+      "provider": "Patterno",
+      "url": "https://www.patterno.de/en/ausschreibungen/tender/mobiltelefone-und-zugehoerige-dienste-vaexjoe-qgrj8pus0x6ym89bf56y2jik",
+      "scope": "notice",
+      "notice_ids": ["417627-2026"],
+      "access": "rendered_public_page",
+      "headline_date": "2026-08-31",
+      "detail_dates": {},
+      "note": "Explicit ted-417627-2026 reference. Cached crawl labeled three months ago; active status is not a current observation."
+    },
+    {
+      "provider": "Tender Impulse",
+      "url": "https://tenderimpulse.com/government-tenders/sweden/mobiltelefoner-med-tillh-rande-tj-nster-14632024",
+      "scope": "notice",
+      "notice_ids": ["601453-2026"],
+      "access": "rendered_public_page",
+      "headline_date": "2026-09-02",
+      "detail_dates": {"601453-2026": "2026-09-02"},
+      "note": "Explicit change publication number and 2 September tender deadline; not evidence of notification delivery or paid conversion."
+    }
+  ],
+  "indexed_only": {
+    "provider": "Tenderwize",
+    "url": "https://tenderwize.com/en/tenders/417627-2026",
+    "notice_id": "417627-2026",
+    "access": "search_index_only",
+    "displayed_deadline_date": "2026-08-20",
+    "note": "Indexed excerpt labels 20 August as submission deadline; direct page fetch was unavailable. Excluded from rendered-page counts."
+  },
+  "additional_information_date_mirrors": [
+    {
+      "provider": "Evergabe",
+      "url": "https://www.evergabe.com/sl/ponudbe/mobiltelefoner-med-tillhorande-tjanster-2298422/",
+      "notice_id": "417627-2026",
+      "field": "additional_information_deadline_BT-13",
+      "displayed_calendar_date": "2026-08-20",
+      "note": "Mirror shows additional-information deadline 20 August 22:00 +00:00, separate from tender deadline 31 August."
+    },
+    {
+      "provider": "OpenProcurements",
+      "url": "https://se.openprocurements.com/tender/mobiltelefoner-med-tillhorande-tjanster/",
+      "notice_id": "417627-2026",
+      "field": "additional_information_deadline_BT-13",
+      "displayed_calendar_date": "2026-08-20",
+      "note": "Original-notice section shows additional-information deadline 20 August 22:00:00; timezone is not printed there. Date agrees with Evergabe mirror."
+    }
+  ],
+  "field_definition": "https://docs.ted.europa.eu/eforms/latest/reference/business-terms/BT-13.html",
+  "portal": {
+    "url": "https://tendsign.com/doc.aspx?MeFormsNoticeId=94800&GoTo=Tender",
+    "access": "login_required"
+  },
+  "limitations": [
+    "Official TED Search metadata and exact change reference are already verified; this run does not inspect new official XML/PDF bytes or clear amendments.",
+    "The primary TendSign document and submission links redirect to login; no account, login, bypass or operative deadline verification attempted.",
+    "Rendered pages may be cached and the indexed-only excerpt is not direct page evidence. No provider-wide prevalence, current UI guarantee, supplier harm, actual cost, willingness to pay or revenue inferred.",
+    "The additional-information date is corroborated by two third-party mirrors, not a new official BT-13 extraction. Its match to the indexed deadline is a possible stage-selection issue, not verified implementation."
+  ]
+}
