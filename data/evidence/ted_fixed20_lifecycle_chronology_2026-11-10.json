@@ -1,0 +1,57 @@
+{
+  "evidence_type": "derived_TED_Search_metadata_chronology_not_legal_or_exact_publication_time",
+  "source_snapshot": "data/evidence/ted_fixed20_lifecycle_metadata_2026-11-10.json",
+  "source_snapshot_blob_sha": "260fae7eba80c3f149067c4f41fb7eadc3e8f91f",
+  "source_observed_at": "2026-11-10T16:49:21.074404+00:00",
+  "source_url": "https://api.ted.europa.eu/v3/notices/search",
+  "derived_on": "2026-11-10",
+  "method": "python -m src.ted_lifecycle_chronology; publication-date is a fixed-offset day interval; only uniform date/time projections are combined, without lot-array joins.",
+  "summary": {
+    "frozen_notice_count": 20,
+    "lifecycle_notice_count": 24,
+    "uniform_frozen_deadline_count": 20,
+    "frozen_deadlines_before_own_publication_day": 0,
+    "linked_change_comparisons": 1,
+    "linked_prior_deadlines_before_change_publication_day": 1,
+    "result_publication_interval_comparisons": 3
+  },
+  "change": {
+    "prior_publication_number": "417627-2026",
+    "change_publication_number": "601453-2026",
+    "prior_deadline_utc": "2026-08-31T21:59:59Z",
+    "change_publication_date": "2026-09-01+02:00",
+    "change_publication_day_start_utc": "2026-08-31T22:00:00Z",
+    "new_deadline_utc": "2026-09-02T21:59:59Z",
+    "deadline_change_seconds": 172800,
+    "seconds_from_prior_deadline_to_change_publication_day_start": 1,
+    "interpretation": "The prior metadata deadline falls one second before the start of the later notice's publication calendar day. This is not the actual publication delay, a legal finding, or evidence that the submission portal had not already changed."
+  },
+  "result_publication_intervals": [
+    {
+      "result_publication_number": "729884-2026",
+      "competition_publication_number": "613716-2026",
+      "seconds_from_deadline_to_publication_day_start": 1382401,
+      "seconds_from_deadline_to_publication_day_end_exclusive": 1468801
+    },
+    {
+      "result_publication_number": "742670-2026",
+      "competition_publication_number": "613749-2026",
+      "seconds_from_deadline_to_publication_day_start": 1818000,
+      "seconds_from_deadline_to_publication_day_end_exclusive": 1904400
+    },
+    {
+      "result_publication_number": "779072-2026",
+      "competition_publication_number": "601656-2026",
+      "seconds_from_deadline_to_publication_day_start": 3459660,
+      "seconds_from_deadline_to_publication_day_end_exclusive": 3546060
+    }
+  ],
+  "limitations": [
+    "No new XML/PDF or portal inspection; no amendment chain cleared.",
+    "Result publication dates are not award dates, contract execution dates or payments.",
+    "No inference of supplier harm, savings, customer demand, willingness to pay or AgentMine revenue."
+  ],
+  "verified_legal_deadline_errors": null,
+  "verified_supplier_harm_or_savings": null,
+  "verified_agentmine_revenue": null
+}
