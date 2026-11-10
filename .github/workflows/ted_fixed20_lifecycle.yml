@@ -1,0 +1,31 @@
+name: Frozen TED-20 lifecycle metadata review
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_fixed20_lifecycle.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-public-procedure-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test lifecycle provenance and coverage
+        run: python3 -m unittest discover -s tests -p test_ted_fixed20_lifecycle.py -v
+      - name: Collect bounded official TED Search API metadata
+        run: python3 -m src.ted_fixed20_lifecycle --output ted-fixed20-lifecycle.json
+      - name: Upload public projected metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-fixed20-lifecycle
+          path: ted-fixed20-lifecycle.json
+          if-no-files-found: error
+          retention-days: 7
