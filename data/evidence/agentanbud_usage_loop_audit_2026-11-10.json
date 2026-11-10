@@ -1,0 +1,70 @@
+{
+  "source_url": "https://agentanbud.se/analytics",
+  "observed_on": "2026-11-10",
+  "publisher_code_sha": "29fce2b7fa182b9f7236ecd7698a9697e35676cb",
+  "scope": "default_retained_log_not_fixed_30d",
+  "source_code_urls": [
+    "https://github.com/magnusfroste/agentanbud/blob/29fce2b7fa182b9f7236ecd7698a9697e35676cb/app/insights.py",
+    "https://github.com/magnusfroste/agentanbud/blob/29fce2b7fa182b9f7236ecd7698a9697e35676cb/app/conduct.py",
+    "https://github.com/magnusfroste/agentanbud/blob/29fce2b7fa182b9f7236ecd7698a9697e35676cb/app/main.py"
+  ],
+  "offer_sources": [
+    "https://agentanbud.se/",
+    "https://www.agentanbud.se/agenter",
+    "https://www.agentanbud.se/providers"
+  ],
+  "offer": {
+    "public_read_price_sek": 0,
+    "catalog_records_reported": 26080,
+    "open_records_reported": 13600,
+    "source_count_reported": 6,
+    "sponsor_model_advertised": true,
+    "sponsor_price_or_revenue_verified": false,
+    "software_license": "MIT",
+    "data_rights_note": "Public aggregate analytics endpoint documentation explicitly permits republication; software MIT license does not establish all underlying notice-data rights."
+  },
+  "headline": {
+    "retained_mcp_calls": 1268,
+    "excluded_loop_calls": 457706,
+    "agent_identity_buckets": 983,
+    "mcp_handshakes": 3134,
+    "web_searches": 2302,
+    "rest_searches": 63599
+  },
+  "tool_table_limit": 15,
+  "tool_counts": {
+    "search_tenders": 458819,
+    "match_profile": 42,
+    "get_tender": 39,
+    "get_winner_history": 30,
+    "get_stats": 22,
+    "get_authority": 10,
+    "deadline_calendar": 6,
+    "list_regions": 2,
+    "list_providers": 2,
+    "get_supplier": 1,
+    "expected_tenders": 1
+  },
+  "segment_counts": {
+    "other": 384401,
+    "it_digital": 80765,
+    "food": 5935,
+    "health": 2873,
+    "legal_consulting": 2675,
+    "transport": 2026,
+    "education": 1851,
+    "construction": 1237,
+    "cleaning_property": 302,
+    "energy_environment": 185,
+    "security": 29,
+    "furniture": 3
+  },
+  "limitations": [
+    "Source page inspected as published; documented aggregate JSON endpoint could not be retrieved in this environment. No private logs, raw terms or visitor IDs collected.",
+    "Publisher default summary uses retained log; chart dates 2026-10-12 through 2026-11-10 are not a guaranteed common window for every counter.",
+    "Raw tool counts exclude publisher self-tools and monitoring sessions; conduct classifier scans tool rows without the same exclusions. Displayed subtraction is not an independently verified disjoint classification.",
+    "Agent identity buckets are calculated before loop exclusion using daily visitor IDs, handshake session fallback and anonymous day fallback. MCP handshakes are a separate event counter.",
+    "Sector counts include repeated query-bearing search/tool events and are not deduplicated by buyer; public zero-result terms are not opt-in RFQs or confirmed lost demand.",
+    "Publisher-reported catalogue rows and traffic do not establish paying customers, actual costs, revenue, retention or independent supplier outcomes."
+  ]
+}
