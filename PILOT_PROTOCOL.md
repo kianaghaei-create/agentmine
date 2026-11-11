@@ -17,6 +17,8 @@ A reviewer independent of the two task executions checks the **operative stage, 
 
 Record the actual incremental variable cost per AgentMine task in SEK (e.g., paid requests, inference, external data or manual handling); zero is permitted only when truly zero and supported by a cost ledger. Track review/operator minutes and acquisition/support time **separately**; do not assume these disappear in a scalable product. No paid calls are authorized by this protocol.
 
+For a proposed incumbent-facing QA pilot, also compare the same dated exception against the free official PPDS / Publications Office procedure view where accessible. Record unavailable views as unknown; do not infer a gap from a blocked dashboard or treat a contracted future feature as delivered. Test whether partner-specific downstream reconciliation adds measurable value beyond the public baseline. See `data/evidence/ppds_awarded_quality_scope_2026-11-11.json`. This is an additional comparator, not a replacement for the participant's normal workflow or independent primary-source review.
+
 ## Machine-readable evaluation (existing code, no new module)
 
 Create a **local** JSON snapshot with exactly these fields (values below are an illustrative schema example, **not** pilot data):

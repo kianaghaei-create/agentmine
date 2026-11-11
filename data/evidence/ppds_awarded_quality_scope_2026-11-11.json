@@ -1,0 +1,118 @@
+{
+  "evidence_type": "selected_ppds_award_and_public_baseline",
+  "observed_on": "2026-11-11",
+  "award": {
+    "source_url": "https://ted.europa.eu/en/notice/34077-2026/html",
+    "source_locator": "Sections 2.1, 5.1, 6, 6.1.2, 6.1.4 and Notice information",
+    "publication_number": "34077-2026",
+    "prior_competition_publication": "303036-2025",
+    "procedure_id": "1837c208-7869-4190-bf65-3bccd8a1f919",
+    "contract_id": "300133376",
+    "reference": "EC-GROW/2025/OP/0002",
+    "buyer": "European Commission DG GROW",
+    "winner": "NTT DATA BELGIQUE",
+    "winner_selected_on": "2025-11-28",
+    "contract_concluded_on": "2025-12-10",
+    "published_on": "2026-01-16",
+    "currency": "EUR",
+    "estimate_eur": 4800000,
+    "award_value_eur": 3782000,
+    "winning_tender_value_eur": 3782000,
+    "amount_basis": "published_contract_award_value_not_cash",
+    "electronic_tenders_received": 5,
+    "initial_months": 12,
+    "maximum_months": 48,
+    "maximum_renewals": 3,
+    "quality_weight_pct": 70,
+    "price_weight_pct": 30,
+    "subcontract_value_eur": 432000,
+    "subcontract_reported_pct": 9,
+    "subcontract_percentage_denominator_verified": false,
+    "actual_cash_paid_eur": null,
+    "qa_only_contract_value_eur": null,
+    "renewals_exercised": null
+  },
+  "capabilities": [
+    {
+      "id": "source_data_quality",
+      "status": "documented_existing",
+      "source_url": "https://eproc.pages.code.europa.eu/ppds/pages/Data-Quality/",
+      "locator": "Introduction; Data, methodology and results",
+      "finding": "Semantic validation reports, quality dimensions and dashboards are described; no data discarded for quality reasons. No live dashboard execution verified."
+    },
+    {
+      "id": "procedure_linkage_and_curation",
+      "status": "documented_existing",
+      "source_url": "https://eproc.pages.code.europa.eu/ppds/pages/Data-Quality/",
+      "locator": "Uniqueness",
+      "finding": "Data Curation is described as linking notices for one procedure and resolving duplicate or contradictory records, including corrections and multiple source publications."
+    },
+    {
+      "id": "public_procedure_view",
+      "status": "documented_existing",
+      "source_url": "https://op.europa.eu/en/web/about-us/public-procurement-procedure-view",
+      "locator": "Sections 1 and 6",
+      "finding": "The Publications Office describes a free TED-derived procedure timeline, lot attributes and links to related notices; derived content is informational and requires verification."
+    },
+    {
+      "id": "lifecycle_monitoring_and_source_field_mapping",
+      "status": "awarded_contract_requirement",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/tender-details/docs/1837c208-7869-4190-bf65-3bccd8a1f919-CN/ANNEX%20I%20-%20Annex%20I.a%20Tender%20specifications%20EC-GROW2025OP0002%20Part%202_V1.pdf",
+      "locator": "Section 2.4.2.2, pp. 25-26",
+      "finding": "Enhance existing quality indicators, add lifecycle quality checkpoints and monitoring, and map PPDS graph elements to original eForms fields. Original source data must not be changed."
+    },
+    {
+      "id": "prepublication_quality_api",
+      "status": "awarded_contract_requirement",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/tender-details/docs/1837c208-7869-4190-bf65-3bccd8a1f919-CN/ANNEX%20I%20-%20Annex%20I.a%20Tender%20specifications%20EC-GROW2025OP0002%20Part%202_V1.pdf",
+      "locator": "Section 2.5.2.4, pp. 31-32; D05.04 p. 33",
+      "finding": "Develop an integration API for buyer systems with prepublication quality reporting; indicative deliverables M4/M8/M12. No completed delivery or public API access verified."
+    },
+    {
+      "id": "open_source_artifacts",
+      "status": "awarded_contract_requirement",
+      "source_url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/tender-details/docs/1837c208-7869-4190-bf65-3bccd8a1f919-CN/ANNEX%20I%20-%20Annex%20I.a%20Tender%20specifications%20EC-GROW2025OP0002%20Part%202_V1.pdf",
+      "locator": "Section 4.2, p. 35",
+      "finding": "Contract specification requires open-source release of artifacts in the PPDS repository; no blanket license or delivery verification."
+    }
+  ],
+  "access_checks": [
+    {
+      "source_url": "https://www.public-procurement-data-space.europa.eu/en/analytics",
+      "status": "public_landing_page_rendered",
+      "finding": "Analytics page lists data analysis, quality, lookup and free-text search."
+    },
+    {
+      "source_url": "https://grow-ppds.prd.fpfis.tech.ec.europa.eu/en/dashboards",
+      "status": "unavailable_502",
+      "finding": "Dashboard request failed; not evidence that the service is absent or that any particular rule fails."
+    },
+    {
+      "source_url": "https://op.europa.eu/en/web/public-procurement/procurement-details/-/procurement/2e579813-8d3c-3430-9886-86cc1dac834b",
+      "status": "indexed_snapshot_only_direct_403",
+      "finding": "Indexed procedure summary showed award date and estimate but final value unavailable. Direct page blocked; no current discrepancy or live coverage inference."
+    }
+  ],
+  "policy_source": {
+    "source_url": "https://single-market-economy.ec.europa.eu/single-market/public-procurement/digital-procurement/public-procurement-data-space-ppds_en",
+    "finding": "Central PPDS services are EU-funded and access is intended to be free; national integration is voluntary and national costs remain separate."
+  },
+  "recent_study": {
+    "source_url": "https://op.europa.eu/en/publication-detail/-/publication/c11b24c0-abf3-11f1-b9e5-01aa75ed71a1/language-en",
+    "released_on": "2026-09-09",
+    "doi": "10.2873/8946570",
+    "finding": "The official study summary identifies persistent quality, lifecycle completeness, interoperability and accountability gaps; full report not inspected in this run."
+  },
+  "event": {
+    "source_url": "https://www.public-procurement-data-space.europa.eu/en/events/ppds-day-2026-open-business",
+    "event_on": "2026-12-01",
+    "registration_deadline": "2026-11-15T23:59:00+01:00",
+    "format": "in_person_Brussels",
+    "quality_session": true,
+    "registered": false,
+    "travel_authorized": false
+  },
+  "commercial_boundary": "One selected broad public infrastructure contract, not a QA-only price, paid invoice, current market share, available subcontract or AgentMine WTP. Existing and required PPDS capabilities overlap the generic QA hypothesis. Compare partner-specific downstream exceptions against public baselines before expansion.",
+  "verified_agentmine_customers": 0,
+  "verified_agentmine_revenue": null
+}
