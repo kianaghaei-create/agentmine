@@ -78,7 +78,7 @@ def _price_response_counts(rows):
     return counts
 
 
-def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tasks=5):
+def evaluate(snapshot, *, hourly_labor_cost_sek=None, value_capture_pct="25", min_tasks=5):
     """Compute paired descriptive economics without inferring WTP or retention."""
     if not isinstance(snapshot, dict) or set(snapshot) not in (_ALLOWED_TOP, _ALLOWED_TOP_WITH_RESPONSES):
         raise ValueError("unexpected or missing top-level fields; do not submit personal data")
@@ -95,7 +95,6 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         raise ValueError("invalid timestamp") from exc
     if stamp > datetime.now(timezone.utc):
         raise ValueError("timestamp must not be future-dated")
-    hourly = _decimal(hourly_labor_cost_sek, 'hourly_labor_cost_sek', positive=True)
     capture = _decimal(value_capture_pct, 'value_capture_pct', positive=True)
     if capture > 100:
         raise ValueError("value_capture_pct exceeds 100")
@@ -104,8 +103,16 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     if type(min_tasks) is not int or min_tasks < 5:
         raise ValueError("min_tasks must be an integer >= 5 for the pilot gate")
     tasks = snapshot['tasks']
-    if not isinstance(tasks, list) or not 1 <= len(tasks) <= 1000:
-        raise ValueError("tasks must be a nonempty bounded list")
+    if not isinstance(tasks, list) or len(tasks) > 1000:
+        raise ValueError("tasks must be a bounded list")
+    raw_responses = _price_response_counts(snapshot.get("price_responses", []))
+    # Price discovery can precede a paired task. Preserve negative replies and
+    # silence without inventing task observations or labor-cost assumptions.
+    if not tasks and not sum(raw_responses.values()):
+        raise ValueError("at least one paired task or invitation outcome is required")
+    has_tasks = bool(tasks)
+    hourly = (_decimal(hourly_labor_cost_sek, 'hourly_labor_cost_sek', positive=True)
+              if has_tasks or hourly_labor_cost_sek is not None else None)
     ids = set()
     deltas = []
     costs = Decimal(0)
@@ -139,15 +146,15 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         unchecked += int(not row['primary_source_checked'])
     # Synthetic response fixtures are useful for testing arithmetic, but must
     # never appear in fields labeled self-reported supplier responses.
-    raw_responses = _price_response_counts(snapshot.get("price_responses", []))
     real_sample = snapshot['sample_kind'] == 'self_reported_consented'
     responses = (raw_responses if real_sample else
                  {kind: 0 for kind in raw_responses})
     synthetic_response_count = (0 if real_sample else sum(raw_responses.values()))
     explicit_responses = sum(responses[k] for k in (
         "accepted_paid_pilot", "declined_paid_pilot", "free_pilot_only"))
-    total_minutes = sum(deltas, Decimal(0))
-    net_value = total_minutes * hourly / Decimal(60) - costs
+    total_minutes = sum(deltas, Decimal(0)) if has_tasks else None
+    net_value = (total_minutes * hourly / Decimal(60) - costs
+                 if has_tasks else None)
     # Synthetic arithmetic fixtures must never pass an evidence-based pilot gate.
     # Self-reported consent and correctness are still NOT independently verified.
     sample_gate = (snapshot['sample_kind'] == 'self_reported_consented'
@@ -167,7 +174,8 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
     # A fast but incorrect or source-unchecked answer has no defensible
     # labor-value price ceiling. Preserve raw arithmetic for diagnostics,
     # but fail closed on the monetization scenario itself.
-    price_eligible = baseline_errors == 0 and agent_errors == 0 and unchecked == 0
+    price_eligible = (has_tasks and baseline_errors == 0
+                      and agent_errors == 0 and unchecked == 0)
     scenario_price = (str(max(Decimal(0), net_value * capture /
                               (Decimal(100) * len(tasks)))) if price_eligible else None)
     return {
@@ -189,9 +197,9 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_distinct_respondents': None,
         'source_observed_at_utc': snapshot['observed_at_utc'],
         'paired_task_count': len(tasks),
-        'total_incremental_minutes_saved': str(total_minutes),
-        'mean_incremental_minutes_saved': str(total_minutes / len(tasks)),
-        'median_incremental_minutes_saved': str(median(deltas)),
+        'total_incremental_minutes_saved': str(total_minutes) if has_tasks else None,
+        'mean_incremental_minutes_saved': str(total_minutes / len(tasks)) if has_tasks else None,
+        'median_incremental_minutes_saved': str(median(deltas)) if has_tasks else None,
         'faster_task_count': faster_count,
         'slower_task_count': slower_count,
         'majority_of_tasks_faster_screen_met': majority_faster,
@@ -201,13 +209,14 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'baseline_error_corrected_count': corrected_baseline_errors,
         'agent_error_count': agent_errors,
         'primary_source_unchecked_count': unchecked,
-        'scenario_hourly_labor_cost_sek': str(hourly),
-        'scenario_value_capture_pct': str(capture),
-        'observed_or_declared_variable_cost_sek': str(costs),
-        'scenario_net_labor_value_sek': str(net_value),
+        'scenario_hourly_labor_cost_sek': str(hourly) if has_tasks else None,
+        'scenario_value_capture_pct': str(capture) if has_tasks else None,
+        'observed_or_declared_variable_cost_sek': str(costs) if has_tasks else None,
+        'scenario_net_labor_value_sek': str(net_value) if has_tasks else None,
         'scenario_max_software_price_per_task_sek': scenario_price,
-        'scenario_price_suppressed_reason': (None if price_eligible else
-                                             'incorrect_or_source_unchecked_task_outcomes'),
+        'scenario_price_suppressed_reason': (
+            'no_paired_tasks' if not has_tasks else
+            None if price_eligible else 'incorrect_or_source_unchecked_task_outcomes'),
         'minimum_sample_quality_gate_met': sample_gate,
         'self_reported_positive_economic_screen_met': economic_screen,
         'commercial_validation_status': 'NOT_VALIDATED',
@@ -215,6 +224,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
         'verified_paying_customers': None,
         'verified_revenue_sek': None,
         'warning': 'Consent, correctness, source review and time are self-declared; synthetic samples prove no demand. '
+                   'A response-only snapshot has no measured paired-task time, cost or labor-value price ceiling. '
                    'Time deltas from incorrect baselines are not comparable savings; corrected baseline errors count toward the task quality screen but never the positive labor-economics screen. Incorrect or source-unchecked outcomes suppress the scenario price ceiling. '
                    'The self-reported quality/economic/price-response screens never establish verified distinct buyers, willingness to pay, independent validation or permission to deploy. '
                    'The positive economic screen additionally requires a strict majority of paired tasks to be faster; an aggregate win driven by one outlier is insufficient. '
@@ -225,7 +235,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek, value_capture_pct="25", min_tas
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input', type=Path, required=True)
-    parser.add_argument('--hourly-cost-sek', required=True)
+    parser.add_argument('--hourly-cost-sek', help='required for paired-task economics; optional for response-only snapshots')
     parser.add_argument('--value-capture-pct', default='25')
     parser.add_argument('--min-tasks', type=int, default=5)
     args = parser.parse_args()
