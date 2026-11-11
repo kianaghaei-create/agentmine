@@ -109,7 +109,7 @@ def evaluate(snapshot, *, hourly_labor_cost_sek=None, value_capture_pct="25", mi
     # Price discovery can precede a paired task. Preserve negative replies and
     # silence without inventing task observations or labor-cost assumptions.
     if not tasks and not sum(raw_responses.values()):
-        raise ValueError("at least one paired task or invitation outcome is required")
+        raise ValueError("tasks must be a nonempty bounded list unless at least one invitation outcome is provided")
     has_tasks = bool(tasks)
     hourly = (_decimal(hourly_labor_cost_sek, 'hourly_labor_cost_sek', positive=True)
               if has_tasks or hourly_labor_cost_sek is not None else None)
