@@ -1,0 +1,31 @@
+name: Bounded Swedish IT result-notice research
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ted_nonaward_research.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-official-results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test non-award semantics and scope
+        run: python3 -m unittest discover -s tests -p test_ted_nonaward_research.py -v
+      - name: Collect complete predeclared October result-notice frame
+        run: python3 -m src.ted_nonaward_research --output ted-nonaward-research.json
+      - name: Upload public projected evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ted-nonaward-research
+          path: ted-nonaward-research.json
+          if-no-files-found: error
+          retention-days: 7
