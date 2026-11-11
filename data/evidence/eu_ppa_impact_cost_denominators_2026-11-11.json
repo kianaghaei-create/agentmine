@@ -1,0 +1,39 @@
+{
+  "evidence_type": "official_impact_assessment_model_not_observed_savings",
+  "observed_on": "2026-11-11",
+  "source_url": "https://data.consilium.europa.eu/doc/document/ST-12969-2026-ADD-3/en/pdf",
+  "document": "SWD(2026) 591 final",
+  "published_on": "2026-09-09",
+  "locators": ["Annex 8 Table 36 (printed p.223)", "Table 60 (printed pp.242-243)", "Table 63 and footnotes (printed pp.245-246)"],
+  "basis": "annualised_present_value_seven_years_3_percent_discount_model",
+  "baseline": {
+    "above_eu_threshold_2019_2024_supplier_cost_eur": 11400,
+    "contract_award_notices": 304000,
+    "average_bids_per_notice": "3.3",
+    "estimated_distinct_operators": 372440,
+    "winning_operators": 173228,
+    "reported_operator_to_winner_ratio": "2.15"
+  },
+  "preferred_option": {
+    "annual_supplier_savings_eur": 570000000,
+    "annual_buyer_savings_eur": 79000000,
+    "annual_member_state_cost_eur": 18000000,
+    "annual_commission_cost_eur": 18000000,
+    "annual_total_net_savings_eur": 613000000,
+    "reported_supplier_per_procedure_savings_eur": 1011,
+    "reported_supplier_savings_pct": "8.9",
+    "reported_supplier_annual_per_entity_savings_eur": 1530,
+    "reported_combined_per_procedure_savings_eur": 2136,
+    "reported_supplier_component_savings_eur": [165, -456, -39, -7, 1348]
+  },
+  "digital_marketplace_mpl1": {
+    "annual_supplier_savings_eur": 881000000,
+    "reported_supplier_per_procedure_savings_eur": 1348,
+    "denominator": "contract_award_notices_times_operator_to_winner_ratio"
+  },
+  "limitations": [
+    "The source combines modeled components with different denominators. Table 60 explicitly uses 2.15 distinct operators per winning operator for MPL.1; Table 63 footnote uses 3.3 bids per procedure, with an Ecolabel exception.",
+    "Common-denominator arithmetic is a diagnostic, not a corrected official forecast. Rounded aggregate values, assumptions and different component populations limit comparability.",
+    "The 2019-2024 above-threshold cost benchmark is not a Swedish IT supplier's actual cost or an AgentMine price. No observed savings, conversion or willingness to pay established."
+  ]
+}
