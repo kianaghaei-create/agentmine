@@ -1,0 +1,131 @@
+{
+  "observed_at_utc": "2026-11-11T05:51:04Z",
+  "evidence_type": "publicly_advertised_competitor_offers_not_verified_sales",
+  "market": "Swedish supplier-side public procurement software",
+  "collection_method": "Public vendor-owned pricing and product pages directly opened on 2026-11-11; public support article directly inspected. Historical AI add-on offer was available only in an older search-index extract; the current direct product page no longer displays the price or credit allowance.",
+  "offers": [
+    {
+      "vendor": "Mercell",
+      "plan": "Local",
+      "url": "https://info.mercell.com/sv-se/mercell-bidding",
+      "advertised_monthly_price": 1115,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "monthly-equivalent starting price; billing term and VAT not established on inspected page",
+      "scope": "1–2 counties, one license; alerts, awards and AI summaries advertised",
+      "annualized_starting_price_sek": 13380
+    },
+    {
+      "vendor": "Mercell",
+      "plan": "National",
+      "url": "https://info.mercell.com/sv-se/mercell-bidding",
+      "advertised_monthly_price": 2300,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "monthly-equivalent starting price; billing term and VAT not established on inspected page",
+      "scope": "Sweden-wide, one license; alerts, awards and AI summaries advertised",
+      "annualized_starting_price_sek": 27600
+    },
+    {
+      "vendor": "Mercell",
+      "plan": "Business Plus",
+      "url": "https://info.mercell.com/sv-se/mercell-bidding",
+      "advertised_monthly_price": 3490,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "monthly-equivalent starting price; billing term and VAT not established on inspected page",
+      "scope": "Sweden-wide, one license; early leads, Market Intelligence search and 250-row export advertised",
+      "annualized_starting_price_sek": 41880
+    },
+    {
+      "vendor": "Mercell",
+      "plan": "MI Local",
+      "url": "https://info.mercell.com/sv-se/mercell-bidding/market-intelligence-complete/",
+      "advertised_monthly_price": 1925,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "annual billing explicitly stated",
+      "scope": "1–2 counties, one license; buyer/competitor intelligence and 1,500-row export advertised",
+      "annualized_starting_price_sek": 23100
+    },
+    {
+      "vendor": "Mercell",
+      "plan": "MI Complete",
+      "url": "https://info.mercell.com/sv-se/mercell-bidding/market-intelligence-complete/",
+      "advertised_monthly_price": 4320,
+      "currency": "SEK",
+      "price_qualifier": "from",
+      "billing": "annual billing explicitly stated",
+      "scope": "Sweden-wide, one license; buyer/competitor intelligence and 1,500-row export advertised",
+      "annualized_starting_price_sek": 51840
+    }
+  ],
+  "ai_bid_assistance": {
+    "source_url": "https://info.mercell.com/sv-se/leverantoerer/upptack-ai-bid-assistance/",
+    "observed_current_page": "2026-11-11",
+    "features_claimed": [
+      "reusable supplier bid criteria and go/no-go checklist",
+      "AI answers using tender documents and company document library",
+      "question answering within a tender",
+      "human final decision"
+    ],
+    "current_public_add_on_price_sek": null,
+    "current_public_credit_allowance": null,
+    "availability": "vendor publicly describes product and directs users to sign-in or sales; no independent product test, payment or current quote"
+  },
+  "credit_mechanics": {
+    "source_url": "https://mercell.atlassian.net/wiki/spaces/MBTSE/pages/198289817756/AI-krediter%2BHur%2Bde%2Bfungerar%2Boch%2Bhur%2Bdu%2Bk%2Bper%2Bdem",
+    "article_reference": "010920261427",
+    "publisher_example_checklist_questions": 20,
+    "publisher_example_credits_consumed": 20,
+    "organization_shared_balance": true,
+    "checklist_answers_viewable_by_colleagues_without_extra_credits": true,
+    "annual_subscription_prorated_to_base_term": true,
+    "top_up_pack_sizes_credits": [
+      500,
+      1000,
+      1500
+    ],
+    "top_up_prices_sek": null,
+    "actual_usage_or_cost": null
+  },
+  "historical_indexed_offer": {
+    "source_url": "https://info.mercell.com/sv-se/leverantoerer/upptack-ai-bid-assistance/",
+    "source_kind": "older search-index extract, crawl label approximately two months before observation; exact capture date unknown",
+    "not_current_quote": true,
+    "advertised_regular_monthly_add_on_sek": 625,
+    "advertised_launch_monthly_add_on_sek": 480,
+    "advertised_launch_order_deadline": "30 September (year not printed in offer text)",
+    "advertised_annual_team_credits": 1020,
+    "requires_base_subscription": true,
+    "annual_add_on_renewal_with_base": true,
+    "launch_price_duration": "remaining current subscription term plus following 12 months",
+    "current_offer_status": "unknown; direct current page omits both prices and allowance; do not treat indexed offer as available today"
+  },
+  "historical_offer_scenarios": {
+    "assumptions": "Use the older advertised annual allowance and price equivalents only; all credits spent on the publisher's 20-question checklist example, no Bid Buddy or other consumption. Excludes base subscription, tax, top-ups and actual usage. Not a current quote, inference cost or observed savings.",
+    "full_checklists_per_year": 51,
+    "regular_annualized_add_on_sek": 7500,
+    "launch_annualized_add_on_sek": 5760,
+    "regular_sek_per_included_credit": "7.35",
+    "launch_sek_per_included_credit": "5.65",
+    "regular_sek_per_full_checklist": "147.06",
+    "launch_sek_per_full_checklist": "112.94",
+    "illustrative_checklists_per_month": 10,
+    "illustrative_annual_credit_need": 2400,
+    "illustrative_shortfall_credits": 1380,
+    "smallest_single_documented_top_up_pack_covering_shortfall": 1500,
+    "top_up_price_unknown": true
+  },
+  "older_price_cross_check": {
+    "source_url": "https://info.mercell.com/sv-se/leverantoerer/bid-excellence-ads",
+    "displayed_local_sek": 1060,
+    "displayed_national_sek": 2190,
+    "displayed_business_plus_sek": 3320,
+    "interpretation": "Different vendor page displays older/lower starting figures. Use directly inspected dedicated pricing page as current observation; no effective date, identical contract scope or realized price increase established."
+  },
+  "verified_paying_customers": null,
+  "verified_sales_volume": null,
+  "agentmine_willingness_to_pay": null,
+  "scope_warning": "Advertised prices and product mechanics are market supply/monetization signals, not verified subscriptions, realized revenue, conversion, market share, competitor accuracy, or AgentMine customer evidence. No purchase, sign-in, trial or customer contact."
+}
