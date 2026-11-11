@@ -369,12 +369,14 @@
       "later_estimate_sek": "70000000",
       "publication_day_gap": 32,
       "prior_internal_reference": "TN 2024-0565",
-      "later_internal_reference": "140310",
+      "later_internal_reference": null,
       "later_participation_deadline_stockholm": "2026-11-25T00:00:00+01:00",
       "public_candidate_source": "https://tilldelat.se/upphandling/affarssystem-for-trafikforvaltningen-efbdee",
       "primary_portal_url": "https://www.e-avrop.com/trafiknamnden/e-Upphandling/NoticeLink.aspx?id=138600",
       "primary_portal_observation": "login required",
-      "warning": "Buyer label, buyer identifier, internal reference and title projections differ. Do not count as a confirmed re-tender or add the estimate to Mölndal as verified unmet demand. Later notice is participation-stage, not a tender deadline."
+      "warning": "Exact TED buyer label, buyer identifier, internal reference and title comparisons did not establish equality. Later internal reference was absent from the official projection; 140310 is a public directory label only. Do not count as a confirmed re-tender or add the estimate to Mölndal as verified unmet demand. Later notice is participation-stage, not a tender deadline.",
+      "later_internal_reference_public_directory_label": "140310",
+      "later_internal_reference_public_directory_source": "https://www.procurdo.com/upphandling/affarssystem-for-trafikforvaltningen-2b9e764dae5342c9a1ba8563b9d6cebd"
     }
   },
   "source_definitions": {
