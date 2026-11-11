@@ -39,7 +39,8 @@ def _values(value):
 
 
 def _true(value):
-    return value is True or value == "true" or value == ["true"] or value == [True]
+    return value is True or value == "true" or (isinstance(value, list) and len(value) == 1
+            and (value[0] is True or value[0] == "true"))
 
 
 def _tender_count(row):
@@ -111,6 +112,28 @@ def classify(row):
             "current_need_verified": None, "verified_agentmine_demand": None}
 
 
+
+def _uniform_status(row):
+    lots = _values(row.get("result-lot-identifier"))
+    statuses = _values(row.get("winner-selection-status"))
+    if (not lots or not all(isinstance(x, str) and re.fullmatch(r"LOT-[0-9]{4}", x) for x in lots)
+            or len(set(lots)) != len(lots) or len(statuses) != len(lots)
+            or not all(isinstance(x, str) and x in STATUSES for x in statuses)):
+        return "unknown"
+    return statuses[0] if len(set(statuses)) == 1 else "mixed"
+
+
+def _uniform_closed_reason(row):
+    if _uniform_status(row) != "clos-nw":
+        return None
+    reasons = _values(row.get("non-award-justification"))
+    if (len(reasons) != len(_values(row.get("result-lot-identifier")))
+            or not all(isinstance(x, str) and x in REASONS for x in reasons)
+            or len(set(reasons)) != 1):
+        return "unknown_or_mixed"
+    return reasons[0]
+
+
 def review(snapshot):
     summarize(snapshot)
     if snapshot["query"] != QUERY or not snapshot["complete"]:
@@ -125,6 +148,8 @@ def review(snapshot):
     rows.sort(key=lambda r: int(r["publication_number"].split("-")[0]))
     primary = [r for r in rows if r["main_cpv_scope"] == "primary_it"]
     strict = [r for r in primary if r["classification"] == "closed_no_submissions_count_zero"]
+    primary_ids = {r["publication_number"] for r in primary}
+    primary_raw = [r for r in snapshot["notices"] if _id(r["publication-number"]) in primary_ids]
     return {"evidence_type": "official_TED_result_notice_nonaward_research_not_live_Rfq",
             "source_url": ENDPOINT, "observed_at": snapshot["observed_at"], "query": QUERY,
             "only_latest_versions": False, "reported_total_notices": snapshot["reported_total_notices"],
@@ -132,6 +157,9 @@ def review(snapshot):
             "projection": PROJECTION, "notice_count": len(rows),
             "main_cpv_scope_counts": dict(Counter(r["main_cpv_scope"] for r in rows)),
             "primary_it_notice_count": len(primary),
+            "primary_it_notice_level_status_counts": dict(Counter(_uniform_status(r) for r in primary_raw)),
+            "primary_it_uniform_closed_reason_counts": dict(Counter(_uniform_closed_reason(r)
+                for r in primary_raw if _uniform_status(r) == "clos-nw")),
             "primary_it_classification_counts": dict(Counter(r["classification"] for r in primary)),
             "primary_it_closed_reason_counts": dict(Counter(r["non_award_reason"] or "unknown"
                 for r in primary if r["classification"].startswith("closed_"))),
@@ -157,11 +185,129 @@ def run(fetch_page=post_json):
     return review(collect(QUERY, fetch_page=all_versions, fields=PROJECTION, max_pages=5, limit=100))
 
 
+
+FOLLOWUP_PAIRS = (("700958-2026", "749334-2026"), ("694643-2026", "778905-2026"))
+FOLLOWUP_IDS = sorted({x for pair in FOLLOWUP_PAIRS for x in pair} | {"729884-2026"})
+FOLLOWUP_PROJECTION = FIELDS + [
+    "procedure-identifier", "notice-version", "form-type", "main-classification-proc",
+    "buyer-identifier", "buyer-person", "internal-identifier-proc", "title-proc",
+    "identifier-lot", "result-lot-identifier", "winner-selection-status",
+    "non-award-justification", "received-submissions-type-code", "received-submissions-type-val",
+    "estimated-value-proc", "estimated-value-cur-proc", "result-value-notice", "result-value-cur-notice",
+    "deadline-receipt-tender-date-lot", "deadline-receipt-tender-time-lot",
+    "deadline-receipt-request-date-lot", "deadline-receipt-request-time-lot",
+    "change-notice-version-identifier",
+]
+FOLLOWUP_PUBLIC = [x for x in FOLLOWUP_PROJECTION if x not in
+                   {"buyer-name", "notice-title", "buyer-identifier", "buyer-person", "title-proc"}]
+
+
+def replay(evidence):
+    """Recompute the frozen official projection offline; never refresh its timestamp."""
+    if (evidence.get("evidence_type") != "official_TED_result_notice_nonaward_research_not_live_Rfq"
+            or evidence.get("only_latest_versions") is not False):
+        raise ValueError("unexpected frozen evidence type")
+    raw = evidence["public_projection_rows"]
+    snapshot = {"source_url": evidence["source_url"], "observed_at": evidence["observed_at"],
+                "query": evidence["query"], "scope": "ALL", "pagination_mode": "ITERATION",
+                "evidence_type": "public_tender_notices_not_agent_payments",
+                "pages_fetched": evidence["pages_fetched"],
+                "reported_total_notices": evidence["reported_total_notices"],
+                "unique_notices_collected": len(raw), "complete": evidence["complete_for_query"],
+                "notices": raw}
+    result = review(snapshot)
+    for key in ("notice_count", "main_cpv_scope_counts", "primary_it_notice_count",
+                "primary_it_classification_counts", "primary_it_closed_reason_counts",
+                "primary_it_zero_tender_notice_ids", "rows"):
+        if result[key] != evidence[key]:
+            raise ValueError("frozen result replay differs: " + key)
+    return result
+
+
+def _equal_present(a, b):
+    return a is not None and a != [] and a != "" and a == b
+
+
+def followup(fetch_page=post_json):
+    """Two selected potential re-tenders; exact-ID and procedure-history checks.
+
+    Candidate selection is post-hoc, not a relaunch prevalence estimate. Compare
+    public institutional labels/identifiers in memory; do not export them.
+    """
+    def query(field, values):
+        q = f"{field} IN ({' '.join(values)})"
+        snapshot = collect(q, fetch_page=lambda body: fetch_page({**body, "onlyLatestVersions": False}),
+                           fields=FOLLOWUP_PROJECTION, max_pages=3, limit=100)
+        summarize(snapshot)
+        if not snapshot["complete"]:
+            raise ValueError("incomplete selected follow-up query")
+        return snapshot
+    first = query("publication-number", FOLLOWUP_IDS)
+    by_id = {_id(r["publication-number"]): r for r in first["notices"]}
+    if len(by_id) != len(first["notices"]) or set(by_id) != set(FOLLOWUP_IDS):
+        raise ValueError("selected publication identity mismatch")
+    for old, new in FOLLOWUP_PAIRS:
+        if (_single(by_id[old].get("form-type")) != "result"
+                or _single(by_id[new].get("form-type")) != "competition"):
+            raise ValueError("selected result/competition type mismatch")
+    procedures = sorted({_procedure(by_id[new].get("procedure-identifier")) for _, new in FOLLOWUP_PAIRS}
+                        - {None})
+    if len(procedures) != len(FOLLOWUP_PAIRS):
+        raise ValueError("missing or shared candidate procedure identifier")
+    history = query("procedure-identifier", procedures)
+    history_by_id = {_id(r["publication-number"]): r for r in history["notices"]}
+    if (len(history_by_id) != len(history["notices"])
+            or any(_procedure(r.get("procedure-identifier")) not in procedures for r in history["notices"])
+            or any(history_by_id.get(new) != by_id[new] for _, new in FOLLOWUP_PAIRS)):
+        raise ValueError("selected procedure history identity mismatch")
+    pairs = []
+    for old, new in FOLLOWUP_PAIRS:
+        a, b = by_id[old], by_id[new]
+        pid = _procedure(b.get("procedure-identifier"))
+        related = [r for r in history["notices"] if _procedure(r.get("procedure-identifier")) == pid]
+        old_date = date.fromisoformat(_single(a.get("publication-date"))[:10])
+        new_date = date.fromisoformat(_single(b.get("publication-date"))[:10])
+        if new_date <= old_date:
+            raise ValueError("candidate must be published after selected result")
+        pairs.append({"prior_result_id": old, "later_competition_id": new,
+                      "publication_day_gap": (new_date-old_date).days,
+                      "same_buyer_label": _equal_present(a.get("buyer-name"), b.get("buyer-name")),
+                      "same_buyer_identifier_projection": _equal_present(a.get("buyer-identifier"), b.get("buyer-identifier")),
+                      "same_internal_reference": _equal_present(a.get("internal-identifier-proc"), b.get("internal-identifier-proc")),
+                      "same_title_projection": _equal_present(a.get("title-proc"), b.get("title-proc")),
+                      "same_estimated_value_and_currency": (
+                          _equal_present(a.get("estimated-value-proc"), b.get("estimated-value-proc"))
+                          and _equal_present(a.get("estimated-value-cur-proc"), b.get("estimated-value-cur-proc"))),
+                      "distinct_procedure_identifiers": _procedure(a.get("procedure-identifier")) != pid,
+                      "later_procedure_publication_ids": sorted(_id(r["publication-number"]) for r in related),
+                      "later_procedure_result_ids": sorted(_id(r["publication-number"]) for r in related
+                          if _single(r.get("form-type")) == "result"),
+                      "later_procedure_change_reference_ids": sorted(_id(r["publication-number"]) for r in related
+                          if r.get("change-notice-version-identifier")),
+                      "legal_relaunch_link_verified": None, "live_portal_cutoff_verified": None})
+    return {"evidence_type": "selected_official_TED_result_to_competition_candidates",
+            "source_url": ENDPOINT, "observed_at": history["observed_at"], "only_latest_versions": False,
+            "queries": [{"query": s["query"], "observed_at": s["observed_at"],
+                         "reported_total_notices": s["reported_total_notices"], "complete": s["complete"]}
+                        for s in (first, history)],
+            "pairs": pairs,
+            "public_exact_id_rows": [{k: r[k] for k in FOLLOWUP_PUBLIC if k in r} for r in first["notices"]],
+            "public_history_rows": [{k: r[k] for k in FOLLOWUP_PUBLIC if k in r} for r in history["notices"]],
+            "verified_live_unmet_needs": None, "verified_agentmine_demand": None,
+            "warning": "Selected candidate links, not verified legal re-tenders or current portal status. "
+                       "Matching buyer, title, reference or estimate does not establish a causal link. "
+                       "No payments, customer interest, supplier eligibility or opportunity value inferred."}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--input", type=Path, help="replay frozen official projection offline")
+    mode.add_argument("--followup", action="store_true", help="bounded selected exact-ID and procedure queries")
     args = parser.parse_args()
-    result = run()
+    result = (replay(json.loads(args.input.read_text(encoding="utf-8"))) if args.input else
+              followup() if args.followup else run())
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False)+"\n", encoding="utf-8")
     # One compact line, no raw titles, buyer names, contacts or private data.
     print("AGENTMINE_RESULT_JSON=" + json.dumps(result, separators=(",", ":"), ensure_ascii=True))

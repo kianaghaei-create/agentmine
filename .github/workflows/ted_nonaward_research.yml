@@ -20,12 +20,16 @@ jobs:
           persist-credentials: false
       - name: Test non-award semantics and scope
         run: python3 -m unittest discover -s tests -p test_ted_nonaward_research.py -v
-      - name: Collect complete predeclared October result-notice frame
-        run: python3 -m src.ted_nonaward_research --output ted-nonaward-research.json
+      - name: Replay frozen October projection without new cohort retrieval
+        run: python3 -m src.ted_nonaward_research --input data/evidence/ted_se_it_october_nonaward_2026-11-11.json --output ted-nonaward-research.json
+      - name: Check two selected candidate re-tenders using bounded official queries
+        run: python3 -m src.ted_nonaward_research --followup --output ted-nonaward-followup.json
       - name: Upload public projected evidence
         uses: actions/upload-artifact@v4
         with:
           name: ted-nonaward-research
-          path: ted-nonaward-research.json
+          path: |
+            ted-nonaward-research.json
+            ted-nonaward-followup.json
           if-no-files-found: error
           retention-days: 7

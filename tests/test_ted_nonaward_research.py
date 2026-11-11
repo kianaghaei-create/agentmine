@@ -1,6 +1,8 @@
 import unittest
+import json
+from pathlib import Path
 
-from src.ted_nonaward_research import QUERY, classify, review, run
+from src.ted_nonaward_research import QUERY, classify, review, run, replay, _uniform_status, _uniform_closed_reason, followup
 
 
 def row(**changes):
@@ -74,6 +76,53 @@ class NonAwardResearchTests(unittest.TestCase):
     def test_incomplete_query_rejected(self):
         with self.assertRaises(ValueError):
             run(lambda body: {"notices": [row()], "totalNoticeCount": 2})
+
+    def test_uniform_multilot_notice_without_joining_counts(self):
+        r = row(**{"result-lot-identifier": ["LOT-0000", "LOT-0001"],
+                   "winner-selection-status": ["clos-nw", "clos-nw"],
+                   "non-award-justification": ["all-rej", "all-rej"]})
+        self.assertEqual(_uniform_status(r), "clos-nw")
+        self.assertEqual(_uniform_closed_reason(r), "all-rej")
+        self.assertIsNone(classify(r)["total_tenders_reported"])
+        r["winner-selection-status"] = ["clos-nw", "selec-w"]
+        self.assertEqual(_uniform_status(r), "mixed")
+        self.assertIsNone(_uniform_closed_reason(r))
+
+    def test_frozen_real_projection_replay(self):
+        path = Path("data/evidence/ted_se_it_october_nonaward_2026-11-11.json")
+        result = replay(json.loads(path.read_text(encoding="utf-8")))
+        self.assertEqual(result["notice_count"], 111)
+        self.assertEqual(result["primary_it_notice_count"], 80)
+        self.assertEqual(result["primary_it_notice_level_status_counts"], {"selec-w": 66, "clos-nw": 14})
+        self.assertEqual(result["primary_it_uniform_closed_reason_counts"],
+                         {"all-rej": 7, "one-admis": 3, "other": 2, "no-rece": 1, "chan-need": 1})
+        self.assertEqual(result["primary_it_zero_tender_notice_ids"], [])
+
+    def test_followup_requires_complete_identity_bound_history(self):
+        prior1 = row(**{"publication-number": "700958-2026"})
+        prior2 = row(**{"publication-number": "694643-2026"})
+        prior3 = row()
+        new1 = row(**{"publication-number": "749334-2026", "form-type": "competition",
+                      "notice-type": "cn-standard", "publication-date": "2026-10-29+01:00",
+                      "procedure-identifier": "5b2c84f0-417b-4856-910a-5b0f874b91b5"})
+        new2 = row(**{"publication-number": "778905-2026", "form-type": "competition",
+                      "notice-type": "cn-standard", "publication-date": "2026-11-09+01:00",
+                      "procedure-identifier": "c1aaf28e-81e7-43e0-989e-078b2ad36272"})
+        def fetch(body):
+            self.assertFalse(body["onlyLatestVersions"])
+            rows = [prior1, prior2, prior3, new1, new2] if body["query"].startswith("publication-number") else [new1, new2]
+            return {"notices": rows, "totalNoticeCount": len(rows)}
+        result = followup(fetch)
+        self.assertEqual(len(result["pairs"]), 2)
+        self.assertTrue(result["pairs"][0]["same_buyer_label"])
+        self.assertIsNone(result["pairs"][0]["legal_relaunch_link_verified"])
+        self.assertNotIn("buyer-name", result["public_exact_id_rows"][0])
+        def missing(body):
+            if body["query"].startswith("procedure-identifier"):
+                return {"notices": [new1], "totalNoticeCount": 1}
+            return fetch(body)
+        with self.assertRaises(ValueError):
+            followup(missing)
 
 
 if __name__ == "__main__":
